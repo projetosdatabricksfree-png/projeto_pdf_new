@@ -9,7 +9,7 @@ from __future__ import annotations
 import fitz
 
 
-def check_binding_margin(file_path: str, encadernacao: str) -> dict:
+def check_binding_margin(doc: fitz.Document, encadernacao: str) -> dict:
     """Check binding margin for Wire-O/spiral binding.
 
     Minimum 15mm lateral margin required.
@@ -17,7 +17,6 @@ def check_binding_margin(file_path: str, encadernacao: str) -> dict:
     if encadernacao not in ["wire_o", "espiral", "wire-o", "spiral"]:
         return {"status": "N/A", "detalhe": "Sem encadernação Wire-O"}
 
-    doc = fitz.open(file_path)
     try:
         page = doc[0]
         artbox = page.artbox
@@ -35,11 +34,11 @@ def check_binding_margin(file_path: str, encadernacao: str) -> dict:
             "status": "OK",
             "valor": f"{round(margem_lateral_mm, 2)}mm",
         }
-    finally:
-        doc.close()
+    except Exception as exc:
+        return {"status": "ERRO", "detalhe": f"Falha na margem: {str(exc)}"}
 
 
-def check_legend_area(file_path: str, formato: str | None) -> dict:
+def check_legend_area(doc: fitz.Document, formato: str | None) -> dict:
     """Check if the legend/stamp area is populated (NBR 13142).
 
     For A0/A1/A2 plants, the legend must be in the lower-right A4 area.
@@ -47,7 +46,6 @@ def check_legend_area(file_path: str, formato: str | None) -> dict:
     if formato not in ["A0", "A1", "A2"]:
         return {"status": "N/A", "detalhe": f"Formato {formato} — verificação NBR não aplicável"}
 
-    doc = fitz.open(file_path)
     try:
         page = doc[0]
         rect = page.mediabox
@@ -69,5 +67,5 @@ def check_legend_area(file_path: str, formato: str | None) -> dict:
                 "codigo": "W002_LEGEND_AREA_EMPTY",
                 "detalhe": "Área de legenda/carimbo vazia",
             }
-    finally:
-        doc.close()
+    except Exception as exc:
+        return {"status": "ERRO", "detalhe": f"Falha na legenda: {str(exc)}"}

@@ -1,10 +1,9 @@
-version: "3.9"
-
 services:
   api:
     build: .
     ports:
-      - "8000:8000"
+      # Host 8001 evita conflito quando já existe algo em 8000
+      - "8001:8000"
     mem_limit: 512m
     environment:
       - PYTHONPATH=/app

@@ -14,18 +14,14 @@ FORMATOS_VALIDOS: dict[str, tuple[float, float]] = {
 }
 
 
-def check_scale(file_path: str) -> dict:
+def check_scale(doc: fitz.Document) -> dict:
     """Check document scale — must be 1:1."""
-    doc = fitz.open(file_path)
     try:
         page = doc[0]
         # Check UserUnit (should be 1.0 for 1:1 scale)
-        # PyMuPDF doesn't expose UserUnit directly, but we can check
-        # page dictionary for it
         try:
             page_dict = doc.xref_object(page.xref)
             if "UserUnit" in page_dict:
-                # Extract value
                 import re
                 match = re.search(r'UserUnit\s+(\d+\.?\d*)', page_dict)
                 if match:
@@ -41,13 +37,12 @@ def check_scale(file_path: str) -> dict:
             pass
 
         return {"status": "OK", "valor": "Escala 1:1"}
-    finally:
-        doc.close()
+    except Exception as exc:
+        return {"status": "ERRO", "detalhe": f"Falha na escala: {str(exc)}"}
 
 
-def check_format(file_path: str) -> dict:
+def check_format(doc: fitz.Document) -> dict:
     """Check if document matches a standard ISO format."""
-    doc = fitz.open(file_path)
     try:
         page = doc[0]
         rect = page.mediabox
@@ -70,5 +65,5 @@ def check_format(file_path: str) -> dict:
                 "codigo": "W001_NON_STANDARD_FORMAT",
                 "valor_encontrado": f"{width_mm} x {height_mm}mm",
             }
-    finally:
-        doc.close()
+    except Exception as exc:
+        return {"status": "ERRO", "detalhe": f"Falha no formato: {str(exc)}"}

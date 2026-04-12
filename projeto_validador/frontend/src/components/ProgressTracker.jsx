@@ -5,7 +5,7 @@ import { preflightApi } from '../services/api';
 const STAGE_MAP = {
   QUEUED: { stage: 'Na fila', progress: 5, message: 'Aguardando disponibilidade dos agentes...' },
   ROUTING: { stage: 'Roteamento', progress: 20, message: 'Agente Gerente classificando o produto...' },
-  PROBING: { stage: 'Análise Profunda', progress: 35, message: 'Agente Especialista realizando probing estrutural...' },
+  PROBING: { stage: 'Análise profunda', progress: 35, message: 'Agente Especialista analisando a estrutura do PDF...' },
   PROCESSING: { stage: 'Validação', progress: 55, message: 'Operário executando validações técnicas...' },
   VALIDATING: { stage: 'Geração do Relatório', progress: 80, message: 'Agente Validador gerando relatório...' },
   COMPLETED: { stage: 'Concluído', progress: 100, message: 'Validação pré-flight finalizada!' },
@@ -13,7 +13,7 @@ const STAGE_MAP = {
   FAILED: { stage: 'Falha', progress: 0, message: 'Erro na pipeline de validação.' },
 };
 
-const ProgressTracker = ({ jobId, onComplete }) => {
+const ProgressTracker = ({ jobId, onComplete, onFailed }) => {
   const [status, setStatus] = useState({
     progress: 5,
     stage: 'Iniciando...',
@@ -24,13 +24,15 @@ const ProgressTracker = ({ jobId, onComplete }) => {
 
   useEffect(() => {
     let progressSim = 5;
+    let cancelled = false;
 
-    interval.current = setInterval(async () => {
+    const tick = async () => {
       try {
         const data = await preflightApi.getJobStatus(jobId);
+        if (cancelled) return;
+
         const mapped = STAGE_MAP[data.status] || STAGE_MAP.QUEUED;
 
-        // Simulated progress advancement between stages
         if (data.status === 'PROCESSING' || data.status === 'VALIDATING') {
           progressSim = Math.min(progressSim + 3, mapped.progress);
         } else {
@@ -46,30 +48,51 @@ const ProgressTracker = ({ jobId, onComplete }) => {
           produto: data.produto_detectado,
         });
 
-        if (data.status === 'COMPLETED' || data.status === 'DONE') {
+        if (data.status === 'DONE' || data.status === 'COMPLETED') {
           clearInterval(interval.current);
           try {
             const report = await preflightApi.getReport(jobId);
-            setTimeout(() => onComplete(report), 600);
+            if (!cancelled) setTimeout(() => onComplete(report), 400);
           } catch {
-            setTimeout(() => onComplete({
-              job_id: jobId,
-              status: data.status,
-              agent: data.agent,
-              produto_detectado: data.produto_detectado,
-            }), 600);
+            if (!cancelled) {
+              setTimeout(
+                () =>
+                  onComplete({
+                    job_id: jobId,
+                    status: data.final_status || 'UNKNOWN',
+                    produto: 'Relatório indisponível',
+                    detalhes_tecnicos: {},
+                    resumo: 'O job terminou, mas o relatório ainda não pôde ser carregado. Tente atualizar.',
+                  }),
+                400,
+              );
+            }
           }
+          return;
         }
         if (data.status === 'FAILED') {
           clearInterval(interval.current);
+          if (!cancelled && onFailed) {
+            onFailed({
+              jobId,
+              message:
+                'A validação falhou no servidor (fila de processamento ou timeout). Tente de novo ou verifique se o worker Celery está em execução.',
+            });
+          }
         }
       } catch {
         // Keep trying on network blips
       }
-    }, 2000);
+    };
 
-    return () => clearInterval(interval.current);
-  }, [jobId, onComplete]);
+    tick();
+    interval.current = setInterval(tick, 2000);
+
+    return () => {
+      cancelled = true;
+      clearInterval(interval.current);
+    };
+  }, [jobId, onComplete, onFailed]);
 
   return (
     <div className="progress-container surface" role="region" aria-label="Progresso da validação">

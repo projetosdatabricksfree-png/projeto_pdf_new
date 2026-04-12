@@ -17,6 +17,20 @@ from workers.celery_app import celery_app
 logger = logging.getLogger(__name__)
 
 
+def _pages_from_detail(detail: dict) -> Optional[list[int]]:
+    """Extract affected page numbers from operário/validador detail dicts."""
+    raw = detail.get("paginas") or detail.get("pages") or detail.get("pages_affected")
+    if not raw or not isinstance(raw, list):
+        return None
+    out: list[int] = []
+    for p in raw:
+        try:
+            out.append(int(p))
+        except (TypeError, ValueError):
+            continue
+    return out or None
+
+
 def _run_async(coro):
     """Run an async coroutine from a sync Celery task."""
     try:
@@ -270,7 +284,15 @@ async def _persist_final_report(
 
     async with async_session_factory() as db:
         # Save each validation detail
-        for check_code, detail in final_report.detalhes_tecnicos.items():
+        detalhes = final_report.detalhes_tecnicos or {}
+        
+        # If technical details are nested (standard for this pipeline)
+        if "validacoes" in detalhes and isinstance(detalhes["validacoes"], dict):
+            checks_to_save = detalhes["validacoes"]
+        else:
+            checks_to_save = detalhes
+
+        for check_code, detail in checks_to_save.items():
             if isinstance(detail, dict):
                 await upsert_validation_result(
                     db,
@@ -279,9 +301,10 @@ async def _persist_final_report(
                     check_code=check_code,
                     check_name=detail.get("check_name", check_code),
                     status=detail.get("status", "OK"),
-                    error_code=detail.get("error_code"),
-                    value_found=detail.get("value_found"),
-                    value_expected=detail.get("value_expected"),
+                    error_code=detail.get("error_code") or detail.get("codigo"),
+                    value_found=str(detail.get("value_found") or detail.get("valor", "")),
+                    value_expected=str(detail.get("value_expected") or ""),
+                    pages_affected=_pages_from_detail(detail),
                 )
 
         # Complete the job

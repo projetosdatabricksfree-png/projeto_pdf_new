@@ -1,24 +1,29 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000/api/v1';
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ??
+  (import.meta.env.DEV ? '/api/v1' : 'http://127.0.0.1:8001/api/v1');
 
 const api = axios.create({
   baseURL: API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 });
 
 export const preflightApi = {
   /**
    * Upload PDF for multi-agent validation
+   * @param {File} file
+   * @param {{ onUploadProgress?: (percent0to100: number) => void }} [opts]
    */
-  uploadPdf: async (file) => {
+  uploadPdf: async (file, opts = {}) => {
     const formData = new FormData();
     formData.append('file', file);
 
     const response = await api.post('/validate', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+      onUploadProgress: (evt) => {
+        if (!evt.total || !opts.onUploadProgress) return;
+        const pct = Math.round((evt.loaded / evt.total) * 100);
+        opts.onUploadProgress(Math.min(100, Math.max(0, pct)));
+      },
     });
     return response.data;
   },

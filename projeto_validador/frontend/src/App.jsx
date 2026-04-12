@@ -1,4 +1,4 @@
-import { useState, Suspense, lazy } from 'react';
+import { useState, Suspense, lazy, useCallback } from 'react';
 import { CheckCircle, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -17,6 +17,20 @@ function App() {
   const [jobId, setJobId] = useState(null);
   const [report, setReport] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [jobPipelineError, setJobPipelineError] = useState(null);
+
+  const handleJobComplete = useCallback((rep) => {
+    setReport(rep);
+    setPhase('report');
+    setView('report');
+    setJobPipelineError(null);
+  }, []);
+
+  const handleJobFailed = useCallback(({ message }) => {
+    setJobPipelineError(message);
+    setPhase('upload');
+    setJobId(null);
+  }, []);
 
   return (
     <>
@@ -47,6 +61,14 @@ function App() {
                 >
                   {phase === 'upload' && (
                     <section className="section-hero" aria-label="Upload de arquivo">
+                      {jobPipelineError && (
+                        <div
+                          className="pipeline-error-banner"
+                          role="alert"
+                        >
+                          {jobPipelineError}
+                        </div>
+                      )}
                       <div className="hero-content">
                         <span className="badge badge-accent">Sistema Multi-Agentes</span>
                         <h1>
@@ -77,6 +99,7 @@ function App() {
                       </div>
                       <UploadZone
                         onUploadSuccess={(id) => {
+                          setJobPipelineError(null);
                           setJobId(id);
                           setPhase('progress');
                         }}
@@ -88,11 +111,8 @@ function App() {
                       <Suspense fallback={<div className="loading-spinner"><Loader2 className="animate-spin" /></div>}>
                         <ProgressTracker
                           jobId={jobId}
-                          onComplete={(rep) => {
-                            setReport(rep);
-                            setPhase('report');
-                            setView('report');
-                          }}
+                          onComplete={handleJobComplete}
+                          onFailed={handleJobFailed}
                         />
                       </Suspense>
                     </section>

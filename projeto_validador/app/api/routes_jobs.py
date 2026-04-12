@@ -203,12 +203,27 @@ async def get_job_report(
     detalhes = {}
 
     for r in results:
+        paginas: list[int] = []
+        if r.pages_affected:
+            try:
+                parsed = json.loads(r.pages_affected)
+                if isinstance(parsed, list):
+                    for p in parsed:
+                        try:
+                            paginas.append(int(p))
+                        except (TypeError, ValueError):
+                            continue
+            except (json.JSONDecodeError, TypeError, ValueError):
+                paginas = []
+
         entry = {
             "codigo": r.error_code or r.check_code,
             "check_name": r.check_name,
             "valor_encontrado": r.value_found,
             "valor_esperado": r.value_expected,
         }
+        if paginas:
+            entry["paginas"] = paginas
         if r.status == "ERRO":
             entry["severidade"] = "CRÍTICO"
             erros.append(entry)
@@ -216,12 +231,15 @@ async def get_job_report(
             entry["severidade"] = "AVISO"
             avisos.append(entry)
 
-        detalhes[r.check_code] = {
+        row_detail: dict = {
             "status": r.status,
             "error_code": r.error_code,
             "value_found": r.value_found,
             "value_expected": r.value_expected,
         }
+        if paginas:
+            row_detail["paginas"] = paginas
+        detalhes[r.check_code] = row_detail
 
     # Build summary text
     if job.final_status == "REPROVADO":
@@ -248,4 +266,27 @@ async def get_job_report(
         erros=erros,
         avisos=avisos,
         detalhes_tecnicos=detalhes,
+    )
+
+
+from fastapi.responses import FileResponse
+
+@router.get("/jobs/{job_id}/file")
+async def get_job_file(
+    job_id: str,
+    db: AsyncSession = Depends(get_db),
+):
+    """Serve the original uploaded file for the PDF viewer."""
+    job = await get_job(db, job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+        
+    file_path = Path(job.file_path)
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail="File not found on disk")
+        
+    return FileResponse(
+        path=file_path,
+        media_type="application/pdf",
+        filename=job.original_filename
     )
