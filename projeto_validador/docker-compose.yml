@@ -1,0 +1,56 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    mem_limit: 512m
+    environment:
+      - PYTHONPATH=/app
+      - DATABASE_URL=sqlite+aiosqlite:///./data/validador.db
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - VOLUME_PATH=/volumes/uploads
+      - APP_ENV=production
+    volumes:
+      - .:/app
+      - uploads:/volumes/uploads
+      - db_data:/app/data
+    depends_on:
+      - redis
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+  worker:
+    build: .
+    mem_limit: 2g
+    deploy:
+      replicas: 1
+    environment:
+      - PYTHONPATH=/app
+      - DATABASE_URL=sqlite+aiosqlite:///./data/validador.db
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+      - VOLUME_PATH=/volumes/uploads
+      - APP_ENV=production
+    volumes:
+      - .:/app
+      - uploads:/volumes/uploads
+      - db_data:/app/data
+    depends_on:
+      - redis
+    command: celery -A workers.celery_app worker --loglevel=info --concurrency=1
+
+  redis:
+    image: redis:7-alpine
+    mem_limit: 256m
+    ports:
+      - "63799:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  uploads:
+  redis_data:
+  db_data:
