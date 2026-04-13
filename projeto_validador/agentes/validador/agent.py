@@ -61,29 +61,58 @@ class AgenteValidador:
         # Step 1: Determine final status (deterministic)
         status = calcular_status_final(report.erros_criticos, report.avisos)
 
-        # Step 2: Map error codes to localized messages
-        erros_formatted: list[dict] = []
-        for code in report.erros_criticos:
-            msg = get_message(code, locale)
-            erros_formatted.append({
-                "severidade": "CRÍTICO",
-                "codigo": code,
-                "titulo": msg["titulo"],
-                "descricao": msg["descricao"],
-                "acao_corretiva": msg["acao"],
-            })
+        # Build codigo → check lookup from validation_results so we can
+        # repassar found_value/expected_value originais de cada checker.
+        check_index: dict[str, dict] = {}
+        for entry in (report.validation_results or {}).values():
+            if not isinstance(entry, dict):
+                continue
+            # Entradas simples
+            c = entry.get("codigo")
+            if c and c not in check_index:
+                check_index[c] = entry
+            # Entradas com sub-diagnósticos (ex.: icc_checker.diagnostics,
+            # compression_checker.issues)
+            for sub in entry.get("diagnostics", []) or []:
+                sc = sub.get("codigo")
+                if sc and sc not in check_index:
+                    check_index[sc] = sub
+            for iss in entry.get("issues", []) or []:
+                ic = iss.get("codigo")
+                if ic and ic not in check_index:
+                    check_index[ic] = iss
+            # Normalized per-page entries (geometry)
+            for pc in entry.get("per_page_checks", []) or []:
+                pcc = pc.get("codigo")
+                if pcc and pcc not in check_index:
+                    check_index[pcc] = pc
 
-        # Step 3: Map warning codes to localized messages
-        avisos_formatted: list[dict] = []
-        for code in report.avisos:
+        def _enrich(code: str, severidade: str) -> dict:
             msg = get_message(code, locale)
-            avisos_formatted.append({
-                "severidade": "AVISO",
+            src = check_index.get(code, {})
+            titulo = msg.get("titulo") or src.get("label") or code
+            descricao = msg.get("descricao") or src.get("descricao") or ""
+            acao = msg.get("acao") or (src.get("meta", {}) or {}).get("action", "")
+            item = {
+                "severidade": severidade,
                 "codigo": code,
-                "titulo": msg["titulo"],
-                "descricao": msg["descricao"],
-                "acao_corretiva": msg.get("acao", ""),
-            })
+                "titulo": titulo,
+                "descricao": descricao,
+                "acao_corretiva": acao,
+                "found_value": src.get("found_value"),
+                "expected_value": src.get("expected_value"),
+            }
+            return item
+
+        # Step 2: Critical errors
+        erros_formatted: list[dict] = [
+            _enrich(code, "CRÍTICO") for code in report.erros_criticos
+        ]
+
+        # Step 3: Warnings
+        avisos_formatted: list[dict] = [
+            _enrich(code, "AVISO") for code in report.avisos
+        ]
 
         # Step 4: Build summary text
         # --- INTELLIGENT AI SUMMARY ---

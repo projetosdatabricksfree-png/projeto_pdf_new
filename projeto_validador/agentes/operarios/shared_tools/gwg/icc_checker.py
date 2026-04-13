@@ -162,50 +162,86 @@ def check_icc(file_path: str) -> dict[str, Any]:
 
     has_output_intent = len(output_intents) > 0
 
-    # Check for ICC v4 (warns — legacy RIP risk)
-    icc_v4_detected = any(
-        space.get("icc_version") and space["icc_version"][0] == 4
-        for space in icc_spaces
-    ) or any(
+    # v4 detection, split by source (OI vs inline ICC spaces)
+    oi_v4 = any(
         intent.get("icc_version") and intent["icc_version"][0] == 4
         for intent in output_intents
     )
+    inline_v4_count = sum(
+        1 for space in icc_spaces
+        if space.get("icc_version") and space["icc_version"][0] == 4
+    )
+    icc_v4_detected = oi_v4 or inline_v4_count > 0
 
     if not has_output_intent:
         return {
             "status": "ERRO",
             "codigo": "E_NO_OUTPUT_INTENT",
+            "label": "Output Intent (PDF/X-4)",
             "found_value": "Ausente",
-            "expected_value": "Obrigatorio (PDF/X-4)",
+            "expected_value": "Obrigatório (PDF/X-4)",
             "descricao": "Nenhum OutputIntent encontrado — PDF/X-4 exige obrigatoriamente um perfil de saída para conformidade GWG",
             "output_intents": [],
             "icc_spaces": len(icc_spaces),
             "has_output_intent": False,
             "icc_v4_detected": icc_v4_detected,
+            "diagnostics": [],
         }
 
-    # Extract name of the first output intent for the 'found_value'
-    oi_name = output_intents[0].get("output_condition", "Desconhecido") if output_intents else "Detectado"
+    # OI always reports its own identity — independent of inline v4 spaces
+    oi = output_intents[0]
+    oi_name = oi.get("output_condition", "Desconhecido")
+    oi_ver = oi.get("icc_version")
+    oi_ver_label = f"ICC v{oi_ver[0]}.{oi_ver[1]}" if oi_ver else "versão desconhecida"
 
-    if icc_v4_detected:
-        return {
+    diagnostics: list[dict] = []
+
+    # Diagnóstico 1 — Output Intent
+    if oi_v4:
+        diagnostics.append({
             "status": "AVISO",
-            "codigo": "W_ICC_V4",
-            "found_value": f"{oi_name} (ICC v4)",
-            "expected_value": "ICC v2 (Recomendado)",
-            "descricao": "Perfil ICC versão 4 detectado — RIPs antigos podem rejeitar este perfil",
-            "output_intents": output_intents,
-            "icc_spaces": len(icc_spaces),
-            "has_output_intent": True,
-            "icc_v4_detected": True,
-        }
+            "codigo": "W_ICC_V4_OUTPUT_INTENT",
+            "label": "Output Intent ICC v4",
+            "found_value": f"{oi_name} ({oi_ver_label})",
+            "expected_value": "ICC v2 (recomendado para RIPs legados)",
+            "descricao": "O Output Intent usa perfil ICC v4 — RIPs antigos podem rejeitá-lo.",
+        })
+    else:
+        diagnostics.append({
+            "status": "OK",
+            "codigo": None,
+            "label": "Output Intent",
+            "found_value": f"{oi_name} ({oi_ver_label})",
+            "expected_value": "PDF/X-4 Output Intent (ICC v2)",
+        })
+
+    # Diagnóstico 2 — ICC Spaces Inline
+    if inline_v4_count > 0:
+        diagnostics.append({
+            "status": "AVISO",
+            "codigo": "W_ICC_V4_INLINE",
+            "label": "ICC Spaces Inline v4",
+            "found_value": f"{inline_v4_count} ICCBased space(s) em v4",
+            "expected_value": "0 espaços ICC v4 inline (preferencial v2)",
+            "descricao": "Objetos com perfil ICC v4 inline detectados — pode causar incompatibilidade com RIPs legados.",
+        })
+
+    # Top-level status/codigo: pior severidade entre os diagnósticos
+    worst = next((d for d in diagnostics if d["status"] == "ERRO"), None) \
+        or next((d for d in diagnostics if d["status"] == "AVISO"), None)
+    top_status = worst["status"] if worst else "OK"
+    top_codigo = worst["codigo"] if worst else None
 
     return {
-        "status": "OK",
-        "found_value": f"{oi_name} (ICC v2)",
-        "expected_value": "PDF/X-4 Output Intent",
+        "status": top_status,
+        "codigo": top_codigo,
+        "label": "ICC / Output Intent",
+        "found_value": f"{oi_name} ({oi_ver_label})",
+        "expected_value": "ICC v2 + OutputIntent presente",
+        "diagnostics": diagnostics,
         "output_intents": output_intents,
         "icc_spaces": len(icc_spaces),
+        "inline_v4_count": inline_v4_count,
         "has_output_intent": True,
-        "icc_v4_detected": False,
+        "icc_v4_detected": icc_v4_detected,
     }

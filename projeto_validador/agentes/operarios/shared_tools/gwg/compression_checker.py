@@ -98,14 +98,16 @@ def check_compression(file_path: str) -> dict[str, Any]:
                 height = _parse_int_key(obj_str, "Height")
                 bpc = _parse_int_key(obj_str, "BitsPerComponent")
 
-                # JPEG 2000 — W_JPEG2000
+                # JPEG 2000 — E_JPEG2000 (proibido em PDF/X-4 pela GWG 2015)
                 if "JPXDecode" in filters:
                     issues.append({
                         "xref": xref,
                         "page": page_num + 1,
-                        "codigo": "W_JPEG2000",
+                        "codigo": "E_JPEG2000",
                         "filter": "JPXDecode",
-                        "severity": "AVISO",
+                        "severity": "ERRO",
+                        "found_value": "JPXDecode (JPEG 2000)",
+                        "expected_value": "DCTDecode ou FlateDecode",
                     })
 
                 # JBIG2 — W_JBIG2
@@ -151,16 +153,19 @@ def check_compression(file_path: str) -> dict[str, Any]:
                 "max_dpi": max_dpi_overall,
             }
 
-        # Determine worst severity
+        # Determine worst severity (JPX is now ERRO — GWG forbids JPEG2000 in X-4)
         has_errors = any(i["severity"] == "ERRO" for i in issues)
         primary_issue = next(
-            (i for i in issues if i["codigo"] == "W_JPEG2000"),
+            (i for i in issues if i["severity"] == "ERRO"),
             issues[0],
         )
 
         return {
             "status": "ERRO" if has_errors else "AVISO",
             "codigo": primary_issue["codigo"],
+            "label": "Compressão de Imagens",
+            "found_value": primary_issue.get("found_value") or primary_issue.get("filter") or f"bpc={primary_issue.get('bpc')}",
+            "expected_value": primary_issue.get("expected_value") or "DCTDecode/FlateDecode, 8 bpc",
             "issues": issues,
             "images_inspected": images_inspected,
             "min_dpi": min_dpi_overall,

@@ -97,10 +97,30 @@ class AgenteGerente:
             page_count = get_page_count(raw_metadata)
             alerts = detect_pre_routing_alerts(raw_metadata)
 
+            # ExifTool succeeds mas frequentemente devolve 0x0 mm para PDFs.
+            # Preenche com PyMuPDF (page.mediabox em pontos → mm) para nunca
+            # chegar zerado no roteamento.
+            dim_source = "exiftool"
+            if width_mm <= 0 or height_mm <= 0:
+                try:
+                    w2, h2, p2 = self._fallback_pymupdf(job_payload.file_path)
+                    if w2 > 0 and h2 > 0:
+                        width_mm, height_mm = w2, h2
+                        if page_count <= 0:
+                            page_count = p2
+                        dim_source = "exiftool+pymupdf"
+                        logger.info(
+                            f"[Gerente] ExifTool retornou 0mm — dimensões "
+                            f"preenchidas via PyMuPDF: {width_mm}x{height_mm}mm"
+                        )
+                except Exception as exc:
+                    logger.warning(f"[Gerente] PyMuPDF dim fallback falhou: {exc}")
+
             metadata_snapshot = {
                 "width_mm": width_mm,
                 "height_mm": height_mm,
                 "page_count": page_count,
+                "dim_source": dim_source,
                 "raw": {k: str(v) for k, v in raw_metadata.items()},
                 "alerts": alerts,
             }
