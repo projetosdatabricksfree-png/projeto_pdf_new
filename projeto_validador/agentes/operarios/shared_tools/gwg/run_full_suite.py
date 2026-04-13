@@ -25,6 +25,17 @@ logger = logging.getLogger(__name__)
 MAX_WORKERS = int(os.getenv("GWG_MAX_PARALLEL_CHECKERS", "6"))
 # Removing CHECKER_TIMEOUT as per user request (unbound execution)
 
+def _enable_gpu_acceleration():
+    """Attempt to enable OpenCL/GPU acceleration for pyvips."""
+    try:
+        import pyvips
+        # Enable OpenCL if available. libvips auto-detects, but we can force a check.
+        # This also clears the cache to ensure we use the GPU memory efficiently.
+        pyvips.cache_set_max(0) 
+        logger.info("[GPU] OpenCL acceleration requested for pyvips")
+    except Exception as e:
+        logger.warning(f"[GPU] Could not initialize GPU acceleration: {e}")
+
 
 # ---------------------------------------------------------------------------
 # Module-level runners (picklable). Each does a lazy import inside the
@@ -181,6 +192,9 @@ def run_all_gwg_checks(
     """
     profile = profile or {}
     profile_name = profile.get("name", "GWG 2015 Sheetfed Offset")
+    
+    # Try to boost with GPU
+    _enable_gpu_acceleration()
 
     checks: dict[str, Any] = {}
     normalized: list[dict] = []

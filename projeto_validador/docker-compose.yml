@@ -23,10 +23,18 @@ services:
 
   worker:
     restart: always
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
     mem_limit: 4g
     deploy:
       replicas: 1
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     environment:
       - PYTHONPATH=/app
       - DATABASE_URL=sqlite+aiosqlite:///./data/validador.db
