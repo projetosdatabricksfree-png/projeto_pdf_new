@@ -36,3 +36,8 @@ uvicorn.log
 # Test files
 arquivos de teste/
 get-pip.py
+
+# Security - Environment secrets
+.env
+.env.*
+!.env.example
