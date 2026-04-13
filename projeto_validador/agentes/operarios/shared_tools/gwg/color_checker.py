@@ -60,6 +60,7 @@ def check_color_compliance(file_path: str, metadata: dict[str, Any] = None, prog
         "label": "Espaço de Cor & TAC",
         "found_value": f"{cs_result.get('found_value', 'CMYK')} | TAC Máx: {tac_result.get('found_value', 'N/A')}",
         "expected_value": f"CMYK/Spot | TAC <= {limit}%",
+        "paginas": tac_result.get("paginas", []),
         "profile_used": profile["name"],
         "cs_detail": cs_result,
         "tac_detail": tac_result
@@ -160,6 +161,7 @@ def _check_tac_vips_turbo(file_path: str, limit: float, page_count: int, progres
                 "codigo": "E007_EXCESSIVE_INK_COVERAGE",
                 "found_value": found_str,
                 "expected_value": expected_str,
+                "paginas": violating_pages,
                 "detalhe": f"Limite de {limit}% excedido nas páginas: {', '.join(map(str, violating_pages[:10]))}{'...' if len(violating_pages)>10 else ''}"
             }
             
