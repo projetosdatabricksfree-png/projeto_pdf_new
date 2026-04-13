@@ -52,7 +52,10 @@ _GS_OPM_HOOK: str = (
 
 def _sanitize_path(file_path: str) -> str:
     """Reject paths with shell-injection characters and resolve to absolute path."""
-    if re.search(r'[;&|`$(){}]', file_path):
+    # Reject paths with shell-injection characters and resolve to absolute path.
+    # Allowing () and [] as they are standard in graphics filenames 
+    # and safe because we use shell=False.
+    if re.search(r'[;&|`${}]', file_path):
         raise ValueError(f"Suspicious characters in file path: {file_path}")
     resolved = str(Path(file_path).resolve())
     if not Path(resolved).exists():

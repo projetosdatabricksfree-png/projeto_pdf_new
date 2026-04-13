@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 # Parallelism — vertical scaling
 MAX_WORKERS = int(os.getenv("GWG_MAX_PARALLEL_CHECKERS", "6"))
-CHECKER_TIMEOUT = int(os.getenv("GWG_CHECKER_TIMEOUT_S", "120"))
+# Removing CHECKER_TIMEOUT as per user request (unbound execution)
 
 
 # ---------------------------------------------------------------------------
@@ -193,6 +193,15 @@ def run_all_gwg_checks(
         [{"name": name, "label": label} for name, label, _, _ in RUNNERS],
     )
 
+    # Initial ETA Heuristic
+    try:
+        file_size_mb = os.path.getsize(file_path) / (1024 * 1024)
+        from agentes.operarios.shared_tools.gwg.progress_bus import set_eta
+        eta = int(10 + (file_size_mb * 4)) # 10s base + 4s per MB
+        set_eta(job_id or "", eta)
+    except Exception:
+        pass
+
     max_workers = min(MAX_WORKERS, len(RUNNERS))
     pool, current, original_daemon = _make_pool(max_workers)
 
@@ -209,65 +218,69 @@ def run_all_gwg_checks(
                 label,
             )
 
-        # Collect results — each checker has its own deadline, so a stuck one
-        # doesn't block the whole board.
-        for name, (async_res, fallback_code, label) in async_results.items():
-            try:
-                result, err = async_res.get(timeout=CHECKER_TIMEOUT)
-                duration_ms = int((time.monotonic() - started_at[name]) * 1000)
-            except Exception as exc:
-                duration_ms = int((time.monotonic() - started_at[name]) * 1000)
-                is_timeout = "TimeoutError" in type(exc).__name__
-                logger.error(f"[run_full_suite] {name} {'timeout' if is_timeout else 'crash'}: {exc!r}")
-                err_code = f"W_{name.upper()}_{'TIMEOUT' if is_timeout else 'FAILED'}"
-                result, err = None, {
-                    "status": "AVISO",
-                    "codigo": err_code,
-                    "label": name,
-                    "found_value": "Tempo limite excedido" if is_timeout else f"Erro: {exc!r}",
-                    "expected_value": f"Execução < {CHECKER_TIMEOUT}s",
-                }
-                update_stage(job_id or "", name, "TIMEOUT" if is_timeout else "FAILED", duration_ms)
-
-            if err is not None:
-                checks[name] = err
-                normalized.extend(_normalize(name, fallback_code, err))
-                if err["codigo"] not in avisos:
-                    avisos.append(err["codigo"])
-                # If we already updated via TIMEOUT/FAILED above, skip re-publish
-                if not any(k in err["codigo"] for k in ("TIMEOUT", "FAILED")):
-                    update_stage(job_id or "", name, "AVISO", duration_ms)
-                continue
-
-            normalized_entries = _normalize(name, fallback_code, result)
-            if isinstance(result, list):
-                worst = next((e for e in normalized_entries if e["status"] == "ERRO"), None) \
-                    or next((e for e in normalized_entries if e["status"] == "AVISO"), None)
-                agg_status = worst["status"] if worst else "OK"
-                checks[name] = {
-                    "status": agg_status,
-                    "codigo": worst["codigo"] if worst else None,
-                    "label": worst["label"] if worst else name,
-                    "found_value": worst["found_value"] if worst else None,
-                    "expected_value": worst["expected_value"] if worst else None,
-                    "pages": result,
-                    "per_page_checks": normalized_entries,
-                }
-                update_stage(job_id or "", name, agg_status, duration_ms)
-            else:
-                checks[name] = result
-                update_stage(job_id or "", name, result.get("status", "OK"), duration_ms)
-
-            for entry in normalized_entries:
-                normalized.append(entry)
-                status = entry["status"]
-                codigo = entry["codigo"]
-                if not codigo:
-                    continue
-                if status == "ERRO" and codigo not in erros:
-                    erros.append(codigo)
-                elif status == "AVISO" and codigo not in avisos:
-                    avisos.append(codigo)
+        # Collect results — Unbound async polling loop
+        pending = list(async_results.keys())
+        while pending:
+            for name in list(pending):
+                async_res, fallback_code, label = async_results[name]
+                if async_res.ready():
+                    try:
+                        result, err = async_res.get() # No timeout
+                        duration_ms = int((time.monotonic() - started_at[name]) * 1000)
+                        
+                        if err is not None:
+                            checks[name] = err
+                            normalized.extend(_normalize(name, fallback_code, err))
+                            if err["codigo"] not in avisos:
+                                avisos.append(err["codigo"])
+                            update_stage(job_id or "", name, "AVISO", duration_ms, log="Concluído com alertas")
+                        else:
+                            normalized_entries = _normalize(name, fallback_code, result)
+                            if isinstance(result, list):
+                                worst = next((e for e in normalized_entries if e["status"] == "ERRO"), None) \
+                                    or next((e for e in normalized_entries if e["status"] == "AVISO"), None)
+                                agg_status = worst["status"] if worst else "OK"
+                                checks[name] = {
+                                    "status": agg_status,
+                                    "codigo": worst["codigo"] if worst else None,
+                                    "label": worst["label"] if worst else name,
+                                    "found_value": worst["found_value"] if worst else None,
+                                    "expected_value": worst["expected_value"] if worst else None,
+                                    "pages": result,
+                                    "per_page_checks": normalized_entries,
+                                }
+                                update_stage(job_id or "", name, agg_status, duration_ms, log="Check concluído")
+                            else:
+                                checks[name] = result
+                                update_stage(job_id or "", name, result.get("status", "OK"), duration_ms, log="Check concluído")
+                            
+                            for entry in normalized_entries:
+                                normalized.append(entry)
+                                status = entry["status"]
+                                codigo = entry["codigo"]
+                                if not codigo:
+                                    continue
+                                if status == "ERRO" and codigo not in erros:
+                                    erros.append(codigo)
+                                elif status == "AVISO" and codigo not in avisos:
+                                    avisos.append(codigo)
+                    except Exception as exc:
+                        duration_ms = int((time.monotonic() - started_at[name]) * 1000)
+                        logger.error(f"[run_full_suite] {name} CRASH: {exc!r}")
+                        err_code = f"W_{name.upper()}_FAILED"
+                        checks[name] = {
+                            "status": "ERRO",
+                            "codigo": err_code,
+                            "label": name,
+                            "found_value": f"Erro crítico: {exc!r}",
+                            "expected_value": "Execução bem sucedida",
+                        }
+                        update_stage(job_id or "", name, "FAILED", duration_ms, log=f"Erro: {exc!r}")
+                    
+                    pending.remove(name)
+            
+            if pending:
+                time.sleep(0.5) # Prevent CPU spinning in the main orchestrator thread
 
         pool.close()
         pool.join()

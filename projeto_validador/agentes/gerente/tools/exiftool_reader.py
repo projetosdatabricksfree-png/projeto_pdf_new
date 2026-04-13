@@ -35,7 +35,10 @@ def _sanitize_path(file_path: str) -> str:
         ValueError: If the path contains suspicious characters.
     """
     # Reject paths with shell metacharacters
-    if re.search(r'[;&|`$(){}]', file_path):
+    # Reject paths with shell metacharacters. 
+    # Allowing () and [] as they are standard in graphics filenames 
+    # and safe because we use shell=False.
+    if re.search(r'[;&|`${}]', file_path):
         raise ValueError(f"Suspicious characters in file path: {file_path}")
 
     resolved = str(Path(file_path).resolve())

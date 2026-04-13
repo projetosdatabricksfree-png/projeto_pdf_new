@@ -38,6 +38,7 @@ const ProgressTracker = ({ jobId, onComplete, onFailed }) => {
     pipeline: 'QUEUED',
     board: null,
     finalStatus: null,
+    timeLeft: null,
   });
   const interval = useRef();
 
@@ -49,10 +50,18 @@ const ProgressTracker = ({ jobId, onComplete, onFailed }) => {
         const data = await preflightApi.getJobProgress(jobId);
         if (cancelled) return;
 
+        const board = data.board;
+        let timeLeft = null;
+        if (board?.eta_seconds && board?.started_at) {
+          const elapsed = (Date.now() / 1000) - board.started_at;
+          timeLeft = Math.max(0, Math.round(board.eta_seconds - elapsed));
+        }
+
         setState({
           pipeline: data.pipeline_status || 'QUEUED',
-          board: data.board,
+          board: board,
           finalStatus: data.final_status,
+          timeLeft: timeLeft
         });
 
         if (data.pipeline_status === 'DONE' || data.pipeline_status === 'COMPLETED') {
@@ -111,6 +120,13 @@ const ProgressTracker = ({ jobId, onComplete, onFailed }) => {
   const currentLabel =
     currentIdx >= 0 ? board.stages[currentIdx].label : pipeline.hint;
 
+  const formatTime = (s) => {
+    if (s === null || s === undefined) return '';
+    const mins = Math.floor(s / 60);
+    const secs = s % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
   return (
     <div className="progress-container surface" role="region" aria-label="Progresso da validação">
       <div className="progress-header">
@@ -118,13 +134,21 @@ const ProgressTracker = ({ jobId, onComplete, onFailed }) => {
           <span className="badge badge-accent">Pipeline Multi-Agentes</span>
           <h2>{pipeline.label}</h2>
         </div>
-        <div className="progress-percentage" aria-hidden="true">
-          {board ? `${done}/${total}` : `${pct}%`}
+        <div className="progress-meta" style={{ textAlign: 'right' }}>
+          <div className="progress-percentage" aria-hidden="true" style={{ fontSize: '1.4em', fontWeight: 800 }}>
+            {board ? `${done}/${total}` : `${pct}%`}
+          </div>
+          {state.timeLeft !== null && state.pipeline !== 'DONE' && (
+            <div className="eta-timer" style={{ fontSize: '0.85em', opacity: 0.6, marginTop: '2px' }}>
+              Tempo estimado: <strong>{formatTime(state.timeLeft)}</strong>
+            </div>
+          )}
         </div>
       </div>
 
       <div
         className="progress-bar-bg"
+        style={{ margin: '16px 0 12px' }}
         role="progressbar"
         aria-valuenow={pct}
         aria-valuemin={0}
@@ -139,37 +163,55 @@ const ProgressTracker = ({ jobId, onComplete, onFailed }) => {
         />
       </div>
 
-      <p className="status-message">
+      <p className="status-message" style={{ minHeight: '1.4em' }}>
         {state.pipeline === 'FAILED'
           ? `❌ Falha: ${pipeline.hint}`
           : board && currentIdx >= 0
-            ? `Etapa ${currentIdx + 1} de ${total} — ${currentLabel} (processando...)`
+            ? `Etapa ${currentIdx + 1} de ${total} — ${currentLabel}`
             : pipeline.hint}
       </p>
 
       {board && (
-        <ul className="stage-board" style={{ listStyle: 'none', padding: 0, margin: '16px 0 0', display: 'grid', gap: '6px' }}>
+        <ul className="stage-board" style={{ listStyle: 'none', padding: 0, margin: '20px 0 0', display: 'grid', gap: '8px' }}>
           {board.stages.map((stage, i) => (
             <li
               key={stage.name}
               style={{
                 display: 'grid',
-                gridTemplateColumns: '28px 20px 1fr auto',
-                gap: '10px',
-                alignItems: 'center',
-                padding: '8px 10px',
-                borderRadius: '8px',
-                background: stage.status === 'RUNNING' ? 'rgba(59,130,246,0.08)' : 'transparent',
-                border: `1px solid ${stage.status === 'RUNNING' ? 'rgba(59,130,246,0.25)' : 'rgba(148,163,184,0.18)'}`,
+                gridTemplateColumns: '28px 24px 1fr auto',
+                gap: '12px',
+                alignItems: 'start',
+                padding: '12px',
+                borderRadius: '10px',
+                background: stage.status === 'RUNNING' ? 'rgba(59,130,246,0.08)' : 'rgba(255,255,255,0.02)',
+                border: `1px solid ${stage.status === 'RUNNING' ? 'rgba(59,130,246,0.25)' : 'rgba(148,163,184,0.1)'}`,
+                transition: 'all 0.3s ease'
               }}
             >
-              <span style={{ opacity: 0.6, fontVariantNumeric: 'tabular-nums' }}>{String(i + 1).padStart(2, '0')}</span>
-              <span style={{ color: STATUS_COLOR[stage.status] || STATUS_COLOR.PENDING, fontWeight: 700 }}>
+              <span style={{ opacity: 0.4, fontVariantNumeric: 'tabular-nums', marginTop: '2px' }}>{String(i + 1).padStart(2, '0')}</span>
+              <span style={{ 
+                color: STATUS_COLOR[stage.status] || STATUS_COLOR.PENDING, 
+                fontWeight: 700, 
+                fontSize: '1.1em',
+                marginTop: '1px'
+              }}>
                 {STATUS_ICON[stage.status] || '○'}
               </span>
-              <span style={{ opacity: stage.status === 'PENDING' ? 0.55 : 1 }}>{stage.label}</span>
-              <span style={{ fontVariantNumeric: 'tabular-nums', opacity: 0.6, fontSize: '0.85em' }}>
-                {stage.duration_ms ? `${(stage.duration_ms / 1000).toFixed(1)}s` : ''}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                <span style={{ 
+                  opacity: stage.status === 'PENDING' ? 0.5 : 1,
+                  fontWeight: stage.status === 'RUNNING' ? 600 : 400
+                }}>
+                  {stage.label}
+                </span>
+                {stage.log && (stage.status === 'RUNNING' || stage.status === 'TIMEOUT' || stage.status === 'FAILED') && (
+                  <span style={{ fontSize: '0.78em', opacity: 0.5, fontStyle: 'italic' }}>
+                    {stage.log}
+                  </span>
+                )}
+              </div>
+              <span style={{ fontVariantNumeric: 'tabular-nums', opacity: 0.6, fontSize: '0.85em', marginTop: '2px' }}>
+                {stage.duration_ms ? `${(stage.duration_ms / 1000).toFixed(1)}s` : (stage.status === 'RUNNING' ? '...' : '')}
               </span>
             </li>
           ))}

@@ -22,7 +22,10 @@ GS_TIMEOUT: int = 60  # seconds
 
 def _sanitize_path(file_path: str) -> str:
     """Sanitize file path for subprocess usage."""
-    if re.search(r'[;&|`$(){}]', file_path):
+    # Reject paths with shell metacharacters.
+    # Allowing () and [] as they are standard in graphics filenames 
+    # and safe because we use shell=False.
+    if re.search(r'[;&|`${}]', file_path):
         raise ValueError(f"Suspicious characters in file path: {file_path}")
     resolved = str(Path(file_path).resolve())
     if not Path(resolved).exists():

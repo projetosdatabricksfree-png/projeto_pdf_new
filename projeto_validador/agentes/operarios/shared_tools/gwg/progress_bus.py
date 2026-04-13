@@ -54,9 +54,17 @@ def init_progress(job_id: str, stages: list[dict]) -> None:
         "total": len(stages),
         "done": 0,
         "started_at": time.time(),
+        "eta_seconds": 0,
+        "heartbeat": time.time(),
         "current": None,
         "stages": [
-            {"name": s["name"], "label": s["label"], "status": "PENDING", "duration_ms": 0}
+            {
+                "name": s["name"],
+                "label": s["label"],
+                "status": "PENDING",
+                "duration_ms": 0,
+                "log": "Aguardando núcleo..."
+            }
             for s in stages
         ],
     }
@@ -66,8 +74,25 @@ def init_progress(job_id: str, stages: list[dict]) -> None:
         logger.warning(f"[progress_bus] init falhou: {exc!r}")
 
 
-def update_stage(job_id: str, name: str, status: str, duration_ms: int | None = None) -> None:
-    """Update one stage (RUNNING / OK / ERRO / AVISO / TIMEOUT)."""
+def set_eta(job_id: str, seconds: int) -> None:
+    """Set the estimated total duration for the job."""
+    client = _get_client()
+    if not client:
+        return
+    try:
+        raw = client.get(_key(job_id))
+        if not raw:
+            return
+        data = json.loads(raw)
+        data["eta_seconds"] = seconds
+        data["heartbeat"] = time.time()
+        client.set(_key(job_id), json.dumps(data), ex=_PROGRESS_TTL_S)
+    except Exception:
+        pass
+
+
+def update_stage(job_id: str, name: str, status: str, duration_ms: int | None = None, log: str | None = None) -> None:
+    """Update one stage (RUNNING / OK / ERRO / AVISO)."""
     if not job_id:
         return
     client = _get_client()
@@ -83,7 +108,12 @@ def update_stage(job_id: str, name: str, status: str, duration_ms: int | None = 
                 stage["status"] = status
                 if duration_ms is not None:
                     stage["duration_ms"] = duration_ms
+                if log is not None:
+                    stage["log"] = log
                 break
+        
+        data["heartbeat"] = time.time()
+        
         if status == "RUNNING":
             data["current"] = name
         elif status in ("OK", "ERRO", "AVISO", "TIMEOUT", "FAILED"):
