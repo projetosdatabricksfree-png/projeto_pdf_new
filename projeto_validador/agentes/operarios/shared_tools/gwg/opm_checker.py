@@ -231,6 +231,8 @@ def check_opm(file_path: str) -> dict[str, Any]:
         return {
             "status": "ERRO",
             "codigo": "E_WHITE_OVERPRINT",
+            "found_value": "White Overprint Detectado",
+            "expected_value": "C0 M0 Y0 K0 + Overprint=False",
             "descricao": "White Overprint detectado (CMYK 0,0,0,0 com overprint ativo)",
             "opm_entries": opm_violations,
             "white_overprint": True,
@@ -242,6 +244,8 @@ def check_opm(file_path: str) -> dict[str, Any]:
         return {
             "status": "ERRO",
             "codigo": "E_OPM_WRONG",
+            "found_value": "OPM=0 (Incorreto)",
+            "expected_value": "OPM=1 (PDF/X-4 Standard)",
             "descricao": f"OPM=0 encontrado em {len(opm_violations)} entrada(s) ExtGState com overprint ativo",
             "opm_entries": opm_violations,
             "white_overprint": False,
@@ -253,6 +257,8 @@ def check_opm(file_path: str) -> dict[str, Any]:
         return {
             "status": "AVISO",
             "codigo": "W_GRAY_OVERPRINT",
+            "found_value": "K-only + Overprint Active",
+            "expected_value": "OPM=1 (K-overprint Safe)",
             "descricao": "Gray Overprint detectado (K-only com overprint ativo) — verificar OPM",
             "opm_entries": opm_violations,
             "white_overprint": False,
@@ -262,6 +268,8 @@ def check_opm(file_path: str) -> dict[str, Any]:
 
     return {
         "status": "OK",
+        "found_value": "OPM=1 ou Overprint Inativo",
+        "expected_value": "OPM=1 para Overprint Ativo",
         "opm_entries": [e for e in ext_gstate_entries if "OPM" in e],
         "white_overprint": False,
         "gray_overprint": False,

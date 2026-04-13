@@ -219,8 +219,8 @@ async def get_job_report(
         entry = {
             "codigo": r.error_code or r.check_code,
             "check_name": r.check_name,
-            "valor_encontrado": r.value_found,
-            "valor_esperado": r.value_expected,
+            "found_value": r.value_found,
+            "expected_value": r.value_expected,
         }
         if paginas:
             entry["paginas"] = paginas
@@ -234,8 +234,8 @@ async def get_job_report(
         row_detail: dict = {
             "status": r.status,
             "error_code": r.error_code,
-            "value_found": r.value_found,
-            "value_expected": r.value_expected,
+            "found_value": r.value_found,
+            "expected_value": r.value_expected,
         }
         if paginas:
             row_detail["paginas"] = paginas

@@ -30,13 +30,24 @@ def check_scale(doc: fitz.Document) -> dict:
                         return {
                             "status": "ERRO",
                             "codigo": "E001_SCALE_DEVIATION",
-                            "valor_encontrado": f"UserUnit={user_unit}",
-                            "valor_esperado": "UserUnit=1.0",
+                            "label": "Escala do Desenho",
+                            "found_value": f"UserUnit={user_unit}",
+                            "expected_value": "UserUnit=1.0",
+                            "meta": {
+                                "client": f"Desvio de escala detectado (UserUnit={user_unit}).",
+                                "action": "Exporte o PDF com escala 1:1 (UserUnit=1.0)."
+                            }
                         }
         except Exception:
             pass
 
-        return {"status": "OK", "valor": "Escala 1:1"}
+        return {
+            "status": "OK",
+            "label": "Escala do Desenho",
+            "found_value": "Escala 1:1",
+            "expected_value": "Escala 1:1",
+            "meta": {"client": "Desenho técnico em escala 1:1 correta.", "action": "Nenhuma."}
+        }
     except Exception as exc:
         return {"status": "ERRO", "detalhe": f"Falha na escala: {str(exc)}"}
 
@@ -58,12 +69,25 @@ def check_format(doc: fitz.Document) -> dict:
                 break
 
         if formato:
-            return {"status": "OK", "formato": formato, "dimensoes": f"{width_mm} x {height_mm}mm"}
+            return {
+                "status": "OK", 
+                "formato": formato, 
+                "label": "Formato do Papel",
+                "found_value": f"{formato} ({width_mm}x{height_mm}mm)",
+                "expected_value": "Padrão ISO A0-A4",
+                "meta": {"client": f"Formato {formato} detectado.", "action": "Nenhuma."}
+            }
         else:
             return {
                 "status": "AVISO",
                 "codigo": "W001_NON_STANDARD_FORMAT",
-                "valor_encontrado": f"{width_mm} x {height_mm}mm",
+                "label": "Formato do Papel",
+                "found_value": f"{width_mm} x {height_mm}mm",
+                "expected_value": "Padrão ISO A0-A4",
+                "meta": {
+                    "client": f"Tamanho personalizado ({width_mm}x{height_mm}mm) detectado.",
+                    "action": "Verifique se o formato está correto para a plotagem."
+                }
             }
     except Exception as exc:
         return {"status": "ERRO", "detalhe": f"Falha no formato: {str(exc)}"}

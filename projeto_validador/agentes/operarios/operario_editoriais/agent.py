@@ -21,7 +21,7 @@ class OperarioEditoriais:
     """Validator agent for editorial publications."""
 
     def processar(self, payload: RoutingPayload) -> TechnicalReport:
-        """Execute editorial validations."""
+        """Execute editorial validations with dynamic profile matching."""
         start = time.time()
         erros: list[str] = []
         avisos: list[str] = []
@@ -30,7 +30,15 @@ class OperarioEditoriais:
         file_path = payload.file_path
         gramatura = payload.job_metadata.get("gramatura_gsm", 90)
 
-        # V-01: Page count
+        # 0. Perfil GWG Dinâmico
+        from agentes.operarios.shared_tools.gwg.profile_matcher import (
+            get_gwg_profile, identify_profile_by_metadata
+        )
+        profile_key = identify_profile_by_metadata({"produto": payload.produto_detectado or "Editorial"})
+        profile = get_gwg_profile(profile_key)
+        logger.info(f"[{AGENT_NAME}] Perfil dinâmico: {profile['name']}")
+
+        # V-01: Page count (Critério Editorial Específico)
         try:
             import fitz
             doc = fitz.open(file_path)
@@ -39,46 +47,59 @@ class OperarioEditoriais:
 
             if page_count % 4 != 0:
                 results["V01_paginas"] = {
-                    "status": "AVISO", "codigo": "W001_PAGE_COUNT_NOT_MULTIPLE_OF_4",
-                    "valor": str(page_count),
+                    "status": "AVISO", 
+                    "codigo": "W001_PAGE_COUNT_NOT_MULTIPLE_OF_4",
+                    "label": "Contagem de Páginas",
+                    "found_value": f"{page_count} páginas",
+                    "expected_value": "Múltiplo de 4",
+                    "meta": {
+                        "client": "O número de páginas não é múltiplo de 4, o que pode encarecer a produção ou exigir páginas em branco.", 
+                        "action": "Adicione ou remova páginas para chegar a um múltiplo de 4."
+                    }
                 }
                 avisos.append("W001_PAGE_COUNT_NOT_MULTIPLE_OF_4")
             else:
-                results["V01_paginas"] = {"status": "OK", "valor": str(page_count)}
+                results["V01_paginas"] = {
+                    "status": "OK",
+                    "label": "Contagem de Páginas",
+                    "found_value": f"{page_count} páginas",
+                    "expected_value": "Múltiplo de 4",
+                    "meta": {"client": "Número de páginas adequado.", "action": "Nenhuma."}
+                }
         except Exception as exc:
             results["V01_paginas"] = {"status": "ERRO", "detalhe": str(exc)}
 
-        # V-02: Spine width
+        # V-02: Geometria de Página (GWG Standard)
+        try:
+            from agentes.operarios.shared_tools.gwg.geometry_checker import check_geometry
+            geo_results = check_geometry(file_path)
+            if geo_results:
+                for check in geo_results[0]["checks"]:
+                    results[f"V02_{check['label'].lower().replace(' ', '_')}"] = check
+                    if check["status"] == "ERRO":
+                        erros.append("E_GEO_ERR")
+        except Exception as exc:
+            logger.error(f"Geometria falhou: {exc}")
+
+        # V-03: Spine width
         try:
             from agentes.operarios.operario_editoriais.tools.spine_calculator import (
                 check_spine_width,
             )
-            results["V02_lombada"] = check_spine_width(file_path, gramatura)
+            results["V03_lombada"] = check_spine_width(file_path, gramatura)
         except Exception as exc:
-            results["V02_lombada"] = {"status": "OK", "detalhe": str(exc)}
+            results["V03_lombada"] = {"status": "OK", "detalhe": str(exc)}
 
-        # V-03: Gutter
+        # V-04: Gutter
         try:
             from agentes.operarios.operario_editoriais.tools.gutter_checker import check_gutter
-            v03 = check_gutter(file_path)
-            results["V03_gutter"] = v03
-            if v03.get("codigo"):
-                erros.append(v03["codigo"])
-                paginas_com_erro.extend(v03.get("paginas", []))
-        except Exception as exc:
-            results["V03_gutter"] = {"status": "OK", "detalhe": str(exc)}
-
-        # V-04: Rich Black
-        try:
-            from agentes.operarios.operario_editoriais.tools.richblack_detector import (
-                check_rich_black,
-            )
-            v04 = check_rich_black(file_path)
-            results["V04_rich_black"] = v04
+            v04 = check_gutter(file_path)
+            results["V04_gutter"] = v04
             if v04.get("codigo"):
                 erros.append(v04["codigo"])
+                paginas_com_erro.extend(v04.get("paginas", []))
         except Exception as exc:
-            results["V04_rich_black"] = {"status": "OK", "detalhe": str(exc)}
+            results["V04_gutter"] = {"status": "OK", "detalhe": str(exc)}
 
         # V-05: Fonts (Shared GWG)
         try:
@@ -86,31 +107,47 @@ class OperarioEditoriais:
             v05 = check_fonts_gwg(file_path)
             results["V05_fontes"] = v05
             if v05.get("status") == "ERRO":
-                erros.append(v05["codigo"])
+                erros.append(v05.get("codigo", "E004_FONTS"))
         except Exception as exc:
             logger.error(f"V-05 failed: {exc}")
 
-        # V-06: Transparency (Shared GWG)
-        try:
-            from agentes.operarios.shared_tools.gwg.transparency_checker import check_transparency_gwg
-            v06 = check_transparency_gwg(file_path)
-            results["V06_transparencia"] = v06
-            if v06.get("status") == "ERRO":
-                erros.append(v06["codigo"])
-            elif v06.get("status") == "AVISO":
-                avisos.append(v06["codigo"])
-        except Exception as exc:
-            logger.error(f"V-06 failed: {exc}")
-
-        # V-07: Color Space & TAC (Shared GWG)
+        # V-07: Color Space & TAC (Shared GWG Dinâmico)
         try:
             from agentes.operarios.shared_tools.gwg.color_checker import check_color_compliance
-            v07 = check_color_compliance(file_path)
+            v07 = check_color_compliance(file_path, {"produto": profile["name"]})
             results["V07_cores"] = v07
             if v07.get("status") == "REPROVADO":
-                erros.append("E006_RGB_COLORSPACE")
+                erros.append("E006_COLOR_FAILURE")
         except Exception as exc:
             logger.error(f"V-07 failed: {exc}")
+
+        # V-08: ICC Profile & OutputIntent (GWG Rigoroso)
+        try:
+            from agentes.operarios.shared_tools.gwg.icc_checker import check_icc
+            v08 = check_icc(file_path)
+            results["V08_icc"] = v08
+            codigo_icc = v08.get("codigo")
+            if codigo_icc:
+                if codigo_icc.startswith("E_"):
+                    erros.append(codigo_icc)
+                else:
+                    avisos.append(codigo_icc)
+        except Exception as exc:
+            logger.error(f"V-08 failed: {exc}")
+
+        # V-09: Overprint & OPM (GWG 5.0)
+        try:
+            from agentes.operarios.shared_tools.gwg.opm_checker import check_opm
+            v09 = check_opm(file_path)
+            results["V09_opm"] = v09
+            codigo_opm = v09.get("codigo")
+            if codigo_opm:
+                if codigo_opm.startswith("E_"):
+                    erros.append(codigo_opm)
+                else:
+                    avisos.append(codigo_opm)
+        except Exception as exc:
+            logger.error(f"V-09 failed: {exc}")
 
         # Calculate status
         from agentes.validador.agent import calcular_status_final
@@ -120,7 +157,7 @@ class OperarioEditoriais:
         return TechnicalReport(
             job_id=payload.job_id,
             agent=AGENT_NAME,
-            produto_detectado="Publicação Editorial",
+            produto_detectado=f"Editorial ({profile['name']})",
             status=status,
             erros_criticos=erros,
             avisos=avisos,

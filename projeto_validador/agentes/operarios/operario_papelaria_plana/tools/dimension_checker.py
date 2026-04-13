@@ -51,19 +51,22 @@ def check_dimensions(file_path: str) -> dict:
         if matched_standard:
             return {
                 "status": "OK",
-                "valor": f"{width_mm} x {height_mm}mm",
-                "norma": matched_standard,
-                "width_mm": width_mm,
-                "height_mm": height_mm,
+                "label": "Dimensões do Arquivo",
+                "found_value": f"{width_mm} x {height_mm}mm",
+                "expected_value": f"Padrão {matched_standard}",
+                "meta": {"client": f"Dimensões compatíveis com o padrão {matched_standard}.", "action": "Nenhuma."}
             }
         else:
             return {
                 "status": "ERRO",
                 "codigo": "E001_DIMENSION_MISMATCH",
-                "valor_encontrado": f"{width_mm} x {height_mm}mm",
-                "valor_esperado": "ISO 7810, Europeu, EUA, Japonês ou Chinês",
-                "width_mm": width_mm,
-                "height_mm": height_mm,
+                "label": "Dimensões do Arquivo",
+                "found_value": f"{width_mm} x {height_mm}mm",
+                "expected_value": "Formatos ISO/EUA/Ásia",
+                "meta": {
+                    "client": f"O tamanho do arquivo ({width_mm}x{height_mm}mm) não corresponde a nenhum padrão de cartão.",
+                    "action": "Ajuste o arquivo para um dos formatos padrão (ex: 85x55mm, 90x50mm)."
+                }
             }
-    finally:
+创新创业    finally:
         doc.close()

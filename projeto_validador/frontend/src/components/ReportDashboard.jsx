@@ -96,13 +96,13 @@ const ReportDashboard = ({ report, onReset }) => {
     .filter(([, val]) => val && typeof val === 'object' && 'status' in val)
     .map(([key, val]) => ({
       id: key,
-      label: key.replace(/_/g, ' '),
+      label: val.label || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
       status: val.status || 'OK',
       code: val.error_code || val.codigo || key,
-      value: val.value_found || val.valor || '',
-      expected: val.value_expected || '',
+      value: val.found_value || val.value_found || val.valor || '',
+      expected: val.expected_value || val.value_expected || '',
       pages: Array.isArray(val.paginas) ? val.paginas : [],
-      meta: getErrorMeta(val.error_code || key, key.replace(/_/g,' ')),
+      meta: getErrorMeta(val.error_code || val.codigo || key, val.label || key.replace(/_/g,' ')),
     }));
 
   const totalChecks  = validationItems.length || 1;
@@ -156,10 +156,10 @@ const ReportDashboard = ({ report, onReset }) => {
 
     const rowsHTML = (items, color) => items.map(i => `
       <tr>
-        <td style="border-left:3px solid ${color};padding-left:10px">${i.meta.client}</td>
+        <td style="border-left:3px solid ${color};padding-left:10px">${i.label}</td>
         <td><code style="font-size:11px;color:#555">${i.code}</code></td>
-        <td>${i.value || '—'}</td>
-        <td>${i.expected || '—'}</td>
+        <td style="font-weight:700">${i.value || '—'}</td>
+        <td style="color:#64748b">${i.expected || '—'}</td>
         <td>${i.pages.length ? i.pages.map(p=>`Pág ${p}`).join(', ') : '—'}</td>
         <td style="font-size:11px;color:#555">${i.meta.action}</td>
       </tr>`).join('');
@@ -654,8 +654,8 @@ const ReportDashboard = ({ report, onReset }) => {
                       <p className="result-client-desc">{item.meta.client}</p>
                       {(item.value || item.expected) && (
                         <div className="result-details">
-                          {item.value    && <div className="detail"><span>Encontrado:</span> {item.value}</div>}
-                          {item.expected && <div className="detail"><span>Esperado:</span>   {item.expected}</div>}
+                          <div className="detail"><span>Encontrado:</span> {item.value || '—'}</div>
+                          <div className="detail"><span>Esperado:</span>   {item.expected || '—'}</div>
                         </div>
                       )}
                       {item.pages?.length > 0 && (

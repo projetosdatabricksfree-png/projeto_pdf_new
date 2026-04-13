@@ -105,13 +105,17 @@ class OperarioCortesEspeciais:
         except Exception as exc:
             results["V10_devicen"] = {"status": "OK", "detalhe": str(exc)}
 
-        # V-11: ICC Profile & OutputIntent (GWG)
+        # V-11: ICC Profile & OutputIntent (GWG Rigoroso)
         try:
             from agentes.operarios.shared_tools.gwg.icc_checker import check_icc
             v11 = check_icc(file_path)
             results["V11_icc"] = v11
-            if v11.get("codigo"):
-                avisos.append(v11["codigo"])
+            codigo_icc = v11.get("codigo")
+            if codigo_icc:
+                if codigo_icc.startswith("E_"):
+                    erros.append(codigo_icc)
+                else:
+                    avisos.append(codigo_icc)
         except Exception as exc:
             results["V11_icc"] = {"status": "OK", "detalhe": str(exc)}
 

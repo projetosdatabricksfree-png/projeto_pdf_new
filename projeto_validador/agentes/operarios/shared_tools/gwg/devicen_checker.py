@@ -147,11 +147,16 @@ def check_devicen(file_path: str) -> dict[str, Any]:
 
     unique_spots = sorted(set(spot_colours))
     has_errors = any(i["severity"] == "ERRO" for i in conversion_issues)
+    
+    found_str = f"{len(unique_spots)} cores spot: {', '.join(unique_spots[:3])}" + ("..." if len(unique_spots)>3 else "") if unique_spots else "Nenhuma cor spot"
+    expected_str = "AlternateSpace != RGB"
 
     if has_errors:
         return {
             "status": "ERRO",
             "codigo": "E_DEVICEN_CONV",
+            "found_value": "AlternateSpace RGB Detectado",
+            "expected_value": expected_str,
             "descricao": (
                 f"Conversão acidental de DeviceN/Separation para AlternateSpace RGB detectada "
                 f"em {sum(1 for i in conversion_issues if i['severity'] == 'ERRO')} espaço(s)"
@@ -165,6 +170,8 @@ def check_devicen(file_path: str) -> dict[str, Any]:
         return {
             "status": "AVISO",
             "codigo": "W_DEVICEN_CMYK_ALT",
+            "found_value": "AlternateSpace CMYK",
+            "expected_value": expected_str,
             "descricao": "DeviceN com AlternateSpace CMYK detectado — verificar fidelidade das cores spot",
             "spot_colours": unique_spots,
             "conversion_issues": conversion_issues,
@@ -173,6 +180,8 @@ def check_devicen(file_path: str) -> dict[str, Any]:
 
     return {
         "status": "OK",
+        "found_value": found_str,
+        "expected_value": expected_str,
         "spot_colours": unique_spots,
         "spaces_found": len(spaces_found),
         "conversion_issues": [],

@@ -19,17 +19,8 @@ TIMEOUT_MS: int = 180_000
 
 
 class OperarioPapelariaPlana:
-    """Validator agent for small-format stationery (cards, badges)."""
-
-    def processar(self, payload: RoutingPayload) -> TechnicalReport:
-        """Execute all validations and produce a TechnicalReport.
-
-        Args:
-            payload: RoutingPayload from the Gerente.
-
-        Returns:
-            TechnicalReport with all check results.
-        """
+    """Validator agent for small-format stationery (cards, badges).""    def processar(self, payload: RoutingPayload) -> TechnicalReport:
+        """Execute all validations and produce a TechnicalReport dinamically."""
         start = time.time()
         erros_criticos: list[str] = []
         avisos: list[str] = []
@@ -38,57 +29,45 @@ class OperarioPapelariaPlana:
         paginas_com_erro: list[int] = []
 
         file_path = payload.file_path
+        
+        # 0. Carregamento de Perfil GWG Dinâmico
+        from agentes.operarios.shared_tools.gwg.profile_matcher import (
+            get_gwg_profile, identify_profile_by_metadata
+        )
+        profile_key = identify_profile_by_metadata({"produto": payload.produto_detectado or "Papelaria Plana"})
+        profile = get_gwg_profile(profile_key)
+        
+        logger.info(f"[{AGENT_NAME}] Usando perfil dinâmico: {profile['name']}")
 
-        # V-01: Dimensions
+        # V-01 & V-02: Geometria Profunda (GWG Standard)
         try:
-            from agentes.operarios.operario_papelaria_plana.tools.dimension_checker import (
-                check_dimensions,
-            )
-            v01 = check_dimensions(file_path)
-            validation_results["V01_dimensoes"] = v01
-            if v01.get("codigo"):
-                erros_criticos.append(v01["codigo"])
-            if v01.get("width_mm") and v01.get("height_mm"):
-                dimensoes_mm = {"width": v01["width_mm"], "height": v01["height_mm"]}
+            from agentes.operarios.shared_tools.gwg.geometry_checker import check_geometry
+            geo_results = check_geometry(file_path)
+            # Pegamos os resultados da primeira página como referência para o job
+            if geo_results:
+                for check in geo_results[0]["checks"]:
+                    key = f"V01_{check['label'].lower().replace(' ', '_')}"
+                    validation_results[key] = check
+                    if check["status"] == "ERRO":
+                        erros_criticos.append(check.get("codigo", "E_GEO_ERR"))
+                    elif check["status"] == "AVISO":
+                        avisos.append(check.get("codigo", "W_GEO_WARN"))
         except Exception as exc:
-            logger.error(f"V-01 failed: {exc}")
-            validation_results["V01_dimensoes"] = {"status": "ERRO", "detalhe": str(exc)}
+            logger.error(f"Geometria falhou: {exc}")
 
-        # V-02: Bleed
-        try:
-            from agentes.operarios.operario_papelaria_plana.tools.bleed_checker import (
-                check_bleed,
-            )
-            v02 = check_bleed(file_path)
-            validation_results["V02_sangria"] = v02
-            if v02.get("codigo"):
-                code = v02["codigo"]
-                if code.startswith("E"):
-                    erros_criticos.append(code)
-                elif code.startswith("W"):
-                    avisos.append(code)
-        except Exception as exc:
-            logger.error(f"V-02 failed: {exc}")
-            validation_results["V02_sangria"] = {"status": "ERRO", "detalhe": str(exc)}
-
-        # V-03: Safety Margin
+        # V-03: Safety Margin (Domínio Específico do Operário)
         try:
             from agentes.operarios.operario_papelaria_plana.tools.bleed_checker import (
                 check_safety_margin,
             )
             v03 = check_safety_margin(file_path)
             validation_results["V03_margem_seguranca"] = v03
-            if v03.get("codigo"):
-                code = v03["codigo"]
-                if code.startswith("E"):
-                    erros_criticos.append(code)
-                elif code.startswith("W"):
-                    avisos.append(code)
+            if v03.get("status") == "ERRO":
+                erros_criticos.append(v03.get("codigo", "E003_SAFETY_MARGIN"))
         except Exception as exc:
             logger.error(f"V-03 failed: {exc}")
-            validation_results["V03_margem_seguranca"] = {"status": "ERRO", "detalhe": str(exc)}
 
-        # V-04: Resolution (via ExifTool)
+        # V-04: Resolução Dinâmica (Baseada no Perfil)
         try:
             from agentes.gerente.tools.exiftool_reader import (
                 extract_metadata,
@@ -97,110 +76,92 @@ class OperarioPapelariaPlana:
             metadata = extract_metadata(file_path)
             x_dpi, y_dpi = get_resolution_dpi(metadata)
             min_dpi = min(x_dpi, y_dpi) if x_dpi > 0 and y_dpi > 0 else 0
+            
+            min_required = profile["min_image_resolution"]
 
-            if min_dpi > 0 and min_dpi < 300:
+            if 0 < min_dpi < min_required:
                 validation_results["V04_resolucao"] = {
                     "status": "ERRO",
                     "codigo": "E005_LOW_RESOLUTION",
-                    "valor_encontrado": f"{min_dpi} DPI",
-                    "valor_esperado": "≥ 300 DPI",
+                    "label": "Resolução de Imagem",
+                    "found_value": f"{min_dpi} DPI",
+                    "expected_value": f">= {min_required} DPI",
+                    "meta": {
+                        "client": "Resolução insuficiente para o processo de impressão selecionado.",
+                        "action": "Utilize imagens com maior resolução ou reduza o tamanho da imagem na arte."
+                    }
                 }
                 erros_criticos.append("E005_LOW_RESOLUTION")
-            elif 300 <= min_dpi < 350:
-                validation_results["V04_resolucao"] = {
-                    "status": "AVISO",
-                    "codigo": "W003_BORDERLINE_RESOLUTION",
-                    "valor": f"{min_dpi} DPI",
-                }
-                avisos.append("W003_BORDERLINE_RESOLUTION")
             else:
                 validation_results["V04_resolucao"] = {
                     "status": "OK",
-                    "valor": f"{min_dpi} DPI" if min_dpi > 0 else "N/A",
+                    "label": "Resolução de Imagem",
+                    "found_value": f"{min_dpi} DPI" if min_dpi > 0 else "N/A (Vetorial)",
+                    "expected_value": f">= {min_required} DPI",
+                    "meta": {"client": "Resolução adequada.", "action": "Nenhuma."}
                 }
         except Exception as exc:
             logger.warning(f"V-04 failed: {exc}")
-            validation_results["V04_resolucao"] = {"status": "OK", "valor": "N/A"}
 
-        # GWG CORE VALIDATIONS (Shared)
-        
-        # V-00a: Color Space & TAC
+        # V-05: Espaço de Cor & TAC (GWG Dinâmico)
         try:
             from agentes.operarios.shared_tools.gwg.color_checker import check_color_compliance
-            v00a = check_color_compliance(file_path)
-            validation_results["V05_espaco_cor"] = v00a
-            if v00a.get("status") == "REPROVADO":
-                erros_criticos.append("E006_RGB_COLORSPACE")
+            v05 = check_color_compliance(file_path, {"produto": profile["name"]})
+            validation_results["V05_cor_tac"] = v05
+            if v05.get("status") == "REPROVADO":
+                erros_criticos.append("E006_COLOR_FAILURE")
         except Exception as exc:
-            logger.error(f"V-00a failed: {exc}")
+            logger.error(f"V-05 failed: {exc}")
 
-        # V-00b: Fonts (GWG Embedding)
+        # V-07: Fontes (GWG Embedding)
         try:
             from agentes.operarios.shared_tools.gwg.font_checker import check_fonts_gwg
-            v00b = check_fonts_gwg(file_path)
-            validation_results["V07_fontes"] = v00b
-            if v00b.get("status") == "ERRO":
-                erros_criticos.append(v00b["codigo"])
+            v07 = check_fonts_gwg(file_path)
+            validation_results["V07_fontes"] = v07
+            if v07.get("status") == "ERRO":
+                erros_criticos.append(v07.get("codigo", "E004_FONT_NOT_EMBEDDED"))
         except Exception as exc:
-            logger.error(f"V-00b failed: {exc}")
+            logger.error(f"V-07 failed: {exc}")
 
-        # V-00c: Overprint (OPM)
+        # V-00c: Overprint & OPM (GWG 5.0)
         try:
             from agentes.operarios.shared_tools.gwg.opm_checker import check_opm
             v00c = check_opm(file_path)
             validation_results["V00c_overprint"] = v00c
-            if v00c.get("status") == "ERRO":
-                erros_criticos.append(v00c.get("codigo", "E_OPM_WRONG"))
+            codigo_opm = v00c.get("codigo")
+            if codigo_opm:
+                if codigo_opm.startswith("E_"):
+                    erros_criticos.append(codigo_opm)
+                else:
+                    avisos.append(codigo_opm)
         except Exception as exc:
             logger.error(f"V-00c failed: {exc}")
 
-        # V-08: NFC Zone (ID-1 only)
+        # V-00d: ICC Profile & OutputIntent (GWG Rigoroso)
         try:
-            from agentes.operarios.operario_papelaria_plana.tools.font_checker import (
-                check_nfc_zone,
-            )
-            w = dimensoes_mm.get("width", 0) if dimensoes_mm else 0
-            h = dimensoes_mm.get("height", 0) if dimensoes_mm else 0
-            v08 = check_nfc_zone(file_path, w, h)
-            validation_results["V08_nfc_zone"] = v08
-            if v08.get("codigo"):
-                erros_criticos.append(v08["codigo"])
+            from agentes.operarios.shared_tools.gwg.icc_checker import check_icc
+            v00d = check_icc(file_path)
+            validation_results["V00d_icc"] = v00d
+            codigo_icc = v00d.get("codigo")
+            if codigo_icc:
+                if codigo_icc.startswith("E_"):
+                    erros_criticos.append(codigo_icc)
+                else:
+                    avisos.append(codigo_icc)
         except Exception as exc:
-            logger.warning(f"V-08 failed: {exc}")
-            validation_results["V08_nfc_zone"] = {"status": "N/A", "detalhe": str(exc)}
+            logger.error(f"V-00d failed: {exc}")
 
-        # V-09: Hairlines
-        try:
-            from agentes.operarios.operario_papelaria_plana.tools.font_checker import (
-                check_hairlines,
-            )
-            v09 = check_hairlines(file_path)
-            validation_results["V09_espessura_linha"] = v09
-            if v09.get("codigo"):
-                code = v09["codigo"]
-                if code.startswith("E"):
-                    erros_criticos.append(code)
-                elif code.startswith("W"):
-                    avisos.append(code)
-        except Exception as exc:
-            logger.warning(f"V-09 failed: {exc}")
-            validation_results["V09_espessura_linha"] = {"status": "OK", "valor": "N/A"}
-
-        # Calculate status
+        # Calculate status final
         from agentes.validador.agent import calcular_status_final
-        status = calcular_status_final(erros_criticos, avisos)
+        status_final = calcular_status_final(erros_criticos, avisos)
 
         elapsed_ms = int((time.time() - start) * 1000)
-
-        # Detect product name
-        norma = validation_results.get("V01_dimensoes", {}).get("norma", "Formato Personalizado")
-        produto_detectado = f"Cartão de Visita — {norma}" if norma else "Papelaria Plana"
 
         return TechnicalReport(
             job_id=payload.job_id,
             agent=AGENT_NAME,
-            produto_detectado=produto_detectado,
-            status=status,
+            produto_detectado=f"{payload.produto_detectado or 'Papelaria Plana'} ({profile['name']})",
+            status=status_final,
             erros_criticos=erros_criticos,
             avisos=avisos,
             validation_results=validation_results,

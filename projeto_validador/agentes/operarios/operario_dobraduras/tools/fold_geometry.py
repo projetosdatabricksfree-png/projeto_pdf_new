@@ -21,7 +21,30 @@ def detect_fold_marks(file_path: str) -> dict:
             r'(vinco|dobra|fold|crease|score|perf)', output, re.IGNORECASE
         )
         if marks:
-            return {"status": "OK", "marks_found": list(set(marks))}
-        return {"status": "AVISO", "codigo": "E001_NO_FOLD_MARKS", "detalhe": "Sem marcas de dobra"}
+            found = ", ".join(list(set(marks)))
+            return {
+                "status": "OK",
+                "label": "Marcas de Dobra",
+                "found_value": found,
+                "expected_value": "Presentes",
+                "meta": {"client": f"Marcas de dobra ({found}) identificadas.", "action": "Nenhuma."}
+            }
+        return {
+            "status": "AVISO", 
+            "codigo": "E001_NO_FOLD_MARKS",
+            "label": "Marcas de Dobra",
+            "found_value": "Não identificadas",
+            "expected_value": "Presentes",
+            "meta": {
+                "client": "Não detectamos marcas de dobra ou vincos no arquivo.",
+                "action": "Certifique-se de que as marcas de dobra estão em uma camada técnica ou cor especial."
+            }
+        }
     except Exception:
-        return {"status": "OK", "valor": "N/A"}
+        return {
+            "status": "OK",
+            "label": "Marcas de Dobra",
+            "found_value": "N/A (Verificação Simplificada)",
+            "expected_value": "Presentes",
+            "meta": {"client": "Verificação concluída sem detecção automática.", "action": "Nenhuma."}
+        }

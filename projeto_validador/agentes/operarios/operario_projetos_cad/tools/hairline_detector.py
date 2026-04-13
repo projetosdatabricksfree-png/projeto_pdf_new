@@ -45,13 +45,31 @@ def detect_hairlines(doc: fitz.Document) -> dict:
             return {
                 "status": "ERRO",
                 "codigo": "E002_HAIRLINE_DETECTED",
-                "total": len(hairlines),
-                "exemplos": hairlines[:5],
+                "label": "Espessura de Linha (CAD)",
+                "found_value": f"{hairlines[0]['width_pt']}pt",
+                "expected_value": f"≥ {MIN_WIDTH_PT}pt",
+                "paginas": list(set(h["page"] for h in hairlines)),
+                "meta": {
+                    "client": f"Linhas muito finas ({hairlines[0]['width_pt']}pt) detectadas, que podem sumir na plotagem.",
+                    "action": "Aumente a espessura das linhas para pelo menos 0.25pt."
+                }
             }
-        return {"status": "OK", "valor": f"Todas as linhas ≥ {MIN_WIDTH_PT}pt"}
+        return {
+            "status": "OK",
+            "label": "Espessura de Linha (CAD)",
+            "found_value": "Adequada",
+            "expected_value": f"≥ {MIN_WIDTH_PT}pt",
+            "meta": {"client": "Todas as linhas possuem espessura adequada.", "action": "Nenhuma."}
+        }
     except Exception as exc:
         return {
             "status": "AVISO",
             "codigo": "W003_HAIRLINE_CHECK_FAILED",
-            "detalhe": f"Análise de vetores interrompida: {str(exc)}"
+            "label": "Espessura de Linha (CAD)",
+            "found_value": "Falha na análise",
+            "expected_value": f"≥ {MIN_WIDTH_PT}pt",
+            "meta": {
+                "client": "Não foi possível validar as espessuras de linha neste arquivo.",
+                "action": "Verifique manualmente se há linhas muito finas."
+            }
         }

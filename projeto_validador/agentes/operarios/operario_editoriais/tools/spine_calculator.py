@@ -38,9 +38,12 @@ def check_spine_width(file_path: str, gramatura_gsm: int = 90) -> dict:
 
         return {
             "status": "OK",
+            "found_value": f"{lombada_calculada}mm",
+            "expected_value": f"{lombada_calculada}mm",
             "page_count": page_count,
             "lombada_calculada_mm": lombada_calculada,
             "gramatura_gsm": gramatura_gsm,
+            "detalhe": f"Cálculo: ({page_count}/2) x ({ESPESSURA_POR_GRAMATURA.get(gramatura_gsm, 100)}µm / 1000)"
         }
     finally:
         doc.close()

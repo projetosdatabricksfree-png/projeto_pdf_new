@@ -133,6 +133,8 @@ def check_fonts_gwg(file_path: str) -> dict[str, Any]:
         return {
             "status": "ERRO",
             "codigo": "E008_NON_EMBEDDED_FONTS",
+            "found_value": f"{len(non_embedded)} fonte(s) não incorporada(s)",
+            "expected_value": "100% das fontes incorporadas",
             "descricao": f"{len(non_embedded)} fonte(s) não incorporada(s) detectada(s)",
             "non_embedded": [f["name"] for f in non_embedded],
             "non_embedded_detail": non_embedded,
@@ -144,6 +146,8 @@ def check_fonts_gwg(file_path: str) -> dict[str, Any]:
         return {
             "status": "AVISO",
             "codigo": "W_COURIER_SUBSTITUTION",
+            "found_value": f"{len(courier_subs)} substituição(ões) por Courier",
+            "expected_value": "Fontes originais (sem substituição)",
             "descricao": (
                 f"{len(courier_subs)} fonte(s) substituída(s) por Courier — "
                 "fontes originais podem estar em falta"
@@ -156,6 +160,8 @@ def check_fonts_gwg(file_path: str) -> dict[str, Any]:
 
     return {
         "status": "OK",
+        "found_value": "100% das fontes incorporadas",
+        "expected_value": "100% das fontes incorporadas",
         "non_embedded": [],
         "courier_substitutions": [],
         "font_summary": font_summary,
@@ -194,11 +200,22 @@ def check_hairlines(file_path: str, min_width_pt: float = 0.25) -> dict[str, Any
             return {
                 "status": "ERRO",
                 "codigo": "E010_HAIRLINE_DETECTED",
-                "valor_encontrado": f"{hairlines[0]['width_pt']}pt",
-                "valor_esperado": f"≥ {min_width_pt}pt",
-                "detalhes": hairlines[:5],
+                "label": "Espessura de Linha (Hairline)",
+                "found_value": f"{hairlines[0]['width_pt']}pt",
+                "expected_value": f"≥ {min_width_pt}pt",
+                "paginas": list(set(h["page"] for h in hairlines)),
+                "meta": {
+                    "client": f"Linhas muito finas ({hairlines[0]['width_pt']}pt) detectadas.",
+                    "action": "Aumente a espessura das linhas para pelo menos 0.25pt."
+                }
             }
-        return {"status": "OK", "valor": f"Todas as linhas ≥ {min_width_pt}pt"}
+        return {
+            "status": "OK",
+            "label": "Espessura de Linha (Hairline)",
+            "found_value": "Adequada",
+            "expected_value": f"≥ {min_width_pt}pt",
+            "meta": {"client": "Todas as linhas possuem espessura adequada.", "action": "Nenhuma."}
+        }
 
     finally:
         doc.close()

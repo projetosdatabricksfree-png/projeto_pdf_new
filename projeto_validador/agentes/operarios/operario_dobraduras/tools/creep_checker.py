@@ -30,14 +30,20 @@ def check_creep_compensation(file_path: str) -> dict:
                 return {
                     "status": "ERRO",
                     "codigo": "E002_CREEP_COMPENSATION_MISSING",
-                    "valor_encontrado": f"Diferença: {round(diff, 2)}mm",
-                    "valor_esperado": "2-3mm",
-                    "panel_widths": page_widths,
+                    "label": "Compensação de Dobra (Creep)",
+                    "found_value": f"Diferença: {round(diff, 2)}mm",
+                    "expected_value": "2-3mm",
+                    "meta": {
+                        "client": "A compensação de dobra detectada é insuficiente.",
+                        "action": "Ajuste o painel interno para ser 2-3mm menor que os externos."
+                    }
                 }
             return {
                 "status": "OK",
-                "valor": f"Diferença: {round(diff, 2)}mm",
-                "panel_widths": page_widths,
+                "label": "Compensação de Dobra (Creep)",
+                "found_value": f"Diferença: {round(diff, 2)}mm",
+                "expected_value": "2-3mm",
+                "meta": {"client": "Compensação de dobra adequada.", "action": "Nenhuma."}
             }
 
         # For other fold types, check for uniform width (no compensation)

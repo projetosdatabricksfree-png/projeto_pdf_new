@@ -34,7 +34,8 @@ def check_gutter(file_path: str) -> dict:
             else:  # Odd page (frente)
                 gutter_mm = (mediabox.x1 - artbox.x1) * 25.4 / 72
 
-            if gutter_mm < GUTTER_MIN_MM:
+            # GWG 2015/2022 Rounding Tolerance (Rule: ±0.01mm)
+            if gutter_mm < (GUTTER_MIN_MM - 0.01):
                 violations.append({
                     "page": i + 1,
                     "gutter_mm": round(gutter_mm, 2),
@@ -43,13 +44,24 @@ def check_gutter(file_path: str) -> dict:
         if violations:
             return {
                 "status": "ERRO",
+                "label": "Invasão de Lombada (Gutter)",
                 "codigo": "E002_GUTTER_INVASION",
-                "valor_encontrado": f"{violations[0]['gutter_mm']}mm",
-                "valor_esperado": f"≥ {GUTTER_MIN_MM}mm",
+                "found_value": f"{violations[0]['gutter_mm']}mm",
+                "expected_value": f">= {GUTTER_MIN_MM}mm",
                 "paginas": [v["page"] for v in violations],
+                "meta": {
+                    "client": "Margem de segurança da lombada invadida.",
+                    "action": "Aumente o recuo interno (gutter) para pelo menos 10mm."
+                }
             }
 
-        return {"status": "OK", "valor": f"≥ {GUTTER_MIN_MM}mm"}
+        return {
+            "status": "OK",
+            "label": "Invasão de Lombada (Gutter)",
+            "found_value": "Margem Segura (>= 10mm)",
+            "expected_value": ">= 10mm",
+            "meta": {"client": "Margem interna adequada.", "action": "Nenhuma."}
+        }
 
     finally:
         doc.close()

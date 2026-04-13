@@ -173,19 +173,26 @@ def check_icc(file_path: str) -> dict[str, Any]:
 
     if not has_output_intent:
         return {
-            "status": "AVISO",
-            "codigo": "W_NO_OUTPUT_INTENT",
-            "descricao": "Nenhum OutputIntent encontrado — PDF/X-4 exige OutputIntent para conformidade GWG",
+            "status": "ERRO",
+            "codigo": "E_NO_OUTPUT_INTENT",
+            "found_value": "Ausente",
+            "expected_value": "Obrigatorio (PDF/X-4)",
+            "descricao": "Nenhum OutputIntent encontrado — PDF/X-4 exige obrigatoriamente um perfil de saída para conformidade GWG",
             "output_intents": [],
             "icc_spaces": len(icc_spaces),
             "has_output_intent": False,
             "icc_v4_detected": icc_v4_detected,
         }
 
+    # Extract name of the first output intent for the 'found_value'
+    oi_name = output_intents[0].get("output_condition", "Desconhecido") if output_intents else "Detectado"
+
     if icc_v4_detected:
         return {
             "status": "AVISO",
             "codigo": "W_ICC_V4",
+            "found_value": f"{oi_name} (ICC v4)",
+            "expected_value": "ICC v2 (Recomendado)",
             "descricao": "Perfil ICC versão 4 detectado — RIPs antigos podem rejeitar este perfil",
             "output_intents": output_intents,
             "icc_spaces": len(icc_spaces),
@@ -195,6 +202,8 @@ def check_icc(file_path: str) -> dict[str, Any]:
 
     return {
         "status": "OK",
+        "found_value": f"{oi_name} (ICC v2)",
+        "expected_value": "PDF/X-4 Output Intent",
         "output_intents": output_intents,
         "icc_spaces": len(icc_spaces),
         "has_output_intent": True,

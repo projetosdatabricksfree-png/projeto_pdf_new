@@ -360,8 +360,8 @@ MESSAGES: dict[str, dict[str, dict[str, str]]] = {
             "acao": "Achate as transparências ou confirme que o fluxo de impressão suporta PDF/X-4 com transparência.",
         },
         # ─── GWG Output Suite 5.0 — Perfis ICC ──────────────────────
-        "W_NO_OUTPUT_INTENT": {
-            "titulo": "⚠️ OutputIntent Ausente",
+        "E_NO_OUTPUT_INTENT": {
+            "titulo": "❌ OutputIntent Ausente",
             "descricao": "O arquivo não possui OutputIntent no catálogo PDF. Para conformidade com PDF/X-4 e GWG, um OutputIntent com perfil ICC é obrigatório.",
             "acao": "Re-exporte o PDF com um OutputIntent adequado (ex: ISO Coated v2 300% / FOGRA39).",
         },

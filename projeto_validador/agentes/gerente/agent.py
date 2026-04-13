@@ -173,6 +173,16 @@ class AgenteGerente:
             f"(confidence={confidence}, reason={reason})"
         )
 
+        # Mapping reasons to human product names for GWG profile selection
+        product_map = {
+            "LARGE_FORMAT_CAD": "Projeto CAD",
+            "SMALL_FORMAT_CARD": "Papelaria Plana",
+            "MULTIPAGE_EDITORIAL": "Editorial",
+            "PANORAMIC_FOLD": "Dobraduras",
+            "SMALL_IRREGULAR_CUT": "Cortes Especiais",
+        }
+        detected_p = product_map.get(reason, "Digital / Genérico")
+
         return RoutingPayload(
             job_id=job_payload.job_id,
             file_path=job_payload.file_path,
@@ -183,6 +193,7 @@ class AgenteGerente:
             metadata_snapshot=metadata_snapshot,
             client_locale=job_payload.client_locale,
             job_metadata=job_metadata,
+            produto_detectado=detected_p
         )
 
     @staticmethod

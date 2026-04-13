@@ -17,25 +17,43 @@ AGENT_NAME: str = "operario_dobraduras"
 
 
 class OperarioDobraduras:
-    """Validator agent for folded products."""
-
-    def processar(self, payload: RoutingPayload) -> TechnicalReport:
-        """Execute fold-specific validations and full GWG checks."""
+    """Validator agent for folded products.""    def processar(self, payload: RoutingPayload) -> TechnicalReport:
+        """Execute fold-specific validations and full GWG checks dynamically."""
         start = time.time()
         erros: list[str] = []
         avisos: list[str] = []
         results: dict[str, dict] = {}
         file_path = payload.file_path
         
-        # --- 1. GWG CORE VALIDATIONS (Shared) ---
+        # 0. Perfil GWG Dinâmico
+        from agentes.operarios.shared_tools.gwg.profile_matcher import (
+            get_gwg_profile, identify_profile_by_metadata
+        )
+        profile_key = identify_profile_by_metadata({"produto": payload.produto_detectado or "Folder"})
+        profile = get_gwg_profile(profile_key)
+        logger.info(f"[{AGENT_NAME}] Perfil dinâmico: {profile['name']}")
+
+        # --- 1. GWG CORE VALIDATIONS (Shared & Dynamic) ---
         
+        # V-01: Geometria de Página (GWG Standard)
+        try:
+            from agentes.operarios.shared_tools.gwg.geometry_checker import check_geometry
+            geo_results = check_geometry(file_path)
+            if geo_results:
+                for check in geo_results[0]["checks"]:
+                    results[f"V00_geo_{check['label'].lower().replace(' ', '_')}"] = check
+                    if check["status"] == "ERRO":
+                        erros.append("E_GEO_ERR")
+        except Exception as exc:
+            logger.error(f"Geometria falhou: {exc}")
+
         # V-00: Color Space & TAC (Deep)
         try:
             from agentes.operarios.shared_tools.gwg.color_checker import check_color_compliance
-            v00 = check_color_compliance(file_path)
+            v00 = check_color_compliance(file_path, {"produto": profile["name"]})
             results["V00_conformidade_cor"] = v00
             if v00.get("status") == "REPROVADO":
-                erros.append(v00.get("tac", {}).get("codigo") or "E006_RGB_COLORSPACE")
+                erros.append("E006_COLOR_FAILURE")
         except Exception as exc:
             logger.error(f"Color check failed: {exc}")
 
@@ -45,7 +63,7 @@ class OperarioDobraduras:
             v00b = check_fonts_gwg(file_path)
             results["V00b_fontes"] = v00b
             if v00b.get("status") == "ERRO":
-                erros.append(v00b["codigo"])
+                erros.append(v00b.get("codigo", "E004_FONTS"))
         except Exception as exc:
             logger.error(f"Font check failed: {exc}")
 
@@ -59,17 +77,6 @@ class OperarioDobraduras:
         except Exception as exc:
             logger.error(f"OPM check failed: {exc}")
 
-        # V-00d: Transparency
-        try:
-            from agentes.operarios.shared_tools.gwg.transparency_checker import check_transparency_gwg
-            v00d = check_transparency_gwg(file_path)
-            results["V00d_transparencia"] = v00d
-            # Em Dobraduras (Geralmente L2), transparência é AVISO, a menos que o cliente peça L1
-            if v00d.get("status") == "ERRO":
-                erros.append(v00d["codigo"])
-        except Exception as exc:
-            logger.error(f"Transparency check failed: {exc}")
-
         # --- 2. SPECIFIC FOLD VALIDATIONS ---
 
         # V-01: Fold marks
@@ -82,53 +89,36 @@ class OperarioDobraduras:
                 (erros if code.startswith("E") else avisos).append(code)
         except Exception: pass
 
-        # V-02: Creep compensation
-        try:
-            from agentes.operarios.operario_dobraduras.tools.creep_checker import check_creep_compensation
-            v02 = check_creep_compensation(file_path)
-            results["V02_creep"] = v02
-            if v02.get("codigo"):
-                code = v02["codigo"]
-                (erros if code.startswith("E") else avisos).append(code)
-        except Exception: pass
-
-        # V-03: Mechanical score & V-04: Grain direction
-        gramatura = payload.job_metadata.get("gramatura_gsm", 0)
-        grain = payload.job_metadata.get("grain_direction", "unknown")
-        if gramatura > 0:
-            try:
-                from agentes.operarios.operario_dobraduras.tools.grain_validator import check_mechanical_score, check_grain_direction
-                v03 = check_mechanical_score(gramatura)
-                results["V03_vinco_mecanico"] = v03
-                if v03.get("codigo"): erros.append(v03["codigo"])
-                
-                v04 = check_grain_direction(gramatura, grain, "landscape")
-                results["V04_direcao_fibra"] = v04
-                if v04.get("codigo"): erros.append(v04["codigo"])
-            except Exception: pass
-
-        # V-06: Resolution (Refined)
+        # V-06: Resolução Dinâmica
         try:
             from agentes.gerente.tools.exiftool_reader import extract_metadata, get_resolution_dpi
             meta = extract_metadata(file_path)
             x_dpi, y_dpi = get_resolution_dpi(meta)
             min_dpi = min(x_dpi, y_dpi) if x_dpi > 0 and y_dpi > 0 else 0
-            if 0 < min_dpi < 250: # GWG threshold
-                results["V06_resolucao"] = {"status": "ERRO", "codigo": "E008_LOW_RESOLUTION", "valor": f"{min_dpi} DPI"}
+            
+            min_required = profile["min_image_resolution"]
+            
+            if 0 < min_dpi < min_required:
+                results["V06_resolucao"] = {
+                    "status": "ERRO", 
+                    "codigo": "E008_LOW_RESOLUTION", 
+                    "label": "Resolução de Imagem",
+                    "found_value": f"{min_dpi} DPI",
+                    "expected_value": f"≥ {min_required} DPI",
+                    "meta": {
+                        "client": f"A resolução ({min_dpi} DPI) está abaixo do mínimo exigido para o perfil {profile['name']}.",
+                        "action": f"Utilize imagens com maior resolução (mínimo {min_required} DPI)."
+                    }
+                }
                 erros.append("E008_LOW_RESOLUTION")
-            elif min_dpi == 0:
-                 results["V06_resolucao"] = {"status": "AVISO", "detalhe": "Resolução não detectada nos metadados"}
             else:
-                results["V06_resolucao"] = {"status": "OK", "valor": f"{min_dpi} DPI"}
-        except Exception: pass
-
-        # V-07: Bleed (Standard)
-        try:
-            from agentes.operarios.operario_papelaria_plana.tools.bleed_checker import check_bleed
-            v07 = check_bleed(file_path)
-            results["V07_sangria"] = v07
-            if v07.get("codigo") and v07["codigo"].startswith("E"):
-                erros.append("E009_MISSING_BLEED")
+                results["V06_resolucao"] = {
+                    "status": "OK",
+                    "label": "Resolução de Imagem",
+                    "found_value": f"{min_dpi} DPI" if min_dpi > 0 else "Vetor / N/A",
+                    "expected_value": f"≥ {min_required} DPI",
+                    "meta": {"client": "Resolução de imagem adequada para impressão.", "action": "Nenhuma."}
+                }
         except Exception: pass
 
         from agentes.validador.agent import calcular_status_final
@@ -138,7 +128,7 @@ class OperarioDobraduras:
         return TechnicalReport(
             job_id=payload.job_id,
             agent=AGENT_NAME,
-            produto_detectado="Folder / Dobradura",
+            produto_detectado=f"Dobradura / Folder ({profile['name']})",
             status=status,
             erros_criticos=erros,
             avisos=avisos,

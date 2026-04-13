@@ -49,9 +49,10 @@ def check_bleed(file_path: str) -> dict:
         if min_bleed <= 0.01:
             result.update({
                 "status": "ERRO",
+                "label": "Configuração de Sangria",
                 "codigo": "E002_MISSING_BLEED",
-                "valor_encontrado": f"{avg_bleed}mm",
-                "valor_esperado": "2-3mm",
+                "found_value": "Ausente",
+                "expected_value": ">= 3.00mm",
             })
             return result
 
@@ -59,9 +60,10 @@ def check_bleed(file_path: str) -> dict:
         if min_bleed < 2.0:
             result.update({
                 "status": "ERRO",
+                "label": "Configuração de Sangria",
                 "codigo": "E003_INSUFFICIENT_BLEED",
-                "valor_encontrado": f"{round(min_bleed, 2)}mm",
-                "valor_esperado": "≥ 2mm",
+                "found_value": f"{round(min_bleed, 2)}mm",
+                "expected_value": ">= 2.00mm",
             })
             return result
 
@@ -69,16 +71,19 @@ def check_bleed(file_path: str) -> dict:
         if max_bleed > 3.0:
             result.update({
                 "status": "AVISO",
+                "label": "Configuração de Sangria",
                 "codigo": "W001_EXCESSIVE_BLEED",
-                "valor_encontrado": f"{round(max_bleed, 2)}mm",
-                "valor_esperado": "≤ 3mm",
+                "found_value": f"{round(max_bleed, 2)}mm",
+                "expected_value": "<= 3.00mm",
             })
             return result
 
         # Valid bleed
         result.update({
             "status": "OK",
-            "valor": f"{avg_bleed}mm",
+            "label": "Configuração de Sangria",
+            "found_value": f"{avg_bleed}mm",
+            "expected_value": "2-3mm",
         })
         return result
 
@@ -110,26 +115,30 @@ def check_safety_margin(file_path: str) -> dict:
 
         min_margin = min(margin_left, margin_right, margin_top, margin_bottom)
 
-        result: dict = {"min_margin_mm": round(min_margin, 2)}
+        result: dict = {
+            "min_margin_mm": round(min_margin, 2),
+            "label": "Margem de Segurança (Afastamento)"
+        }
 
         if min_margin < 3.0:
             result.update({
                 "status": "ERRO",
                 "codigo": "E004_INSUFFICIENT_SAFETY_MARGIN",
-                "valor_encontrado": f"{round(min_margin, 2)}mm",
-                "valor_esperado": "≥ 3mm",
+                "found_value": f"{round(min_margin, 2)}mm",
+                "expected_value": ">= 3.00mm",
             })
         elif min_margin < 3.5:
             result.update({
                 "status": "AVISO",
                 "codigo": "W002_TIGHT_SAFETY_MARGIN",
-                "valor_encontrado": f"{round(min_margin, 2)}mm",
-                "valor_esperado": "≥ 3.5mm ideal",
+                "found_value": f"{round(min_margin, 2)}mm",
+                "expected_value": ">= 3.50mm",
             })
         else:
             result.update({
                 "status": "OK",
-                "valor": f"{round(min_margin, 2)}mm",
+                "found_value": f"{round(min_margin, 2)}mm",
+                "expected_value": ">= 3.00mm",
             })
 
         return result

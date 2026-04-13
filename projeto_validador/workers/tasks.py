@@ -203,7 +203,15 @@ def task_process_especialista(self, routing_json: str) -> str:
         metadata=payload.metadata_snapshot,
     )
 
-    route_to = decision["route_to"]
+    # Mapping reasons to human product names
+    product_map = {
+        "SPOT_COLOR_FACA_DETECTED": "Cortes Especiais",
+        "VARIABLE_PAGE_WIDTHS_CREEP_DETECTED": "Dobraduras",
+        "EMBEDDED_FONTS_MULTIPAGE": "Editorial",
+        "PURE_VECTOR_LARGE_FORMAT": "Projeto CAD",
+    }
+    detected_p = product_map.get(decision["reason"], "Papelaria Plana")
+
     routing_result = RoutingPayload(
         job_id=payload.job_id,
         file_path=payload.file_path,
@@ -214,6 +222,7 @@ def task_process_especialista(self, routing_json: str) -> str:
         metadata_snapshot=payload.metadata_snapshot,
         client_locale=payload.client_locale,
         job_metadata=payload.job_metadata,
+        produto_detectado=detected_p
     )
     refined_routing_json = routing_result.model_dump_json()
 
@@ -328,19 +337,26 @@ async def _persist_final_report(
             checks_to_save = detalhes
 
         for check_code, detail in checks_to_save.items():
-            if isinstance(detail, dict):
-                await upsert_validation_result(
-                    db,
-                    job_id=job_id,
-                    agent_name="validador",
-                    check_code=check_code,
-                    check_name=detail.get("check_name", check_code),
-                    status=detail.get("status", "OK"),
-                    error_code=detail.get("error_code") or detail.get("codigo"),
-                    value_found=str(detail.get("value_found") or detail.get("valor", "")),
-                    value_expected=str(detail.get("value_expected") or ""),
-                    pages_affected=_pages_from_detail(detail),
-                )
+            # Handle both dicts (legacy) and Pydantic models (current)
+            if hasattr(detail, "model_dump"):
+                detail_dict = detail.model_dump()
+            elif isinstance(detail, dict):
+                detail_dict = detail
+            else:
+                continue
+
+            await upsert_validation_result(
+                db,
+                job_id=job_id,
+                agent_name="validador",
+                check_code=check_code,
+                check_name=detail_dict.get("label") or detail_dict.get("check_name") or check_code,
+                status=detail_dict.get("status", "OK"),
+                error_code=detail_dict.get("codigo") or detail_dict.get("error_code"),
+                value_found=str(detail_dict.get("found_value") or detail_dict.get("value_found") or detail_dict.get("valor", "")),
+                value_expected=str(detail_dict.get("expected_value") or detail_dict.get("value_expected") or ""),
+                pages_affected=_pages_from_detail(detail_dict),
+            )
 
         # Complete the job
         await complete_job(

@@ -36,9 +36,20 @@ class RoutingPayload(BaseModel):
     metadata_snapshot: dict = {}
     client_locale: str = "pt-BR"
     job_metadata: dict = {}  # gramatura, encadernação, etc.
+    produto_detectado: Optional[str] = None
 
 
 # ─── Operário → Validador (queue:validador) ──────────────────────────────────
+
+class ValidationResult(BaseModel):
+    """Standard audit result for a single validation check."""
+    status: str  # OK | REPROVADO | AVISO
+    codigo: Optional[str] = None
+    label: Optional[str] = None
+    found_value: Optional[str] = None
+    expected_value: Optional[str] = None
+    paginas: list[int] = []
+    meta: dict = {}
 
 class TechnicalReport(BaseModel):
     """Technical report produced by an Operário."""
@@ -48,7 +59,7 @@ class TechnicalReport(BaseModel):
     status: str  # computed by operário
     erros_criticos: list[str] = []
     avisos: list[str] = []
-    validation_results: dict[str, dict] = {}
+    validation_results: dict[str, ValidationResult] = {}
     processing_time_ms: int = 0
     timestamp: datetime = Field(default_factory=lambda: datetime.now())
     dimensoes_mm: Optional[dict] = None

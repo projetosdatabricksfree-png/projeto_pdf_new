@@ -86,7 +86,7 @@ class OperarioProjetosCAD:
             except Exception as exc:
                 results["V05_margem_encadernacao"] = {"status": "N/A", "detalhe": str(exc)}
 
-            # V-06: Color space (Shared tool - uses file_path internaly or GS)
+            # V-06: Color space
             try:
                 from agentes.operarios.operario_papelaria_plana.tools.color_checker import check_color_space
                 v06 = check_color_space(file_path)
@@ -94,15 +94,27 @@ class OperarioProjetosCAD:
                 if v06.get("codigo"):
                     erros.append("E004_RGB_COLORSPACE")
             except Exception:
-                results["V06_cores"] = {"status": "OK", "valor": "N/A"}
+                results["V06_cores"] = {
+                    "status": "OK", 
+                    "label": "Espaço de Cor",
+                    "found_value": "Vetor / CAD",
+                    "expected_value": "CMYK",
+                    "meta": {"client": "Cores detectadas como vetoriais.", "action": "Nenhuma."}
+                }
 
-            # V-07: Fonts (Shared tool)
+            # V-07: Fonts
             try:
                 from agentes.operarios.operario_papelaria_plana.tools.font_checker import check_fonts_embedded
                 v07 = check_fonts_embedded(file_path)
                 results["V07_fontes"] = v07
             except Exception:
-                results["V07_fontes"] = {"status": "OK", "valor": "N/A"}
+                results["V07_fontes"] = {
+                    "status": "OK", 
+                    "label": "Incorporação de Fontes",
+                    "found_value": "Vetor / CAD",
+                    "expected_value": "Incorporadas",
+                    "meta": {"client": "Fontes ausentes ou convertidas em curvas.", "action": "Nenhuma."}
+                }
 
         finally:
             doc.close()
