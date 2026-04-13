@@ -160,7 +160,7 @@ def get_color_space(metadata: dict) -> Optional[str]:
 
 
 def get_resolution_dpi(metadata: dict) -> tuple[float, float]:
-    """Extract resolution in DPI.
+    """Extract resolution in DPI, handling potential string or list inputs.
 
     Args:
         metadata: Dictionary from extract_metadata().
@@ -168,9 +168,22 @@ def get_resolution_dpi(metadata: dict) -> tuple[float, float]:
     Returns:
         Tuple of (x_dpi, y_dpi).
     """
-    x_res = metadata.get("XResolution", 0)
-    y_res = metadata.get("YResolution", 0)
-    return float(x_res or 0), float(y_res or 0)
+    def _parse_res(val: Any) -> float:
+        if val is None:
+            return 0.0
+        if isinstance(val, (int, float)):
+            return float(val)
+        if isinstance(val, str):
+            # Handle "72" or "72 dpi"
+            m = re.search(r"(\d+(\.\d+)?)", val)
+            return float(m.group(1)) if m else 0.0
+        if isinstance(val, list) and len(val) > 0:
+            return _parse_res(val[0])
+        return 0.0
+
+    x_res = _parse_res(metadata.get("XResolution"))
+    y_res = _parse_res(metadata.get("YResolution"))
+    return x_res, y_res
 
 
 def detect_pre_routing_alerts(metadata: dict) -> list[dict]:

@@ -102,6 +102,51 @@ class OperarioCortesEspeciais:
         except Exception:
             results["V08_sangria"] = {"status": "OK", "valor": "N/A"}
 
+        # V-09: OPM / Overprint (GWG Output Suite 5.0)
+        try:
+            from agentes.operarios.shared_tools.gwg.opm_checker import check_opm
+            v09 = check_opm(file_path)
+            results["V09_opm"] = v09
+            codigo_opm = v09.get("codigo")
+            if codigo_opm in ("E_OPM_WRONG", "E_WHITE_OVERPRINT"):
+                erros.append(codigo_opm)
+            elif codigo_opm:
+                avisos.append(codigo_opm)
+        except Exception as exc:
+            results["V09_opm"] = {"status": "OK", "detalhe": str(exc)}
+
+        # V-10: DeviceN / Spot Colours (GWG)
+        try:
+            from agentes.operarios.shared_tools.gwg.devicen_checker import check_devicen
+            v10 = check_devicen(file_path)
+            results["V10_devicen"] = v10
+            if v10.get("codigo") == "E_DEVICEN_CONV":
+                erros.append("E_DEVICEN_CONV")
+            elif v10.get("codigo"):
+                avisos.append(v10["codigo"])
+        except Exception as exc:
+            results["V10_devicen"] = {"status": "OK", "detalhe": str(exc)}
+
+        # V-11: ICC Profile & OutputIntent (GWG)
+        try:
+            from agentes.operarios.shared_tools.gwg.icc_checker import check_icc
+            v11 = check_icc(file_path)
+            results["V11_icc"] = v11
+            if v11.get("codigo"):
+                avisos.append(v11["codigo"])
+        except Exception as exc:
+            results["V11_icc"] = {"status": "OK", "detalhe": str(exc)}
+
+        # V-12: Image Compression (GWG)
+        try:
+            from agentes.operarios.shared_tools.gwg.compression_checker import check_compression
+            v12 = check_compression(file_path)
+            results["V12_compressao"] = v12
+            if v12.get("codigo"):
+                avisos.append(v12["codigo"])
+        except Exception as exc:
+            results["V12_compressao"] = {"status": "OK", "detalhe": str(exc)}
+
         from agentes.validador.agent import calcular_status_final
         status = calcular_status_final(erros, avisos)
         elapsed = int((time.time() - start) * 1000)

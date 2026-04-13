@@ -126,8 +126,22 @@ const ReportDashboard = ({ report, onReset }) => {
              <button className={activeLayout === 'split' ? 'active' : ''} onClick={() => setActiveLayout('split')}><Layout size={16}/></button>
              <button className={activeLayout === 'list' ? 'active' : ''} onClick={() => setActiveLayout('list')}><List size={16}/></button>
            </div>
-           <button className="btn btn-outline"><Download size={16} /> Relatório PDF</button>
-           <button className="btn btn-primary"><Printer size={16} /> Enviar p/ Impressão</button>
+           <motion.button 
+             whileHover={{ scale: 1.02 }}
+             whileTap={{ scale: 0.98 }}
+             className="btn btn-outline" 
+             onClick={() => window.open(`${window.location.origin}/api/v1/jobs/${job_id}/download-pdf`, '_blank')}
+           >
+             <Download size={16} /> Relatório PDF
+           </motion.button>
+           <motion.button 
+             whileHover={{ scale: 1.02 }}
+             whileTap={{ scale: 0.98 }}
+             className="btn btn-primary"
+             onClick={() => window.print()}
+           >
+             <Printer size={16} /> Enviar p/ Impressão
+           </motion.button>
         </div>
       </header>
 
@@ -410,6 +424,30 @@ const ReportDashboard = ({ report, onReset }) => {
           margin-bottom: 20px;
         }
         .btn-group { display: flex; gap: 12px; }
+        @media print {
+          .btn, .layout-picker, .btn-back, .previewer-panel, .decision-footer { 
+            display: none !important; 
+          }
+          .preflight-dashboard {
+            background: white !important;
+            color: black !important;
+            padding: 0;
+          }
+          .glass-panel {
+            background: white !important;
+            border: 1px solid #eee !important;
+            box-shadow: none !important;
+          }
+          .diagnostics-panel {
+            flex: 1 0 100% !important;
+          }
+          .result-card {
+            background: white !important;
+            border: 1px solid #eee !important;
+            break-inside: avoid;
+          }
+          .score-num { color: black !important; }
+        }
       `}</style>
     </div>
   );

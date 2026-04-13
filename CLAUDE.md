@@ -130,3 +130,29 @@ LOG_LEVEL=INFO
 - **Python:** PEP 8, Type Hints obrigatórios, Pydantic para todos os schemas de dados.
 - **React:** Componentes funcionais com Hooks. Sem classes.
 - **Git:** Conventional Commits (`feat:`, `fix:`, `security:`, `refactor:`).
+
+## Skills Disponíveis
+
+Carregue apenas o skill necessário para a tarefa atual — não os leia todos de uma vez.
+
+- → `docs/skills/brainstorming/` — Design de feature: explore → design doc → aprovação → implementação
+- → `docs/skills/python-backend/` — Padrões async FastAPI, SQLAlchemy 2.0, Celery, connection pooling
+- → `docs/skills/web-coder/` — Frontend React, web standards, performance, acessibilidade
+- → `docs/skills/frontend-design/` — UI production-grade com identidade visual definida
+- → `docs/skills/ux-designer/` — User research, fluxos, wireframes, WCAG AA
+- → `docs/skills/design-system/` — Audit/geração de design tokens e consistência visual
+- → `docs/skills/token-economy/` — Gestão de tokens, seleção de modelo, regras de sessão
+
+## Token Economy — Regras Automáticas
+
+Aplique sempre, sem que o usuário precise solicitar:
+
+- **Modelo padrão: Sonnet.** Haiku para sub-agentes auxiliares. Opus só para decisões arquiteturais críticas (< 20% do tempo).
+- **`/clear` ao trocar de assunto** — não carregue contexto irrelevante entre tarefas.
+- **`/compact` a ~60% da janela** — não espere o autocompact a 95%.
+- **Plan Mode antes de implementar** — mapear → usuário aprova → executar. Evita retrabalho.
+- **Referências cirúrgicas** — `@arquivo:linha`, nunca o repositório inteiro.
+- **MCPs desconectados quando não usados** — cada MCP adiciona ~10k tokens de overhead por mensagem.
+- **Multi-agentes só quando justificado** — cada sub-agente multiplica o custo de contexto.
+- **Agrupar correções** — editar a mensagem original em vez de enviar follow-ups de correção.
+- **Este CLAUDE.md deve permanecer < 200 linhas.** Workflows específicos vão para Skills.

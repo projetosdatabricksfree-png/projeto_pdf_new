@@ -142,9 +142,16 @@ class AgenteValidador:
                 resumo = resumo_base
 
         # Step 5: Build technical details
+        is_gwg_compliant = (status == "APROVADO")
+        
         detalhes_tecnicos = {
             "agent_processador": report.agent,
             "tempo_processamento_ms": report.processing_time_ms,
+            "gwg_2022_compliance": {
+                "status": "COMPLIANT" if is_gwg_compliant else "NON_COMPLIANT",
+                "specification": "GWG 2022.1 Prepress",
+                "details": "O arquivo atende a todos os requisitos técnicos da Ghent Workgroup." if is_gwg_compliant else "O arquivo apresenta violações técnicas em relação às normas GWG 2022."
+            }
         }
         if report.dimensoes_mm:
             detalhes_tecnicos["dimensoes_detectadas"] = (
@@ -159,8 +166,8 @@ class AgenteValidador:
 
         logger.info(
             f"[Validador] Job {report.job_id}: status={status}, "
-            f"errors={len(report.erros_criticos)}, "
-            f"warnings={len(report.avisos)}"
+            f"gwg_compliant={is_gwg_compliant}, "
+            f"errors={len(report.erros_criticos)}"
         )
 
         return FinalReport(

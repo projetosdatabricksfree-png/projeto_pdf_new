@@ -311,6 +311,82 @@ MESSAGES: dict[str, dict[str, dict[str, str]]] = {
             "descricao": "Linha entre 0,25pt e 0,5pt detectada. Pode sumir em impressões finas.",
             "acao": "Considere aumentar para no mínimo 0,5pt.",
         },
+        # ─── GWG Output Suite 5.0 — OPM / Overprint ─────────────────
+        "E_OPM_WRONG": {
+            "titulo": "❌ OPM Incorreto (Modo de Overprint)",
+            "descricao": "ExtGState com Overprint ativo possui OPM=0. Com OPM=0, a fidelidade colorimétrica do overprint não é garantida — as cores spot podem ser substituídas incorretamente pelo RIP.",
+            "acao": "Configure OPM=1 em todos os ExtGState que tenham overprint ativo (/OP true).",
+        },
+        "E_WHITE_OVERPRINT": {
+            "titulo": "❌ White Overprint Detectado",
+            "descricao": "Objeto com cor CMYK (0,0,0,0) tem overprint ativo. Este objeto é invisível mas sobrepõe as tintas abaixo, causando 'buracos' indetectáveis no ecrã que aparecem na impressão.",
+            "acao": "Desative o overprint em objetos com cor CMYK (0,0,0,0) ou remova os objetos brancos invisíveis.",
+        },
+        "W_GRAY_OVERPRINT": {
+            "titulo": "⚠️ Gray Overprint Detectado",
+            "descricao": "Objeto K-only (escala de cinzas) com overprint ativo. Com OPM=0, as tintas CMY subjacentes podem aparecer através do objeto.",
+            "acao": "Verifique se o overprint é intencional. Se não, desative. Se sim, confirme OPM=1.",
+        },
+        # ─── GWG Output Suite 5.0 — Compressão de Imagem ────────────
+        "W_JPEG2000": {
+            "titulo": "⚠️ Compressão JPEG 2000 Detectada",
+            "descricao": "O arquivo contém imagens comprimidas com JPXDecode (JPEG 2000). Muitos RIPs de produção têm suporte limitado ou defeituoso para este formato.",
+            "acao": "Re-exporte as imagens em JPEG (DCTDecode) ou sem compressão (FlateDecode). Recomendação GWG: evitar JPX em PDFs de impressão.",
+        },
+        "W_JBIG2": {
+            "titulo": "⚠️ Compressão JBIG2 Detectada",
+            "descricao": "O arquivo contém imagens comprimidas com JBIG2Decode. Este formato tem cobertura de patentes e suporte inconsistente em RIPs.",
+            "acao": "Re-exporte as imagens bitmaps em FlateDecode (ZIP) ou CCITT Group 4.",
+        },
+        "W_16BIT_IMAGE": {
+            "titulo": "⚠️ Imagem de 16 bits Detectada",
+            "descricao": "O arquivo contém imagens com BitsPerComponent=16. A maioria dos RIPs de produção processa apenas 8 bits por canal.",
+            "acao": "Reduza as imagens para 8 bits por canal antes de exportar o PDF.",
+        },
+        # ─── GWG Output Suite 5.0 — Transparência ───────────────────
+        "W_BLEND_MODES": {
+            "titulo": "⚠️ Modos de Fusão Não-Standard",
+            "descricao": "O arquivo contém modos de fusão (Blend Modes) que não fazem parte do conjunto standard de 16 modos do PDF. Estes modos não são interpretados de forma consistente por todos os RIPs.",
+            "acao": "Substitua os modos de fusão não-standard por modos standard (Normal, Multiply, Screen, Overlay, etc.).",
+        },
+        "W_SOFT_MASK": {
+            "titulo": "⚠️ Soft Mask (Canal Alpha) Detectado",
+            "descricao": "O arquivo contém Soft Masks (SMask), que criam transparência por canal alfa. Fluxos PDF/X-1a não suportam SMask.",
+            "acao": "Achate as transparências antes de exportar para PDF/X-1a. Para PDF/X-4, verifique se o RIP suporta SMask.",
+        },
+        "W_OPACITY": {
+            "titulo": "⚠️ Objetos com Opacidade Parcial",
+            "descricao": "O arquivo contém objetos com opacidade inferior a 100% (ca ou CA < 1.0 no ExtGState).",
+            "acao": "Achate as transparências ou confirme que o fluxo de impressão suporta PDF/X-4 com transparência.",
+        },
+        # ─── GWG Output Suite 5.0 — Perfis ICC ──────────────────────
+        "W_NO_OUTPUT_INTENT": {
+            "titulo": "⚠️ OutputIntent Ausente",
+            "descricao": "O arquivo não possui OutputIntent no catálogo PDF. Para conformidade com PDF/X-4 e GWG, um OutputIntent com perfil ICC é obrigatório.",
+            "acao": "Re-exporte o PDF com um OutputIntent adequado (ex: ISO Coated v2 300% / FOGRA39).",
+        },
+        "W_ICC_V4": {
+            "titulo": "⚠️ Perfil ICC Versão 4",
+            "descricao": "O arquivo contém perfis ICC versão 4 (v4). RIPs antigos e alguns sistemas de gestão de cor podem rejeitar ou interpretar incorretamente perfis ICC v4.",
+            "acao": "Se o fluxo de impressão tiver RIPs antigos, substitua por perfis ICC versão 2 (ex: FOGRA39 v2).",
+        },
+        # ─── GWG Output Suite 5.0 — DeviceN / Cores Spot ────────────
+        "E_DEVICEN_CONV": {
+            "titulo": "❌ Conversão de DeviceN para RGB Detectada",
+            "descricao": "Um espaço de cor /Separation ou /DeviceN tem como AlternateSpace um espaço RGB (DeviceRGB/CalRGB). Isto significa que as cores spot foram convertidas para RGB durante a exportação — fidelidade de impressão perdida.",
+            "acao": "Re-exporte o arquivo garantindo que os espaços DeviceN/Separation mantêm AlternateSpace CMYK ou preservam as cores spot.",
+        },
+        "W_DEVICEN_CMYK_ALT": {
+            "titulo": "⚠️ DeviceN com AlternateSpace CMYK",
+            "descricao": "Um espaço de cor /DeviceN usa AlternateSpace CMYK sem nomes de tinta. Pode indicar conversão acidental de cores spot para processo.",
+            "acao": "Verifique se os nomes das tintas spot estão correctamente especificados no array /DeviceN.",
+        },
+        # ─── GWG Output Suite 5.0 — Fontes (GWG) ────────────────────
+        "W_COURIER_SUBSTITUTION": {
+            "titulo": "⚠️ Substituição por Courier Detectada",
+            "descricao": "Uma ou mais fontes têm 'courier' no nome base, indicando substituição automática pelo exportador quando a fonte original não estava disponível. O resultado visual pode diferir do original.",
+            "acao": "Instale as fontes originais e re-exporte o PDF, ou converta todas as fontes em curvas antes de exportar.",
+        },
     },
 
     "en-US": {

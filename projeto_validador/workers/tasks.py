@@ -185,7 +185,12 @@ def task_process_cad(self, routing_json: str) -> str:
 
 @celery_app.task(name="workers.tasks.task_process_especialista", bind=True)
 def task_process_especialista(self, routing_json: str) -> str:
-    """Perform deep probing via the Specialist agent."""
+    """Perform deep probing via the Specialist agent.
+
+    Publishes the refined routing decision to queue:routing_decisions instead of
+    dispatching directly to operário tasks.  This decouples the Especialista from
+    the Operários and prevents Celery thread-pool deadlocks (Rule 3).
+    """
     from app.api.schemas import RoutingPayload
     from agentes.especialista.agent import AgenteEspecialista
 
@@ -195,10 +200,9 @@ def task_process_especialista(self, routing_json: str) -> str:
     especialista = AgenteEspecialista()
     decision = especialista.processar(
         file_path=payload.file_path,
-        metadata=payload.metadata_snapshot
+        metadata=payload.metadata_snapshot,
     )
 
-    # Dispatch directly to the correct operário task
     route_to = decision["route_to"]
     routing_result = RoutingPayload(
         job_id=payload.job_id,
@@ -211,7 +215,39 @@ def task_process_especialista(self, routing_json: str) -> str:
         client_locale=payload.client_locale,
         job_metadata=payload.job_metadata,
     )
-    routing_json = routing_result.model_dump_json()
+    refined_routing_json = routing_result.model_dump_json()
+
+    # Publish to queue:routing_decisions — consumed by task_receive_routing_decision
+    task_receive_routing_decision.apply_async(
+        args=[refined_routing_json],
+        queue="queue:routing_decisions",
+    )
+
+    return refined_routing_json
+
+
+@celery_app.task(name="workers.tasks.task_receive_routing_decision", bind=True)
+def task_receive_routing_decision(self, routing_json: str) -> str:
+    """Consume routing decisions from queue:routing_decisions and dispatch to operário.
+
+    This is the explicit, dedicated consumer for queue:routing_decisions (Rule 3 —
+    Deadlock Prevention).  Decoupling Especialista output from Operário input via a
+    separate queue prevents thread exhaustion when a single worker pool handles both
+    ends of the pipeline.
+
+    Args:
+        routing_json: Serialized RoutingPayload produced by task_process_especialista.
+
+    Returns:
+        The same routing_json, for chain continuations.
+    """
+    from app.api.schemas import RoutingPayload
+
+    payload = RoutingPayload.model_validate_json(routing_json)
+    logger.info(
+        f"[routing_decision] job={payload.job_id} → {payload.route_to} "
+        f"(confidence={payload.confidence:.2f})"
+    )
 
     task_map = {
         "operario_papelaria_plana": task_process_papelaria,
@@ -221,13 +257,12 @@ def task_process_especialista(self, routing_json: str) -> str:
         "operario_projetos_cad": task_process_cad,
     }
 
-    target_task = task_map.get(route_to)
+    target_task = task_map.get(payload.route_to)
     if target_task:
-        # Update status to PROCESSING
         _run_async(_update_status(payload.job_id, "PROCESSING"))
         target_task.delay(routing_json)
     else:
-        logger.error(f"[especialista] Unknown route: {route_to}")
+        logger.error(f"[routing_decision] Unknown route_to: '{payload.route_to}'")
         _run_async(_update_status(payload.job_id, "FAILED"))
 
     return routing_json

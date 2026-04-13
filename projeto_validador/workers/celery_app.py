@@ -29,17 +29,23 @@ celery_app.conf.update(
     timezone="UTC",
     enable_utc=True,
     task_track_started=True,
-    # task_routes={
-    #     "workers.tasks.task_route": {"queue": "queue:jobs"},
-    #     "workers.tasks.task_process_papelaria": {"queue": "queue:operario_papelaria_plana"},
-    #     "workers.tasks.task_process_editoriais": {"queue": "queue:operario_editoriais"},
-    #     "workers.tasks.task_process_dobraduras": {"queue": "queue:operario_dobraduras"},
-    #     "workers.tasks.task_process_cortes": {"queue": "queue:operario_cortes_especiais"},
-    #     "workers.tasks.task_process_cad": {"queue": "queue:operario_projetos_cad"},
-    #     "workers.tasks.task_process_especialista": {"queue": "queue:especialista"},
-    #     "workers.tasks.task_validate": {"queue": "queue:validador"},
-    #     "workers.tasks.task_log": {"queue": "queue:audit"},
-    # },
+    task_routes={
+        # Ingestion & routing
+        "workers.tasks.task_route": {"queue": "queue:jobs"},
+        # Especialista deep-probe (publishes to queue:routing_decisions on completion)
+        "workers.tasks.task_process_especialista": {"queue": "queue:especialista"},
+        # Dedicated consumer for Especialista → Operário handoff (Rule 3 — Deadlock Prevention)
+        "workers.tasks.task_receive_routing_decision": {"queue": "queue:routing_decisions"},
+        # Operário workers
+        "workers.tasks.task_process_papelaria": {"queue": "queue:operario_papelaria_plana"},
+        "workers.tasks.task_process_editoriais": {"queue": "queue:operario_editoriais"},
+        "workers.tasks.task_process_dobraduras": {"queue": "queue:operario_dobraduras"},
+        "workers.tasks.task_process_cortes": {"queue": "queue:operario_cortes_especiais"},
+        "workers.tasks.task_process_cad": {"queue": "queue:operario_projetos_cad"},
+        # Downstream
+        "workers.tasks.task_validate": {"queue": "queue:validador"},
+        "workers.tasks.task_log": {"queue": "queue:audit"},
+    },
     worker_prefetch_multiplier=1,
     task_acks_late=True,
     task_reject_on_worker_lost=True,

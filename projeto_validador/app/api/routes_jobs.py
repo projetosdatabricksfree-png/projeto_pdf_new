@@ -290,3 +290,67 @@ async def get_job_file(
         media_type="application/pdf",
         filename=job.original_filename
     )
+@router.get("/jobs/{job_id}/download-pdf")
+async def download_job_report_pdf(
+    job_id: str,
+    db: AsyncSession = Depends(get_db),
+):
+    """Generate and download the validation report as a PDF."""
+    job = await get_job(db, job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    
+    if job.status != "DONE":
+        raise HTTPException(
+            status_code=409, 
+            detail=f"Report not ready. Current status: {job.status}"
+        )
+
+    results = await get_job_validation_results(db, job_id)
+    
+    # Generate PDF
+    from app.utils.pdf_generator import AgenteGeradorPDF
+    generator = AgenteGeradorPDF()
+    
+    report_filename = f"Relatorio_Validacao_{job_id[:8]}.pdf"
+    job_dir = Path(VOLUME_PATH) / job_id
+    report_path = job_dir / report_filename
+    
+    # Ensure directory exists (it should, but safety first)
+    job_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Convert ORM objects to dicts for the generator
+    job_dict = {
+        "id": job.id,
+        "original_filename": job.original_filename,
+        "file_size_bytes": job.file_size_bytes,
+        "final_status": job.final_status,
+        "detected_product": job.detected_product,
+        "processing_agent": job.processing_agent
+    }
+    
+    results_list = [
+        {
+            "check_code": r.check_code,
+            "check_name": r.check_name,
+            "status": r.status,
+            "value_found": r.value_found,
+            "value_expected": r.value_expected
+        } 
+        for r in results
+    ]
+
+    # Generate in a thread to keep the event loop free (fitz is sync)
+    import asyncio
+    await asyncio.to_thread(
+        generator.gerar_relatorio, 
+        job_dict, 
+        results_list, 
+        str(report_path)
+    )
+    
+    return FileResponse(
+        path=report_path,
+        media_type="application/pdf",
+        filename=report_filename
+    )

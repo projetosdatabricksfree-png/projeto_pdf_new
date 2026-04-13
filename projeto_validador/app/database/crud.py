@@ -22,6 +22,14 @@ from app.database.models import (
     ValidationResult,
 )
 
+# Dialect-specific insert builders (Rule 4 — Idempotency via native upsert)
+try:
+    from sqlalchemy.dialects.postgresql import insert as _pg_insert
+except ImportError:  # pragma: no cover
+    _pg_insert = None  # type: ignore[assignment]
+
+from sqlalchemy.dialects.sqlite import insert as _sqlite_insert
+
 
 # ─── Job CRUD ─────────────────────────────────────────────────────────────────
 
@@ -197,49 +205,62 @@ async def upsert_validation_result(
     value_found: Optional[str] = None,
     value_expected: Optional[str] = None,
     pages_affected: Optional[list[int]] = None,
-) -> ValidationResult:
+) -> None:
     """Insert or update a validation result (idempotent by job_id + check_code).
 
-    Re-processing the same job_id + check_code will update the existing
-    record instead of creating a duplicate (Rule 4 — Idempotency).
+    Detects the database dialect at runtime and executes the appropriate
+    native ON CONFLICT DO UPDATE statement, eliminating the SELECT + INSERT/UPDATE
+    race condition present in the previous implementation (Rule 4 — Idempotency).
+
+    Requires a UniqueConstraint on (job_id, check_code) in the ValidationResult
+    model — see models.py uq_validation_result_job_check.
     """
-    existing = await db.execute(
-        select(ValidationResult).where(
-            ValidationResult.job_id == job_id,
-            ValidationResult.check_code == check_code,
-        )
-    )
-    row = existing.scalar_one_or_none()
+    from app.database.session import engine
 
     pages_json = json.dumps(pages_affected) if pages_affected else None
+    now = datetime.now(timezone.utc)
 
-    if row is not None:
-        row.agent_name = agent_name
-        row.check_name = check_name
-        row.status = status
-        row.error_code = error_code
-        row.value_found = value_found
-        row.value_expected = value_expected
-        row.pages_affected = pages_json
-        row.timestamp = datetime.now(timezone.utc)
-        await db.flush()
-        return row
+    insert_values: dict = {
+        "job_id": job_id,
+        "agent_name": agent_name,
+        "check_code": check_code,
+        "check_name": check_name,
+        "status": status,
+        "error_code": error_code,
+        "value_found": value_found,
+        "value_expected": value_expected,
+        "pages_affected": pages_json,
+        "timestamp": now,
+    }
+    # Columns to overwrite on conflict (exclude the natural key columns)
+    update_values: dict = {
+        k: v for k, v in insert_values.items() if k not in ("job_id", "check_code")
+    }
 
-    result = ValidationResult(
-        job_id=job_id,
-        agent_name=agent_name,
-        check_code=check_code,
-        check_name=check_name,
-        status=status,
-        error_code=error_code,
-        value_found=value_found,
-        value_expected=value_expected,
-        pages_affected=pages_json,
-        timestamp=datetime.now(timezone.utc),
-    )
-    db.add(result)
+    dialect_name: str = engine.dialect.name  # 'sqlite' | 'postgresql'
+
+    if dialect_name == "postgresql" and _pg_insert is not None:
+        stmt = (
+            _pg_insert(ValidationResult)
+            .values(**insert_values)
+            .on_conflict_do_update(
+                constraint="uq_validation_result_job_check",
+                set_=update_values,
+            )
+        )
+    else:
+        # SQLite (default for dev) — also the safe fallback for any other dialect
+        stmt = (
+            _sqlite_insert(ValidationResult)
+            .values(**insert_values)
+            .on_conflict_do_update(
+                index_elements=["job_id", "check_code"],
+                set_=update_values,
+            )
+        )
+
+    await db.execute(stmt)
     await db.flush()
-    return result
 
 
 # ─── Performance Metric CRUD ─────────────────────────────────────────────────

@@ -19,6 +19,7 @@ from sqlalchemy import (
     Integer,
     String,
     Text,
+    UniqueConstraint,
     func,
 )
 from sqlalchemy.orm import DeclarativeBase, relationship
@@ -158,6 +159,11 @@ class ValidationResult(Base):
     value_expected: Optional[str] = Column(String(255), nullable=True)
     pages_affected: Optional[str] = Column(Text, nullable=True)  # JSON array
     timestamp: datetime = Column(DateTime, nullable=False, default=func.now())
+
+    # Unique constraint required for idempotent ON CONFLICT upserts (Rule 4)
+    __table_args__ = (
+        UniqueConstraint("job_id", "check_code", name="uq_validation_result_job_check"),
+    )
 
     job = relationship("Job", back_populates="validation_results")
 

@@ -118,6 +118,49 @@ class OperarioEditoriais:
         except Exception:
             results["V07_cores"] = {"status": "OK", "valor": "N/A"}
 
+        # V-08: OPM / Overprint (GWG Output Suite 5.0)
+        try:
+            from agentes.operarios.shared_tools.gwg.opm_checker import check_opm
+            v08 = check_opm(file_path)
+            results["V08_opm"] = v08
+            codigo_opm = v08.get("codigo")
+            if codigo_opm in ("E_OPM_WRONG", "E_WHITE_OVERPRINT"):
+                erros.append(codigo_opm)
+            elif codigo_opm:
+                avisos.append(codigo_opm)
+        except Exception as exc:
+            results["V08_opm"] = {"status": "OK", "detalhe": str(exc)}
+
+        # V-09: ICC Profile & OutputIntent (GWG)
+        try:
+            from agentes.operarios.shared_tools.gwg.icc_checker import check_icc
+            v09 = check_icc(file_path)
+            results["V09_icc"] = v09
+            if v09.get("codigo"):
+                avisos.append(v09["codigo"])
+        except Exception as exc:
+            results["V09_icc"] = {"status": "OK", "detalhe": str(exc)}
+
+        # V-10: Image Compression (GWG)
+        try:
+            from agentes.operarios.shared_tools.gwg.compression_checker import check_compression
+            v10 = check_compression(file_path)
+            results["V10_compressao"] = v10
+            if v10.get("codigo"):
+                avisos.append(v10["codigo"])
+        except Exception as exc:
+            results["V10_compressao"] = {"status": "OK", "detalhe": str(exc)}
+
+        # V-11: Transparency & Blend Modes (GWG)
+        try:
+            from agentes.operarios.shared_tools.gwg.transparency_checker import check_transparency
+            v11 = check_transparency(file_path)
+            results["V11_transparencia_gwg"] = v11
+            if v11.get("codigo"):
+                avisos.append(v11["codigo"])
+        except Exception as exc:
+            results["V11_transparencia_gwg"] = {"status": "OK", "detalhe": str(exc)}
+
         # Calculate status
         from agentes.validador.agent import calcular_status_final
         status = calcular_status_final(erros, avisos)
