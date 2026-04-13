@@ -52,9 +52,14 @@ def _run_icc(file_path: str, profile_name: str):
     return check_icc(file_path)
 
 
-def _run_color(file_path: str, profile_name: str):
+def _run_color(file_path: str, profile_name: str, job_id: str | None = None):
     from agentes.operarios.shared_tools.gwg.color_checker import check_color_compliance
-    return check_color_compliance(file_path, {"produto": profile_name})
+    
+    def color_progress(msg: str):
+        if job_id:
+            update_stage(job_id, "color", "RUNNING", log=msg)
+            
+    return check_color_compliance(file_path, {"produto": profile_name}, progress_callback=color_progress)
 
 
 def _run_opm(file_path: str, profile_name: str):
@@ -101,9 +106,14 @@ RUNNERS: list[tuple[str, str, str, Callable]] = [
 ]
 
 
-def _safe_invoke(name: str, fn: Callable, file_path: str, profile_name: str):
+def _safe_invoke(name: str, fn: Callable, file_path: str, profile_name: str, job_id: str | None = None):
     """Executed inside the worker process. Returns (result, error_dict)."""
     try:
+        # Check if the function signature accepts job_id
+        import inspect
+        sig = inspect.signature(fn)
+        if "job_id" in sig.parameters:
+            return fn(file_path, profile_name, job_id=job_id), None
         return fn(file_path, profile_name), None
     except Exception as exc:
         return None, {
@@ -227,7 +237,7 @@ def run_all_gwg_checks(
             started_at[name] = time.monotonic()
             update_stage(job_id or "", name, "RUNNING")
             async_results[name] = (
-                pool.apply_async(_safe_invoke, (name, fn, file_path, profile_name)),
+                pool.apply_async(_safe_invoke, (name, fn, file_path, profile_name, job_id)),
                 code,
                 label,
             )

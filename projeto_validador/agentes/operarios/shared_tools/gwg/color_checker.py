@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 
 GS_TIMEOUT: int = 45
 
-def check_color_compliance(file_path: str, metadata: dict[str, Any] = None) -> dict[str, Any]:
+def check_color_compliance(file_path: str, metadata: dict[str, Any] = None, progress_callback: callable = None) -> dict[str, Any]:
     """
     Main entry point for GWG Color Compliance.
     Uses GWG Profiles to dynamically set thresholds.
@@ -36,12 +36,17 @@ def check_color_compliance(file_path: str, metadata: dict[str, Any] = None) -> d
     profile_key = identify_profile_by_metadata(metadata or {})
     profile = get_gwg_profile(profile_key)
     
+    # Get page count
+    doc = fitz.open(file_path)
+    page_count = doc.page_count
+    doc.close()
+
     # 1. Color Space Check
     cs_result = _check_color_space_gs(file_path, profile)
     
-    # 2. TAC Check
+    # 2. TAC Check (Turbo Mode)
     limit = profile["tac_limit"]
-    tac_result = _check_tac_vips(file_path, limit)
+    tac_result = _check_tac_vips_turbo(file_path, limit, page_count, progress_callback)
     
     # 3. Decision
     final_status = "OK"
@@ -53,7 +58,7 @@ def check_color_compliance(file_path: str, metadata: dict[str, Any] = None) -> d
     results = {
         "status": final_status,
         "label": "Espaço de Cor & TAC",
-        "found_value": f"{cs_result.get('found_value', 'CMYK')} | TAC: {tac_result.get('found_value', 'N/A')}",
+        "found_value": f"{cs_result.get('found_value', 'CMYK')} | TAC Máx: {tac_result.get('found_value', 'N/A')}",
         "expected_value": f"CMYK/Spot | TAC <= {limit}%",
         "profile_used": profile["name"],
         "cs_detail": cs_result,
@@ -72,14 +77,14 @@ def _check_color_space_gs(file_path: str, profile: dict[str, Any]) -> dict[str, 
         "-dPDFINFO", file_path
     ]
     try:
-        process = subprocess.run(cmd, capture_output=True, timeout=GS_TIMEOUT)
+        process = subprocess.run(cmd, capture_output=True, timeout=GS_TIMEOUT, shell=False)
         output = process.stdout.decode("latin-1", errors="replace") + process.stderr.decode("latin-1", errors="replace")
         
         # Detection
         found_spaces = []
         if re.search(r"DeviceRGB|sRGB|CalRGB", output, re.IGNORECASE): found_spaces.append("RGB")
         if re.search(r"DeviceGray|CalGray", output, re.IGNORECASE): found_spaces.append("Gray")
-        if re.search(r"DeviceCMYK", output, re.IGNORECASE): found_spaces.append("CMYK")
+        if re.search(r"DeviceCMYK|ProcessingSpace", output, re.IGNORECASE): found_spaces.append("CMYK")
         if re.search(r"DeviceN", output, re.IGNORECASE): found_spaces.append("DeviceN")
         if re.search(r"Separation", output, re.IGNORECASE): found_spaces.append("Spot")
         if re.search(r"Lab", output, re.IGNORECASE): found_spaces.append("Lab")
@@ -108,48 +113,62 @@ def _check_color_space_gs(file_path: str, profile: dict[str, Any]) -> dict[str, 
         logger.error(f"GS color check failed: {e}")
         return {"status": "AVISO", "detalhe": "Falha na verificação profunda de cor via GS"}
 
-def _check_tac_vips(file_path: str, limit: float) -> dict[str, Any]:
-    """Uses pyvips sampling to find TAC violations."""
+def _check_tac_vips_turbo(file_path: str, limit: float, page_count: int, progress_callback: callable = None) -> dict[str, Any]:
+    """Uses vectorized libvips operations (GPU accelerated) to find TAC peak across all pages."""
     if not pyvips:
         return {"status": "AVISO", "detalhe": "pyvips não instalado, pulando teste de TAC"}
     
     try:
-        # Load thumbnail (Anti-OOM Rule 1)
-        image = pyvips.Image.thumbnail(file_path, 300, height=300)
-        
-        if image.bands < 4:
-            return {"status": "OK", "found_value": "N/A (Não é CMYK)", "expected_value": f"<= {limit}%"}
+        max_tac_global = 0.0
+        violating_pages = []
+
+        # Optimization: Set VIPS to low-memory/streaming mode for large files
+        # pyvips.cache_set_max(0) 
+
+        for i in range(page_count):
+            if progress_callback:
+                progress_callback(f"Analisando TAC: pág {i+1}/{page_count}...")
+
+            # Load page at 72 DPI (sufficient for TAC and very fast)
+            # n=-1 would load all pages at once, which can kill RAM. 
+            # We iterate manually to keep memory stable.
+            page_img = pyvips.Image.new_from_file(file_path, page=i, n=1, dpi=72)
             
-        # Sample points to find max TAC
-        max_seen = 0.0
-        # Sample a grid
-        step_x = max(1, image.width // 15)
-        step_y = max(1, image.height // 15)
-        
-        for y in range(0, image.height, step_y):
-            for x in range(0, image.width, step_x):
-                pixel = image.getpoint(x, y)
-                if len(pixel) >= 4:
-                    tac = sum(pixel[:4]) / 255.0 * 100.0
-                    if tac > max_seen:
-                        max_seen = tac
-                        
-        found_str = f"{round(max_seen, 1)}%"
+            # Skip non-CMYK or Greyscale for TAC (TAC only makes sense in CMYK sum)
+            if page_img.bands < 4:
+                continue
+
+            # Vectorized TAC calculation: Sum first 4 bands (CMYK) and scale to 0-100%
+            # This operation happens in the C/OpenCL layer, not in Python for loop.
+            tac_map = (page_img[0] + page_img[1] + page_img[2] + page_img[3]) * (100.0 / 255.0)
+            
+            # Find the peak value in the entire image
+            page_max = tac_map.max()
+            
+            if page_max > max_tac_global:
+                max_tac_global = page_max
+            
+            if page_max > (limit + 0.1): # 0.1 margin for float errors
+                violating_pages.append(i + 1)
+
+        found_str = f"{round(max_tac_global, 1)}%"
         expected_str = f"<= {limit}%"
 
-        if max_seen > limit:
+        if violating_pages:
             return {
                 "status": "ERRO",
                 "codigo": "E007_EXCESSIVE_INK_COVERAGE",
                 "found_value": found_str,
-                "expected_value": expected_str
+                "expected_value": expected_str,
+                "detalhe": f"Limite de {limit}% excedido nas páginas: {', '.join(map(str, violating_pages[:10]))}{'...' if len(violating_pages)>10 else ''}"
             }
             
         return {
             "status": "OK", 
             "found_value": found_str,
-            "expected_value": expected_str
+            "expected_value": expected_str,
+            "meta": {"max_tac": max_tac_global, "pages_checked": page_count}
         }
     except Exception as e:
-        logger.error(f"TAC check failed: {e}")
-        return {"status": "AVISO", "detalhe": "Erro ao processar TAC com pyvips"}
+        logger.error(f"Turbo TAC check failed: {e}")
+        return {"status": "AVISO", "detalhe": f"Erro no processamento Turbo TAC: {e}"}
