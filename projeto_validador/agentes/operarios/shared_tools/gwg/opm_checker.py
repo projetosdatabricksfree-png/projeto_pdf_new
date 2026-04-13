@@ -28,28 +28,25 @@ GS_TIMEOUT: int = 30  # seconds
 # PostScript hook injected before the PDF is processed by GS (Rule 2).
 # Intercepts setoverprint and setcmykcolor to detect problematic combinations.
 _GS_OPM_HOOK: str = (
-    # Track overprint state across graphics state changes
-    "/gwg_op false def "
-    "/real_setoverprint /setoverprint load def "
-    "/setoverprint { "
-    "  dup /gwg_op exch def "
-    "  real_setoverprint "
-    "} bind def "
-    # Intercept CMYK color setting and cross-check with overprint state
-    "/real_scmyk /setcmykcolor load def "
-    "/setcmykcolor { "
-    # White overprint: all components zero, overprint ON → vanishing object
-    "  4 copy add add add 0 eq gwg_op and { "
-    "    (GWG_WHITE_OVERPRINT) = flush "
+    # Robust check using Ghostscript's internal color conversion
+    "/gwg_check { "
+    "  currentoverprint { "
+    "    currentcmykcolor "
+    "    4 copy add add add 0 eq { (GWG_WHITE_OVERPRINT) = flush } if "
+    "    pop pop pop 0 gt { (GWG_GRAY_OVERPRINT) = flush } if " # Simplified Gray check
     "  } if "
-    # Gray overprint: C+M+Y=0, K>0, overprint ON (risky with OPM 0)
-    "  4 copy pop add add 0 eq "   # C+M+Y == 0
-    "  3 1 roll 0 gt and "          # K > 0
-    "  gwg_op and { "
-    "    (GWG_GRAY_OVERPRINT) = flush "
-    "  } if "
-    "  real_scmyk "
     "} bind def "
+    # Redefine painting operators to include our check
+    "/fill { gwg_check fill } bind def "
+    "/stroke { gwg_check stroke } bind def "
+    "/show { gwg_check show } bind def "
+    "/ashow { gwg_check ashow } bind def "
+    "/widthshow { gwg_check widthshow } bind def "
+    "/awidthshow { gwg_check awidthshow } bind def "
+    "/kshow { gwg_check kshow } bind def "
+    "/xshow { gwg_check xshow } bind def "
+    "/yshow { gwg_check yshow } bind def "
+    "/xyshow { gwg_check xyshow } bind def "
 )
 
 
@@ -156,23 +153,57 @@ def _gs_detect_overprint_issues(file_path: str) -> dict[str, Any]:
     }
 
 
-def check_opm(file_path: str) -> dict[str, Any]:
-    """Validate OPM (Overprint Mode) compliance per GWG Output Suite 5.0.
-
-    Args:
-        file_path: Absolute path to the PDF file.
-
-    Returns:
-        Dict compatible with operário validation_results format:
-          status: "OK" | "ERRO" | "AVISO"
-          codigo: GWG error/warning code (if applicable)
-          opm_entries: list of detected ExtGState OPM entries
-          white_overprint: bool
-          gray_overprint: bool
+def _python_detect_white_overprint(doc: fitz.Document) -> bool:
+    """Fallback structural scan for White Overprint.
+    
+    Finds ExtGState xrefs with OP true and checks if they are used near white color settings.
     """
+    op_xrefs = set()
+    for xref in range(1, doc.xref_length()):
+        try:
+            obj = doc.xref_object(xref)
+            if '/OP true' in obj or '/op true' in obj:
+                op_xrefs.add(xref)
+        except: continue
+        
+    if not op_xrefs:
+        return False
+
+    for page in doc:
+        # Search page resources for GS names mapping to our OP xrefs
+        page_dict = doc.xref_object(page.xref)
+        gs_map = {}
+        # Simple regex to find /GSName 123 0 R inside /ExtGState << ... >>
+        gs_section = re.search(r'/ExtGState\s*<<([^>]*)>>', page_dict)
+        if gs_section:
+            for gs_name, ref_xref in re.findall(r'/(\w+)\s+(\d+)\s+0\s+R', gs_section.group(1)):
+                if int(ref_xref) in op_xrefs:
+                    gs_map[gs_name] = int(ref_xref)
+        
+        if gs_map:
+            content = b"".join([doc.xref_stream(c) for c in page.get_contents()]).decode("latin-1", errors="ignore")
+            for gs_name in gs_map:
+                # Look for '/GSName gs' pattern
+                gs_call = f"/{gs_name} gs"
+                if gs_call in content:
+                    # Look for nearby white color settings: '0 0 0 0 k', '0 0 0 0 K', '1 g', '1 G'
+                    # We check 500 chars around the gs call as a heuristic
+                    pos = content.find(gs_call)
+                    context = content[max(0, pos-200):min(len(content), pos+200)]
+                    if any(x in context for x in ["0 0 0 0 k", "0 0 0 0 K", "1 g", "1 G"]):
+                        logger.info(f"[opm_checker] Structural White Overprint found on page {page.number}")
+                        return True
+    return False
+
+
+def check_opm(file_path: str) -> dict[str, Any]:
+    """Validate OPM (Overprint Mode) compliance per GWG Output Suite 5.0."""
     doc = fitz.open(file_path)
     try:
         ext_gstate_entries = _extract_extgstate_entries(doc)
+        
+        # --- Python pass: structural White Overprint analysis ---
+        python_white_op = _python_detect_white_overprint(doc)
     finally:
         doc.close()
 
@@ -190,11 +221,13 @@ def check_opm(file_path: str) -> dict[str, Any]:
                 "issue": "OPM=0 with overprint active — colour accuracy compromised",
             })
 
-    # --- Ghostscript pass: render-time white/gray overprint detection (Rule 2) ---
+    # --- Ghostscript pass: render-time white/gray overprint detection ---
     gs_result = _gs_detect_overprint_issues(file_path)
+    
+    white_overprint = gs_result["white_overprint"] or python_white_op
 
     # --- Determine verdict ---
-    if gs_result["white_overprint"]:
+    if white_overprint:
         return {
             "status": "ERRO",
             "codigo": "E_WHITE_OVERPRINT",
