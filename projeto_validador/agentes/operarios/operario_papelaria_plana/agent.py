@@ -122,44 +122,37 @@ class OperarioPapelariaPlana:
             logger.warning(f"V-04 failed: {exc}")
             validation_results["V04_resolucao"] = {"status": "OK", "valor": "N/A"}
 
-        # V-05: Color Space
+        # GWG CORE VALIDATIONS (Shared)
+        
+        # V-00a: Color Space & TAC
         try:
-            from agentes.operarios.operario_papelaria_plana.tools.color_checker import (
-                check_color_space,
-            )
-            v05 = check_color_space(file_path)
-            validation_results["V05_espaco_cor"] = v05
-            if v05.get("codigo"):
-                erros_criticos.append(v05["codigo"])
+            from agentes.operarios.shared_tools.gwg.color_checker import check_color_compliance
+            v00a = check_color_compliance(file_path)
+            validation_results["V05_espaco_cor"] = v00a
+            if v00a.get("status") == "REPROVADO":
+                erros_criticos.append("E006_RGB_COLORSPACE")
         except Exception as exc:
-            logger.error(f"V-05 failed: {exc}")
-            validation_results["V05_espaco_cor"] = {"status": "OK", "valor": "N/A"}
+            logger.error(f"V-00a failed: {exc}")
 
-        # V-06: Total Ink Limit
+        # V-00b: Fonts (GWG Embedding)
         try:
-            from agentes.operarios.operario_papelaria_plana.tools.color_checker import (
-                check_total_ink_limit,
-            )
-            v06 = check_total_ink_limit(file_path)
-            validation_results["V06_til"] = v06
-            if v06.get("codigo"):
-                erros_criticos.append(v06["codigo"])
+            from agentes.operarios.shared_tools.gwg.font_checker import check_fonts_gwg
+            v00b = check_fonts_gwg(file_path)
+            validation_results["V07_fontes"] = v00b
+            if v00b.get("status") == "ERRO":
+                erros_criticos.append(v00b["codigo"])
         except Exception as exc:
-            logger.warning(f"V-06 failed: {exc}")
-            validation_results["V06_til"] = {"status": "OK", "valor": "N/A"}
+            logger.error(f"V-00b failed: {exc}")
 
-        # V-07: Fonts
+        # V-00c: Overprint (OPM)
         try:
-            from agentes.operarios.operario_papelaria_plana.tools.font_checker import (
-                check_fonts_embedded,
-            )
-            v07 = check_fonts_embedded(file_path)
-            validation_results["V07_fontes"] = v07
-            if v07.get("codigo"):
-                erros_criticos.append(v07["codigo"])
+            from agentes.operarios.shared_tools.gwg.opm_checker import check_opm
+            v00c = check_opm(file_path)
+            validation_results["V00c_overprint"] = v00c
+            if v00c.get("status") == "ERRO":
+                erros_criticos.append(v00c.get("codigo", "E_OPM_WRONG"))
         except Exception as exc:
-            logger.error(f"V-07 failed: {exc}")
-            validation_results["V07_fontes"] = {"status": "OK", "valor": "N/A"}
+            logger.error(f"V-00c failed: {exc}")
 
         # V-08: NFC Zone (ID-1 only)
         try:

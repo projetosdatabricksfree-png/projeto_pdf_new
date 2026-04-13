@@ -58,51 +58,29 @@ class OperarioCortesEspeciais:
         except Exception as exc:
             results["V04_delta_e"] = {"status": "N/A", "detalhe": str(exc)}
 
-        # V-05: Color space
+        # GWG CORE VALIDATIONS (Shared)
+
+        # V-05: Color Space & TAC (Shared GWG)
         try:
-            from agentes.operarios.operario_papelaria_plana.tools.color_checker import check_color_space
-            v05 = check_color_space(file_path)
+            from agentes.operarios.shared_tools.gwg.color_checker import check_color_compliance
+            v05 = check_color_compliance(file_path)
             results["V05_cores"] = v05
-            if v05.get("codigo"):
+            if v05.get("status") == "REPROVADO":
                 erros.append("E012_RGB_COLORSPACE")
-        except Exception:
-            results["V05_cores"] = {"status": "OK", "valor": "N/A"}
+        except Exception as exc:
+            logger.error(f"V-05 failed: {exc}")
 
-        # V-06: Resolution
+        # V-07: Fonts (Shared GWG)
         try:
-            from agentes.gerente.tools.exiftool_reader import extract_metadata, get_resolution_dpi
-            meta = extract_metadata(file_path)
-            x_dpi, y_dpi = get_resolution_dpi(meta)
-            min_dpi = min(x_dpi, y_dpi) if x_dpi > 0 and y_dpi > 0 else 0
-            if 0 < min_dpi < 300:
-                results["V06_resolucao"] = {"status": "ERRO", "codigo": "E011_LOW_RESOLUTION"}
-                erros.append("E011_LOW_RESOLUTION")
-            else:
-                results["V06_resolucao"] = {"status": "OK", "valor": f"{min_dpi} DPI"}
-        except Exception:
-            results["V06_resolucao"] = {"status": "OK", "valor": "N/A"}
-
-        # V-07: Fonts
-        try:
-            from agentes.operarios.operario_papelaria_plana.tools.font_checker import check_fonts_embedded
-            v07 = check_fonts_embedded(file_path)
+            from agentes.operarios.shared_tools.gwg.font_checker import check_fonts_gwg
+            v07 = check_fonts_gwg(file_path)
             results["V07_fontes"] = v07
-            if v07.get("codigo"):
+            if v07.get("status") == "ERRO":
                 erros.append("E013_NON_EMBEDDED_FONTS")
-        except Exception:
-            results["V07_fontes"] = {"status": "OK", "valor": "N/A"}
+        except Exception as exc:
+            logger.error(f"V-07 failed: {exc}")
 
-        # V-08: Bleed
-        try:
-            from agentes.operarios.operario_papelaria_plana.tools.bleed_checker import check_bleed
-            v08 = check_bleed(file_path)
-            results["V08_sangria"] = v08
-            if v08.get("codigo") and v08["codigo"].startswith("E"):
-                erros.append("E006_INSUFFICIENT_BLEED_OUTSIDE_DIE")
-        except Exception:
-            results["V08_sangria"] = {"status": "OK", "valor": "N/A"}
-
-        # V-09: OPM / Overprint (GWG Output Suite 5.0)
+        # V-09: Overprint & OPM (Shared GWG)
         try:
             from agentes.operarios.shared_tools.gwg.opm_checker import check_opm
             v09 = check_opm(file_path)
@@ -113,7 +91,7 @@ class OperarioCortesEspeciais:
             elif codigo_opm:
                 avisos.append(codigo_opm)
         except Exception as exc:
-            results["V09_opm"] = {"status": "OK", "detalhe": str(exc)}
+            logger.error(f"V-09 failed: {exc}")
 
         # V-10: DeviceN / Spot Colours (GWG)
         try:

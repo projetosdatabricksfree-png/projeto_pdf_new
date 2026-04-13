@@ -58,7 +58,6 @@ async def run_diagnosis(file_path: str):
         print(f"Status Técnico: {tech_report.status}")
     else:
         print(f"ERRO: Rota '{routing_result.route_to}' não mapeada para diagnóstico direto.")
-        # Fallback to Specialist for diagnosis if needed
         return
 
     # 3. Validation
@@ -86,6 +85,5 @@ async def run_diagnosis(file_path: str):
     print(f"\nDiagnóstico salvo em {output_file}")
 
 if __name__ == "__main__":
-    # Test file inside container
     test_file = "tests/gwg_suite/Ghent_PDF-Output-Test-V50_ALL_X4.pdf"
     asyncio.run(run_diagnosis(test_file))

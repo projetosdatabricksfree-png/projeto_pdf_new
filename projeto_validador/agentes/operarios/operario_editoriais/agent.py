@@ -80,86 +80,37 @@ class OperarioEditoriais:
         except Exception as exc:
             results["V04_rich_black"] = {"status": "OK", "detalhe": str(exc)}
 
-        # V-05: Fonts
+        # V-05: Fonts (Shared GWG)
         try:
-            from agentes.operarios.operario_papelaria_plana.tools.font_checker import (
-                check_fonts_embedded,
-            )
-            v05 = check_fonts_embedded(file_path)
+            from agentes.operarios.shared_tools.gwg.font_checker import check_fonts_gwg
+            v05 = check_fonts_gwg(file_path)
             results["V05_fontes"] = v05
-            if v05.get("codigo"):
-                erros.append("E004_NON_EMBEDDED_FONTS")
+            if v05.get("status") == "ERRO":
+                erros.append(v05["codigo"])
         except Exception as exc:
-            results["V05_fontes"] = {"status": "OK", "detalhe": str(exc)}
+            logger.error(f"V-05 failed: {exc}")
 
-        # V-06: Transparency (via Ghostscript)
+        # V-06: Transparency (Shared GWG)
         try:
-            from agentes.especialista.tools.gs_inspector import inspect_pdf_info
-            gs_info = inspect_pdf_info(file_path)
-            if gs_info.get("has_transparency"):
-                results["V06_transparencia"] = {
-                    "status": "ERRO", "codigo": "E005_ACTIVE_TRANSPARENCY",
-                }
-                erros.append("E005_ACTIVE_TRANSPARENCY")
-            else:
-                results["V06_transparencia"] = {"status": "OK"}
-        except Exception:
-            results["V06_transparencia"] = {"status": "OK", "valor": "N/A"}
+            from agentes.operarios.shared_tools.gwg.transparency_checker import check_transparency_gwg
+            v06 = check_transparency_gwg(file_path)
+            results["V06_transparencia"] = v06
+            if v06.get("status") == "ERRO":
+                erros.append(v06["codigo"])
+            elif v06.get("status") == "AVISO":
+                avisos.append(v06["codigo"])
+        except Exception as exc:
+            logger.error(f"V-06 failed: {exc}")
 
-        # V-07: Color Space
+        # V-07: Color Space & TAC (Shared GWG)
         try:
-            from agentes.operarios.operario_papelaria_plana.tools.color_checker import (
-                check_color_space,
-            )
-            v07 = check_color_space(file_path)
+            from agentes.operarios.shared_tools.gwg.color_checker import check_color_compliance
+            v07 = check_color_compliance(file_path)
             results["V07_cores"] = v07
-            if v07.get("codigo"):
+            if v07.get("status") == "REPROVADO":
                 erros.append("E006_RGB_COLORSPACE")
-        except Exception:
-            results["V07_cores"] = {"status": "OK", "valor": "N/A"}
-
-        # V-08: OPM / Overprint (GWG Output Suite 5.0)
-        try:
-            from agentes.operarios.shared_tools.gwg.opm_checker import check_opm
-            v08 = check_opm(file_path)
-            results["V08_opm"] = v08
-            codigo_opm = v08.get("codigo")
-            if codigo_opm in ("E_OPM_WRONG", "E_WHITE_OVERPRINT"):
-                erros.append(codigo_opm)
-            elif codigo_opm:
-                avisos.append(codigo_opm)
         except Exception as exc:
-            results["V08_opm"] = {"status": "OK", "detalhe": str(exc)}
-
-        # V-09: ICC Profile & OutputIntent (GWG)
-        try:
-            from agentes.operarios.shared_tools.gwg.icc_checker import check_icc
-            v09 = check_icc(file_path)
-            results["V09_icc"] = v09
-            if v09.get("codigo"):
-                avisos.append(v09["codigo"])
-        except Exception as exc:
-            results["V09_icc"] = {"status": "OK", "detalhe": str(exc)}
-
-        # V-10: Image Compression (GWG)
-        try:
-            from agentes.operarios.shared_tools.gwg.compression_checker import check_compression
-            v10 = check_compression(file_path)
-            results["V10_compressao"] = v10
-            if v10.get("codigo"):
-                avisos.append(v10["codigo"])
-        except Exception as exc:
-            results["V10_compressao"] = {"status": "OK", "detalhe": str(exc)}
-
-        # V-11: Transparency & Blend Modes (GWG)
-        try:
-            from agentes.operarios.shared_tools.gwg.transparency_checker import check_transparency
-            v11 = check_transparency(file_path)
-            results["V11_transparencia_gwg"] = v11
-            if v11.get("codigo"):
-                avisos.append(v11["codigo"])
-        except Exception as exc:
-            results["V11_transparencia_gwg"] = {"status": "OK", "detalhe": str(exc)}
+            logger.error(f"V-07 failed: {exc}")
 
         # Calculate status
         from agentes.validador.agent import calcular_status_final
