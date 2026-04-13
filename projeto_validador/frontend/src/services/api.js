@@ -37,6 +37,14 @@ export const preflightApi = {
   },
 
   /**
+   * Get per-stage progress board (Etapa N de M)
+   */
+  getJobProgress: async (jobId) => {
+    const response = await api.get(`/jobs/${jobId}/progress`);
+    return response.data;
+  },
+
+  /**
    * Get full validation report
    */
   getReport: async (jobId) => {

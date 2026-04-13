@@ -176,6 +176,28 @@ async def get_job_status(
     )
 
 
+@router.get("/jobs/{job_id}/progress")
+async def get_job_progress(job_id: str, db: AsyncSession = Depends(get_db)):
+    """Deterministic stage board for the frontend.
+
+    Reads the live checker progress published by run_all_gwg_checks into Redis.
+    Falls back to a coarse-grained "pipeline stage" (QUEUED / ROUTING / …) when
+    the job hasn't reached the GWG suite yet or has already finished.
+    """
+    job = await get_job(db, job_id)
+    if job is None:
+        raise HTTPException(status_code=404, detail="Job not found")
+
+    from agentes.operarios.shared_tools.gwg.progress_bus import get_progress
+    board = get_progress(job_id)
+    return {
+        "job_id": job_id,
+        "pipeline_status": job.status,
+        "final_status": job.final_status,
+        "board": board,
+    }
+
+
 @router.get("/jobs/{job_id}/report", response_model=FinalReport)
 async def get_job_report(
     job_id: str,

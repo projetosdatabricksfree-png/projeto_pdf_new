@@ -39,7 +39,7 @@ class OperarioProjetosCAD:
 
         # 1. Full GWG Suite — agora CAD também roda todos os 9 checkers
         from agentes.operarios.shared_tools.gwg.run_full_suite import run_all_gwg_checks
-        suite = run_all_gwg_checks(file_path, profile)
+        suite = run_all_gwg_checks(file_path, profile, job_id=payload.job_id)
         for name, raw in suite["checks"].items():
             results[f"GWG_{name}"] = raw
         erros.extend(suite["erros"])

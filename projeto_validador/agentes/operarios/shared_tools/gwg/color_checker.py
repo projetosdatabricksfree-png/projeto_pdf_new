@@ -5,6 +5,7 @@ Validates TAC (Total Area Coverage), Color Spaces (CMYK/Spot), and specific over
 from __future__ import annotations
 
 import logging
+import os
 import re
 import subprocess
 from pathlib import Path
@@ -13,6 +14,10 @@ from typing import Any
 import fitz  # PyMuPDF
 try:
     import pyvips
+    try:
+        pyvips.concurrency_set(int(os.getenv("VIPS_CONCURRENCY", "4")))
+    except Exception:
+        pass
 except ImportError:
     pyvips = None
 

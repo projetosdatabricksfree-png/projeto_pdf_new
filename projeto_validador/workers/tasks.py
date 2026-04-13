@@ -212,6 +212,16 @@ def task_process_especialista(self, routing_json: str) -> str:
     }
     detected_p = product_map.get(decision["reason"], "Papelaria Plana")
 
+    route_map = {
+        "SPOT_COLOR_FACA_DETECTED": "operario_cortes_especiais",
+        "VARIABLE_PAGE_WIDTHS_CREEP_DETECTED": "operario_dobraduras",
+        "EMBEDDED_FONTS_MULTIPAGE": "operario_editoriais",
+        "PURE_VECTOR_LARGE_FORMAT": "operario_projetos_cad",
+    }
+    route_to = decision.get("route_to") or route_map.get(
+        decision["reason"], "operario_papelaria_plana"
+    )
+
     routing_result = RoutingPayload(
         job_id=payload.job_id,
         file_path=payload.file_path,

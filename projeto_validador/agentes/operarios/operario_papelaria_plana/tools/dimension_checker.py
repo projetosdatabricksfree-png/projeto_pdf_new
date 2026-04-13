@@ -68,5 +68,5 @@ def check_dimensions(file_path: str) -> dict:
                     "action": "Ajuste o arquivo para um dos formatos padrão (ex: 85x55mm, 90x50mm)."
                 }
             }
-创新创业    finally:
+    finally:
         doc.close()

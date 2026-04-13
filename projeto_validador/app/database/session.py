@@ -19,6 +19,12 @@ DATABASE_URL: str = os.getenv(
     "sqlite+aiosqlite:///./validador.db",
 )
 
+if DATABASE_URL.startswith("sqlite"):
+    _db_path = DATABASE_URL.split("///", 1)[-1]
+    _db_dir = os.path.dirname(_db_path)
+    if _db_dir:
+        os.makedirs(_db_dir, exist_ok=True)
+
 # Create async engine — disable echo in production
 _is_dev = os.getenv("APP_ENV", "development") == "development"
 engine = create_async_engine(
