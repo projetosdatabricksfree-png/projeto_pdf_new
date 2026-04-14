@@ -312,6 +312,21 @@ MESSAGES: dict[str, dict[str, dict[str, str]]] = {
             "acao": "Considere aumentar para no mínimo 0,5pt.",
         },
         # ─── GWG Output Suite 5.0 — OPM / Overprint ─────────────────
+        "G001_TRIMBOX_UNDEFINED": {
+            "titulo": "⚠️ TrimBox Não Definida",
+            "descricao": "O formato de corte (TrimBox) não foi definido explicitamente no PDF. Sem ele, o sistema de imposição pode falhar ao centralizar a arte.",
+            "acao": "Defina o formato final (Corte/Trim) no seu software de diagramação ao exportar o PDF.",
+        },
+        "G002_INSUFFICIENT_BLEED": {
+            "titulo": "❌ Sangria Insuficiente (GWG)",
+            "descricao": "O arquivo não possui sangria suficiente para garantir um corte limpo. A sangria deve ser de pelo menos 3mm em todos os lados.",
+            "acao": "Ajuste a sangria para no mínimo 3mm no arquivo original e re-exporte.",
+        },
+        "E_TAC_EXCEEDED": {
+            "titulo": "❌ Limite de Tinta Excedido (TAC)",
+            "descricao": "A densidade de tinta excede o limite permitido para esta variante GWG (ex: 305% para revistas). O acúmulo excessivo causa decalque e manchas na impressão.",
+            "acao": "Reduza a saturação das cores escuras ou use um perfil ICC de saída com limite de TAC menor.",
+        },
         "E_OPM_WRONG": {
             "titulo": "❌ OPM Incorreto (Modo de Overprint)",
             "descricao": "ExtGState com Overprint ativo possui OPM=0. Com OPM=0, a fidelidade colorimétrica do overprint não é garantida — as cores spot podem ser substituídas incorretamente pelo RIP.",

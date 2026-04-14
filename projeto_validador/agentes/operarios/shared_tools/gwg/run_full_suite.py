@@ -42,52 +42,52 @@ def _enable_gpu_acceleration():
 # subprocess — the parent worker never loads fitz/pyvips/ghostscript.
 # ---------------------------------------------------------------------------
 
-def _run_geometry(file_path: str, profile_name: str):
+def _run_geometry(file_path: str, profile: dict):
     from agentes.operarios.shared_tools.gwg.geometry_checker import check_geometry
-    return check_geometry(file_path)
+    return check_geometry(file_path, profile)
 
 
-def _run_icc(file_path: str, profile_name: str):
+def _run_icc(file_path: str, profile: dict):
     from agentes.operarios.shared_tools.gwg.icc_checker import check_icc
-    return check_icc(file_path)
+    return check_icc(file_path, profile.get("name", ""))
 
 
-def _run_color(file_path: str, profile_name: str, job_id: str | None = None):
+def _run_color(file_path: str, profile: dict, job_id: str | None = None):
     from agentes.operarios.shared_tools.gwg.color_checker import check_color_compliance
     
     def color_progress(msg: str):
         if job_id:
             update_stage(job_id, "color", "RUNNING", log=msg)
             
-    return check_color_compliance(file_path, {"produto": profile_name}, progress_callback=color_progress)
+    return check_color_compliance(file_path, {"produto": profile.get("name", "")}, progress_callback=color_progress)
 
 
-def _run_opm(file_path: str, profile_name: str):
+def _run_opm(file_path: str, profile: dict):
     from agentes.operarios.shared_tools.gwg.opm_checker import check_opm
     return check_opm(file_path)
 
 
-def _run_fonts(file_path: str, profile_name: str):
+def _run_fonts(file_path: str, profile: dict):
     from agentes.operarios.shared_tools.gwg.font_checker import check_fonts_gwg
     return check_fonts_gwg(file_path)
 
 
-def _run_transparency(file_path: str, profile_name: str):
+def _run_transparency(file_path: str, profile: dict):
     from agentes.operarios.shared_tools.gwg.transparency_checker import check_transparency_gwg
     return check_transparency_gwg(file_path)
 
 
-def _run_compression(file_path: str, profile_name: str):
+def _run_compression(file_path: str, profile: dict):
     from agentes.operarios.shared_tools.gwg.compression_checker import check_compression
     return check_compression(file_path)
 
 
-def _run_devicen(file_path: str, profile_name: str):
+def _run_devicen(file_path: str, profile: dict):
     from agentes.operarios.shared_tools.gwg.devicen_checker import check_devicen
     return check_devicen(file_path)
 
 
-def _run_hairlines(file_path: str, profile_name: str):
+def _run_hairlines(file_path: str, profile: dict):
     from agentes.operarios.shared_tools.gwg.font_checker import check_hairlines
     return check_hairlines(file_path)
 
@@ -237,7 +237,7 @@ def run_all_gwg_checks(
             started_at[name] = time.monotonic()
             update_stage(job_id or "", name, "RUNNING")
             async_results[name] = (
-                pool.apply_async(_safe_invoke, (name, fn, file_path, profile_name, job_id)),
+                pool.apply_async(_safe_invoke, (name, fn, file_path, profile, job_id)),
                 code,
                 label,
             )

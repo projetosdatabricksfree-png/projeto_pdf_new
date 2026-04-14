@@ -27,7 +27,7 @@
 
 | Status | ID | Requisito de Conformidade (§ GWG2015) | Especificação Técnica (Valor Alvo / Limite) | Severidade |
 | :---: | :--- | :--- | :--- | :--- |
-| `[~]` | **CO-01** | TAC — Total Area Coverage (§4.22) — Soma CMYK renderizada não excede limite médio dentro de área quadrada | MagazineAds/WebCmyk: A≤305%, B=15mm² · SheetCmyk: A≤320%, B=15mm² · Newspaper/News: A≤245%, B=15mm² ⚠️ Código atual: 300% flat sem janela de 15mm | Warning |
+| `[x]` | **CO-01** | TAC — Total Area Coverage (§4.22) — Soma CMYK renderizada não excede limite médio dentro de área quadrada | MagazineAds/WebCmyk: A≤305%, B=15mm² · SheetCmyk: A≤320%, B=15mm² · Newspaper/News: A≤245%, B=15mm² | Warning |
 | `[~]` | **CO-02** | Classic Delivery Method (§4.23) — Variantes CMYK-only proíbem DeviceRGB, CalRGB, CalGray, ICCbased (qualquer), Lab como intended/alternate | Ausência de: DeviceRGB, CalRGB, CalGray, ICCbased*, Lab em qualquer stream de conteúdo | Erro |
 | `[ ]` | **CO-03** | 2015 Delivery Method (§4.24) — Variantes CMYK+RGB: imagens não podem usar DeviceRGB, ICCbasedGray, CalGray, ICCbasedCMYK; não-imagens idem + Lab; alternate não pode ser DeviceRGB/ICCbasedGray/CalGray/ICCbasedCMYK | Veja tabela §4.24 (10 combinações proibidas) | Erro |
 | `[~]` | **CO-04** | Transparency Blend Color Space (§4.25) — CS key em transparency group deve ser DeviceCMYK; soft-masks Luminosity devem ter CS = DeviceCMYK ou DeviceGray | CS == DeviceCMYK em todos transparency group dicts; CS ∈ {DeviceCMYK, DeviceGray} nos soft-mask G dicts | Erro |
