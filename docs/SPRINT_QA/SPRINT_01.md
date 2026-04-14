@@ -4,6 +4,13 @@
 **Functional Areas:** DELTA fixes, SY (System), TAC engine, variant routing
 **Depends on:** none (foundational)
 
+> [!IMPORTANT]
+> **Status de Validação (Benchmark Ghent V50 — 2026-04-14):**
+> - **SY-08 (TAC Window):** PENDENTE. O motor ainda reporta pico global de pixel, ignorando a janela de 15mm².
+> - **SY-10 (Variant Mapping):** PENDENTE. Roteamento identificando arquivos como `sheetfed_offset` genérico ou errôneo.
+> - **DELTA-01/02/03:** PENDENTE. Thresholds bloqueados em 300% flat.
+> - **Messages:** PENDENTE. Falta tradução/humanização para códigos `G002`, `E_WHITE_OVERPRINT`, etc.
+
 ---
 
 ## Stories

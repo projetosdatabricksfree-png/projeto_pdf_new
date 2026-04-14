@@ -2,157 +2,89 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Comandos de Build e Execução
+Este arquivo guia o comportamento da IA no projeto Graphic-Pro.
 
-### Docker (Recomendado)
+## 🛠️ Comandos e Portas
+
+### Docker Stack
 ```bash
-docker compose -f projeto_validador/docker-compose.yml up -d --build   # Sobe todos os serviços
-docker compose -f projeto_validador/docker-compose.yml down             # Para todos
-docker compose -f projeto_validador/docker-compose.yml logs -f          # Acompanha logs
-docker compose -f projeto_validador/docker-compose.yml restart api      # Reinicia só a API
+docker compose -f projeto_validador/docker-compose.yml up -d --build
+docker compose -f projeto_validador/docker-compose.yml down
+docker compose -f projeto_validador/docker-compose.yml logs -f agent-gerente
 ```
+- **Frontend:** `http://localhost:5173`
+- **API (FastAPI):** `http://localhost:8001`
+- **Redis (Fila):** `localhost:63799`
 
-Portas expostas: **API** → `8001`, **Frontend** → `5173`, **Redis** → `63799`
-
-### Desenvolvimento Local (Sem Docker)
+### Testes
 ```bash
-# Backend
-cd projeto_validador && pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
+# Rodar todos os testes (dentro de projeto_validador/)
+cd projeto_validador && pytest tests/ -v
 
-# Frontend
-cd projeto_validador/frontend && npm install && npm run dev
+# Rodar um único teste
+pytest tests/test_api.py::TestHealthEndpoint::test_health_returns_200 -v
+
+# Rodar suite GWG completa
+pytest tests/gwg_suite/ -v
+
+# End-to-end com stack Docker rodando
+cd projeto_validador && bash test_backend.sh
 ```
 
-## Testes
-
+### Migrações de Banco (Alembic)
 ```bash
-cd projeto_validador && pytest                    # Todos os testes unitários
-cd projeto_validador && pytest tests/test_api.py  # Arquivo específico
-./projeto_validador/test_backend.sh               # E2E (requer Docker ativo)
-cd projeto_validador/frontend && npm run lint      # Linting frontend
+cd projeto_validador
+alembic revision --autogenerate -m "descrição"
+alembic upgrade head
 ```
 
-Os testes usam `pytest-asyncio`. Fixtures com `anyio_backend = "asyncio"` e `FastAPI TestClient` para endpoints.
+### Ambiente MCP Profissional (Monitoramento)
+O projeto utiliza um servidor MCP customizado para garantir qualidade e visibilidade:
+- **`graphic-pro`**: Monitora fila Redis (`queue:jobs`), valida schemas e aplica regras Anti-OOM.
+- **`vulnicheck`**: Auditoria de segurança em dependências em tempo real.
+- **`ipybox`**: Sandbox Docker para execução segura de scripts de validação PDF.
 
-## Arquitetura do Sistema
-
-### Pipeline Multi-Agente (Fluxo)
-
-```
-HTTP Upload → Diretor (FastAPI) → queue:jobs → Gerente → [se baixa confiança → Especialista]
-  → Operário (1 de 5 tipos) → Validador → Logger (DB)
-```
-
-Status do Job no banco: `QUEUED → ROUTING → PROCESSING → VALIDATING → DONE`
-
-Toda comunicação inter-agente usa **JSON via Celery/Redis**. Nunca carregue arquivos inteiros em memória — toda leitura de arquivo é via streaming em chunks de 8MB (regra anti-OOM).
-
-### Agentes e Responsabilidades
-
-| Agente | Localização | Responsabilidade |
-|--------|-------------|-----------------|
-| **Diretor** | `app/api/routes_jobs.py` | Recebe upload HTTP, salva em disco (streaming), enfileira job |
-| **Gerente** | `agentes/gerente/agent.py` | Roteamento via ExifTool — identifica tipo de produto e despacha |
-| **Especialista** | `agentes/especialista/agent.py` | Sonda profunda com PyMuPDF/Ghostscript quando Gerente tem baixa confiança |
-| **Operários (×5)** | `agentes/operarios/operario_*/agent.py` | Validação técnica especializada por tipo de produto |
-| **Validador** | `agentes/validador/agent.py` | Veredicto final determinístico (APROVADO / REPROVADO / RESSALVAS) |
-| **Logger** | `agentes/logger/agent.py` | Persiste eventos no banco via SQLAlchemy async |
-
-### Operários Especializados (5 Tipos)
-
-- `operario_papelaria_plana` — Cartões pequenos, cartão de visita (checks E001–E010)
-- `operario_editoriais` — Livros, publicações (lombada, goteira, rich black)
-- `operario_dobraduras` — Folders, brochuras com dobras (marcas de dobra, creep)
-- `operario_cortes_especiais` — Rótulos, formas irregulares
-- `operario_projetos_cad` — Grande formato, desenhos CAD
-
-Cada operário tem um método `processar(payload: RoutingPayload) → TechnicalReport`.
-
-### Schemas de Comunicação Inter-Agente (`app/api/schemas.py`)
-
-- `JobPayload` — Diretor → Gerente
-- `RoutingPayload` — Gerente → Operário (inclui `product_type`, `confidence`)
-- `TechnicalReport` — Operário → Validador (lista de checks com status OK/ERRO/AVISO)
-- `FinalReport` — Validador → cliente HTTP
-
-### API Endpoints
+## 🏗️ Arquitetura de Agentes
+O pipeline segue um fluxo determinístico e assíncrono via **Celery + Redis**:
 
 ```
-POST /api/v1/validate              # Upload de arquivo (form-data), retorna job_id (202)
-GET  /api/v1/jobs/{id}/status      # Polling de status
-GET  /api/v1/jobs/{id}/report      # Relatório final (409 se ainda não concluído)
-GET  /api/v1/jobs/{id}/file        # Serve o arquivo original para o viewer
-GET  /api/v1/health
+HTTP Upload → API (FastAPI) → task_route (Celery)
+  → task_gerente (queue:jobs)
+    → task_especialista (queue:especialista) [se confiança < 85%]
+      → task_operario_* (queue:operario_<tipo>)
+        → task_validador (queue:validador)
+          → task_log (queue:audit)
 ```
 
-### Banco de Dados
+- **Diretor** (`app/api/routes_jobs.py`): Recebe upload via streaming, cria job no DB, enfileira `task_route`.
+- **Gerente** (`agentes/gerente/agent.py`): Classifica tipo gráfico por lógica geométrica e ExifTool. Retorna confiança 0–100.
+- **Especialista** (`agentes/especialista/`): Sonda profunda com PyMuPDF se confiança do Gerente < 85%.
+- **Operários** (`agentes/operarios/`): Um por tipo de produto — `papelaria_plana`, `editoriais`, `dobraduras`, `cortes_especiais`, `projetos_cad`. Cada um tem sua fila Celery dedicada.
+- **Validador** (`agentes/validador/agent.py`): Veredicto final baseado na tabela GWG (`messages_table.py`). Emite `APPROVED`, `REJECTED`, ou `APPROVED_WITH_WARNINGS`.
+- **Logger** (`agentes/logger/`): Persistência assíncrona via SQLAlchemy 2.0 + aiosqlite.
 
-SQLite em dev, PostgreSQL em prod (via `DATABASE_URL` no `.env`). Tabelas principais:
-- `jobs` — Job com status e metadados
-- `validation_results` — Resultado de cada check por agente
-- `events` — Trilha de auditoria completa
-- `routing_logs`, `performance_metrics`
+### Stack Técnica
+- **API errors:** RFC 9457 Problem Details (`application/problem+json`)
+- **DB:** SQLite (dev) via `aiosqlite`; `asyncpg` disponível para Postgres em prod
+- **GPU:** Worker configurado com NVIDIA (OpenCL/VIPS) via `docker-compose.yml`
+- **Frontend:** React + Vite (`frontend/src/`)
 
-CRUD assíncrono em `app/database/crud.py`, modelos em `app/database/models.py`.
+## 📏 Regras de Negócio Críticas
+1. **Rule 1 (Anti-OOM):** NUNCA carregue arquivos inteiros em memória. Use streaming ou `mmap`. O worker tem `mem_limit: 4g`.
+2. **Rule 4 (Idempotência):** Jobs falhos permanecem em `QUEUED` para retry — nunca mova para `FAILED` sem mecanismo de reprocessamento.
+3. **Rule 7 (Visual Feedback):** O frontend deve mostrar o stage atual via `ProgressTracker`.
+4. **Celery sync/async bridge:** Tarefas Celery são síncronas; use `_run_async()` em `workers/tasks.py` para chamar código async (nunca crie novos event loops diretamente).
+5. **GWG compliance:** Mensagens de resultado devem sempre referenciar a tabela em `agentes/validador/messages_table.py`.
 
-### Workers Celery (`workers/`)
+## 📂 Organização de Skills (Padrão Repositório)
+Utilize as instruções detalhadas em `~/Desktop/PROJETOS/SKILSS/` para tarefas específicas:
+- `po/`: Para requisitos e critérios de aceite.
+- `python-backend/`: Padrões FastAPI e Celery.
+- `qa/`: Planos de teste e validação.
+- `token-economy/`: Gestão de contexto e eficiência de sessão.
 
-- `celery_app.py` — Configuração (broker/result backend via env vars)
-- `tasks.py` — Tarefas: `task_route`, `task_process_*`, `task_validate`, `task_log`
-
-### Frontend (`frontend/src/`)
-
-SPA React 19 com três views controladas por state machine em `App.jsx`:
-`upload → progress → report`
-
-- `services/api.js` — Cliente HTTP (axios) para os endpoints da API
-- Componentes `ProgressTracker` e `ReportDashboard` são lazy-loaded
-- Animações com Framer Motion, ícones com Lucide React
-- Viewer de PDF via `react-pdf` + `pdfjs-dist`
-
-## Variáveis de Ambiente
-
-Copie `.env.example` para `.env` antes de rodar localmente. Principais variáveis:
-
-```
-DATABASE_URL=sqlite+aiosqlite:///./data/dev.db
-REDIS_URL=redis://localhost:63799/0
-CELERY_BROKER_URL=redis://localhost:63799/0
-CELERY_RESULT_BACKEND=redis://localhost:63799/0
-VOLUME_PATH=/volumes/uploads
-APP_ENV=development
-LOG_LEVEL=INFO
-```
-
-## Estilo de Código
-
-- **Python:** PEP 8, Type Hints obrigatórios, Pydantic para todos os schemas de dados.
-- **React:** Componentes funcionais com Hooks. Sem classes.
-- **Git:** Conventional Commits (`feat:`, `fix:`, `security:`, `refactor:`).
-
-## Skills Disponíveis
-
-Carregue apenas o skill necessário para a tarefa atual — não os leia todos de uma vez.
-
-- → `docs/skills/brainstorming/` — Design de feature: explore → design doc → aprovação → implementação
-- → `docs/skills/python-backend/` — Padrões async FastAPI, SQLAlchemy 2.0, Celery, connection pooling
-- → `docs/skills/web-coder/` — Frontend React, web standards, performance, acessibilidade
-- → `docs/skills/frontend-design/` — UI production-grade com identidade visual definida
-- → `docs/skills/ux-designer/` — User research, fluxos, wireframes, WCAG AA
-- → `docs/skills/design-system/` — Audit/geração de design tokens e consistência visual
-- → `docs/skills/token-economy/` — Gestão de tokens, seleção de modelo, regras de sessão
-
-## Token Economy — Regras Automáticas
-
-Aplique sempre, sem que o usuário precise solicitar:
-
-- **Modelo padrão: Sonnet.** Haiku para sub-agentes auxiliares. Opus só para decisões arquiteturais críticas (< 20% do tempo).
-- **`/clear` ao trocar de assunto** — não carregue contexto irrelevante entre tarefas.
-- **`/compact` a ~60% da janela** — não espere o autocompact a 95%.
-- **Plan Mode antes de implementar** — mapear → usuário aprova → executar. Evita retrabalho.
-- **Referências cirúrgicas** — `@arquivo:linha`, nunca o repositório inteiro.
-- **MCPs desconectados quando não usados** — cada MCP adiciona ~10k tokens de overhead por mensagem.
-- **Multi-agentes só quando justificado** — cada sub-agente multiplica o custo de contexto.
-- **Agrupar correções** — editar a mensagem original em vez de enviar follow-ups de correção.
-- **Este CLAUDE.md deve permanecer < 200 linhas.** Workflows específicos vão para Skills.
+## 🪙 Token Economy & Boas Práticas
+- **Plan Mode:** Sempre crie um `implementation_plan.md` antes de mudanças estruturais.
+- **Compactação:** Execute `/compact` ao atingir 50-60% de uso de contexto.
+- **MCP Off:** Desconecte MCPs não utilizados para economizar tokens.
+- **Edição Direta:** Prefira `replace_file_content` para mudanças cirúrgicas.

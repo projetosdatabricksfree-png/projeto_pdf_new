@@ -102,7 +102,7 @@
 | :---: | :--- | :--- | :--- | :--- |
 | `[~]` | **TR-01** | Transparency Blend Group CS (§4.25) — CS key em transparency group dict = DeviceCMYK | Inspecionar /CS em todos /Group dicts; deve ser DeviceCMYK ⚠️ Código detecta transparência mas não verifica valor de CS | Erro |
 | `[ ]` | **TR-02** | Soft Mask Luminosity CS (§4.25) — Soft-mask com S = Luminosity deve ter G → CS = DeviceCMYK ou DeviceGray | Verificar soft-mask dicts: S=Luminosity → G.CS ∈ {DeviceCMYK, DeviceGray} | Erro |
-| `[ ]` | **TR-03** | Transparency Blend Modes (Ghent 16.0–16.2, 16.6–16.11) — Blend modes Non-Knockout, Knockout, Isolated, SoftMask (Image/Vector/Text) | Blend modes devem ser preservados sem alteração pelo workflow | Warning |
+| `[x]` | **TR-03** | Transparency Blend Modes (Ghent 16.0–16.2, 16.6–16.11) — Blend modes Non-Knockout, Knockout, Isolated, SoftMask (Image/Vector/Text) | Blend modes devem ser preservados sem alteração pelo workflow | Warning |
 
 ---
 
@@ -189,19 +189,19 @@
 
 | Categoria | Total Req. | Implementado [x] | Parcial [~] | Pendente [ ] |
 | :--- | :---: | :---: | :---: | :---: |
-| **GE — Geometria** | 5 | 1 | 1 | 3 |
+| **GE — Geometria** | 5 | 0 | 1 | 4 |
 | **CO — Cores / TAC** | 6 | 2 | 2 | 2 |
-| **OV — Overprint** | 10 | 3 | 0 | 7 |
+| **OV — Overprint** | 10 | 4 | 0 | 6 |
 | **FO — Fontes** | 5 | 2 | 2 | 1 |
 | **IM — Imagens** | 7 | 3 | 2 | 2 |
-| **SP — Spot/DeviceN** | 7 | 2 | 1 | 4 |
-| **TR — Transparência** | 3 | 0 | 1 | 2 |
+| **SP — Spot/DeviceN** | 7 | 1 | 1 | 5 |
+| **TR — Transparência** | 3 | 1 | 1 | 1 |
 | **IC — ICC/Output** | 5 | 3 | 0 | 2 |
 | **OC — Opt. Content** | 3 | 0 | 0 | 3 |
 | **LW — Line Width** | 2 | 1 | 0 | 1 |
 | **SH — Shadings** | 1 | 0 | 0 | 1 |
 | **TOTAL GWG** | **54** | **17 (31%)** | **9 (17%)** | **28 (52%)** |
-| **SY — Sistema** | **13** | **7** | **0** | **6** |
+| **SY — Sistema** | **13** | **8** | **0** | **5** |
 
 ---
 
