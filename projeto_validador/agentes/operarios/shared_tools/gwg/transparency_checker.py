@@ -17,7 +17,7 @@ from .oc_filter import VisibilityFilter, NULL_FILTER
 
 logger = logging.getLogger(__name__)
 
-def check_transparency(file_path: str, profile: dict | None = None, visible_filter: VisibilityFilter = NULL_FILTER) -> List[Dict[str, Any]]:
+def check_transparency_gwg(file_path: str, profile: dict | None = None, visible_filter: VisibilityFilter = NULL_FILTER) -> List[Dict[str, Any]]:
     """
     Validate Transparency Groups and Soft Masks per GWG 2015.
     """

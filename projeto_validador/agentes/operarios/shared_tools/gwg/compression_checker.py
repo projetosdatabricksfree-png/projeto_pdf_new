@@ -16,7 +16,7 @@ from .error_messages import get_human_error
 
 logger = logging.getLogger(__name__)
 
-def check_compression_gwg(file_path: str, profile: dict | None = None) -> List[Dict[str, Any]]:
+def check_compression(file_path: str, profile: dict | None = None) -> List[Dict[str, Any]]:
     """
     Check image compression and encoding per GWG/Ghent requirements.
     """

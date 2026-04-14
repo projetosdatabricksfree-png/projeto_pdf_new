@@ -35,7 +35,7 @@ def _get_icc_info(profile_data: bytes) -> Dict[str, Any]:
         "hash": hashlib.sha256(profile_data).hexdigest()
     }
 
-def check_icc_compliance(file_path: str, profile: dict | None = None) -> List[Dict[str, Any]]:
+def check_icc(file_path: str, profile: dict | None = None) -> List[Dict[str, Any]]:
     """
     Validate OutputIntent ICC profiles per §4.30.
     """
@@ -49,8 +49,14 @@ def check_icc_compliance(file_path: str, profile: dict | None = None) -> List[Di
             return []
             
         doc.xref_object(catalog_xref)
-        # Look for /OutputIntents [ ... ]
-        doc.get_sig_flags() # PyMuPDF has specific methods, but checking refs is safer for raw ICC
+        # Check for signature flags if available (version dependent)
+        try:
+            if hasattr(doc, "get_sigflags"):
+                doc.get_sigflags()
+            elif hasattr(doc, "get_sig_flags"):
+                doc.get_sig_flags()
+        except Exception:
+            pass
         
         # Cross-reference all OutputIntent profiles
         profiles_info = []
