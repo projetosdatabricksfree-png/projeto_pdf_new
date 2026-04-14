@@ -1,188 +1,229 @@
 {
-  "job_id": "diag-484fc89b",
+  "job_id": "diag-8d8efe24",
   "status": "REPROVADO",
-  "produto": "Folder / Dobradura",
+  "produto": "Projeto T\u00e9cnico Personalizado (GWG 2015 Sheetfed Offset)",
   "agente_processador": null,
-  "avaliado_em": "2026-04-13 15:36:48.046012+00:00",
+  "avaliado_em": "2026-04-14 12:30:31.122867+00:00",
   "tempo_processamento_ms": 0,
-  "resumo": "RESULTADO: REPROVADO\nProduto detectado: Folder / Dobradura\nTotal de erros cr\u00edticos: 5\nTotal de avisos: 0\n\nEste arquivo N\u00c3O pode ser enviado para impress\u00e3o. Corrija os erros listados e reenvie para nova valida\u00e7\u00e3o.",
+  "resumo": "RESULTADO: REPROVADO\nProduto detectado: Projeto T\u00e9cnico Personalizado (GWG 2015 Sheetfed Offset)\nTotal de erros cr\u00edticos: 3\nTotal de avisos: 3\n\nEste arquivo N\u00c3O pode ser enviado para impress\u00e3o. Corrija os erros listados e reenvie para nova valida\u00e7\u00e3o.",
   "erros": [
+    {
+      "severidade": "CR\u00cdTICO",
+      "codigo": "G002",
+      "titulo": "\u26a0\ufe0f G002",
+      "descricao": "C\u00f3digo de verifica\u00e7\u00e3o: G002",
+      "acao_corretiva": "Consulte o manual de pr\u00e9-flight para detalhes.",
+      "found_value": null,
+      "expected_value": null
+    },
+    {
+      "severidade": "CR\u00cdTICO",
+      "codigo": "E_NO_OUTPUT_INTENT",
+      "titulo": "\u274c OutputIntent Ausente",
+      "descricao": "O arquivo n\u00e3o possui OutputIntent no cat\u00e1logo PDF. Para conformidade com PDF/X-4 e GWG, um OutputIntent com perfil ICC \u00e9 obrigat\u00f3rio.",
+      "acao_corretiva": "Re-exporte o PDF com um OutputIntent adequado (ex: ISO Coated v2 300% / FOGRA39).",
+      "found_value": null,
+      "expected_value": null
+    },
     {
       "severidade": "CR\u00cdTICO",
       "codigo": "E007_EXCESSIVE_INK_COVERAGE",
       "titulo": "\u274c Excesso de Tinta",
       "descricao": "A cobertura total de tinta excede o limite do substrato. Isso causar\u00e1 repasse e manchas.",
-      "acao_corretiva": "Reduza a densidade das cores. Verifique o perfil de cor utilizado."
-    },
-    {
-      "severidade": "CR\u00cdTICO",
-      "codigo": "E_WHITE_OVERPRINT",
-      "titulo": "\u274c White Overprint Detectado",
-      "descricao": "Objeto com cor CMYK (0,0,0,0) tem overprint ativo. Este objeto \u00e9 invis\u00edvel mas sobrep\u00f5e as tintas abaixo, causando 'buracos' indetect\u00e1veis no ecr\u00e3 que aparecem na impress\u00e3o.",
-      "acao_corretiva": "Desative o overprint em objetos com cor CMYK (0,0,0,0) ou remova os objetos brancos invis\u00edveis."
-    },
-    {
-      "severidade": "CR\u00cdTICO",
-      "codigo": "E001_NO_FOLD_MARKS",
-      "titulo": "\u26a0\ufe0f Marcas de Dobra Ausentes",
-      "descricao": "Arquivo multip\u00e1gina detectado sem marcas de dobra/vinco.",
-      "acao_corretiva": "Adicione marcas de vinco no arquivo ou indique as posi\u00e7\u00f5es de dobra."
-    },
-    {
-      "severidade": "CR\u00cdTICO",
-      "codigo": "E002_CREEP_COMPENSATION_MISSING",
-      "titulo": "\u274c Compensa\u00e7\u00e3o de Vinco Ausente",
-      "descricao": "Os pain\u00e9is internos do folder t\u00eam a mesma largura dos externos. Ao dobrar, o conte\u00fado vai extrapolar as bordas.",
-      "acao_corretiva": "Reduza o painel central em 2mm a 3mm para compensar a dobra."
-    },
-    {
-      "severidade": "CR\u00cdTICO",
-      "codigo": "E009_MISSING_BLEED",
-      "titulo": "\u274c Sangria Ausente",
-      "descricao": "O arquivo n\u00e3o possui sangria nos pain\u00e9is.",
-      "acao_corretiva": "Configure sangria de 2mm a 3mm em todos os pain\u00e9is."
+      "acao_corretiva": "Reduza a densidade das cores. Verifique o perfil de cor utilizado.",
+      "found_value": null,
+      "expected_value": null
     }
   ],
-  "avisos": [],
+  "avisos": [
+    {
+      "severidade": "AVISO",
+      "codigo": "G001",
+      "titulo": "\u26a0\ufe0f G001",
+      "descricao": "C\u00f3digo de verifica\u00e7\u00e3o: G001",
+      "acao_corretiva": "Consulte o manual de pr\u00e9-flight para detalhes.",
+      "found_value": null,
+      "expected_value": null
+    },
+    {
+      "severidade": "AVISO",
+      "codigo": "W_TRANSPARENCY_DETECTED",
+      "titulo": "\u26a0\ufe0f W_TRANSPARENCY_DETECTED",
+      "descricao": "C\u00f3digo de verifica\u00e7\u00e3o: W_TRANSPARENCY_DETECTED",
+      "acao_corretiva": "Consulte o manual de pr\u00e9-flight para detalhes.",
+      "found_value": null,
+      "expected_value": null
+    },
+    {
+      "severidade": "AVISO",
+      "codigo": "W001_NON_STANDARD_FORMAT",
+      "titulo": "\u26a0\ufe0f Formato N\u00e3o Padronizado",
+      "descricao": "O formato do documento n\u00e3o corresponde a nenhuma norma ISO padr\u00e3o.",
+      "acao_corretiva": "Verifique se o formato \u00e9 intencional.",
+      "found_value": null,
+      "expected_value": null
+    }
+  ],
   "detalhes_tecnicos": {
-    "agent_processador": "operario_dobraduras",
-    "tempo_processamento_ms": 22042,
+    "agent_processador": "operario_projetos_cad",
+    "tempo_processamento_ms": 2143,
     "gwg_2022_compliance": {
       "status": "NON_COMPLIANT",
       "specification": "GWG 2022.1 Prepress",
       "details": "O arquivo apresenta viola\u00e7\u00f5es t\u00e9cnicas em rela\u00e7\u00e3o \u00e0s normas GWG 2022."
     },
     "validacoes": {
-      "V00_conformidade_cor": {
-        "color_space": {
-          "status": "OK",
-          "valor": "DeviceCMYK/Spot"
-        },
-        "tac": {
-          "status": "ERRO",
-          "codigo": "E007_EXCESSIVE_INK_COVERAGE",
-          "valor_found": "400.0%",
-          "valor_expected": "<= 300.0%"
-        },
-        "status": "REPROVADO"
-      },
-      "V00b_fontes": {
-        "status": "OK",
-        "non_embedded": [],
-        "courier_substitutions": [],
-        "font_summary": {
-          "total": 137,
-          "preferred_format": 94,
-          "acceptable_format": 10,
-          "non_embedded": 0,
-          "courier_substitutions": 0
-        }
-      },
-      "V00c_overprint": {
+      "GWG_geometry": {
         "status": "ERRO",
-        "codigo": "E_WHITE_OVERPRINT",
-        "descricao": "White Overprint detectado (CMYK 0,0,0,0 com overprint ativo)",
-        "opm_entries": [
-          {
-            "xref": 1038,
-            "OPM": 0,
-            "OP": true,
-            "issue": "OPM=0 with overprint active \u2014 colour accuracy compromised"
-          },
-          {
-            "xref": 1180,
-            "OPM": 0,
-            "OP": true,
-            "issue": "OPM=0 with overprint active \u2014 colour accuracy compromised"
-          },
-          {
-            "xref": 1181,
-            "OPM": 0,
-            "OP": true,
-            "issue": "OPM=0 with overprint active \u2014 colour accuracy compromised"
-          },
-          {
-            "xref": 1182,
-            "OPM": 0,
-            "OP": true,
-            "issue": "OPM=0 with overprint active \u2014 colour accuracy compromised"
-          },
-          {
-            "xref": 1313,
-            "OPM": 0,
-            "OP": true,
-            "issue": "OPM=0 with overprint active \u2014 colour accuracy compromised"
-          },
-          {
-            "xref": 1314,
-            "OPM": 0,
-            "OP": true,
-            "issue": "OPM=0 with overprint active \u2014 colour accuracy compromised"
-          },
-          {
-            "xref": 1634,
-            "OPM": 0,
-            "OP": true,
-            "issue": "OPM=0 with overprint active \u2014 colour accuracy compromised"
-          },
-          {
-            "xref": 1645,
-            "OPM": 0,
-            "OP": true,
-            "issue": "OPM=0 with overprint active \u2014 colour accuracy compromised"
-          },
-          {
-            "xref": 1646,
-            "OPM": 0,
-            "OP": true,
-            "issue": "OPM=0 with overprint active \u2014 colour accuracy compromised"
-          }
-        ],
-        "white_overprint": true,
-        "gray_overprint": false,
-        "gs_validated": true
+        "codigo": "G002",
+        "label": "Margem de Sangria",
+        "found_value": "0.0mm",
+        "expected_value": ">= 3.00mm",
+        "paginas": [],
+        "meta": {}
       },
-      "V00d_transparencia": {
+      "GWG_icc": {
+        "status": "ERRO",
+        "codigo": "E_NO_OUTPUT_INTENT",
+        "label": "Output Intent (PDF/X-4)",
+        "found_value": "Ausente",
+        "expected_value": "Obrigat\u00f3rio (PDF/X-4)",
+        "paginas": [],
+        "meta": {}
+      },
+      "GWG_opm": {
+        "status": "OK",
+        "codigo": null,
+        "label": null,
+        "found_value": "OPM=1 ou Overprint Inativo",
+        "expected_value": "OPM=1 para Overprint Ativo",
+        "paginas": [],
+        "meta": {}
+      },
+      "GWG_fonts": {
+        "status": "OK",
+        "codigo": null,
+        "label": null,
+        "found_value": "100% das fontes incorporadas",
+        "expected_value": "100% das fontes incorporadas",
+        "paginas": [],
+        "meta": {}
+      },
+      "GWG_transparency": {
         "status": "AVISO",
         "codigo": "W_TRANSPARENCY_DETECTED",
-        "detalhe": "Transpar\u00eancia ativa detectada no arquivo.",
-        "transparency_found": true,
-        "locations": [
-          "Soft Mask (SMask) found in xref 126"
-        ]
+        "label": null,
+        "found_value": null,
+        "expected_value": null,
+        "paginas": [],
+        "meta": {}
       },
-      "V01_marcas_dobra": {
-        "status": "AVISO",
-        "codigo": "E001_NO_FOLD_MARKS",
-        "detalhe": "Sem marcas de dobra"
+      "GWG_compression": {
+        "status": "OK",
+        "codigo": null,
+        "label": null,
+        "found_value": null,
+        "expected_value": null,
+        "paginas": [],
+        "meta": {}
       },
-      "V02_creep": {
-        "status": "AVISO",
-        "codigo": "E002_CREEP_COMPENSATION_MISSING",
-        "detalhe": "Pain\u00e9is com largura uniforme \u2014 verificar compensa\u00e7\u00e3o",
-        "panel_widths": [
-          210.0,
-          210.0,
-          210.0,
-          210.0,
-          210.0,
-          210.0
-        ]
+      "GWG_devicen": {
+        "status": "OK",
+        "codigo": null,
+        "label": null,
+        "found_value": "Nenhuma cor spot",
+        "expected_value": "AlternateSpace != RGB",
+        "paginas": [],
+        "meta": {}
       },
-      "V06_resolucao": {
-        "status": "AVISO",
-        "detalhe": "Resolu\u00e7\u00e3o n\u00e3o detectada nos metadados"
+      "GWG_hairlines": {
+        "status": "OK",
+        "codigo": null,
+        "label": "Espessura de Linha (Hairline)",
+        "found_value": "Adequada",
+        "expected_value": "\u2265 0.25pt",
+        "paginas": [],
+        "meta": {
+          "client": "Todas as linhas possuem espessura adequada.",
+          "action": "Nenhuma."
+        }
       },
-      "V07_sangria": {
-        "bleed_left_mm": 0.0,
-        "bleed_right_mm": 0.0,
-        "bleed_top_mm": 0.0,
-        "bleed_bottom_mm": 0.0,
-        "min_bleed_mm": 0.0,
+      "GWG_color": {
         "status": "ERRO",
-        "codigo": "E002_MISSING_BLEED",
-        "valor_encontrado": "0.0mm",
-        "valor_esperado": "2-3mm"
+        "codigo": "E007_EXCESSIVE_INK_COVERAGE",
+        "label": "Espa\u00e7o de Cor & TAC",
+        "found_value": "Spot | TAC M\u00e1x: 400.0%",
+        "expected_value": "CMYK/Spot | TAC <= 300%",
+        "paginas": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "meta": {}
+      },
+      "V01_formato": {
+        "status": "AVISO",
+        "codigo": "W001_NON_STANDARD_FORMAT",
+        "label": "Formato do Papel",
+        "found_value": "515.41 x 457.2mm",
+        "expected_value": "Padr\u00e3o ISO A0-A4",
+        "paginas": [],
+        "meta": {
+          "client": "Tamanho personalizado (515.41x457.2mm) detectado.",
+          "action": "Verifique se o formato est\u00e1 correto para a plotagem."
+        }
+      },
+      "V02_escala": {
+        "status": "OK",
+        "codigo": null,
+        "label": "Escala do Desenho",
+        "found_value": "Escala 1:1",
+        "expected_value": "Escala 1:1",
+        "paginas": [],
+        "meta": {
+          "client": "Desenho t\u00e9cnico em escala 1:1 correta.",
+          "action": "Nenhuma."
+        }
+      },
+      "V03_hairlines_cad": {
+        "status": "OK",
+        "codigo": null,
+        "label": "Espessura de Linha (CAD)",
+        "found_value": "Adequada",
+        "expected_value": "\u2265 0.25pt",
+        "paginas": [],
+        "meta": {
+          "client": "Todas as linhas possuem espessura adequada.",
+          "action": "Nenhuma."
+        }
+      },
+      "V04_legenda": {
+        "status": "OK",
+        "codigo": null,
+        "label": "\u00c1rea de Legenda (NBR 13142)",
+        "found_value": "Formato None",
+        "expected_value": "Recomendado A0-A2",
+        "paginas": [],
+        "meta": {
+          "client": "Verifica\u00e7\u00e3o NBR n\u00e3o aplic\u00e1vel para este formato.",
+          "action": "Nenhuma."
+        }
+      },
+      "V05_margem_encadernacao": {
+        "status": "OK",
+        "codigo": null,
+        "label": "Margem de Encaderna\u00e7\u00e3o",
+        "found_value": "N/A (Sem Wire-O)",
+        "expected_value": ">= 15mm",
+        "paginas": [],
+        "meta": {
+          "client": "N\u00e3o requer margem de encaderna\u00e7\u00e3o especial.",
+          "action": "Nenhuma."
+        }
       }
     }
   }

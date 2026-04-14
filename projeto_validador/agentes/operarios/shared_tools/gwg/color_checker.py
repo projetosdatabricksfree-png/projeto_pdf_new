@@ -115,42 +115,59 @@ def _check_color_space_gs(file_path: str, profile: dict[str, Any]) -> dict[str, 
         return {"status": "AVISO", "detalhe": "Falha na verificação profunda de cor via GS"}
 
 def _check_tac_vips_turbo(file_path: str, limit: float, page_count: int, progress_callback: callable = None) -> dict[str, Any]:
-    """Uses vectorized libvips operations (GPU accelerated) to find TAC peak across all pages."""
+    """
+    Uses vectorized libvips operations to find TAC peak using a 15mm² sliding window mean (§4.22).
+    Accuracy Fix: Uses PyMuPDF (fitz) to render CMYK native before vips processing.
+    """
     if not pyvips:
         return {"status": "AVISO", "detalhe": "pyvips não instalado, pulando teste de TAC"}
     
     try:
+        import fitz
         max_tac_global = 0.0
         violating_pages = []
 
-        # Optimization: Set VIPS to low-memory/streaming mode for large files
-        # pyvips.cache_set_max(0) 
+        # GWG2015 §4.22: 15mm² sliding window
+        ANALYSIS_DPI = 150
+        BOX_SIZE = 23 
 
-        for i in range(page_count):
-            if progress_callback:
-                progress_callback(f"Analisando TAC: pág {i+1}/{page_count}...")
+        doc = fitz.open(file_path)
+        try:
+            for i in range(page_count):
+                if progress_callback:
+                    progress_callback(f"Analisando TAC (Window 15mm²): pág {i+1}/{page_count}...")
 
-            # Load page at 72 DPI (sufficient for TAC and very fast)
-            # n=-1 would load all pages at once, which can kill RAM. 
-            # We iterate manually to keep memory stable.
-            page_img = pyvips.Image.new_from_file(file_path, page=i, n=1, dpi=72)
-            
-            # Skip non-CMYK or Greyscale for TAC (TAC only makes sense in CMYK sum)
-            if page_img.bands < 4:
-                continue
-
-            # Vectorized TAC calculation: Sum first 4 bands (CMYK) and scale to 0-100%
-            # This operation happens in the C/OpenCL layer, not in Python for loop.
-            tac_map = (page_img[0] + page_img[1] + page_img[2] + page_img[3]) * (100.0 / 255.0)
-            
-            # Find the peak value in the entire image
-            page_max = tac_map.max()
-            
-            if page_max > max_tac_global:
-                max_tac_global = page_max
-            
-            if page_max > (limit + 0.1): # 0.1 margin for float errors
-                violating_pages.append(i + 1)
+                # 1. Render CMYK native via PyMuPDF
+                page = doc[i]
+                pix = page.get_pixmap(colorspace=fitz.csCMYK, dpi=ANALYSIS_DPI)
+                
+                # 2. Convert Pixmap to VIPS Image
+                # 'uchar' is 8-bit unsigned char. 4 bands = CMYK
+                page_img = pyvips.Image.new_from_memory(pix.samples, pix.width, pix.height, 4, 'uchar')
+                
+                # 3. Calculate Per-Pixel TAC Map (0.0 to 400.0)
+                # Cast to float to avoid 8-bit clipping before sum
+                bands = [page_img[j].cast("float") for j in range(4)]
+                tac_map = (bands[0] + bands[1] + bands[2] + bands[3]) * (100.0 / 255.0)
+                
+                # 4. Apply 15mm² Sliding Window (Mean)
+                # Using 2D conv ensures boxcar behavior
+                mask_data = [[1.0] * BOX_SIZE for _ in range(BOX_SIZE)]
+                mask = pyvips.Image.new_from_array(mask_data)
+                mean_map = tac_map.conv(mask, precision="float") / (BOX_SIZE**2)
+                
+                page_max = mean_map.max()
+                
+                if page_max > max_tac_global:
+                    max_tac_global = page_max
+                
+                if page_max > (limit + 0.01):
+                    violating_pages.append(i + 1)
+                    
+                # Free memory explicitly
+                pix = None
+        finally:
+            doc.close()
 
         found_str = f"{round(max_tac_global, 1)}%"
         expected_str = f"<= {limit}%"
@@ -158,19 +175,23 @@ def _check_tac_vips_turbo(file_path: str, limit: float, page_count: int, progres
         if violating_pages:
             return {
                 "status": "ERRO",
-                "codigo": "E007_EXCESSIVE_INK_COVERAGE",
+                "codigo": "E_TAC_EXCEEDED",
                 "found_value": found_str,
                 "expected_value": expected_str,
                 "paginas": violating_pages,
-                "detalhe": f"Limite de {limit}% excedido nas páginas: {', '.join(map(str, violating_pages[:10]))}{'...' if len(violating_pages)>10 else ''}"
+                "detalhe": f"Limite de {limit}% (média em 15mm²) excedido nas páginas: {', '.join(map(str, violating_pages[:10]))}{'...' if len(violating_pages)>10 else ''}"
             }
             
         return {
             "status": "OK", 
             "found_value": found_str,
             "expected_value": expected_str,
-            "meta": {"max_tac": max_tac_global, "pages_checked": page_count}
+            "meta": {
+                "max_tac_window": max_tac_global, 
+                "pages_checked": page_count,
+                "method": "GWG2015 Sliding Window 15mm² (CMYK Native)"
+            }
         }
     except Exception as e:
-        logger.error(f"Turbo TAC check failed: {e}")
-        return {"status": "AVISO", "detalhe": f"Erro no processamento Turbo TAC: {e}"}
+        logger.error(f"Windowed TAC check failed: {e}")
+        return {"status": "AVISO", "detalhe": f"Erro no processamento TAC Window: {e}"}

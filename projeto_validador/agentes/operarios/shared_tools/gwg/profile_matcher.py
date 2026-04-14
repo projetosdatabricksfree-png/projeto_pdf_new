@@ -5,66 +5,144 @@ Handles different validation thresholds based on the target printing process.
 
 from typing import Dict, Any
 
-# Thresholds baseados na GWG 2015 Specification
+# Thresholds baseados na GWG 2015 Specification (§5.1 - §5.14)
 GWG_PROFILES = {
-    "sheetfed_offset": {
-        "name": "GWG 2015 Sheetfed Offset",
-        "tac_limit": 300,
-        "min_image_resolution": 250,
-        "max_image_resolution": 450,
-        "allowed_color_spaces": ["CMYK", "Gray", "Spot"],
-        "max_spot_colors": 2,
-        "require_output_intent": True,
-        "allowed_pdf_versions": ["1.3", "1.4", "1.6"]
-    },
-    "magazine_ads": {
-        "name": "GWG 2015 Web Offset (Magazine)",
-        "tac_limit": 300,
-        "min_image_resolution": 225,
-        "max_image_resolution": 450,
-        "allowed_color_spaces": ["CMYK", "Gray", "Spot"],
+    # 1. MagazineAds (Web Offset)
+    "MagazineAds_CMYK": {
+        "name": "GWG 2015 Magazine Ads (CMYK)",
+        "tac_limit": 305,
+        "min_image_resolution": 149,
+        "warn_image_resolution": 224,
         "max_spot_colors": 0,
-        "require_output_intent": True,
-        "allowed_pdf_versions": ["1.3", "1.4"]
-    },
-    "newspaper": {
-        "name": "GWG 2015 Newspaper",
-        "tac_limit": 240,
-        "min_image_resolution": 150,
-        "max_image_resolution": 300,
         "allowed_color_spaces": ["CMYK", "Gray"],
-        "max_spot_colors": 0,
-        "require_output_intent": True,
-        "allowed_pdf_versions": ["1.3"]
+        "allow_rgb": False
     },
-    "packaging": {
-        "name": "GWG 2022 Packaging (Flexo/Offset)",
-        "tac_limit": 330,
-        "min_image_resolution": 300,
-        "max_image_resolution": 600,
-        "allowed_color_spaces": ["CMYK", "Gray", "Spot", "DeviceN"],
-        "max_spot_colors": 12,
-        "require_output_intent": True,
-        "allowed_pdf_versions": ["1.4", "1.6", "1.7"]
+    "MagazineAds_CMYK+RGB": {
+        "name": "GWG 2015 Magazine Ads (CMYK+RGB)",
+        "tac_limit": 305,
+        "min_image_resolution": 149,
+        "warn_image_resolution": 224,
+        "max_spot_colors": 0,
+        "allowed_color_spaces": ["CMYK", "Gray", "RGB", "ICCBased"],
+        "allow_rgb": True
+    },
+    # 2. NewspaperAds
+    "NewspaperAds_CMYK": {
+        "name": "GWG 2015 Newspaper Ads (CMYK)",
+        "tac_limit": 245,
+        "min_image_resolution": 99,
+        "warn_image_resolution": 149,
+        "max_spot_colors": 1,
+        "allowed_color_spaces": ["CMYK", "Gray", "Spot"],
+        "allow_rgb": False
+    },
+    "NewspaperAds_CMYK+RGB": {
+        "name": "GWG 2015 Newspaper Ads (CMYK+RGB)",
+        "tac_limit": 245,
+        "min_image_resolution": 99,
+        "warn_image_resolution": 149,
+        "max_spot_colors": 1,
+        "allowed_color_spaces": ["CMYK", "Gray", "RGB", "Spot"],
+        "allow_rgb": True
+    },
+    # 3. Sheetfed Offset
+    "SheetCmyk_CMYK": {
+        "name": "GWG 2015 Sheetfed Offset (CMYK)",
+        "tac_limit": 320,
+        "min_image_resolution": 149,
+        "warn_image_resolution": 224,
+        "max_spot_colors": 0,
+        "allowed_color_spaces": ["CMYK", "Gray"],
+        "allow_rgb": False
+    },
+    "SheetCmyk_CMYK+RGB": {
+        "name": "GWG 2015 Sheetfed Offset (CMYK+RGB)",
+        "tac_limit": 320,
+        "min_image_resolution": 149,
+        "warn_image_resolution": 224,
+        "max_spot_colors": 0,
+        "allowed_color_spaces": ["CMYK", "Gray", "RGB"],
+        "allow_rgb": True
+    },
+    "SheetSpot_CMYK": {
+        "name": "GWG 2015 Sheetfed Offset Spot (CMYK)",
+        "tac_limit": 320,
+        "min_image_resolution": 149,
+        "warn_image_resolution": 224,
+        "max_spot_colors": 2,
+        "allowed_color_spaces": ["CMYK", "Gray", "Spot"],
+        "allow_rgb": False
+    },
+    "SheetSpot_CMYK+RGB": {
+        "name": "GWG 2015 Sheetfed Offset Spot (CMYK+RGB)",
+        "tac_limit": 320,
+        "min_image_resolution": 149,
+        "warn_image_resolution": 224,
+        "max_spot_colors": 2,
+        "allowed_color_spaces": ["CMYK", "Gray", "RGB", "Spot"],
+        "allow_rgb": True
+    },
+    # 4. Web Offset (Heatset)
+    "WebCmyk_CMYK": {
+        "name": "GWG 2015 Web Offset (CMYK)",
+        "tac_limit": 300,
+        "min_image_resolution": 149,
+        "warn_image_resolution": 224,
+        "max_spot_colors": 0,
+        "allowed_color_spaces": ["CMYK", "Gray"],
+        "allow_rgb": False
+    },
+    "WebCmyk_CMYK+RGB": {
+        "name": "GWG 2015 Web Offset (CMYK+RGB)",
+        "tac_limit": 300,
+        "min_image_resolution": 149,
+        "warn_image_resolution": 224,
+        "max_spot_colors": 0,
+        "allowed_color_spaces": ["CMYK", "Gray", "RGB"],
+        "allow_rgb": True
+    },
+    # 5. Web Cmyk News (Coldset)
+    "WebCmykNews_CMYK": {
+        "name": "GWG 2015 Web Offset News (CMYK)",
+        "tac_limit": 245,
+        "min_image_resolution": 99,
+        "warn_image_resolution": 149,
+        "max_spot_colors": 0,
+        "allowed_color_spaces": ["CMYK", "Gray"],
+        "allow_rgb": False
+    },
+    # Default Fallback
+    "default": {
+        "name": "GWG 2015 Default (Generic)",
+        "tac_limit": 300,
+        "min_image_resolution": 150,
+        "warn_image_resolution": 225,
+        "max_spot_colors": 2,
+        "allowed_color_spaces": ["CMYK", "Gray", "Spot"],
+        "allow_rgb": False
     }
 }
 
-def get_gwg_profile(profile_key: str = "sheetfed_offset") -> Dict[str, Any]:
+def get_gwg_profile(profile_key: str = "default") -> Dict[str, Any]:
     """Retorna os parâmetros de validação para um determinado perfil GWG."""
-    return GWG_PROFILES.get(profile_key, GWG_PROFILES["sheetfed_offset"])
+    return GWG_PROFILES.get(profile_key, GWG_PROFILES["default"])
 
 def identify_profile_by_metadata(metadata: Dict[str, Any]) -> str:
     """
-    Tenta identificar o perfil GWG ideal baseado nos metadados do arquivo (Ex: ProductType do Gerente).
-    Default: sheetfed_offset
+    Tenta identificar o perfil GWG ideal baseado nos metadados do arquivo.
     """
     product = metadata.get("produto", "").lower()
     
-    if "jornal" in product or "newspaper" in product:
-        return "newspaper"
-    if "revista" in product or "magazine" in product:
-        return "magazine_ads"
-    if "embalagem" in product or "packaging" in product:
-        return "packaging"
+    # Newspaper
+    if any(k in product for k in ["jornal", "newspaper", "news"]):
+        return "NewspaperAds_CMYK"
+    
+    # Magazine
+    if any(k in product for k in ["revista", "magazine", "web offset"]):
+        return "MagazineAds_CMYK"
+    
+    # Sheetfed
+    if any(k in product for k in ["folha", "sheetfed", "comercial"]):
+        return "SheetCmyk_CMYK"
         
-    return "sheetfed_offset"
+    return "default"
