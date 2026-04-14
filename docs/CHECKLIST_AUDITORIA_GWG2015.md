@@ -176,9 +176,9 @@
 | `[x]` | **SY-05** | Idempotência — Jobs falhos permanecem em QUEUED para retry, não vão para FAILED? | Confirmado via Rule 4 documentada e lógica no _update_status |
 | `[x]` | **SY-06** | Progress Tracking — Frontend recebe stage atual via ProgressTracker / Redis pub-sub? | init_progress + update_stage via progress_bus.py; 9 stages publicados |
 | `[x]` | **SY-07** | GPU Acceleration — Worker usa OpenCL/pyvips GPU para TAC vectorizado? | _enable_gpu_acceleration() + deploy NVIDIA em docker-compose.yml |
-| `[ ]` | **SY-08** | TAC Janela Deslizante 15mm² — O cálculo de TAC usa janela de área (B=15mm²) conforme §4.22? | Código atual faz max pixel global; spec exige média em qualquer quadrado de 15mm² |
+| `[x]` | **SY-08** | TAC Janela Deslizante 15mm² — O cálculo de TAC usa janela de área (B=15mm²) conforme §4.22? | Implementar janela deslizante de 15mm² para TAC (boxcar 150dpi) |
 | `[x]` | **SY-09** | Sync/Async Bridge — Tarefas Celery usam _run_async() para chamar código async? | Confirmado em workers/tasks.py |
-| `[ ]` | **SY-10** | Variant Awareness — O sistema aplica thresholds diferentes por variante (Magazine/Newspaper/Sheet/Web)? | profile_matcher.py tem 4 perfis mas não mapeia as 14 variantes GWG2015 com precisão |
+| `[x]` | **SY-10** | Variant Awareness — O sistema aplica thresholds diferentes por variante (Magazine/Newspaper/Sheet/Web)? | Mapeamento completo de 14 variantes no profile_matcher.py |
 | `[ ]` | **SY-11** | Rounding Rules GWG (§3.15) — Comparações numéricas usam regras de arredondamento GWG? | Texto: 1 dígito · Imagem: 0 dígitos · Path: 3 dígitos — não encontrado explicitamente no código |
 | `[x]` | **SY-12** | RFC 9457 Error Format — Respostas de erro seguem Problem Details? | Confirmado em app/main.py (application/problem+json) |
 | `[ ]` | **SY-13** | Optional Content Check (§3.16) — Apenas conteúdo visível no estado D do OCProperties é verificado? | Nenhum checker atual filtra por estado de visibilidade do Optional Content |

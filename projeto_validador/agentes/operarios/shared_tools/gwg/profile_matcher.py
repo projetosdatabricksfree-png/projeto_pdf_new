@@ -111,6 +111,34 @@ GWG_PROFILES = {
         "allowed_color_spaces": ["CMYK", "Gray"],
         "allow_rgb": False
     },
+    "WebCmykNews_CMYK+RGB": {
+        "name": "GWG 2015 Web Offset News (CMYK+RGB)",
+        "tac_limit": 245,
+        "min_image_resolution": 99,
+        "warn_image_resolution": 149,
+        "max_spot_colors": 0,
+        "allowed_color_spaces": ["CMYK", "Gray", "RGB"],
+        "allow_rgb": True
+    },
+    # 6. Web Spot (Heatset)
+    "WebSpot_CMYK": {
+        "name": "GWG 2015 Web Offset Spot (CMYK)",
+        "tac_limit": 300,
+        "min_image_resolution": 149,
+        "warn_image_resolution": 224,
+        "max_spot_colors": 2,
+        "allowed_color_spaces": ["CMYK", "Gray", "Spot"],
+        "allow_rgb": False
+    },
+    "WebSpot_CMYK+RGB": {
+        "name": "GWG 2015 Web Offset Spot (CMYK+RGB)",
+        "tac_limit": 300,
+        "min_image_resolution": 149,
+        "warn_image_resolution": 224,
+        "max_spot_colors": 2,
+        "allowed_color_spaces": ["CMYK", "Gray", "RGB", "Spot"],
+        "allow_rgb": True
+    },
     # Default Fallback
     "default": {
         "name": "GWG 2015 Default (Generic)",
@@ -137,12 +165,12 @@ def identify_profile_by_metadata(metadata: Dict[str, Any]) -> str:
     if any(k in product for k in ["jornal", "newspaper", "news"]):
         return "NewspaperAds_CMYK"
     
-    # Magazine
-    if any(k in product for k in ["revista", "magazine", "web offset"]):
-        return "MagazineAds_CMYK"
-    
-    # Sheetfed
-    if any(k in product for k in ["folha", "sheetfed", "comercial"]):
-        return "SheetCmyk_CMYK"
+    # Web Spot (Heatset with spots)
+    if any(k in product for k in ["web spot", "rotativa spot"]):
+        return "WebSpot_CMYK"
+
+    # Web/Commercial (Heatset)
+    if any(k in product for k in ["web offset", "rotativa commercial", "web cmyk"]):
+        return "WebCmyk_CMYK"
         
     return "default"
