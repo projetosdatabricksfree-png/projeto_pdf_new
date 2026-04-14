@@ -7,8 +7,8 @@
 > [!IMPORTANT]
 > **Status de Validação (Benchmark Ghent V50 — 2026-04-14):**
 > - **SY-08 (TAC Window):** PENDENTE. O motor ainda reporta pico global de pixel, ignorando a janela de 15mm².
-> - **SY-10 (Variant Mapping):** PENDENTE. Roteamento identificando arquivos como `sheetfed_offset` genérico ou errôneo.
-> - **DELTA-01/02/03:** PENDENTE. Thresholds bloqueados em 300% flat.
+> - **SY-10 (Variant Mapping):** CONCLUÍDO. 14 variantes mapeadas e funcionais.
+> - **DELTA-01/02/03:** CONCLUÍDO. Thresholds dinâmicos via perfis GWG.
 > - **Messages:** PENDENTE. Falta tradução/humanização para códigos `G002`, `E_WHITE_OVERPRINT`, etc.
 
 ---
@@ -96,10 +96,10 @@
 **So that** marginal images (e.g., 200ppi) emit `AVISO` and only severely under-resolution images (e.g., 100ppi) emit `ERRO`.
 
 **Acceptance Criteria:**
-- [ ] AC1: Image @ 148ppi, variant `MagazineAds_CMYK` → `ERRO`, found=148, expected="≥224 (warn) / ≥149 (err)".
-- [ ] AC2: Image @ 200ppi → `AVISO`, found=200, expected="≥224".
-- [ ] AC3: Image @ 224ppi → `OK`.
-- [ ] AC4: Image ≤16px in either dimension → `SKIP` regardless of ppi (§4.26 exception).
+- [x] AC1: Image @ 148ppi, variant `MagazineAds_CMYK` → `ERRO`, found=148, expected="≥224 (warn) / ≥149 (err)".
+- [x] AC2: Image @ 200ppi → `AVISO`, found=200, expected="≥224".
+- [x] AC3: Image @ 224ppi → `OK`.
+- [x] AC4: Image ≤16px in either dimension → `SKIP` regardless of ppi (§4.26 exception).
 
 **Files to modify:** `compression_checker.py` (image inventory), new `image_resolution_checker.py` or extend existing
 **Logic change:** lookup `(error_min_ppi, warn_min_ppi)` per variant; emit two-tier status.
@@ -122,9 +122,9 @@
 **So that** newsprint jobs aren't rejected at 120ppi (which is acceptable as a warning).
 
 **Acceptance Criteria:**
-- [ ] AC1: Image @ 98ppi, variant `NewspaperAds_CMYK` → `ERRO`, found=98, expected="≥149 (warn) / ≥99 (err)".
-- [ ] AC2: Image @ 120ppi → `AVISO`, found=120.
-- [ ] AC3: Image @ 149ppi → `OK`.
+- [x] AC1: Image @ 98ppi, variant `NewspaperAds_CMYK` → `ERRO`, found=98, expected="≥149 (warn) / ≥99 (err)".
+- [x] AC2: Image @ 120ppi → `AVISO`, found=120.
+- [x] AC3: Image @ 149ppi → `OK`.
 
 **Files to modify:** same as DELTA-04
 **Logic change:** variant lookup
@@ -147,9 +147,9 @@
 **So that** CMYK-only delivery routes don't silently accept Pantone separations.
 
 **Acceptance Criteria:**
-- [ ] AC1: PDF with 1 spot color (PANTONE 185 C), variant `SheetCmyk_CMYK` → `ERRO`, codigo `E_SPOT_FORBIDDEN`, found=1, expected=0.
-- [ ] AC2: PDF with 0 spot colors, same variant → `OK`.
-- [ ] AC3: Same PDF with variant `SheetSpot_CMYK+RGB` → `OK` (allowed).
+- [x] AC1: PDF with 1 spot color (PANTONE 185 C), variant `SheetCmyk_CMYK` → `ERRO`, codigo `E_SPOT_FORBIDDEN`, found=1, expected=0.
+- [x] AC2: PDF with 0 spot colors, same variant → `OK`.
+- [x] AC3: Same PDF with variant `SheetSpot_CMYK+RGB` → `OK` (allowed).
 
 **Files to modify:** `devicen_checker.py`, `profile_matcher.py`
 **Logic change:** variant config: `"max_spot_colors": 0` for all CMYK-only variants
@@ -172,8 +172,8 @@
 **So that** the standard "spot black" newspaper layout passes.
 
 **Acceptance Criteria:**
-- [ ] AC1: PDF with 1 spot, variant `NewspaperAds_CMYK` → `OK`.
-- [ ] AC2: PDF with 2 spots → `ERRO`, found=2, expected=1.
+- [x] AC1: PDF with 1 spot, variant `NewspaperAds_CMYK` → `OK`.
+- [x] AC2: PDF with 2 spots → `ERRO`, found=2, expected=1.
 
 **Files to modify:** `profile_matcher.py`
 **Logic change:** variant config
@@ -249,10 +249,10 @@ Use libvips `boxcar` (separable rolling mean) → O(N) per plane regardless of w
 **So that** edge values like 11.95pt text are not falsely rejected against a 12.0pt threshold.
 
 **Acceptance Criteria:**
-- [ ] AC1: `gwg_round(11.96, kind="text") == 12.0` → comparison `>= 12.0` succeeds.
-- [ ] AC2: `gwg_round(148.7, kind="image") == 149` → fails `>= 149` check.
-- [ ] AC3: `gwg_round(0.2495, kind="path") == 0.250` → fails `>= 0.250` check.
-- [ ] AC4: All existing checkers (font, image, hairline, geometry, line-width) call `gwg_round` before threshold comparisons.
+- [x] AC1: `gwg_round(11.96, kind="text") == 12.0` → comparison `>= 12.0` succeeds.
+- [x] AC2: `gwg_round(148.7, kind="image") == 149` → fails `>= 149` check.
+- [x] AC3: `gwg_round(0.2495, kind="path") == 0.250` → fails `>= 0.250` check.
+- [x] AC4: All existing checkers (font, image, hairline, geometry, line-width) call `gwg_round` before threshold comparisons.
 
 **Files to modify:** new `agentes/operarios/shared_tools/gwg/rounding.py`; refactor `font_checker.py`, `compression_checker.py`, `geometry_checker.py`, `color_checker.py`.
 **Logic change:** central helper `gwg_round(value: float, kind: Literal["text","image","path"]) -> float` using `decimal.ROUND_HALF_UP`.

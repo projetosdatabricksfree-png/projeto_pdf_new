@@ -8,16 +8,14 @@ import logging
 import os
 import re
 import subprocess
-from pathlib import Path
 from typing import Any
 
 import fitz  # PyMuPDF
 try:
     import pyvips
-    try:
+    import contextlib
+    with contextlib.suppress(Exception):
         pyvips.concurrency_set(int(os.getenv("VIPS_CONCURRENCY", "4")))
-    except Exception:
-        pass
 except ImportError:
     pyvips = None
 
@@ -83,12 +81,18 @@ def _check_color_space_gs(file_path: str, profile: dict[str, Any]) -> dict[str, 
         
         # Detection
         found_spaces = []
-        if re.search(r"DeviceRGB|sRGB|CalRGB", output, re.IGNORECASE): found_spaces.append("RGB")
-        if re.search(r"DeviceGray|CalGray", output, re.IGNORECASE): found_spaces.append("Gray")
-        if re.search(r"DeviceCMYK|ProcessingSpace", output, re.IGNORECASE): found_spaces.append("CMYK")
-        if re.search(r"DeviceN", output, re.IGNORECASE): found_spaces.append("DeviceN")
-        if re.search(r"Separation", output, re.IGNORECASE): found_spaces.append("Spot")
-        if re.search(r"Lab", output, re.IGNORECASE): found_spaces.append("Lab")
+        if re.search(r"DeviceRGB|sRGB|CalRGB", output, re.IGNORECASE):
+            found_spaces.append("RGB")
+        if re.search(r"DeviceGray|CalGray", output, re.IGNORECASE):
+            found_spaces.append("Gray")
+        if re.search(r"DeviceCMYK|ProcessingSpace", output, re.IGNORECASE):
+            found_spaces.append("CMYK")
+        if re.search(r"DeviceN", output, re.IGNORECASE):
+            found_spaces.append("DeviceN")
+        if re.search(r"Separation", output, re.IGNORECASE):
+            found_spaces.append("Spot")
+        if re.search(r"Lab", output, re.IGNORECASE):
+            found_spaces.append("Lab")
 
         allowed = profile["allowed_color_spaces"]
         forbidden = [s for s in found_spaces if s not in allowed]

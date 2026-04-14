@@ -26,6 +26,7 @@ def check_compression(file_path: str, profile: dict | None = None) -> dict[str, 
     if profile is None:
         from agentes.operarios.shared_tools.gwg.profile_matcher import get_gwg_profile
         profile = get_gwg_profile("default")
+    from agentes.operarios.shared_tools.gwg.rounding import gwg_round
 
     doc = fitz.open(file_path)
     issues: list[dict[str, Any]] = []
@@ -67,8 +68,11 @@ def check_compression(file_path: str, profile: dict | None = None) -> dict[str, 
                     effective_dpi = min(dpi_x, dpi_y)
                     dpi_values.append(effective_dpi)
 
+                    # §3.15 rounding — image precision = 0 decimals (HALF_UP)
+                    effective_dpi_rounded = gwg_round(effective_dpi, kind="image")
+
                     # Resolution Validation (Dual-Tier)
-                    if effective_dpi < min_err:
+                    if effective_dpi_rounded < min_err:
                         issues.append({
                             "xref": xref,
                             "page": page_num + 1,
@@ -78,7 +82,7 @@ def check_compression(file_path: str, profile: dict | None = None) -> dict[str, 
                             "expected_value": f"≥ {min_err} DPI",
                             "meta": {"dim": f"{width_px}x{height_px}px"}
                         })
-                    elif effective_dpi < min_warn:
+                    elif effective_dpi_rounded < min_warn:
                         issues.append({
                             "xref": xref,
                             "page": page_num + 1,
@@ -121,7 +125,7 @@ def check_compression(file_path: str, profile: dict | None = None) -> dict[str, 
                                 "codigo": "W_JBIG2",
                                 "severity": "AVISO"
                             })
-                except:
+                except Exception:
                     pass
 
         min_dpi_overall = round(min(dpi_values), 1) if dpi_values else None

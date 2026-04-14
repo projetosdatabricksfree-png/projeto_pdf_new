@@ -54,6 +54,7 @@ def check_dimensions(file_path: str) -> dict:
                 "label": "Dimensões do Arquivo",
                 "found_value": f"{width_mm} x {height_mm}mm",
                 "expected_value": f"Padrão {matched_standard}",
+                "norma": matched_standard,
                 "meta": {"client": f"Dimensões compatíveis com o padrão {matched_standard}.", "action": "Nenhuma."}
             }
         else:

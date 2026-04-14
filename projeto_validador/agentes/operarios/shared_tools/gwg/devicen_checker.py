@@ -77,15 +77,21 @@ def _is_accidental_conversion(space: dict[str, Any]) -> bool:
     return alternate in _RGB_ALTERNATES
 
 
-def check_devicen(file_path: str) -> dict[str, Any]:
+def check_devicen(file_path: str, profile: dict | None = None) -> dict[str, Any]:
     """Detect /Separation and /DeviceN colour spaces and validate spot colour integrity.
 
     Args:
         file_path: Absolute path to the PDF file.
+        profile: GWG profile dict (see profile_matcher). Used to enforce
+                 `max_spot_colors` per variant (DELTA-06 / DELTA-07).
 
     Returns:
         Dict with status, codigo, spot_colours (list of names), conversion_issues.
     """
+    if profile is None:
+        from agentes.operarios.shared_tools.gwg.profile_matcher import get_gwg_profile
+        profile = get_gwg_profile("default")
+    max_spots = profile.get("max_spot_colors", 2)
     doc = fitz.open(file_path)
     try:
         spot_colours: list[str] = []
@@ -146,6 +152,25 @@ def check_devicen(file_path: str) -> dict[str, Any]:
         doc.close()
 
     unique_spots = sorted(set(spot_colours))
+
+    # DELTA-06 / DELTA-07 — enforce per-variant max_spot_colors (§4.18, §5.x)
+    if len(unique_spots) > max_spots:
+        codigo = "E_SPOT_FORBIDDEN" if max_spots == 0 else "E_SPOT_EXCEEDED"
+        return {
+            "status": "ERRO",
+            "codigo": codigo,
+            "label": "Cores Spot Permitidas",
+            "found_value": len(unique_spots),
+            "expected_value": max_spots,
+            "descricao": (
+                f"Variante permite no máximo {max_spots} cor(es) spot; "
+                f"o arquivo contém {len(unique_spots)}: {', '.join(unique_spots[:5])}"
+            ),
+            "spot_colours": unique_spots,
+            "conversion_issues": conversion_issues,
+            "spaces_found": len(spaces_found),
+        }
+
     has_errors = any(i["severity"] == "ERRO" for i in conversion_issues)
     
     found_str = f"{len(unique_spots)} cores spot: {', '.join(unique_spots[:3])}" + ("..." if len(unique_spots)>3 else "") if unique_spots else "Nenhuma cor spot"

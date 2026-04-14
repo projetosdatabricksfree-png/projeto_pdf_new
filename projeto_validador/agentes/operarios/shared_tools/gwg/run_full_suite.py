@@ -15,6 +15,7 @@ from __future__ import annotations
 import logging
 import os
 import time
+from pathlib import Path
 from typing import Any, Callable
 
 from .progress_bus import init_progress, update_stage
@@ -201,7 +202,6 @@ def run_all_gwg_checks(
     frontend can render a deterministic checklist.
     """
     profile = profile or {}
-    profile_name = profile.get("name", "GWG 2015 Sheetfed Offset")
     
     # Try to boost with GPU
     _enable_gpu_acceleration()
@@ -219,7 +219,7 @@ def run_all_gwg_checks(
 
     # Initial ETA Heuristic
     try:
-        file_size_mb = os.path.getsize(file_path) / (1024 * 1024)
+        file_size_mb = Path(file_path).stat().st_size / (1024 * 1024)
         from agentes.operarios.shared_tools.gwg.progress_bus import set_eta
         eta = int(10 + (file_size_mb * 4)) # 10s base + 4s per MB
         set_eta(job_id or "", eta)

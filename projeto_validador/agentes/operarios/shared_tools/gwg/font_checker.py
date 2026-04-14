@@ -178,6 +178,8 @@ def check_hairlines(file_path: str, min_width_pt: float = 0.25) -> dict[str, Any
     Returns:
         Dict with status, codigo (if applicable), hairlines found.
     """
+    from agentes.operarios.shared_tools.gwg.rounding import gwg_round
+
     doc = fitz.open(file_path)
     try:
         hairlines: list[dict] = []
@@ -187,7 +189,9 @@ def check_hairlines(file_path: str, min_width_pt: float = 0.25) -> dict[str, Any
             try:
                 for drawing in page.get_drawings():
                     w = drawing.get("width", 0)
-                    if w is not None and 0 < w < min_width_pt:
+                    # §3.15 rounding — path precision = 3 decimals (HALF_UP)
+                    w_rounded = gwg_round(w, kind="path") if w else 0.0
+                    if w is not None and 0 < w_rounded < min_width_pt:
                         hairlines.append({"page": page_num + 1, "width_pt": round(w, 4)})
                         if len(hairlines) >= 10:
                             break
@@ -203,7 +207,7 @@ def check_hairlines(file_path: str, min_width_pt: float = 0.25) -> dict[str, Any
                 "label": "Espessura de Linha (Hairline)",
                 "found_value": f"{hairlines[0]['width_pt']}pt",
                 "expected_value": f"≥ {min_width_pt}pt",
-                "paginas": list(set(h["page"] for h in hairlines)),
+                "paginas": list({h["page"] for h in hairlines}),
                 "meta": {
                     "client": f"Linhas muito finas ({hairlines[0]['width_pt']}pt) detectadas.",
                     "action": "Aumente a espessura das linhas para pelo menos 0.25pt."

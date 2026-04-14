@@ -15,7 +15,6 @@ Anti-OOM (Rule 1): ICC streams are read in header-only mode — only the first
 from __future__ import annotations
 
 import re
-import struct
 from typing import Any
 
 import fitz  # PyMuPDF

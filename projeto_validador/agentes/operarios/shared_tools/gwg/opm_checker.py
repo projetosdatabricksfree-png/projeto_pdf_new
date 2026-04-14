@@ -167,7 +167,8 @@ def _python_detect_white_overprint(doc: fitz.Document) -> bool:
             obj = doc.xref_object(xref)
             if '/OP true' in obj or '/op true' in obj:
                 op_xrefs.add(xref)
-        except: continue
+        except Exception:
+            continue
         
     if not op_xrefs:
         return False
