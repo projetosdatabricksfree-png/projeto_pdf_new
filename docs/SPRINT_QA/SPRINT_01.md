@@ -21,9 +21,9 @@
 **So that** a job with TAC=306% in a 16mm² region is rejected and a job with TAC=305% in any region passes.
 
 **Acceptance Criteria:**
-- [ ] AC1: Given a synthetic 1-page A4 PDF with a 20mm × 20mm patch at C=80 M=80 Y=80 K=70 (TAC=310%), when checked against `MagazineAds_CMYK`, then status = `ERRO`, `codigo = E_TAC_EXCEEDED`, `found_value = 310`, `expected_value = "≤305"`. (§4.22)
-- [ ] AC2: Given the same patch at C=76 M=76 Y=76 K=77 (TAC=305%), then status = `OK`.
-- [ ] AC3: Performance: check completes < 800ms on GPU, < 3s on CPU for a 1-page A4 @300dpi.
+- [x] AC1: Given a synthetic 1-page A4 PDF with a 20mm × 20mm patch at C=80 M=80 Y=80 K=70 (TAC=310%), when checked against `MagazineAds_CMYK`, then status = `ERRO`, `codigo = E_TAC_EXCEEDED`, `found_value = 310`, `expected_value = "≤305"`. (§4.22)
+- [x] AC2: Given the same patch at C=76 M=76 Y=76 K=77 (TAC=305%), then status = `OK`.
+- [x] AC3: Performance: check completes < 800ms on GPU, < 3s on CPU for a 1-page A4 @300dpi.
 
 **Files to modify:** `agentes/operarios/shared_tools/gwg/profile_matcher.py`, `agentes/operarios/shared_tools/gwg/color_checker.py`
 **Logic change:** Replace `"magazine_ads": {"tac_limit": 300, ...}` with the variant table (see SY-10). Threshold lookup must read from variant config, not a hardcoded literal in `_check_tac_vips_turbo`.
@@ -46,9 +46,9 @@
 **So that** newspaper jobs at 246% are rejected and at 245% pass.
 
 **Acceptance Criteria:**
-- [ ] AC1: Given a 30mm patch at TAC=246%, variant `NewspaperAds_CMYK`, status = `ERRO`, found=246, expected="≤245".
-- [ ] AC2: TAC=245% returns `OK`.
-- [ ] AC3: Same performance budget as DELTA-01.
+- [x] AC1: Given a 30mm patch at TAC=246%, variant `NewspaperAds_CMYK`, status = `ERRO`, found=246, expected="≤245".
+- [x] AC2: TAC=245% returns `OK`.
+- [x] AC3: Same performance budget as DELTA-01.
 
 **Files to modify:** `profile_matcher.py`
 **Logic change:** variant config: `"NewspaperAds_CMYK": {"tac_limit": 245, ...}`
@@ -71,9 +71,9 @@
 **So that** sheetfed jobs at 320% pass (currently false-positive).
 
 **Acceptance Criteria:**
-- [ ] AC1: TAC=321% in a 15mm² region → `ERRO`, found=321, expected="≤320".
-- [ ] AC2: TAC=320% → `OK`.
-- [ ] AC3: A real-world reference PDF (`tests/fixtures/sheet_cmyk_at_310pct.pdf`) currently failing must now pass.
+- [x] AC1: TAC=321% in a 15mm² region → `ERRO`, found=321, expected="≤320".
+- [x] AC2: TAC=320% → `OK`.
+- [x] AC3: A real-world reference PDF (`tests/fixtures/sheet_cmyk_at_310pct.pdf`) currently failing must now pass.
 
 **Files to modify:** `profile_matcher.py`
 **Logic change:** `"SheetCmyk_CMYK": {"tac_limit": 320, ...}`
@@ -196,11 +196,11 @@
 **So that** isolated single-pixel hot spots don't reject jobs and large areas of high coverage do.
 
 **Acceptance Criteria:**
-- [ ] AC1: PDF with one rogue pixel @ TAC=400% surrounded by C=0 M=0 Y=0 K=0 → window mean ≪ limit → `OK`.
-- [ ] AC2: PDF with a 20mm × 20mm patch @ TAC=325% under SheetCmyk (limit 320) → `ERRO`, found=325, expected="≤320".
-- [ ] AC3: PDF with a 14mm × 14mm patch @ 325% (smaller than window) → window mean diluted by surrounding 0% → `OK`.
-- [ ] AC4: Performance: 1-page A4 @300dpi: < 3s CPU / < 800ms GPU.
-- [ ] AC5: Multi-page (10 pages A4 @300dpi): < 25s total parallel via billiard.Pool.
+- [x] AC1: PDF with one rogue pixel @ TAC=400% surrounded by C=0 M=0 Y=0 K=0 → window mean ≪ limit → `OK`.
+- [x] AC2: PDF with a 20mm × 20mm patch @ TAC=325% under SheetCmyk (limit 320) → `ERRO`, found=325, expected="≤320".
+- [x] AC3: PDF with a 14mm × 14mm patch @ 325% (smaller than window) → window mean diluted by surrounding 0% → `OK`.
+- [x] AC4: Performance: 1-page A4 @300dpi: < 3s CPU / < 800ms GPU.
+- [x] AC5: Multi-page (10 pages A4 @300dpi): < 25s total parallel via billiard.Pool.
 
 **Files to modify:** `agentes/operarios/shared_tools/gwg/color_checker.py` (`_check_tac_vips_turbo`)
 **Logic change:**
@@ -231,9 +231,9 @@ Use libvips `boxcar` (separable rolling mean) → O(N) per plane regardless of w
 **So that** thresholds correctly route by job type.
 
 **Acceptance Criteria:**
-- [ ] AC1: `profile_matcher.GWG_VARIANTS` exposes a dict with 14 keys, each holding `{tac_limit, image_resolution_error_ppi, image_resolution_warn_ppi, max_spot_colors, min_text_pt, rich_black_ratio_max, allow_rgb}` literally per §5.x.
-- [ ] AC2: `detect_variant(pdf_path) -> str` returns one of the 14 keys or raises with code `W_VARIANT_AMBIGUOUS`.
-- [ ] AC3: For an existing fixture currently classified as `sheetfed_offset`, `detect_variant` returns `SheetCmyk_CMYK`.
+- [x] AC1: `profile_matcher.GWG_VARIANTS` exposes a dict with 14 keys, each holding `{tac_limit, image_resolution_error_ppi, image_resolution_warn_ppi, max_spot_colors, min_text_pt, rich_black_ratio_max, allow_rgb}` literally per §5.x.
+- [x] AC2: `detect_variant(pdf_path) -> str` returns one of the 14 keys or raises with code `W_VARIANT_AMBIGUOUS`.
+- [x] AC3: For an existing fixture currently classified as `sheetfed_offset`, `detect_variant` returns `SheetCmyk_CMYK`.
 
 **Files to modify:** `profile_matcher.py`
 **Logic change:** Build canonical table (literal copy of §5.1–§5.14). Detection chain: OutputIntent string → metadata `GTS_PDFX` → file naming convention → user override → ambiguous.

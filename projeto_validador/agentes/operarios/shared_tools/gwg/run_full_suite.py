@@ -64,32 +64,32 @@ def _run_color(file_path: str, profile: dict, job_id: str | None = None):
 
 def _run_opm(file_path: str, profile: dict):
     from agentes.operarios.shared_tools.gwg.opm_checker import check_opm
-    return check_opm(file_path)
+    return check_opm(file_path, profile)
 
 
 def _run_fonts(file_path: str, profile: dict):
     from agentes.operarios.shared_tools.gwg.font_checker import check_fonts_gwg
-    return check_fonts_gwg(file_path)
+    return check_fonts_gwg(file_path, profile)
 
 
 def _run_transparency(file_path: str, profile: dict):
     from agentes.operarios.shared_tools.gwg.transparency_checker import check_transparency_gwg
-    return check_transparency_gwg(file_path)
+    return check_transparency_gwg(file_path, profile)
 
 
 def _run_compression(file_path: str, profile: dict):
     from agentes.operarios.shared_tools.gwg.compression_checker import check_compression
-    return check_compression(file_path)
+    return check_compression(file_path, profile)
 
 
 def _run_devicen(file_path: str, profile: dict):
     from agentes.operarios.shared_tools.gwg.devicen_checker import check_devicen
-    return check_devicen(file_path)
+    return check_devicen(file_path, profile)
 
 
 def _run_hairlines(file_path: str, profile: dict):
     from agentes.operarios.shared_tools.gwg.font_checker import check_hairlines
-    return check_hairlines(file_path)
+    return check_hairlines(file_path, profile)
 
 
 RUNNERS: list[tuple[str, str, str, Callable]] = [

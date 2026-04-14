@@ -14,7 +14,7 @@ mcp = FastMCP("Graphics Pro Developer")
 
 # Configurações de Conexão (Inspirado no .env do projeto)
 class Settings(BaseSettings):
-    redis_url: str = "redis://localhost:63799/0"
+    redis_url: str = "redis://localhost:6379/0"
     project_root: str = "/home/diego/Desktop/PROJETOS/Projeto_grafica/projeto_validador"
 
     class Config:

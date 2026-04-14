@@ -1,146 +1,128 @@
 """
-Compression Checker — GWG Output Suite 5.0 image compression compliance.
+Compression & Resolution Checker — GWG 2015 image compliance.
 
-Inspects every image stream in the document and flags:
-- JPXDecode (JPEG 2000) — W_JPEG2000: poor RIP compatibility.
-- JBIG2Decode — W_JBIG2: patent issues and limited RIP support.
-- 16-bit images (BitsPerComponent == 16) — W_16BIT_IMAGE: unsupported by most RIPs.
-- Resolution below 300 DPI — existing E_LOW_RESOLUTION codes.
-- Reports min/max effective DPI across all raster images.
+Inspects raster images for:
+- Resolution (Effective DPI) — Dual-tier (Error/Warning) based on profile.
+- Exception: Images <= 16px in either dimension are skipped (§4.26).
+- JPXDecode (JPEG 2000) — E_JPEG2000 (Unsupported).
+- JBIG2Decode — W_JBIG2.
+- 16-bit images — W_16BIT_IMAGE.
 
-Anti-OOM (Rule 1): stream data is NEVER loaded for images. Only the dictionary
-entries (Filter, Width, Height, BitsPerComponent) are inspected via xref_object().
+Anti-OOM: Pixel data is NEVER loaded.
 """
 from __future__ import annotations
 
-import re
 from typing import Any
-
 import fitz  # PyMuPDF
 
 
-def _parse_int_key(obj_str: str, key: str) -> int | None:
-    """Extract an integer value for a PDF dictionary key from a raw object string."""
-    m = re.search(rf"/{key}\s+(\d+)", obj_str)
-    return int(m.group(1)) if m else None
-
-
-def _parse_filter(obj_str: str) -> list[str]:
-    """Extract filter name(s) from a PDF stream dictionary string.
-
-    Handles both single filter (/Filter /JPXDecode) and arrays
-    (/Filter [ /FlateDecode /DCTDecode ]).
-    """
-    # Array form
-    m_arr = re.search(r"/Filter\s*\[([^\]]+)\]", obj_str)
-    if m_arr:
-        return re.findall(r"/(\w+)", m_arr.group(1))
-    # Single form
-    m_single = re.search(r"/Filter\s*/(\w+)", obj_str)
-    if m_single:
-        return [m_single.group(1)]
-    return []
-
-
-def _effective_dpi(
-    width_px: int, height_px: int, page_rect: fitz.Rect
-) -> tuple[float, float]:
-    """Compute effective DPI of an image relative to a page.
-
-    Uses the page MediaBox to determine the physical dimensions at 72 DPI
-    (1 PDF point = 1/72 inch).  Returns (x_dpi, y_dpi).
-    """
-    page_w_in = page_rect.width / 72.0
-    page_h_in = page_rect.height / 72.0
-    if page_w_in <= 0 or page_h_in <= 0:
-        return (0.0, 0.0)
-    x_dpi = width_px / page_w_in
-    y_dpi = height_px / page_h_in
-    return (round(x_dpi, 1), round(y_dpi, 1))
-
-
-def check_compression(file_path: str) -> dict[str, Any]:
-    """Inspect image streams for GWG-prohibited compression formats and bit depths.
+def check_compression(file_path: str, profile: dict | None = None) -> dict[str, Any]:
+    """Inspeciona imagens para conformidade de compressão e resolução GWG2015.
 
     Args:
-        file_path: Absolute path to the PDF file.
-
-    Returns:
-        Dict compatible with operário validation_results format.
-        Keys: status, codigo (if applicable), images_inspected, issues.
+        file_path: Caminho do PDF.
+        profile: Dicionário de perfil GWG (profile_matcher).
     """
-    doc = fitz.open(file_path)
-    try:
-        issues: list[dict[str, Any]] = []
-        images_inspected: int = 0
-        dpi_values: list[float] = []
+    if profile is None:
+        from agentes.operarios.shared_tools.gwg.profile_matcher import get_gwg_profile
+        profile = get_gwg_profile("default")
 
+    doc = fitz.open(file_path)
+    issues: list[dict[str, Any]] = []
+    images_inspected: int = 0
+    dpi_values: list[float] = []
+
+    # Thresholds from profile
+    min_err = profile.get("min_image_resolution", 150)
+    min_warn = profile.get("warn_image_resolution", 225)
+
+    try:
+        # We iterate page-by-page to accurately determine Effective DPI (instances)
         for page_num in range(doc.page_count):
             page = doc[page_num]
-            page_rect = page.rect
-
-            for xref in range(1, doc.xref_length()):
-                try:
-                    if not doc.xref_is_stream(xref):
-                        continue
-                    obj_str = doc.xref_object(xref, compressed=False)
-                except Exception:
-                    continue
-
-                # Only process image streams
-                if "/Subtype /Image" not in obj_str and "/Subtype/Image" not in obj_str:
-                    continue
-
+            # xrefs=True gives us the xref for each image instance on the page
+            img_infos = page.get_image_info(xrefs=True)
+            
+            for info in img_infos:
                 images_inspected += 1
+                xref = info.get("xref")
+                if not xref:
+                    continue
 
-                filters = _parse_filter(obj_str)
-                width = _parse_int_key(obj_str, "Width")
-                height = _parse_int_key(obj_str, "Height")
-                bpc = _parse_int_key(obj_str, "BitsPerComponent")
+                width_px = info["width"]
+                height_px = info["height"]
+                bbox = info["bbox"]  # [x0, y0, x1, y1] in points
 
-                # JPEG 2000 — E_JPEG2000 (proibido em PDF/X-4 pela GWG 2015)
-                if "JPXDecode" in filters:
-                    issues.append({
-                        "xref": xref,
-                        "page": page_num + 1,
-                        "codigo": "E_JPEG2000",
-                        "filter": "JPXDecode",
-                        "severity": "ERRO",
-                        "found_value": "JPXDecode (JPEG 2000)",
-                        "expected_value": "DCTDecode ou FlateDecode",
-                    })
+                # --- 16px Exception (§4.26) ---
+                if width_px <= 16 or height_px <= 16:
+                    continue
 
-                # JBIG2 — W_JBIG2
-                if "JBIG2Decode" in filters:
-                    issues.append({
-                        "xref": xref,
-                        "page": page_num + 1,
-                        "codigo": "W_JBIG2",
-                        "filter": "JBIG2Decode",
-                        "severity": "AVISO",
-                    })
+                # --- Effective DPI Calculation ---
+                bbox_w = abs(bbox[2] - bbox[0])
+                bbox_h = abs(bbox[3] - bbox[1])
+                
+                if bbox_w > 0 and bbox_h > 0:
+                    dpi_x = width_px / (bbox_w / 72.0)
+                    dpi_y = height_px / (bbox_h / 72.0)
+                    effective_dpi = min(dpi_x, dpi_y)
+                    dpi_values.append(effective_dpi)
 
-                # 16-bit depth — W_16BIT_IMAGE
-                if bpc == 16:
-                    issues.append({
-                        "xref": xref,
-                        "page": page_num + 1,
-                        "codigo": "W_16BIT_IMAGE",
-                        "bpc": 16,
-                        "severity": "AVISO",
-                    })
+                    # Resolution Validation (Dual-Tier)
+                    if effective_dpi < min_err:
+                        issues.append({
+                            "xref": xref,
+                            "page": page_num + 1,
+                            "codigo": "E_LOW_RESOLUTION_CRITICAL",
+                            "severity": "ERRO",
+                            "found_value": f"{round(effective_dpi, 1)} DPI",
+                            "expected_value": f"≥ {min_err} DPI",
+                            "meta": {"dim": f"{width_px}x{height_px}px"}
+                        })
+                    elif effective_dpi < min_warn:
+                        issues.append({
+                            "xref": xref,
+                            "page": page_num + 1,
+                            "codigo": "W_LOW_RESOLUTION_MARGINAL",
+                            "severity": "AVISO",
+                            "found_value": f"{round(effective_dpi, 1)} DPI",
+                            "expected_value": f"≥ {min_warn} DPI",
+                            "meta": {"dim": f"{width_px}x{height_px}px"}
+                        })
 
-                # Effective DPI estimation (Anti-OOM: no pixel data loaded)
-                if width and height:
-                    x_dpi, y_dpi = _effective_dpi(width, height, page_rect)
-                    min_dpi = min(x_dpi, y_dpi)
-                    if min_dpi > 0:
-                        dpi_values.append(min_dpi)
+                # --- Metadata-based checks (Filters & BPC) ---
+                # These attributes are global to the image object (XREF)
+                try:
+                    obj_dict = doc.xref_dict(xref)
+                    
+                    # 16-bit depth
+                    if "/BitsPerComponent 16" in obj_dict:
+                        issues.append({
+                            "xref": xref,
+                            "page": page_num + 1,
+                            "codigo": "W_16BIT_IMAGE",
+                            "severity": "AVISO"
+                        })
 
-            # Break after first page to avoid duplicate xref iteration.
-            # A proper implementation would correlate xrefs with page resources.
-            # For production, xrefs are global so we process once.
-            break
+                    # Forbidden filters
+                    if "/Filter" in obj_dict:
+                        if "/JPXDecode" in obj_dict:
+                            issues.append({
+                                "xref": xref,
+                                "page": page_num + 1,
+                                "codigo": "E_JPEG2000",
+                                "severity": "ERRO",
+                                "found_value": "JPEG 2000",
+                                "expected_value": "DCT/Flate"
+                            })
+                        if "/JBIG2Decode" in obj_dict:
+                            issues.append({
+                                "xref": xref,
+                                "page": page_num + 1,
+                                "codigo": "W_JBIG2",
+                                "severity": "AVISO"
+                            })
+                except:
+                    pass
 
         min_dpi_overall = round(min(dpi_values), 1) if dpi_values else None
         max_dpi_overall = round(max(dpi_values), 1) if dpi_values else None
@@ -153,23 +135,20 @@ def check_compression(file_path: str) -> dict[str, Any]:
                 "max_dpi": max_dpi_overall,
             }
 
-        # Determine worst severity (JPX is now ERRO — GWG forbids JPEG2000 in X-4)
+        # Select primary issue (ERROR takes priority)
         has_errors = any(i["severity"] == "ERRO" for i in issues)
-        primary_issue = next(
-            (i for i in issues if i["severity"] == "ERRO"),
-            issues[0],
-        )
+        primary = next((i for i in issues if i["severity"] == "ERRO"), issues[0])
 
         return {
             "status": "ERRO" if has_errors else "AVISO",
-            "codigo": primary_issue["codigo"],
-            "label": "Compressão de Imagens",
-            "found_value": primary_issue.get("found_value") or primary_issue.get("filter") or f"bpc={primary_issue.get('bpc')}",
-            "expected_value": primary_issue.get("expected_value") or "DCTDecode/FlateDecode, 8 bpc",
+            "codigo": primary["codigo"],
+            "label": "Resolução e Compressão",
+            "found_value": primary.get("found_value", "Incerto"),
+            "expected_value": primary.get("expected_value", "N/A"),
             "issues": issues,
             "images_inspected": images_inspected,
             "min_dpi": min_dpi_overall,
-            "max_dpi": max_dpi_overall,
+            "max_dpi": max_dpi_overall
         }
 
     finally:
