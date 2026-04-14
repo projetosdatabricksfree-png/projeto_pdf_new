@@ -19,6 +19,8 @@ from __future__ import annotations
 from typing import Any
 
 import fitz  # PyMuPDF
+from .oc_filter import VisibilityFilter, NULL_FILTER
+from .error_messages import get_human_error
 
 # PDF specification base-14 fonts — never require embedding.
 _BASE14: frozenset[str] = frozenset({
@@ -48,7 +50,7 @@ def _is_base14(name: str) -> bool:
     return any(b in lower for b in _BASE14)
 
 
-def check_fonts_gwg(file_path: str) -> dict[str, Any]:
+def check_fonts_gwg(file_path: str, visible_filter: VisibilityFilter = NULL_FILTER) -> dict[str, Any]:
     """Validate font embedding and format per GWG Output Suite 5.0.
 
     Checks per font xref:
@@ -82,6 +84,10 @@ def check_fonts_gwg(file_path: str) -> dict[str, Any]:
 
                 if xref in seen_xrefs:
                     continue
+                
+                # OC-02: Se a fonte for usada apenas em conteúdo invisível, podemos pular
+                # (PyMuPDF não retorna OCG direto no get_fonts, mas podemos filtrar no get_drawings/get_text)
+                # Por simplicidade/segurança em fontes, mantemos o xref check mas humanizamos.
                 seen_xrefs.add(xref)
 
                 font_info = {
@@ -130,7 +136,7 @@ def check_fonts_gwg(file_path: str) -> dict[str, Any]:
     }
 
     if non_embedded:
-        return {
+        res = {
             "status": "ERRO",
             "codigo": "E008_NON_EMBEDDED_FONTS",
             "found_value": f"{len(non_embedded)} fonte(s) não incorporada(s)",
@@ -141,6 +147,10 @@ def check_fonts_gwg(file_path: str) -> dict[str, Any]:
             "courier_substitutions": [f["name"] for f in courier_subs],
             "font_summary": font_summary,
         }
+        # Humanização
+        human = get_human_error(res["codigo"], res["found_value"], res["expected_value"])
+        res.update(human)
+        return res
 
     if courier_subs:
         return {
@@ -168,7 +178,7 @@ def check_fonts_gwg(file_path: str) -> dict[str, Any]:
     }
 
 
-def check_hairlines(file_path: str, min_width_pt: float = 0.25) -> dict[str, Any]:
+def check_hairlines(file_path: str, min_width_pt: float = 0.25, visible_filter: VisibilityFilter = NULL_FILTER) -> dict[str, Any]:
     """Check for hairline strokes (lines thinner than min_width_pt points).
 
     Args:
@@ -188,6 +198,10 @@ def check_hairlines(file_path: str, min_width_pt: float = 0.25) -> dict[str, Any
             page = doc[page_num]
             try:
                 for drawing in page.get_drawings():
+                    # OC-02: Ignorar traços em camadas invisíveis
+                    if not visible_filter.is_visible(drawing.get("oc", [])):
+                        continue
+                        
                     w = drawing.get("width", 0)
                     # §3.15 rounding — path precision = 3 decimals (HALF_UP)
                     w_rounded = gwg_round(w, kind="path") if w else 0.0

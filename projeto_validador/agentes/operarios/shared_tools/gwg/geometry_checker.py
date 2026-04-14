@@ -4,7 +4,12 @@ Validates PDF Page Boxes (TrimBox, BleedBox, MediaBox) and Bleed margins.
 """
 
 import fitz
+import logging
 from typing import Dict, Any, List
+from .oc_filter import VisibilityFilter, NULL_FILTER
+from .error_messages import get_human_error
+
+logger = logging.getLogger(__name__)
 
 def gwg_round(value: float, precision: int = 2) -> float:
     """Arredonda valores seguindo a lógica GWG para evitar imprecisão de float."""
@@ -14,7 +19,7 @@ def is_within_tolerance(val1: float, val2: float, tolerance: float = 0.011) -> b
     """Verifica se dois valores estão dentro da tolerância GWG (±0.01mm)."""
     return abs(val1 - val2) <= tolerance
 
-def check_geometry(doc_path: str, profile: Dict[str, Any] = None) -> List[Dict[str, Any]]:
+def check_geometry(doc_path: str, profile: Dict[str, Any] = None, visible_filter: VisibilityFilter = NULL_FILTER) -> List[Dict[str, Any]]:
     """
     Analisa a geometria de todas as páginas do PDF seguindo GWG 2015 (§4.2 a 4.6).
     """
@@ -23,8 +28,6 @@ def check_geometry(doc_path: str, profile: Dict[str, Any] = None) -> List[Dict[s
     profile = profile or {}
     profile_name = profile.get("name", "")
     
-    # 72 points per inch (standard PDF unit)
-    # 1 mm = 2.83465 points
     PX_TO_MM = 0.352778
     
     # Track first page dimensions for uniformity check (GE-03)
@@ -34,10 +37,6 @@ def check_geometry(doc_path: str, profile: Dict[str, Any] = None) -> List[Dict[s
     page_count = len(doc)
     # Match strings like "Magazine Ads" or "MagazineAds"
     is_ad = any(k in profile_name for k in ["Magazine", "Newspaper"]) and "Ads" in profile_name
-    
-    if is_ad and page_count > 1:
-        # We add this to the first page results for now
-        pass 
 
     for page_index in range(page_count):
         page = doc[page_index]
@@ -47,80 +46,66 @@ def check_geometry(doc_path: str, profile: Dict[str, Any] = None) -> List[Dict[s
         mediabox = page.mediabox
         trimbox = page.trimbox
         bleedbox = page.bleedbox
-        cropbox = page.cropbox # Standard PDF CropBox
+        cropbox = page.cropbox 
         
         # ─── GE-01: Page Scaling (UserUnit) ───────────────────────
-        # O dicionário da página não deve conter a chave UserUnit
         user_unit = page.parent.xref_get_key(page.xref, "UserUnit")
         if user_unit[0] != "null":
-            page_checks.append({
+            res = {
                 "code": "GE-01",
                 "label": "Page Scaling (UserUnit)",
                 "status": "ERRO",
                 "found_value": f"UserUnit = {user_unit[1]}",
-                "expected_value": "Ausência de UserUnit",
-                "meta": {
-                    "client": "O arquivo contém fator de escala personalizado (UserUnit).",
-                    "action": "Desative o dimensionamento de página não-padrão ao exportar."
-                }
-            })
+                "expected_value": "Ausência de UserUnit"
+            }
+            res.update(get_human_error(res["code"], res["found_value"], res["expected_value"]))
+            page_checks.append(res)
 
-        # ─── GE-02: Crop Box ──────────────────────────────────────
-        # Se CropBox presente, deve ser igual a MediaBox
-        # Note: No PyMuPDF, page.cropbox sempre retorna algo. 
-        # Verificamos se ele difere do MediaBox de forma relevante.
+        # ─── GE-02: Crop Box (§4.3) ────────────────────────────────
+        # CropBox deve ser igual a MediaBox dentro da tolerância.
         if not is_within_tolerance(cropbox.width, mediabox.width) or \
            not is_within_tolerance(cropbox.height, mediabox.height):
-             page_checks.append({
-                "code": "GE-02",
+             res = {
+                "code": "E_CROPBOX_NEQ_MEDIABOX",
                 "label": "Crop Box",
                 "status": "ERRO",
-                "found_value": f"CropBox {gwg_round(cropbox.width*PX_TO_MM)}x{gwg_round(cropbox.height*PX_TO_MM)}mm",
-                "expected_value": f"Mesmo que MediaBox ({gwg_round(mediabox.width*PX_TO_MM)}mm)",
-                "meta": {
-                    "client": "CropBox detectada com tamanho diferente da MediaBox.",
-                    "action": "Configure CropBox == MediaBox ou remova a CropBox."
-                }
-            })
+                "found_value": f"Δ {gwg_round(abs(cropbox.width-mediabox.width)*PX_TO_MM)}mm",
+                "expected_value": "≤ 0.011mm"
+            }
+             res.update(get_human_error(res["code"], res["found_value"], res["expected_value"]))
+             page_checks.append(res)
 
-        # ─── GE-03: Uniformity & Rotate ───────────────────────────
-        # Rotate deve ser 0
+        # ─── GE-03: Uniformity & Rotate (§4.4 / §4.5) ──────────────
         rotation = page.rotation
         if rotation != 0:
-            page_checks.append({
-                "code": "GE-03",
+            res = {
+                "code": "E_PAGE_ROTATED",
                 "label": "Page Rotation",
-                "status": "AVISO",
+                "status": "ERRO",
                 "found_value": f"Rotate = {rotation}",
-                "expected_value": "Rotate = 0",
-                "meta": {
-                    "client": "A página possui um atributo de rotação.",
-                    "action": "Aqueça o PDF ou remova a rotação lógica, mantendo a orientação na geometria."
-                }
-            })
+                "expected_value": "Rotate = 0"
+            }
+            res.update(get_human_error(res["code"], res["found_value"], res["expected_value"]))
+            page_checks.append(res)
             
-        # TrimBox idêntica
         if page_index == 0:
             first_trimbox = trimbox
         else:
             if not is_within_tolerance(trimbox.width, first_trimbox.width) or \
                not is_within_tolerance(trimbox.height, first_trimbox.height):
-                page_checks.append({
-                    "code": "GE-03",
+                res = {
+                    "code": "E_TRIMBOX_INCONSISTENT",
                     "label": "Uniformidade de TrimBox",
                     "status": "ERRO",
-                    "found_value": f"Pág. {page_index+1} difere da Pág. 1",
-                    "expected_value": "Dimensões idênticas em todas as páginas",
-                    "meta": {
-                        "client": "As páginas possuem tamanhos de corte diferentes.",
-                        "action": "Padronize o tamanho das páginas no documento original."
-                    }
-                })
+                    "found_value": f"Pág. {page_index+1}",
+                    "expected_value": "Idêntica à Pág. 1"
+                }
+                res.update(get_human_error(res["code"], res["found_value"], res["expected_value"]))
+                page_checks.append(res)
 
-        # ─── G001: Definição de TrimBox (Existente) ───────────────
+        # ─── G001: Definição de TrimBox ───────────────────────────
         is_same_as_media = is_within_tolerance(trimbox.width, mediabox.width) and \
                            is_within_tolerance(trimbox.height, mediabox.height)
-        
         if is_same_as_media:
             page_checks.append({
                 "code": "G001",
@@ -128,23 +113,41 @@ def check_geometry(doc_path: str, profile: Dict[str, Any] = None) -> List[Dict[s
                 "status": "AVISO",
                 "found_value": "Não definida",
                 "expected_value": "TrimBox definida",
-                "meta": {"client": "TrimBox não identificada.", "action": "Defina o formato de corte."}
+                "message": "TrimBox não identificada ou igual à MediaBox.",
+                "action": "Defina o formato de corte explicitamente."
             })
 
-        # ─── GE-04: Empty Pages ───────────────────────────────────
-        # Verificar se há conteúdo visível (vetor ou raster)
-        # Uma forma simples é verificar se o display-list tem algum item.
-        if page.get_text("words") == [] and page.get_images() == [] and page.get_drawings() == []:
-            page_checks.append({
-                "code": "GE-04",
+        # ─── GE-04: Empty Pages (§4.6) ───────────────────────────
+        # Híbrida: Walker -> Renderização
+        visible_text = page.get_text("words")
+        visible_imgs = page.get_images()
+        visible_drawings = [d for d in page.get_drawings() if visible_filter.is_visible(d.get("oc", []))]
+
+        is_blank = False
+        if not visible_text and not visible_imgs and not visible_drawings:
+            # Prova final: Renderização 24 DPI (Cascata Híbrida)
+            pix = page.get_pixmap(dpi=24)
+            # Se for CMYK, os 4 canais somados devem ser > 0 para haver conteúdo
+            # PyMuPDF renders as RGB by default if CS not specified
+            if pix.is_grayscale:
+                is_blank = pix.samples.count(b'\xff') == len(pix.samples)
+            else:
+                # white in RGB is (255, 255, 255)
+                # white in CMYK is (0, 0, 0, 0) - but PyMuPDF renders RGB unless requested
+                is_blank = all(s == 255 for s in pix.samples)
+
+        if is_blank:
+            res = {
+                "code": "W_EMPTY_PAGE",
                 "label": "Página Vazia",
                 "status": "AVISO",
-                "found_value": "Nenhum conteúdo gráfico detectado",
-                "expected_value": "Página com conteúdo",
-                "meta": {"client": "Esta página parece não conter elementos gráficos.", "action": "Verifique se a página deve ser removida."}
-            })
+                "found_value": f"Página {page_index+1}",
+                "expected_value": "Conteúdo gráfico"
+            }
+            res.update(get_human_error(res["code"], res["found_value"], res["expected_value"]))
+            page_checks.append(res)
 
-        # ─── G002: Sangria (Existente) ────────────────────────────
+        # ─── G002: Sangria ──────────────────────────────────────
         bleed_top = (trimbox.y0 - bleedbox.y0) * PX_TO_MM
         bleed_bottom = (bleedbox.y1 - trimbox.y1) * PX_TO_MM
         bleed_left = (trimbox.x0 - bleedbox.x0) * PX_TO_MM
@@ -160,19 +163,17 @@ def check_geometry(doc_path: str, profile: Dict[str, Any] = None) -> List[Dict[s
                 "expected_value": ">= 3.00mm"
             })
 
-        # ─── GE-05: Page Count ────────────────────────────────────
+        # ─── GE-05: Page Count (§4.7 / §5.1) ──────────────────────
         if is_ad and page_index == 0 and page_count > 1:
-            page_checks.append({
-                "code": "GE-05",
+            res = {
+                "code": "E_PAGE_COUNT_INVALID",
                 "label": "Contagem de Páginas (Ads)",
                 "status": "ERRO",
-                "found_value": f"{page_count} páginas",
-                "expected_value": "1 página",
-                "meta": {
-                    "client": "Anúncios de Revista/Jornal devem conter apenas uma página por PDF.",
-                    "action": "Separe as páginas em arquivos individuais."
-                }
-            })
+                "found_value": str(page_count),
+                "expected_value": "1"
+            }
+            res.update(get_human_error(res["code"], res["found_value"], res["expected_value"]))
+            page_checks.append(res)
 
         results.append({
             "page": page_index + 1,

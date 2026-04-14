@@ -14,10 +14,10 @@
 **So that** small black type doesn't knock out CMYK background and produce misregistration halos.
 
 **Acceptance Criteria:**
-- [ ] AC1: PDF with 8pt text, K=1.0 in DeviceCMYK, `op=false` → `ERRO`, codigo `E_BLACK_TEXT_NO_OVERPRINT`, found="op=false @ 8.0pt", expected="op=true @ <12pt".
-- [ ] AC2: PDF with 14pt text, K=1.0, `op=false` → `OK` (above threshold).
-- [ ] AC3: PDF with 8pt text, K=1.0, `op=true OP=true OPM=1` → `OK`.
-- [ ] AC4: PDF with 8pt text, K=1.0, `op=true` but OPM=0 → `ERRO`, codigo `E_OPM_MISSING`.
+- [x] AC1: PDF with 8pt text, K=1.0 in DeviceCMYK, `op=false` → `ERRO`, codigo `E_BLACK_TEXT_NO_OVERPRINT`, found="op=false @ 8.0pt", expected="op=true @ <12pt".
+- [x] AC2: PDF with 14pt text, K=1.0, `op=false` → `OK` (above threshold).
+- [x] AC3: PDF with 8pt text, K=1.0, `op=true OP=true OPM=1` → `OK`.
+- [x] AC4: PDF with 8pt text, K=1.0, `op=true` but OPM=0 → `ERRO`, codigo `E_OPM_MISSING`.
 
 **Files to modify:** `agentes/operarios/shared_tools/gwg/opm_checker.py`
 **Logic change:** Walk content stream via PyMuPDF; for each `Tj`/`TJ` op, snapshot current GS (font size × CTM scale), color, ExtGState op/OP/OPM. Compare against per-variant `min_text_pt` (from SY-10) — defaults 12.0pt for §4.10 trigger.
@@ -33,9 +33,9 @@
 **So that** type intended as overprinting CMYK black isn't silently rendered as gray on-press.
 
 **Acceptance Criteria:**
-- [ ] AC1: 8pt text, gray=0.0 (=K=1.0), color space DeviceGray → `ERRO`, codigo `E_BLACK_TEXT_DEVICEGRAY`.
-- [ ] AC2: Same text in DeviceCMYK → `OK` (handled by OV-04).
-- [ ] AC3: 14pt text in DeviceGray → `OK` (above threshold).
+- [x] AC1: 8pt text, gray=0.0 (=K=1.0), color space DeviceGray → `ERRO`, codigo `E_BLACK_TEXT_DEVICEGRAY`.
+- [x] AC2: Same text in DeviceCMYK → `OK` (handled by OV-04).
+- [x] AC3: 14pt text in DeviceGray → `OK` (above threshold).
 
 **Files to modify:** `opm_checker.py`
 **Logic change:** colorspace inspection added to OV-04 walker.
@@ -51,10 +51,10 @@
 **So that** thin black rules and keylines don't knock out backgrounds.
 
 **Acceptance Criteria:**
-- [ ] AC1: 0.5pt black stroke in DeviceCMYK with `OP=false` → `ERRO`, codigo `E_BLACK_THIN_NO_OVERPRINT`, found="OP=false @ 0.5pt".
-- [ ] AC2: 2.5pt stroke `OP=false` → `OK`.
-- [ ] AC3: 0.5pt stroke `OP=true OPM=1` → `OK`.
-- [ ] AC4: Path under CTM scale 0.5 with declared linewidth 3pt → effective 1.5pt → triggers rule.
+- [x] AC1: 0.5pt black stroke in DeviceCMYK with `OP=false` → `ERRO`, codigo `E_BLACK_THIN_NO_OVERPRINT`, found="OP=false @ 0.5pt".
+- [x] AC2: 2.5pt stroke `OP=false` → `OK`.
+- [x] AC3: 0.5pt stroke `OP=true OPM=1` → `OK`.
+- [x] AC4: Path under CTM scale 0.5 with declared linewidth 3pt → effective 1.5pt → triggers rule.
 
 **Files to modify:** `opm_checker.py`, depends on LW-02 spike (CTM access via `page.get_drawings()`)
 **Logic change:** drawings walker; multiply linewidth by min(|sx|, |sy|) of CTM.
@@ -69,8 +69,8 @@
 **As** the engine, **I must** flag `ERRO` for any path with K=1.0, effective width < 2.0pt, in DeviceGray per §4.13.
 
 **Acceptance Criteria:**
-- [ ] AC1: 0.5pt path, gray=0.0, DeviceGray → `ERRO`, codigo `E_BLACK_PATH_DEVICEGRAY`.
-- [ ] AC2: Same in DeviceCMYK → handled by OV-06.
+- [x] AC1: 0.5pt path, gray=0.0, DeviceGray → `ERRO`, codigo `E_BLACK_PATH_DEVICEGRAY`.
+- [x] AC2: Same in DeviceCMYK → handled by OV-06.
 
 **Files to modify:** `opm_checker.py`
 **Logic change:** colorspace inspection on path walker.
@@ -90,11 +90,11 @@
 **So that** RGB delivery is permitted only where §4.24 explicitly allows it.
 
 **Acceptance Criteria:**
-- [ ] AC1: PDF (variant `MagazineAds_CMYK+RGB`) with one DeviceRGB image → `OK` (RGB allowed for images? — see matrix; match exact spec text).
-- [ ] AC2: PDF with one DeviceRGB image in `MagazineAds_CMYK` (CMYK-only) → `ERRO`, codigo `E_RGB_IMAGE_FORBIDDEN`.
-- [ ] AC3: PDF with Lab non-image content under `*_CMYK+RGB` → `ERRO`.
-- [ ] AC4: PDF with spot color whose alternate is ICCbasedCMYK → `ERRO`.
-- [ ] AC5: 10-row matrix table in test file enumerates all combos with expected verdict (literal §4.24 text).
+- [x] AC1: PDF (variant `MagazineAds_CMYK+RGB`) with one DeviceRGB image → `OK` (RGB allowed for images? — see matrix; match exact spec text).
+- [x] AC2: PDF with one DeviceRGB image in `MagazineAds_CMYK` (CMYK-only) → `ERRO`, codigo `E_RGB_IMAGE_FORBIDDEN`.
+- [x] AC3: PDF with Lab non-image content under `*_CMYK+RGB` → `ERRO`.
+- [x] AC4: PDF with spot color whose alternate is ICCbasedCMYK → `ERRO`.
+- [x] AC5: 10-row matrix table in test file enumerates all combos with expected verdict (literal §4.24 text).
 
 **Files to modify:** `color_checker.py`
 **Logic change:** New `_check_delivery_method_2015(pdf, variant)`. Build a permission matrix `{(content_type, colorspace, variant_kind): allowed_bool}` literally from §4.24.
@@ -110,9 +110,9 @@
 **So that** alternate visibility configs cannot hide non-conformant content from press operators.
 
 **Acceptance Criteria:**
-- [ ] AC1: PDF with `OCProperties.Configs` present → `ERRO`, codigo `E_OC_CONFIGS_PRESENT`, found="Configs[3 entries]", expected="absent".
-- [ ] AC2: PDF with only `OCProperties.D` → `OK`.
-- [ ] AC3: PDF without OCProperties → `OK`.
+- [x] AC1: PDF with `OCProperties.Configs` present → `ERRO`, codigo `E_OC_CONFIGS_PRESENT`, found="Configs[3 entries]", expected="absent".
+- [x] AC2: PDF with only `OCProperties.D` → `OK`.
+- [x] AC3: PDF without OCProperties → `OK`.
 
 **Files to modify:** new `agentes/operarios/shared_tools/gwg/optional_content_checker.py`; register in `run_full_suite.RUNNERS`.
 **Logic change:** PyMuPDF `doc.pdf_catalog()` → resolve OCProperties → check key set.
@@ -128,10 +128,10 @@
 **So that** invisible/off-by-default layers are not analyzed and don't cause spurious errors.
 
 **Acceptance Criteria:**
-- [ ] AC1: PDF with a hidden layer containing a 100% RGB image, variant `SheetCmyk_CMYK` → `OK` (hidden content excluded).
-- [ ] AC2: Same PDF after toggling layer to ON in default config → `ERRO` (content now visible).
-- [ ] AC3: All 9 RUNNERS in `run_full_suite.RUNNERS` accept and use a `visible_content_filter` argument (or equivalent decorator).
-- [ ] AC4: Integration test: 3-layer PDF (layer A=on, B=off, C=ON) → only A and C content is checked.
+- [x] AC1: PDF with a hidden layer containing a 100% RGB image, variant `SheetCmyk_CMYK` → `OK` (hidden content excluded).
+- [x] AC2: Same PDF after toggling layer to ON in default config → `ERRO` (content now visible).
+- [x] AC3: All 9 RUNNERS in `run_full_suite.RUNNERS` accept and use a `visible_content_filter` argument (or equivalent decorator).
+- [x] AC4: Integration test: 3-layer PDF (layer A=on, B=off, C=ON) → only A and C content is checked.
 
 **Files to modify:** new `agentes/operarios/shared_tools/gwg/oc_filter.py`; thin wrapper in each checker; `run_full_suite.py` injects filter into invocation.
 **Logic change:** Helper builds set of visible OCG ids from `OCProperties.D.ON / OFF`. Each checker consults filter when iterating page objects.

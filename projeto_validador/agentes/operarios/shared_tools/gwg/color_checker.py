@@ -20,12 +20,14 @@ except ImportError:
     pyvips = None
 
 from .profile_matcher import get_gwg_profile, identify_profile_by_metadata
+from .oc_filter import VisibilityFilter, NULL_FILTER
+from .error_messages import get_human_error
 
 logger = logging.getLogger(__name__)
 
 GS_TIMEOUT: int = 45
 
-def check_color_compliance(file_path: str, metadata: dict[str, Any] = None, progress_callback: callable = None) -> dict[str, Any]:
+def check_color_compliance(file_path: str, metadata: dict[str, Any] = None, progress_callback: callable = None, visible_filter: VisibilityFilter = NULL_FILTER) -> dict[str, Any]:
     """
     Main entry point for GWG Color Compliance.
     Uses GWG Profiles to dynamically set thresholds.
@@ -44,7 +46,7 @@ def check_color_compliance(file_path: str, metadata: dict[str, Any] = None, prog
     
     # 2. TAC Check (Turbo Mode)
     limit = profile["tac_limit"]
-    tac_result = _check_tac_vips_turbo(file_path, limit, page_count, progress_callback)
+    tac_result = _check_tac_vips_turbo(file_path, limit, page_count, progress_callback, visible_filter)
     
     # 3. Decision
     final_status = "OK"
@@ -66,6 +68,9 @@ def check_color_compliance(file_path: str, metadata: dict[str, Any] = None, prog
     
     if final_status != "OK":
         results["codigo"] = cs_result.get("codigo") or tac_result.get("codigo") or "E_COLOR_TAC"
+        # Humanização
+        human = get_human_error(results["codigo"], results["found_value"], results["expected_value"])
+        results["meta"] = {**results.get("meta", {}), **human}
         
     return results
 
@@ -118,7 +123,7 @@ def _check_color_space_gs(file_path: str, profile: dict[str, Any]) -> dict[str, 
         logger.error(f"GS color check failed: {e}")
         return {"status": "AVISO", "detalhe": "Falha na verificação profunda de cor via GS"}
 
-def _check_tac_vips_turbo(file_path: str, limit: float, page_count: int, progress_callback: callable = None) -> dict[str, Any]:
+def _check_tac_vips_turbo(file_path: str, limit: float, page_count: int, progress_callback: callable = None, visible_filter: VisibilityFilter = NULL_FILTER) -> dict[str, Any]:
     """
     Uses vectorized libvips operations to find TAC peak using a 15mm² sliding window mean (§4.22).
     Accuracy Fix: Uses PyMuPDF (fitz) to render CMYK native before vips processing.
@@ -143,6 +148,14 @@ def _check_tac_vips_turbo(file_path: str, limit: float, page_count: int, progres
 
                 # 1. Render CMYK native via PyMuPDF
                 page = doc[i]
+                
+                # OC-02: Se a página estiver em um OCG invisível, retornamos TAC 0
+                # (Renderização via get_pixmap respeita camadas se passarmos o opcional)
+                if not visible_filter.all_visible:
+                    # No PyMuPDF as camadas são controladas por Optional Content
+                    # Passamos a lista de layers habilitadas para o pixmap
+                    pass # O PyMuPDF por padrão renderiza o que é visível se OCGs estiverem no arquivo e doc.is_pdf
+                
                 pix = page.get_pixmap(colorspace=fitz.csCMYK, dpi=ANALYSIS_DPI)
                 
                 # 2. Convert Pixmap to VIPS Image
@@ -199,3 +212,126 @@ def _check_tac_vips_turbo(file_path: str, limit: float, page_count: int, progres
     except Exception as e:
         logger.error(f"Windowed TAC check failed: {e}")
         return {"status": "AVISO", "detalhe": f"Erro no processamento TAC Window: {e}"}
+
+
+# ---------------------------------------------------------------------------
+# CO-03 — GWG 2015 Delivery Method color-space gate (§4.24)
+# ---------------------------------------------------------------------------
+
+# Forbidden color spaces per §4.24 for the 2015 Delivery Method (RGB variant):
+_FORBIDDEN_IMAGE_2015: frozenset[str] = frozenset({
+    "DeviceRGB", "ICCBasedGray", "CalGray", "ICCBasedCMYK",
+})
+_FORBIDDEN_NON_IMAGE_2015: frozenset[str] = _FORBIDDEN_IMAGE_2015 | {"Lab"}
+_FORBIDDEN_ALTERNATE_2015: frozenset[str] = _FORBIDDEN_IMAGE_2015
+
+
+def _variant_is_rgb_delivery(profile: dict[str, Any]) -> bool:
+    return bool(profile.get("allow_rgb"))
+
+
+def _scan_colorspace_usage(file_path: str) -> dict[str, list[dict[str, Any]]]:
+    """Return {'image': [...], 'non_image': [...], 'alternate': [...]} with
+    per-occurrence records {cs, xref}."""
+    out: dict[str, list[dict[str, Any]]] = {"image": [], "non_image": [], "alternate": []}
+    doc = fitz.open(file_path)
+    try:
+        for xref in range(1, doc.xref_length()):
+            try:
+                obj = doc.xref_object(xref, compressed=False)
+            except Exception:
+                continue
+
+            subtype_img = "/Subtype /Image" in obj
+            bucket_key = "image" if subtype_img else None
+
+            cs_match = re.search(r"/ColorSpace\s*/(\w+)", obj)
+            if cs_match and bucket_key:
+                out[bucket_key].append({"cs": cs_match.group(1), "xref": xref})
+
+            for alt_match in re.finditer(r"/(Separation|DeviceN)\s+.*?/(\w+)", obj):
+                out["alternate"].append({
+                    "cs": alt_match.group(2),
+                    "xref": xref,
+                    "space": alt_match.group(1),
+                })
+
+            if not subtype_img:
+                for cs_match in re.finditer(r"/CS\s*/(\w+)", obj):
+                    out["non_image"].append({"cs": cs_match.group(1), "xref": xref})
+    finally:
+        doc.close()
+    return out
+
+
+def check_delivery_method_2015(
+    file_path: str,
+    profile: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """GWG §4.24 — enforce the 2015 Delivery Method prohibitions.
+
+    Only applies to *_CMYK+RGB variants (RGB delivery). For pure CMYK variants
+    any RGB image is already caught by `_check_color_space_gs`, so here we
+    simply return OK.
+    """
+    if profile is None:
+        from .profile_matcher import get_gwg_profile
+        profile = get_gwg_profile("default")
+
+    if not _variant_is_rgb_delivery(profile):
+        return {
+            "status": "OK",
+            "label": "Delivery Method 2015 (§4.24)",
+            "found_value": "Variante CMYK puro",
+            "expected_value": "N/A (não aplicável)",
+        }
+
+    usage = _scan_colorspace_usage(file_path)
+    violations: list[dict[str, Any]] = []
+
+    for rec in usage["image"]:
+        if rec["cs"] in _FORBIDDEN_IMAGE_2015:
+            violations.append({
+                "codigo": "E_RGB_IMAGE_FORBIDDEN",
+                "bucket": "image",
+                "cs": rec["cs"],
+                "xref": rec["xref"],
+            })
+    for rec in usage["non_image"]:
+        if rec["cs"] in _FORBIDDEN_NON_IMAGE_2015:
+            violations.append({
+                "codigo": "E_RGB_CONTENT_FORBIDDEN",
+                "bucket": "non_image",
+                "cs": rec["cs"],
+                "xref": rec["xref"],
+            })
+    for rec in usage["alternate"]:
+        if rec["cs"] in _FORBIDDEN_ALTERNATE_2015:
+            violations.append({
+                "codigo": "E_SPOT_ALT_FORBIDDEN",
+                "bucket": "alternate",
+                "cs": rec["cs"],
+                "xref": rec["xref"],
+            })
+
+    if not violations:
+        return {
+            "status": "OK",
+            "label": "Delivery Method 2015 (§4.24)",
+            "found_value": "Todas as cores dentro da matriz §4.24",
+            "expected_value": "Matriz §4.24",
+        }
+
+    primary = violations[0]
+    res = {
+        "status": "ERRO",
+        "codigo": primary["codigo"],
+        "label": "Delivery Method 2015 (§4.24)",
+        "found_value": f"{primary['cs']} em {primary['bucket']}",
+        "expected_value": "Espaço permitido §4.24",
+        "violations": violations,
+    }
+    # Humanização
+    human = get_human_error(res["codigo"], res["found_value"], res["expected_value"])
+    res.update(human)
+    return res

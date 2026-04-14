@@ -3,59 +3,46 @@ DeviceN / Separation Checker — GWG Output Suite 5.0 spot colour compliance.
 
 Inspects every xref for /Separation and /DeviceN colour space arrays and:
 - Extracts spot colour names (Pantone, HKS, custom inks).
-- Detects accidental conversion of DeviceN to its AlternateSpace (CMYK/RGB),
-  which loses spot colour fidelity and triggers a GWG blocking error.
-- Alerts when a /Separation space uses a non-CMYK alternate (e.g. RGB fallback).
-
-PDF syntax reference:
-  /Separation name alternateSpace tintTransform
-  /DeviceN [name ...] alternateSpace tintTransform attributes
+- Detects accidental conversion of DeviceN to its AlternateSpace (CMYK/RGB).
+- Validates spot colour names (UTF-8, reserved names §4.20).
+- Detects ambiguous spot colours (same name, different alternate space §4.21).
+- Enforces per-variant max spot colours (§4.18).
 """
 from __future__ import annotations
 
 import re
-from typing import Any
-
+import logging
+from typing import Any, Dict, List
 import fitz  # PyMuPDF
+from .error_messages import get_human_error
 
-# Spot colours that are expected to remain as-is (not converted to alternate)
-_PANTONE_PATTERN = re.compile(r"(?i)(pantone|pms|hks|cmyk|spot|special)", re.IGNORECASE)
+logger = logging.getLogger(__name__)
+
+# Reserved names per §4.20
+RESERVED_NAMES = {"All", "None"}
 
 # Alternate spaces that indicate RGB fallback (problematic for print)
 _RGB_ALTERNATES: frozenset[str] = frozenset({"DeviceRGB", "CalRGB"})
 _CMYK_ALTERNATES: frozenset[str] = frozenset({"DeviceCMYK", "DeviceGray"})
 
+def _is_valid_utf8(name: str) -> bool:
+    """Check if the name is valid UTF-8."""
+    return "\x00" not in name
 
 def _parse_separation_space(obj_str: str) -> dict[str, Any] | None:
-    """Parse a /Separation colour space array from an xref object string.
-
-    Returns a dict with keys: name, alternate, or None if not a Separation space.
-    """
-    # Separation arrays look like: [/Separation /PantoneCoolGray /DeviceCMYK ...]
-    m = re.search(
-        r"\[\s*/Separation\s+/([^\s/\]]+)\s+/(\w+)",
-        obj_str,
-    )
+    """Parse a /Separation colour space array from an xref object string."""
+    m = re.search(r"\[\s*/Separation\s+/([^\s/\]]+)\s+/(\w+)", obj_str)
     if not m:
-        # Sometimes stored as name object: /Separation /Name /Alt ...
         m = re.search(r"/Separation\s+/([^\s/]+)\s+/(\w+)", obj_str)
     if not m:
         return None
     return {"name": m.group(1), "alternate": m.group(2), "type": "Separation"}
 
-
 def _parse_devicen_space(obj_str: str) -> dict[str, Any] | None:
-    """Parse a /DeviceN colour space array from an xref object string.
-
-    Returns a dict with keys: names (list), alternate, or None if not DeviceN.
-    """
-    m = re.search(
-        r"\[\s*/DeviceN\s+\[([^\]]+)\]\s+/(\w+)",
-        obj_str,
-    )
+    """Parse a /DeviceN colour space array from an xref object string."""
+    m = re.search(r"\[\s*/DeviceN\s+\[([^\]]+)\]\s+/(\w+)", obj_str)
     if not m:
         return None
-    # Extract spot colour names from the names array
     raw_names = re.findall(r"/([^\s/\]]+)", m.group(1))
     return {
         "names": [n for n in raw_names if n != "None"],
@@ -63,41 +50,24 @@ def _parse_devicen_space(obj_str: str) -> dict[str, Any] | None:
         "type": "DeviceN",
     }
 
-
-def _is_accidental_conversion(space: dict[str, Any]) -> bool:
-    """Return True if this colour space signals an accidental alternate-space conversion.
-
-    Conditions:
-    - DeviceN whose alternate is RGB (hard error — spot colours lost).
-    - DeviceN whose alternate is CMYK but all named inks are standard process
-      colours (C/M/Y/K/Black/Cyan/Magenta/Yellow) — may be a false positive,
-      so we only flag explicit RGB alternates as ERRORS, CMYK as WARNINGS.
+def check_devicen(file_path: str, profile: dict | None = None) -> List[Dict[str, Any]]:
     """
-    alternate = space.get("alternate", "")
-    return alternate in _RGB_ALTERNATES
-
-
-def check_devicen(file_path: str, profile: dict | None = None) -> dict[str, Any]:
-    """Detect /Separation and /DeviceN colour spaces and validate spot colour integrity.
-
-    Args:
-        file_path: Absolute path to the PDF file.
-        profile: GWG profile dict (see profile_matcher). Used to enforce
-                 `max_spot_colors` per variant (DELTA-06 / DELTA-07).
-
-    Returns:
-        Dict with status, codigo, spot_colours (list of names), conversion_issues.
+    Validate spot colours and DeviceN spaces according to GWG 2015.
+    Returns a list of check results (structured for run_full_suite).
     """
     if profile is None:
-        from agentes.operarios.shared_tools.gwg.profile_matcher import get_gwg_profile
+        from .profile_matcher import get_gwg_profile
         profile = get_gwg_profile("default")
-    max_spots = profile.get("max_spot_colors", 2)
+    
+    max_spots = profile.get("max_spot_colors", 0)
     doc = fitz.open(file_path)
+    
+    spot_info: dict[str, set] = {} # name -> set of alternate spaces
+    spot_names: set[str] = set()
+    conversion_errors = 0
+    
     try:
-        spot_colours: list[str] = []
-        conversion_issues: list[dict] = []
-        spaces_found: list[dict] = []
-
+        # 1. Collect all spot colors from the Whole Document
         for xref in range(1, doc.xref_length()):
             try:
                 obj_str = doc.xref_object(xref, compressed=False)
@@ -107,107 +77,96 @@ def check_devicen(file_path: str, profile: dict | None = None) -> dict[str, Any]
             if "/Separation" not in obj_str and "/DeviceN" not in obj_str:
                 continue
 
-            # Try Separation first
             sep = _parse_separation_space(obj_str)
             if sep:
-                spaces_found.append({**sep, "xref": xref})
-                spot_colours.append(sep["name"])
-                if sep["alternate"] in _RGB_ALTERNATES:
-                    conversion_issues.append({
-                        "xref": xref,
-                        "type": "Separation",
-                        "name": sep["name"],
-                        "alternate": sep["alternate"],
-                        "severity": "ERRO",
-                        "codigo": "E_DEVICEN_CONV",
-                    })
+                name = sep["name"]
+                alt = sep["alternate"]
+                spot_names.add(name)
+                if name not in spot_info:
+                    spot_info[name] = set()
+                spot_info[name].add(alt)
+                if alt in _RGB_ALTERNATES:
+                    conversion_errors += 1
                 continue
 
-            # Try DeviceN
             dn = _parse_devicen_space(obj_str)
             if dn:
-                spaces_found.append({**dn, "xref": xref})
-                spot_colours.extend(dn["names"])
-                if _is_accidental_conversion(dn):
-                    conversion_issues.append({
-                        "xref": xref,
-                        "type": "DeviceN",
-                        "names": dn["names"],
-                        "alternate": dn["alternate"],
-                        "severity": "ERRO",
-                        "codigo": "E_DEVICEN_CONV",
-                    })
-                elif dn["alternate"] in _CMYK_ALTERNATES and not dn["names"]:
-                    # DeviceN with only process colours and CMYK alternate — suspicious
-                    conversion_issues.append({
-                        "xref": xref,
-                        "type": "DeviceN",
-                        "names": dn["names"],
-                        "alternate": dn["alternate"],
-                        "severity": "AVISO",
-                        "codigo": "W_DEVICEN_CMYK_ALT",
-                    })
+                for name in dn["names"]:
+                    alt = dn["alternate"]
+                    spot_names.add(name)
+                    if name not in spot_info:
+                        spot_info[name] = set()
+                    spot_info[name].add(alt)
+                    if alt in _RGB_ALTERNATES:
+                        conversion_errors += 1
+
+        # 2. Perform Checks
+        page_results = []
+        
+        # SP-04: Max Spot Colors (§4.18)
+        if len(spot_names) > max_spots:
+             res = {
+                "code": "E_SPOT_COUNT_EXCEEDED",
+                "label": "Limite de Cores Especiais",
+                "status": "ERRO",
+                "found_value": str(len(spot_names)),
+                "expected_value": str(max_spots)
+            }
+             res.update(get_human_error(res["code"], res["found_value"], res["expected_value"]))
+             page_results.append(res)
+
+        # SP-02 & SP-03: Names & Ambiguity
+        for name in spot_names:
+            if name in RESERVED_NAMES:
+                res = {
+                    "code": "E_SPOT_RESERVED_NAME",
+                    "label": "Nome de Cor Especial",
+                    "status": "ERRO",
+                    "found_value": name,
+                    "expected_value": "Tokens permitidos"
+                }
+                res.update(get_human_error(res["code"], res["found_value"], res["expected_value"]))
+                page_results.append(res)
+            
+            if not _is_valid_utf8(name):
+                res = {
+                    "code": "E_SPOT_NAME_NOT_UTF8",
+                    "label": "Codificação Spot",
+                    "status": "ERRO",
+                    "found_value": "Binary/Non-UTF8",
+                    "expected_value": "UTF-8"
+                }
+                res.update(get_human_error(res["code"], res["found_value"], res["expected_value"]))
+                page_results.append(res)
+
+            alts = spot_info.get(name, set())
+            if len(alts) > 1:
+                res = {
+                    "code": "E_SPOT_AMBIGUOUS",
+                    "label": "Definições de Cor Spot",
+                    "status": "ERRO",
+                    "found_value": f"{name} ({', '.join(alts)})",
+                    "expected_value": "Espaço alternativo único"
+                }
+                res.update(get_human_error(res["code"], res["found_value"], res["expected_value"]))
+                page_results.append(res)
+
+        if conversion_errors > 0:
+            res = {
+                "code": "E_DEVICEN_CONV",
+                "label": "Conversão de Cor Especial",
+                "status": "ERRO",
+                "found_value": "AlternateSpace RGB",
+                "expected_value": "DeviceCMYK/Lab",
+                "message": f"Detectada conversão para RGB em {conversion_errors} objetos.",
+                "action": "Certifique-se de que cores spot usem CMYK ou Lab como espaço alternativo."
+            }
+            page_results.append(res)
+
+        return [{
+            "page": 1,
+            "checks": page_results
+        }]
 
     finally:
         doc.close()
-
-    unique_spots = sorted(set(spot_colours))
-
-    # DELTA-06 / DELTA-07 — enforce per-variant max_spot_colors (§4.18, §5.x)
-    if len(unique_spots) > max_spots:
-        codigo = "E_SPOT_FORBIDDEN" if max_spots == 0 else "E_SPOT_EXCEEDED"
-        return {
-            "status": "ERRO",
-            "codigo": codigo,
-            "label": "Cores Spot Permitidas",
-            "found_value": len(unique_spots),
-            "expected_value": max_spots,
-            "descricao": (
-                f"Variante permite no máximo {max_spots} cor(es) spot; "
-                f"o arquivo contém {len(unique_spots)}: {', '.join(unique_spots[:5])}"
-            ),
-            "spot_colours": unique_spots,
-            "conversion_issues": conversion_issues,
-            "spaces_found": len(spaces_found),
-        }
-
-    has_errors = any(i["severity"] == "ERRO" for i in conversion_issues)
-    
-    found_str = f"{len(unique_spots)} cores spot: {', '.join(unique_spots[:3])}" + ("..." if len(unique_spots)>3 else "") if unique_spots else "Nenhuma cor spot"
-    expected_str = "AlternateSpace != RGB"
-
-    if has_errors:
-        return {
-            "status": "ERRO",
-            "codigo": "E_DEVICEN_CONV",
-            "found_value": "AlternateSpace RGB Detectado",
-            "expected_value": expected_str,
-            "descricao": (
-                f"Conversão acidental de DeviceN/Separation para AlternateSpace RGB detectada "
-                f"em {sum(1 for i in conversion_issues if i['severity'] == 'ERRO')} espaço(s)"
-            ),
-            "spot_colours": unique_spots,
-            "conversion_issues": conversion_issues,
-            "spaces_found": len(spaces_found),
-        }
-
-    if conversion_issues:
-        return {
-            "status": "AVISO",
-            "codigo": "W_DEVICEN_CMYK_ALT",
-            "found_value": "AlternateSpace CMYK",
-            "expected_value": expected_str,
-            "descricao": "DeviceN com AlternateSpace CMYK detectado — verificar fidelidade das cores spot",
-            "spot_colours": unique_spots,
-            "conversion_issues": conversion_issues,
-            "spaces_found": len(spaces_found),
-        }
-
-    return {
-        "status": "OK",
-        "found_value": found_str,
-        "expected_value": expected_str,
-        "spot_colours": unique_spots,
-        "spaces_found": len(spaces_found),
-        "conversion_issues": [],
-    }

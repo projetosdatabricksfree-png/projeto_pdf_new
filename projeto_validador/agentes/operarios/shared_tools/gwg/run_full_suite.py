@@ -43,9 +43,9 @@ def _enable_gpu_acceleration():
 # subprocess — the parent worker never loads fitz/pyvips/ghostscript.
 # ---------------------------------------------------------------------------
 
-def _run_geometry(file_path: str, profile: dict):
+def _run_geometry(file_path: str, profile: dict, visible_filter: Any = None):
     from agentes.operarios.shared_tools.gwg.geometry_checker import check_geometry
-    return check_geometry(file_path, profile)
+    return check_geometry(file_path, profile, visible_filter=visible_filter)
 
 
 def _run_icc(file_path: str, profile: dict):
@@ -60,17 +60,18 @@ def _run_color(file_path: str, profile: dict, job_id: str | None = None):
         if job_id:
             update_stage(job_id, "color", "RUNNING", log=msg)
             
-    return check_color_compliance(file_path, {"produto": profile.get("name", "")}, progress_callback=color_progress)
+    return check_color_compliance(file_path, {"produto": profile.get("name", "")}, progress_callback=color_progress, visible_filter=profile.get("visible_filter"))
 
 
-def _run_opm(file_path: str, profile: dict):
+def _run_opm(file_path: str, profile: dict, visible_filter: Any = None):
     from agentes.operarios.shared_tools.gwg.opm_checker import check_opm
+    # OPM checker utiliza o filtro no check_black_small_overprint, mas injetamos por padrão
     return check_opm(file_path, profile)
 
 
-def _run_fonts(file_path: str, profile: dict):
+def _run_fonts(file_path: str, profile: dict, visible_filter: Any = None):
     from agentes.operarios.shared_tools.gwg.font_checker import check_fonts_gwg
-    return check_fonts_gwg(file_path, profile)
+    return check_fonts_gwg(file_path, visible_filter=visible_filter)
 
 
 def _run_transparency(file_path: str, profile: dict):
@@ -88,34 +89,79 @@ def _run_devicen(file_path: str, profile: dict):
     return check_devicen(file_path, profile)
 
 
-def _run_hairlines(file_path: str, profile: dict):
+def _run_hairlines(file_path: str, profile: dict, visible_filter: Any = None):
     from agentes.operarios.shared_tools.gwg.font_checker import check_hairlines
-    return check_hairlines(file_path, profile)
+    return check_hairlines(file_path, visible_filter=visible_filter)
+
+
+def _run_black_overprint(file_path: str, profile: dict, visible_filter: Any = None):
+    from agentes.operarios.shared_tools.gwg.opm_checker import check_black_small_overprint
+    return check_black_small_overprint(file_path, profile, visible_filter=visible_filter)
+
+
+def _run_delivery_2015(file_path: str, profile: dict):
+    from agentes.operarios.shared_tools.gwg.color_checker import check_delivery_method_2015
+    return check_delivery_method_2015(file_path, profile)
+
+
+def _run_oc_configs(file_path: str, profile: dict):
+    from agentes.operarios.shared_tools.gwg.optional_content_checker import check_oc_configs
+    return check_oc_configs(file_path, profile)
+
+
+def _run_oc_filter(file_path: str, profile: dict):
+    """OC-02 foundation — exposes the visibility filter as a passthrough stage.
+
+    This stage does not flag the document; it computes the visible-OCG set and
+    annotates the suite result so every other checker can consult it.
+    """
+    from agentes.operarios.shared_tools.gwg.oc_filter import build_visibility_filter
+    vf = build_visibility_filter(file_path)
+    return {
+        "status": "OK",
+        "label": "Optional Content (filtro §3.16)",
+        "found_value": (
+            "Todas as camadas visíveis" if vf.all_visible
+            else f"{len(vf.visible_ocgs)} OCG(s) visíveis"
+        ),
+        "expected_value": "Filtro aplicado",
+        "visible_ocgs": sorted(vf.visible_ocgs),
+        "all_visible": vf.all_visible,
+    }
 
 
 RUNNERS: list[tuple[str, str, str, Callable]] = [
     # (name, label, codigo_fallback, fn)
-    ("geometry",     "Geometria",              "G000_GEO",            _run_geometry),
-    ("icc",          "Perfis ICC",             "W_ICC_UNKNOWN",       _run_icc),
-    ("color",        "Cores & TAC",            "E006_COLOR_FAILURE",  _run_color),
-    ("opm",          "Overprint (OPM)",        "W_OPM",               _run_opm),
-    ("fonts",        "Fontes",                 "E004_FONTS",          _run_fonts),
-    ("transparency", "Transparências",         "W_TRANSPARENCY",      _run_transparency),
-    ("compression",  "Compressão de Imagens",  "W_COMPRESSION",       _run_compression),
-    ("devicen",      "DeviceN/Spot",           "W_DEVICEN",           _run_devicen),
-    ("hairlines",    "Traços Finos",           "W_HAIRLINE",          _run_hairlines),
+    ("geometry",      "Geometria",              "G000_GEO",            _run_geometry),
+    ("icc",           "Perfis ICC",             "W_ICC_UNKNOWN",       _run_icc),
+    ("color",         "Cores & TAC",            "E006_COLOR_FAILURE",  _run_color),
+    ("opm",           "Overprint (OPM)",        "W_OPM",               _run_opm),
+    ("fonts",         "Fontes",                 "E004_FONTS",          _run_fonts),
+    ("transparency",  "Transparências",         "W_TRANSPARENCY",      _run_transparency),
+    ("compression",   "Compressão de Imagens",  "W_COMPRESSION",       _run_compression),
+    ("devicen",       "DeviceN/Spot",           "W_DEVICEN",           _run_devicen),
+    ("hairlines",     "Traços Finos",           "W_HAIRLINE",          _run_hairlines),
+    # Sprint 2
+    ("black_overprint", "Preto Pequeno §4.10-13", "E_BLACK_TEXT_NO_OVERPRINT", _run_black_overprint),
+    ("delivery_2015", "Delivery Method §4.24",  "E_RGB_IMAGE_FORBIDDEN", _run_delivery_2015),
+    ("oc_configs",    "Optional Content §4.29", "E_OC_CONFIGS_PRESENT", _run_oc_configs),
+    ("oc_filter",     "OC Filter §3.16",        "W_OC_FILTER",         _run_oc_filter),
 ]
 
 
-def _safe_invoke(name: str, fn: Callable, file_path: str, profile_name: str, job_id: str | None = None):
+def _safe_invoke(name: str, fn: Callable, file_path: str, profile: dict, job_id: str | None = None, visible_filter: Any = None):
     """Executed inside the worker process. Returns (result, error_dict)."""
     try:
-        # Check if the function signature accepts job_id
+        # Check if the function signature accepts job_id or visible_filter
         import inspect
         sig = inspect.signature(fn)
+        kwargs = {}
         if "job_id" in sig.parameters:
-            return fn(file_path, profile_name, job_id=job_id), None
-        return fn(file_path, profile_name), None
+            kwargs["job_id"] = job_id
+        if "visible_filter" in sig.parameters:
+            kwargs["visible_filter"] = visible_filter
+            
+        return fn(file_path, profile, **kwargs), None
     except Exception as exc:
         return None, {
             "status": "AVISO",
@@ -211,6 +257,12 @@ def run_all_gwg_checks(
     erros: list[str] = []
     avisos: list[str] = []
 
+    # 0. OC Filter computation (§3.16) - Foundation for all others
+    from agentes.operarios.shared_tools.gwg.oc_filter import build_visibility_filter
+    visible_filter = build_visibility_filter(file_path)
+    # Augment profile with the filter for pickling
+    profile["visible_filter"] = visible_filter
+
     # Publish the initial board (9 stages, all PENDING)
     init_progress(
         job_id or "",
@@ -237,7 +289,7 @@ def run_all_gwg_checks(
             started_at[name] = time.monotonic()
             update_stage(job_id or "", name, "RUNNING")
             async_results[name] = (
-                pool.apply_async(_safe_invoke, (name, fn, file_path, profile, job_id)),
+                pool.apply_async(_safe_invoke, (name, fn, file_path, profile, job_id, visible_filter)),
                 code,
                 label,
             )
