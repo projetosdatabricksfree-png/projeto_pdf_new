@@ -62,7 +62,7 @@ class TestValidateEndpoint:
         try:
             import fitz
             doc = fitz.open()
-            page = doc.new_page(width=242, height=153)  # ~85.6x53.98mm
+            _page = doc.new_page(width=242, height=153)  # ~85.6x53.98mm
             pdf_path = tmp_path / "test_card.pdf"
             doc.save(str(pdf_path))
             doc.close()

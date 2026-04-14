@@ -6,12 +6,11 @@ from __future__ import annotations
 import os
 import sys
 
-import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from agentes.validador.agent import AgenteValidador, calcular_status_final
-from agentes.validador.messages_table import get_message, MESSAGES
+from agentes.validador.messages_table import get_message
 from app.api.schemas import TechnicalReport
 from datetime import datetime, timezone
 

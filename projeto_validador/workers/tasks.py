@@ -9,8 +9,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
-from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Optional
 
 from workers.celery_app import celery_app
 
@@ -293,7 +292,7 @@ def task_validate(self, report_json: str) -> str:
 
     Produces the final verdict (APROVADO/REPROVADO/APROVADO_COM_RESSALVAS).
     """
-    logger.critical(f"TASK_RECEIVED: task_validate starting")
+    logger.critical("TASK_RECEIVED: task_validate starting")
     from app.api.schemas import TechnicalReport
     from agentes.validador.agent import AgenteValidador
 

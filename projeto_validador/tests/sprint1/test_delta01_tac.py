@@ -2,7 +2,6 @@
 Regression tests for Sprint 1: DELTA-01 and SY-08.
 Tests the sliding window TAC engine against GWG2015 thresholds.
 """
-import os
 import sys
 import fitz
 import pytest

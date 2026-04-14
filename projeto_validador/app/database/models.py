@@ -13,7 +13,6 @@ from typing import Optional
 from sqlalchemy import (
     Column,
     DateTime,
-    Enum,
     Float,
     ForeignKey,
     Integer,

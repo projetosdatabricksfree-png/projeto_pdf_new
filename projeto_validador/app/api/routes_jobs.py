@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
+from fastapi.responses import FileResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.schemas import (
@@ -21,7 +22,6 @@ from app.api.schemas import (
     JobStatusResponse,
 )
 from app.database.crud import (
-    complete_job,
     create_event,
     create_job,
     get_job,
@@ -101,7 +101,7 @@ async def upload_and_validate(
         )
 
     # Create job record in database
-    job = await create_job(
+    await create_job(
         db,
         job_id=job_id,
         original_filename=original_filename,
@@ -291,7 +291,6 @@ async def get_job_report(
     )
 
 
-from fastapi.responses import FileResponse
 
 @router.get("/jobs/{job_id}/file")
 async def get_job_file(

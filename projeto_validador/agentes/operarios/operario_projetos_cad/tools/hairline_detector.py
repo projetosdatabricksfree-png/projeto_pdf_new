@@ -8,7 +8,7 @@ from __future__ import annotations
 import fitz
 
 MIN_WIDTH_PT: float = 0.25
-from agentes.operarios.operario_projetos_cad.tools.isolation import run_isolated
+from agentes.operarios.operario_projetos_cad.tools.isolation import run_isolated # noqa: E402
 
 
 def _process_drawings(file_path: str, max_pages: int = 5) -> list[dict]:
@@ -28,8 +28,10 @@ def _process_drawings(file_path: str, max_pages: int = 5) -> list[dict]:
                         "width_pt": round(w, 4),
                         "rect": str(d.get("rect", ""))[:100],
                     })
-                    if len(hairlines) >= 20: break
-            if len(hairlines) >= 20: break
+                    if len(hairlines) >= 20:
+                        break
+            if len(hairlines) >= 20:
+                break
         return hairlines
     finally:
         doc.close()
@@ -61,7 +63,7 @@ def detect_hairlines(doc: fitz.Document) -> dict:
             "expected_value": f"≥ {MIN_WIDTH_PT}pt",
             "meta": {"client": "Todas as linhas possuem espessura adequada.", "action": "Nenhuma."}
         }
-    except Exception as exc:
+    except Exception:
         return {
             "status": "AVISO",
             "codigo": "W003_HAIRLINE_CHECK_FAILED",

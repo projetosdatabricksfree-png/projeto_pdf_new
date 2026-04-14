@@ -4,7 +4,6 @@ Faca Detector — Detects die-cut layers and validates their properties.
 from __future__ import annotations
 
 import fitz
-import re
 import subprocess
 from pathlib import Path
 

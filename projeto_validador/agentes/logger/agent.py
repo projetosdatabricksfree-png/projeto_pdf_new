@@ -11,7 +11,6 @@ from __future__ import annotations
 import json
 import logging
 from collections import deque
-from datetime import datetime, timezone
 from typing import Any
 
 logger = logging.getLogger(__name__)
@@ -91,7 +90,7 @@ class AgenteLogger:
                         duration_ms=event_data.get("duration_ms"),
                     )
                 await db.commit()
-                logger.info(f"[Logger] Flushed buffered events successfully")
+                logger.info("[Logger] Flushed buffered events successfully")
         except Exception as exc:
             logger.warning(f"[Logger] Buffer flush failed: {exc}")
 

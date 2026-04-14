@@ -8,9 +8,7 @@ Classification logic matches EXACTLY the specification in PROMPT_IMPLEMENTACAO.m
 """
 from __future__ import annotations
 
-import json
 import logging
-from datetime import datetime, timezone
 
 from app.api.schemas import JobPayload, RoutingPayload
 

@@ -1,8 +1,5 @@
 import fitz
-import json
 from datetime import datetime, timezone
-from pathlib import Path
-from typing import Optional
 
 class AgenteGeradorPDF:
     """Gerador de relatórios PDF profissionais para validação de arquivos."""
@@ -120,7 +117,8 @@ class AgenteGeradorPDF:
             page.insert_text((110, curr_y), res.get("check_name", res.get("check_code", "Desconhecido")), fontsize=9, color=self.COLORS["TEXT_MAIN"], fontname="Helvetica")
             
             val_found = res.get("value_found", "")
-            if val_found and len(str(val_found)) > 40: val_found = str(val_found)[:37] + "..."
+            if val_found and len(str(val_found)) > 40:
+                val_found = str(val_found)[:37] + "..."
             page.insert_text((250, curr_y), str(val_found), fontsize=9, color=self.COLORS["TEXT_MAIN"], fontname="Helvetica")
             
             val_exp = res.get("value_expected", "")

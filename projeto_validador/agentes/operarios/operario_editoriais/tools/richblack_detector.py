@@ -61,7 +61,8 @@ def check_rich_black(file_path: str) -> dict:
                 }
             }
 
-        finally: doc.close()
+        finally:
+            doc.close()
     except Exception as exc:
         return {
             "status": "AVISO", 

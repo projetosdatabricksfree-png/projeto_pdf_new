@@ -1,5 +1,4 @@
 import re
-from pathlib import Path
 
 def test_sanitization(file_path):
     if re.search(r'[;&|`${}]', file_path):

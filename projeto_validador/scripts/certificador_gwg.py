@@ -3,7 +3,6 @@ GWG Certification Script - Preflight Validator
 Runs the system against the official Ghent PDF Output Suite 5.0 patches.
 """
 
-import os
 import sys
 from pathlib import Path
 
@@ -13,7 +12,6 @@ sys.path.append(str(Path(__file__).parent.parent))
 from agentes.operarios.shared_tools.gwg.color_checker import check_color_compliance
 from agentes.operarios.shared_tools.gwg.opm_checker import check_opm as check_white_overprint
 from agentes.operarios.shared_tools.gwg.geometry_checker import check_geometry
-from agentes.operarios.shared_tools.gwg.profile_matcher import identify_profile_by_metadata
 
 TEST_DIR = "/home/diego/Desktop/PROJETOS/Testes/Arquivos_Teste_Projeto_Grafica"
 GOLD_FILE = "Ghent_PDF-Output-Test-V50_ALL_X4.pdf"
@@ -32,7 +30,7 @@ def run_certification(file_path: str = None):
         return
 
     print(f"\n{'='*60}")
-    print(f" CERTIFICAÇÃO GWG 2022 - DIAGNÓSTICO PROFUNDO ")
+    print(" CERTIFICAÇÃO GWG 2022 - DIAGNÓSTICO PROFUNDO ")
     print(f" Alvo: {GOLD_FILE}")
     print(f"{'='*60}\n")
 
@@ -71,7 +69,7 @@ def run_certification(file_path: str = None):
     if white_results["status"] == "ERRO":
         print(f"  ❌ FALHA: {white_results['descricao']}")
     else:
-        print(f"  ✅ SUCESSO: Nenhum White Overprint detectado.")
+        print("  ✅ SUCESSO: Nenhum White Overprint detectado.")
 
     print(f"\n{'='*60}")
     # Resultado Final agora exige OK em TODOS os itens críticos

@@ -9,11 +9,11 @@ from datetime import datetime, timezone
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from app.api.schemas import JobPayload, RoutingPayload
+from app.api.schemas import JobPayload
 from agentes.gerente.agent import AgenteGerente
 
 async def run_diagnosis(file_path: str):
-    print(f"--- INICIANDO DIAGNÓSTICO GWG 2022 ---")
+    print("--- INICIANDO DIAGNÓSTICO GWG 2022 ---")
     print(f"Arquivo: {file_path}")
     
     # Resolve relative to /app inside container
@@ -66,7 +66,7 @@ async def run_diagnosis(file_path: str):
     validador = AgenteValidador()
     final_report = validador.processar(tech_report)
     
-    print(f"\n--- RESULTADO FINAL ---")
+    print("\n--- RESULTADO FINAL ---")
     print(f"Status: {final_report.status}")
     print(f"Conformidade GWG: {final_report.detalhes_tecnicos.get('gwg_2022_compliance', {}).get('status')}")
     
