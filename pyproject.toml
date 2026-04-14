@@ -14,8 +14,10 @@ fix = true
 "__init__.py" = ["F401"]
 
 # Intentional lazy imports/module-level issues in specific files
-"agentes/operarios/shared_tools/gwg/run_full_suite.py" = ["E402"]
-"projeto_validador/agentes/operarios/shared_tools/gwg/run_full_suite.py" = ["E402"]
+"agentes/operarios/shared_tools/gwg/run_full_suite.py" = ["E402", "E501"]
+"projeto_validador/agentes/operarios/shared_tools/gwg/run_full_suite.py" = ["E402", "E501"]
+"agentes/operarios/shared_tools/gwg/color_checker.py" = ["E501"]
+"projeto_validador/agentes/operarios/shared_tools/gwg/color_checker.py" = ["E501"]
 "projeto_validador/workers/tasks.py" = ["E402"]
 "projeto_validador/app/api/routes_jobs.py" = ["E402"]
 

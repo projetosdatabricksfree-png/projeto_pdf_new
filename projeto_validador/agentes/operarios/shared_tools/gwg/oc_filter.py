@@ -5,14 +5,14 @@ Builds the set of OCG xrefs that are visible under the default configuration
 (`OCProperties.D`) so that every downstream checker can skip content marked
 for layers that ship invisible by default.
 
-Advanced (OC-03): Supports RBGroups (Radio Button Groups) and OCMD 
-(Optional Content Membership Dictionaries) with AND/OR/NOT logic 
+Advanced (OC-03): Supports RBGroups (Radio Button Groups) and OCMD
+(Optional Content Membership Dictionaries) with AND/OR/NOT logic
 as seen in Ghent Patches 15.0-15.2.
 """
 from __future__ import annotations
 
-import re
 import logging
+import re
 from dataclasses import dataclass, field
 from typing import Iterable, Optional
 
@@ -26,20 +26,34 @@ class VisibilityFilter:
 
     `all_visible=True` means the document has no OCProperties or a permissive
     default config; every object is considered visible.
+
+    NOTE: `doc` is excluded from pickling — fitz.Document is a C extension
+    with file descriptors and cannot be serialized across processes.
+    OCMD resolution (OC-03 advanced logic) is unavailable in subprocess
+    contexts; the filter falls back to xref-based visibility (OC-02).
     """
     visible_ocgs: frozenset[int] = field(default_factory=frozenset)
     all_visible: bool = True
     doc: Optional[fitz.Document] = field(default=None, compare=False, hash=False)
 
+    def __getstate__(self) -> dict:
+        # Exclude fitz.Document — not picklable (C extension with FDs/threads).
+        return {"visible_ocgs": self.visible_ocgs, "all_visible": self.all_visible}
+
+    def __setstate__(self, state: dict) -> None:
+        object.__setattr__(self, "visible_ocgs", state["visible_ocgs"])
+        object.__setattr__(self, "all_visible", state["all_visible"])
+        object.__setattr__(self, "doc", None)  # unavailable in child processes
+
     def is_visible(self, ocg_xrefs: Iterable[int]) -> bool:
         """Determines if the given OCGs (or OCMDs) allow visibility."""
         if self.all_visible:
             return True
-            
+
         xrefs = list(ocg_xrefs)
         if not xrefs:
             return True
-            
+
         # OC-03: Membership Dictionary (OCMD) Logic
         for xref in xrefs:
             if self._is_ocmd(xref):
@@ -47,7 +61,7 @@ class VisibilityFilter:
                     return True
             elif xref in self.visible_ocgs:
                 return True
-        
+
         return False
 
     def _is_ocmd(self, xref: int) -> bool:
@@ -66,11 +80,11 @@ class VisibilityFilter:
             return True
         try:
             obj = self.doc.xref_object(xref)
-            
+
             # Policy (/P): AllOn, AnyOn, AnyOff, AllOff
             policy_m = re.search(r"/P\s+/(\w+)", obj)
             policy = policy_m.group(1) if policy_m else "AnyOn"
-            
+
             # OCGs involved in this OCMD
             ocgs_m = re.search(r"/OCGs\s*\[([^\]]*)\]", obj)
             if not ocgs_m:
@@ -84,7 +98,7 @@ class VisibilityFilter:
                 return True
 
             states = [ocg in self.visible_ocgs for ocg in ocg_list]
-            
+
             if policy == "AllOn":
                 return all(states)
             if policy == "AnyOn":
@@ -141,7 +155,7 @@ def build_visibility_filter(file_path: str) -> VisibilityFilter:
 
         base_visible = all_ocgs - off_set if all_ocgs else on_set
         visible = (base_visible | on_set) - off_set
-        
+
         return VisibilityFilter(
             visible_ocgs=frozenset(visible),
             all_visible=False,

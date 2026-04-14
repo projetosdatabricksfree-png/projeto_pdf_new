@@ -49,4 +49,12 @@ celery_app.conf.update(
     worker_prefetch_multiplier=1,
     task_acks_late=True,
     task_reject_on_worker_lost=True,
+    # Time limits — prevent a stuck task from holding the worker forever.
+    # Soft limit raises SoftTimeLimitExceeded inside the task (catchable).
+    # Hard limit sends SIGKILL and the task is re-queued (task_reject_on_worker_lost).
+    task_soft_time_limit=600,   # 10 min — raise SoftTimeLimitExceeded
+    task_time_limit=900,         # 15 min — SIGKILL
+    # Visibility timeout must be >= task_time_limit so a running task is not
+    # re-delivered to another worker while still executing.
+    broker_transport_options={"visibility_timeout": 3600},
 )

@@ -24,7 +24,8 @@ logger = logging.getLogger(__name__)
 
 # Parallelism — vertical scaling
 MAX_WORKERS = int(os.getenv("GWG_MAX_PARALLEL_CHECKERS", "6"))
-# Removing CHECKER_TIMEOUT as per user request (unbound execution)
+# Per-checker timeout — prevents infinite hangs when a child process is killed
+CHECKER_TIMEOUT_S = int(os.getenv("GWG_CHECKER_TIMEOUT_S", "120"))
 
 def _enable_gpu_acceleration():
     """Attempt to enable OpenCL/GPU acceleration for pyvips."""
@@ -32,7 +33,7 @@ def _enable_gpu_acceleration():
         import pyvips
         # Enable OpenCL if available. libvips auto-detects, but we can force a check.
         # This also clears the cache to ensure we use the GPU memory efficiently.
-        pyvips.cache_set_max(0) 
+        pyvips.cache_set_max(0)
         logger.info("[GPU] OpenCL acceleration requested for pyvips")
     except Exception as e:
         logger.warning(f"[GPU] Could not initialize GPU acceleration: {e}")
@@ -55,11 +56,11 @@ def _run_icc(file_path: str, profile: dict):
 
 def _run_color(file_path: str, profile: dict, job_id: str | None = None):
     from agentes.operarios.shared_tools.gwg.color_checker import check_color_compliance
-    
+
     def color_progress(msg: str):
         if job_id:
             update_stage(job_id, "color", "RUNNING", log=msg)
-            
+
     return check_color_compliance(file_path, {"produto": profile.get("name", "")}, progress_callback=color_progress, visible_filter=profile.get("visible_filter"))
 
 
@@ -160,7 +161,7 @@ def _safe_invoke(name: str, fn: Callable, file_path: str, profile: dict, job_id:
             kwargs["job_id"] = job_id
         if "visible_filter" in sig.parameters:
             kwargs["visible_filter"] = visible_filter
-            
+
         return fn(file_path, profile, **kwargs), None
     except Exception as exc:
         return None, {
@@ -248,10 +249,6 @@ def run_all_gwg_checks(
     frontend can render a deterministic checklist.
     """
     profile = profile or {}
-    
-    # Try to boost with GPU
-    _enable_gpu_acceleration()
-
     checks: dict[str, Any] = {}
     normalized: list[dict] = []
     erros: list[str] = []
@@ -294,16 +291,24 @@ def run_all_gwg_checks(
                 label,
             )
 
-        # Collect results — Unbound async polling loop
+        # Collect results — bounded polling loop with per-checker timeout.
+        # If a child process is killed (SIGKILL/OOM), async_res.ready() may
+        # never become True.  We track elapsed time per checker and give up
+        # after CHECKER_TIMEOUT_S, recording a warning so the pipeline can
+        # continue rather than hang forever.
         pending = list(async_results.keys())
+        timed_out_any = False
         while pending:
             for name in list(pending):
                 async_res, fallback_code, label = async_results[name]
+                elapsed = time.monotonic() - started_at[name]
+
                 if async_res.ready():
                     try:
-                        result, err = async_res.get() # No timeout
-                        duration_ms = int((time.monotonic() - started_at[name]) * 1000)
-                        
+                        # Use a short deadline — ready() guarantees near-instant return.
+                        result, err = async_res.get(timeout=10)
+                        duration_ms = int(elapsed * 1000)
+
                         if err is not None:
                             checks[name] = err
                             normalized.extend(_normalize(name, fallback_code, err))
@@ -329,7 +334,7 @@ def run_all_gwg_checks(
                             else:
                                 checks[name] = result
                                 update_stage(job_id or "", name, result.get("status", "OK"), duration_ms, log="Check concluído")
-                            
+
                             for entry in normalized_entries:
                                 normalized.append(entry)
                                 status = entry["status"]
@@ -341,7 +346,7 @@ def run_all_gwg_checks(
                                 elif status == "AVISO" and codigo not in avisos:
                                     avisos.append(codigo)
                     except Exception as exc:
-                        duration_ms = int((time.monotonic() - started_at[name]) * 1000)
+                        duration_ms = int(elapsed * 1000)
                         logger.error(f"[run_full_suite] {name} CRASH: {exc!r}")
                         err_code = f"W_{name.upper()}_FAILED"
                         checks[name] = {
@@ -352,13 +357,45 @@ def run_all_gwg_checks(
                             "expected_value": "Execução bem sucedida",
                         }
                         update_stage(job_id or "", name, "FAILED", duration_ms, log=f"Erro: {exc!r}")
-                    
-                    pending.remove(name)
-            
-            if pending:
-                time.sleep(0.5) # Prevent CPU spinning in the main orchestrator thread
 
-        pool.close()
+                    pending.remove(name)
+
+                elif elapsed > CHECKER_TIMEOUT_S:
+                    # Child process likely dead — do not wait forever.
+                    duration_ms = int(elapsed * 1000)
+                    logger.error(
+                        f"[run_full_suite] {name} TIMEOUT after {elapsed:.1f}s "
+                        f"(limit={CHECKER_TIMEOUT_S}s) — process may be dead or OOM-killed"
+                    )
+                    err_code = f"W_{name.upper()}_TIMEOUT"
+                    checks[name] = {
+                        "status": "AVISO",
+                        "codigo": err_code,
+                        "label": name,
+                        "found_value": f"Timeout após {elapsed:.0f}s",
+                        "expected_value": f"Concluído em < {CHECKER_TIMEOUT_S}s",
+                    }
+                    normalized.extend(_normalize(name, fallback_code, checks[name]))
+                    if err_code not in avisos:
+                        avisos.append(err_code)
+                    update_stage(
+                        job_id or "", name, "TIMEOUT", duration_ms,
+                        log=f"Timeout — checker possivelmente morto após {elapsed:.0f}s",
+                    )
+                    pending.remove(name)
+                    timed_out_any = True
+
+            if pending:
+                time.sleep(0.5)  # Prevent CPU spinning in the main orchestrator thread
+
+        # If any checker timed out, the pool may have orphaned processes.
+        # Terminate to avoid resource leaks before the normal close/join.
+        if timed_out_any:
+            logger.warning("[run_full_suite] Terminating pool due to checker timeout(s)")
+            pool.terminate()
+
+        if not timed_out_any:
+            pool.close()
         pool.join()
     except Exception:
         pool.terminate()

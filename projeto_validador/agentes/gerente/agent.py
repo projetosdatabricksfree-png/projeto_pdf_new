@@ -163,28 +163,18 @@ class AgenteGerente:
         # Uses purely deterministic geometric routing logic
         route_to, confidence, reason = classificar_produto(classify_meta)
 
-        # Step 3: If confidence below threshold, route to Especialista
+        # Step 3: If confidence below threshold, delegate to Especialista via queue.
+        # NEVER call AgenteEspecialista inline here — that would block queue:jobs
+        # with heavy PyMuPDF probing and violate Rule 3 (Deadlock Prevention).
+        # task_route in workers/tasks.py maps route_to="especialista" →
+        # task_process_especialista which runs on queue:especialista.
         if confidence < THRESHOLD_CONFIANCA and route_to != "especialista":
             logger.info(
-                f"[Gerente] Low confidence ({confidence}) for job "
-                f"{job_payload.job_id} → routing to especialista"
+                f"[Gerente] Low confidence ({confidence:.2f}) for job "
+                f"{job_payload.job_id} → delegating to especialista queue"
             )
-
-            # Try specialist for refined routing
-            try:
-                from agentes.especialista.agent import AgenteEspecialista
-
-                especialista = AgenteEspecialista()
-                specialist_result = especialista.processar(
-                    job_payload.file_path,
-                    metadata_snapshot,
-                )
-                route_to = specialist_result["route_to"]
-                confidence = specialist_result["confidence"]
-                reason = specialist_result["reason"]
-            except Exception as exc:
-                logger.error(f"[Gerente] Specialist failed: {exc}")
-                # Keep original low-confidence routing
+            route_to = "especialista"
+            reason = f"LOW_CONFIDENCE_{reason}"
 
         logger.info(
             f"[Gerente] Job {job_payload.job_id} → {route_to} "
