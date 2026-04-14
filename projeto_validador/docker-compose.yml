@@ -5,7 +5,7 @@ services:
     ports:
       # Host 8001 evita conflito quando já existe algo em 8000
       - "8001:8000"
-    mem_limit: 512m
+    mem_limit: 1g
     environment:
       - PYTHONPATH=/app
       - DATABASE_URL=sqlite+aiosqlite:///./data/validador.db
@@ -26,9 +26,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.worker
-    mem_limit: 3g
+    mem_limit: 2g
+    memswap_limit: 2g
     deploy:
-      replicas: 6
+      replicas: 8
     environment:
       - PYTHONPATH=/app
       - DATABASE_URL=sqlite+aiosqlite:///./data/validador.db

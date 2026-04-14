@@ -22,7 +22,10 @@ from .progress_bus import init_progress, update_stage
 
 logger = logging.getLogger(__name__)
 
-# Parallelism — vertical scaling
+# Parallelism — vertical scaling inside each job.
+# 6 is the sweet spot: all 12 checkers run in 2 rounds of 6, keeping memory
+# within the 3g worker limit even at Celery concurrency=2 (2 × 6 = 12 billiard
+# processes per worker, ~150 MB each ≈ 1.8 GB peak, well under mem_limit).
 MAX_WORKERS = int(os.getenv("GWG_MAX_PARALLEL_CHECKERS", "6"))
 # Per-checker timeout — prevents infinite hangs when a child process is killed
 CHECKER_TIMEOUT_S = int(os.getenv("GWG_CHECKER_TIMEOUT_S", "120"))
@@ -254,13 +257,32 @@ def run_all_gwg_checks(
     erros: list[str] = []
     avisos: list[str] = []
 
-    # 0. OC Filter computation (§3.16) - Foundation for all others
+    # 0. OC Filter computation (§3.16) — Foundation for all others.
+    # Runs synchronously in the parent process; result is injected into profile
+    # so every child checker can consume it without re-parsing the PDF.
     from agentes.operarios.shared_tools.gwg.oc_filter import build_visibility_filter
     visible_filter = build_visibility_filter(file_path)
-    # Augment profile with the filter for pickling
     profile["visible_filter"] = visible_filter
 
-    # Publish the initial board (9 stages, all PENDING)
+    # Pre-populate the oc_filter check from the already-computed result so we
+    # don't re-run build_visibility_filter() inside the pool (saves one pool
+    # slot and one full PDF parse).
+    oc_filter_check = {
+        "status": "OK",
+        "label": "Optional Content (filtro §3.16)",
+        "found_value": (
+            "Todas as camadas visíveis" if visible_filter.all_visible
+            else f"{len(visible_filter.visible_ocgs)} OCG(s) visíveis"
+        ),
+        "expected_value": "Filtro aplicado",
+        "visible_ocgs": sorted(visible_filter.visible_ocgs),
+        "all_visible": visible_filter.all_visible,
+    }
+    checks["oc_filter"] = oc_filter_check
+    normalized.extend(_normalize("oc_filter", "W_OC_FILTER", oc_filter_check))
+    update_stage(job_id or "", "oc_filter", "OK", 0, log="Filtro aplicado")
+
+    # Publish the initial board (all stages, all PENDING)
     init_progress(
         job_id or "",
         [{"name": name, "label": label} for name, label, _, _ in RUNNERS],
@@ -270,19 +292,21 @@ def run_all_gwg_checks(
     try:
         file_size_mb = Path(file_path).stat().st_size / (1024 * 1024)
         from agentes.operarios.shared_tools.gwg.progress_bus import set_eta
-        eta = int(10 + (file_size_mb * 4)) # 10s base + 4s per MB
+        eta = int(10 + (file_size_mb * 4))  # 10s base + 4s per MB
         set_eta(job_id or "", eta)
     except Exception:
         pass
 
-    max_workers = min(MAX_WORKERS, len(RUNNERS))
+    # Filter out oc_filter from pool dispatch — already computed above.
+    runners_to_dispatch = [(n, l, c, f) for n, l, c, f in RUNNERS if n != "oc_filter"]
+    max_workers = min(MAX_WORKERS, len(runners_to_dispatch))
     pool, current, original_daemon = _make_pool(max_workers)
 
     try:
-        # Dispatch all checkers — billiard.Pool returns AsyncResult objects
+        # Dispatch all checkers simultaneously — billiard.Pool returns AsyncResult objects
         async_results: dict[str, tuple] = {}
         started_at: dict[str, float] = {}
-        for name, label, code, fn in RUNNERS:
+        for name, label, code, fn in runners_to_dispatch:
             started_at[name] = time.monotonic()
             update_stage(job_id or "", name, "RUNNING")
             async_results[name] = (
