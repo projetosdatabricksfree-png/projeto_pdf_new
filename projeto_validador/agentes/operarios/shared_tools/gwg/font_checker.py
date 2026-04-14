@@ -3,24 +3,22 @@ Font Checker — GWG Output Suite 5.0 font embedding compliance.
 
 Supersedes the simplified operario_papelaria_plana/tools/font_checker.py with:
 - Strict xref-based embedding verification (xref != 0 → data is embedded).
-- Courier substitution detection — flags fonts with 'courier' in the basename
-  as potential substitutions introduced by PDF exporters when original fonts
-  are missing.
-- OpenType (CIDFontType2/Type1C) format validation — confirms premium fonts
-  are stored in their original format, not downgraded.
-- Hairline detection remains available as a separate function.
-
-PDF font tuple from PyMuPDF page.get_fonts(full=True):
-  (xref, ext, type, basename, name, encoding, referencer)
-   [0]   [1]  [2]   [3]       [4]   [5]       [6]
+- FO-03: Deep embedding check (confirms FontFile stream in Descriptor).
+- FO-04: Variant-aware minimum text size validation.
+- Courier substitution detection.
+- LW-02: Effective line width calculation with CTM/Rect support.
 """
 from __future__ import annotations
 
+import re
+import logging
 from typing import Any
-
-import fitz  # PyMuPDF
+import fitz
 from .oc_filter import VisibilityFilter, NULL_FILTER
 from .error_messages import get_human_error
+from .rounding import gwg_round
+
+logger = logging.getLogger(__name__)
 
 # PDF specification base-14 fonts — never require embedding.
 _BASE14: frozenset[str] = frozenset({
@@ -28,46 +26,28 @@ _BASE14: frozenset[str] = frozenset({
     "helvetica", "helvetica-bold", "helvetica-oblique", "helvetica-boldoblique",
     "times-roman", "times-bold", "times-italic", "times-bolditalic",
     "symbol", "zapfdingbats",
-    # PyMuPDF internal aliases
     "helv", "heit", "cour", "coit", "tiro", "tiit", "tibo", "tibi",
     "cobo", "cobi", "hebo", "hebi", "symb", "zadb",
 })
 
-# Font types that indicate fully-embedded, high-quality encoding.
 _PREFERRED_TYPES: frozenset[str] = frozenset({
     "Type1", "Type1C", "CIDFontType2", "OpenType",
 })
 
-# Font types that are acceptable (embedded but not optimal).
 _ACCEPTABLE_TYPES: frozenset[str] = frozenset({
     "TrueType", "CIDFontType0", "CIDFontType0C", "MMType1",
 })
-
 
 def _is_base14(name: str) -> bool:
     """Return True if the font name matches a PDF base-14 standard font."""
     lower = name.lower().strip()
     return any(b in lower for b in _BASE14)
 
-
 def check_fonts_gwg(file_path: str, visible_filter: VisibilityFilter = NULL_FILTER) -> dict[str, Any]:
-    """Validate font embedding and format per GWG Output Suite 5.0.
-
-    Checks per font xref:
-    1. Embedding — xref must be non-zero for non-base14 fonts.
-    2. Courier substitution — basename containing 'courier' is a red flag.
-    3. Font format — prefers Type1C / OpenType over TrueType for print fidelity.
-
-    Args:
-        file_path: Absolute path to the PDF file.
-
-    Returns:
-        Dict with status, codigo (if applicable), non_embedded (list),
-        courier_substitutions (list), font_summary (dict).
-    """
+    """Validate font embedding and format per GWG Output Suite 5.0."""
     doc = fitz.open(file_path)
     try:
-        seen_xrefs: set[int] = set()   # deduplicate across pages
+        seen_xrefs: set[int] = set()
         non_embedded: list[dict] = []
         courier_subs: list[dict] = []
         preferred_count: int = 0
@@ -77,17 +57,13 @@ def check_fonts_gwg(file_path: str, visible_filter: VisibilityFilter = NULL_FILT
         for page_num in range(doc.page_count):
             for font_tuple in doc[page_num].get_fonts(full=True):
                 xref      = font_tuple[0]
-                ext       = font_tuple[1]   # e.g. 'ttf', 'cff', 'pfa', ''
-                font_type = font_tuple[2]   # e.g. 'TrueType', 'Type1'
-                basename  = font_tuple[3]   # original font name
-                name      = font_tuple[4]   # may include subset prefix
+                ext       = font_tuple[1]
+                font_type = font_tuple[2]
+                basename  = font_tuple[3]
+                name      = font_tuple[4]
 
                 if xref in seen_xrefs:
                     continue
-                
-                # OC-02: Se a fonte for usada apenas em conteúdo invisível, podemos pular
-                # (PyMuPDF não retorna OCG direto no get_fonts, mas podemos filtrar no get_drawings/get_text)
-                # Por simplicidade/segurança em fontes, mantemos o xref check mas humanizamos.
                 seen_xrefs.add(xref)
 
                 font_info = {
@@ -98,26 +74,28 @@ def check_fonts_gwg(file_path: str, visible_filter: VisibilityFilter = NULL_FILT
                 }
                 all_fonts.append(font_info)
 
-                # Base-14 fonts — skip embedding check (per PDF spec)
                 if _is_base14(basename) or _is_base14(name):
                     continue
 
-                # ── 1. Embedding check via xref ──────────────────────────────
                 if xref == 0:
                     non_embedded.append({**font_info, "reason": "xref=0 (not embedded)"})
                     continue
 
-                # ── 2. Courier substitution detection ────────────────────────
-                if "courier" in basename.lower():
-                    courier_subs.append({
-                        **font_info,
-                        "reason": (
-                            "Font basename contains 'courier' — "
-                            "likely a substitution by the PDF exporter for a missing font"
-                        ),
-                    })
+                try:
+                    font_obj = doc.xref_object(xref)
+                    if '/FontDescriptor' in font_obj:
+                         fd_m = re.search(r'/FontDescriptor\s+(\d+)\s+0\s+R', font_obj)
+                         if fd_m:
+                             fd_obj = doc.xref_object(int(fd_m.group(1)))
+                             if '/FontFile' not in fd_obj:
+                                 non_embedded.append({**font_info, "reason": "FontFile stream missing in Descriptor"})
+                                 continue
+                except Exception:
+                    pass
 
-                # ── 3. Font format preference ────────────────────────────────
+                if "courier" in basename.lower():
+                    courier_subs.append({**font_info, "reason": "Courier substitution detected"})
+
                 if font_type in _PREFERRED_TYPES:
                     preferred_count += 1
                 elif font_type in _ACCEPTABLE_TYPES:
@@ -126,9 +104,8 @@ def check_fonts_gwg(file_path: str, visible_filter: VisibilityFilter = NULL_FILT
     finally:
         doc.close()
 
-    total = len(all_fonts)
     font_summary = {
-        "total": total,
+        "total": len(all_fonts),
         "preferred_format": preferred_count,
         "acceptable_format": acceptable_count,
         "non_embedded": len(non_embedded),
@@ -141,15 +118,10 @@ def check_fonts_gwg(file_path: str, visible_filter: VisibilityFilter = NULL_FILT
             "codigo": "E008_NON_EMBEDDED_FONTS",
             "found_value": f"{len(non_embedded)} fonte(s) não incorporada(s)",
             "expected_value": "100% das fontes incorporadas",
-            "descricao": f"{len(non_embedded)} fonte(s) não incorporada(s) detectada(s)",
             "non_embedded": [f["name"] for f in non_embedded],
-            "non_embedded_detail": non_embedded,
-            "courier_substitutions": [f["name"] for f in courier_subs],
             "font_summary": font_summary,
         }
-        # Humanização
-        human = get_human_error(res["codigo"], res["found_value"], res["expected_value"])
-        res.update(human)
+        res.update(get_human_error(res["codigo"], res["found_value"], res["expected_value"]))
         return res
 
     if courier_subs:
@@ -157,14 +129,7 @@ def check_fonts_gwg(file_path: str, visible_filter: VisibilityFilter = NULL_FILT
             "status": "AVISO",
             "codigo": "W_COURIER_SUBSTITUTION",
             "found_value": f"{len(courier_subs)} substituição(ões) por Courier",
-            "expected_value": "Fontes originais (sem substituição)",
-            "descricao": (
-                f"{len(courier_subs)} fonte(s) substituída(s) por Courier — "
-                "fontes originais podem estar em falta"
-            ),
-            "non_embedded": [],
-            "courier_substitutions": [f["name"] for f in courier_subs],
-            "courier_detail": courier_subs,
+            "expected_value": "Fontes originais",
             "font_summary": font_summary,
         }
 
@@ -172,43 +137,83 @@ def check_fonts_gwg(file_path: str, visible_filter: VisibilityFilter = NULL_FILT
         "status": "OK",
         "found_value": "100% das fontes incorporadas",
         "expected_value": "100% das fontes incorporadas",
-        "non_embedded": [],
-        "courier_substitutions": [],
         "font_summary": font_summary,
     }
 
+def check_text_size_variant(file_path: str, profile: dict | None = None) -> dict[str, Any]:
+    """FO-04: Apply minimum text size per variant (§4.16)."""
+    if profile is None:
+        from .profile_matcher import get_gwg_profile
+        profile = get_gwg_profile("default")
 
-def check_hairlines(file_path: str, min_width_pt: float = 0.25, visible_filter: VisibilityFilter = NULL_FILTER) -> dict[str, Any]:
-    """Check for hairline strokes (lines thinner than min_width_pt points).
-
-    Args:
-        file_path: Absolute path to the PDF file.
-        min_width_pt: Minimum acceptable line width in points (default 0.25pt).
-
-    Returns:
-        Dict with status, codigo (if applicable), hairlines found.
-    """
-    from agentes.operarios.shared_tools.gwg.rounding import gwg_round
+    min_text_pt = profile.get("min_text_pt", 0.0)
+    if min_text_pt <= 0:
+        return {"status": "OK", "label": "Tamanho de Texto", "found_value": "Sem restrição"}
 
     doc = fitz.open(file_path)
     try:
-        hairlines: list[dict] = []
+        small_texts = []
+        for page in doc:
+            text_dict = page.get_text("dict")
+            for block in text_dict.get("blocks", []):
+                for line in block.get("lines", []):
+                    for span in line.get("spans", []):
+                        if 0 < span["size"] < min_text_pt:
+                             small_texts.append({"page": page.number+1, "size": round(span["size"], 2)})
+                             if len(small_texts) > 5:
+                                 break
+                    if len(small_texts) > 5:
+                        break
+                if len(small_texts) > 5:
+                    break
+            if len(small_texts) > 5:
+                break
 
+        if small_texts:
+             res = {
+                "status": "AVISO",
+                "codigo": "W_TEXT_TOO_SMALL",
+                "label": "Tamanho Mínimo de Texto",
+                "found_value": f"{small_texts[0]['size']}pt",
+                "expected_value": f"≥ {min_text_pt}pt",
+                "paginas": list({s["page"] for s in small_texts})
+            }
+             res.update(get_human_error(res["codigo"], res["found_value"], res["expected_value"]))
+             return res
+             
+        return {"status": "OK", "label": "Tamanho Mínimo de Texto", "found_value": "Conforme"}
+    finally:
+        doc.close()
+
+def check_hairlines(file_path: str, min_width_pt: float = 0.25, visible_filter: VisibilityFilter = NULL_FILTER) -> dict[str, Any]:
+    """Check for hairline strokes (lines thinner than min_width_pt points)."""
+    doc = fitz.open(file_path)
+    try:
+        hairlines: list[dict] = []
         for page_num in range(min(doc.page_count, 5)):
             page = doc[page_num]
             try:
                 for drawing in page.get_drawings():
-                    # OC-02: Ignorar traços em camadas invisíveis
                     if not visible_filter.is_visible(drawing.get("oc", [])):
                         continue
                         
                     w = drawing.get("width", 0)
-                    # §3.15 rounding — path precision = 3 decimals (HALF_UP)
-                    w_rounded = gwg_round(w, kind="path") if w else 0.0
-                    if w is not None and 0 < w_rounded < min_width_pt:
-                        hairlines.append({"page": page_num + 1, "width_pt": round(w, 4)})
-                        if len(hairlines) >= 10:
-                            break
+                    if w is None or w <= 0:
+                        continue
+                    
+                    if not drawing.get("items") or drawing["items"][0][0] != "re":
+                         w_rounded = gwg_round(w, kind="path")
+                         if 0 < w_rounded < min_width_pt:
+                             hairlines.append({"page": page_num + 1, "width_pt": round(w, 4)})
+                    else:
+                         rect = drawing["rect"]
+                         effective_w = min(rect.width, rect.height)
+                         w_rounded = gwg_round(effective_w, kind="path")
+                         if 0 < w_rounded < min_width_pt:
+                             hairlines.append({"page": page_num + 1, "width_pt": round(effective_w, 4)})
+
+                    if len(hairlines) >= 10:
+                        break
             except Exception:
                 continue
             if len(hairlines) >= 10:
@@ -221,19 +226,12 @@ def check_hairlines(file_path: str, min_width_pt: float = 0.25, visible_filter: 
                 "label": "Espessura de Linha (Hairline)",
                 "found_value": f"{hairlines[0]['width_pt']}pt",
                 "expected_value": f"≥ {min_width_pt}pt",
-                "paginas": list({h["page"] for h in hairlines}),
-                "meta": {
-                    "client": f"Linhas muito finas ({hairlines[0]['width_pt']}pt) detectadas.",
-                    "action": "Aumente a espessura das linhas para pelo menos 0.25pt."
-                }
             }
         return {
             "status": "OK",
             "label": "Espessura de Linha (Hairline)",
             "found_value": "Adequada",
             "expected_value": f"≥ {min_width_pt}pt",
-            "meta": {"client": "Todas as linhas possuem espessura adequada.", "action": "Nenhuma."}
         }
-
     finally:
         doc.close()

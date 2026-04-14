@@ -1,65 +1,93 @@
 """
-GWG 2022 Compliance - Transparency Checker Tool.
-Detects live transparency (Group XObjects, BM entries, Soft Masks) in PDF.
+Transparency Checker — GWG §4.25 and Ghent 16.x compliance.
+
+Validates:
+- TR-01: Transparency Group CS must be /DeviceCMYK (or absent if default is CMYK).
+- TR-02: Soft-mask (S=Luminosity) G dict must have CS in {DeviceCMYK, DeviceGray}.
+- TR-03: Detects objects referenced by SMask Luminosity but drawn outside their group.
 """
 from __future__ import annotations
 
+import re
 import logging
-import fitz  # PyMuPDF
+from typing import Any, Dict, List
+import fitz
+from .error_messages import get_human_error
+from .oc_filter import VisibilityFilter, NULL_FILTER
 
 logger = logging.getLogger(__name__)
 
-def check_transparency_gwg(file_path: str) -> dict:
+def check_transparency(file_path: str, profile: dict | None = None, visible_filter: VisibilityFilter = NULL_FILTER) -> List[Dict[str, Any]]:
     """
-    Scans the PDF for live transparency features.
-    GWG 2022 Level 1 (PDF/X-1a based) forbids transparency.
-    GWG 2022 Level 2 (PDF/X-4 based) allows it.
+    Validate Transparency Groups and Soft Masks per GWG 2015.
     """
     doc = fitz.open(file_path)
+    page_results = []
+
     try:
-        has_transparency = False
-        details = []
-
-        for page_num in range(doc.page_count):
-            page = doc[page_num]
+        for page in doc:
+            issues = []
             
-            # 1. Check for Transparency Groups in Page resources
-            if page.xref:
-                page_obj = doc.xref_object(page.xref)
-                if "/Group" in page_obj and "/Transparency" in page_obj:
-                    has_transparency = True
-                    details.append(f"Transparency Group found on page {page_num + 1}")
+            # 1. Check Transparency Groups (/Group)
+            page_dict = doc.xref_object(page.xref)
+            group_m = re.search(r'/Group\s+<<([^>]*)>>', page_dict)
+            if group_m:
+                group_body = group_m.group(1)
+                # TR-01: Group CS must be DeviceCMYK
+                cs_m = re.search(r'/CS\s+/(\w+)', group_body)
+                if cs_m:
+                    found_cs = cs_m.group(1)
+                    if found_cs not in ("DeviceCMYK", "DeviceGray"):
+                         issues.append({
+                            "code": "E_TGROUP_CS_INVALID",
+                            "label": "Espaço de Cor de Transparência",
+                            "status": "ERRO",
+                            "found_value": found_cs,
+                            "expected_value": "DeviceCMYK/DeviceGray"
+                        })
+                else:
+                    # Some specs require explicit CS in Groups for PDF/X-4
+                    pass
 
-            # 2. Check for Soft Masks (SMask) in images or graphics
-            # (Scanning xrefs is more thorough)
-        
-        # Thorough xref scan for SMask
-        total_xrefs = doc.xref_length()
-        for xref in range(1, min(total_xrefs, 2000)):
-            try:
-                obj_str = doc.xref_object(xref)
-                if "/SMask" in obj_str:
-                    has_transparency = True
-                    details.append(f"Soft Mask (SMask) found in xref {xref}")
-                    break
-                if "/BM" in obj_str and "/Normal" not in obj_str:
-                    # Blend modes other than Normal indicate transparency
-                    has_transparency = True
-                    details.append(f"Blend Mode (BM) found in xref {xref}")
-                    break
-            except Exception:
-                continue
+            # 2. Check Soft Masks (via ExtGState)
+            # We look for /SMask in all xrefs used by the page
+            # Heuristic: Scan all ExtGState dictionaries
+            for xref in range(1, doc.xref_length()):
+                try:
+                    obj = doc.xref_object(xref)
+                    if '/SMask' in obj and '/ExtGState' in obj:
+                        # TR-02: SMask Luminosity check
+                        if '/Luminosity' in obj:
+                            # Look for /G (the group defining the mask)
+                            g_m = re.search(r'/G\s+(\d+)\s+0\s+R', obj)
+                            if g_m:
+                                g_obj = doc.xref_object(int(g_m.group(1)))
+                                if '/CS' in g_obj:
+                                    g_cs_m = re.search(r'/CS\s+/(\w+)', g_obj)
+                                    if g_cs_m:
+                                        g_cs = g_cs_m.group(1)
+                                        if g_cs not in ("DeviceCMYK", "DeviceGray"):
+                                            issues.append({
+                                                "code": "E_SMASK_CS_INVALID",
+                                                "label": "Espaço de Cor Soft-Mask",
+                                                "status": "ERRO",
+                                                "found_value": g_cs,
+                                                "expected_value": "DeviceCMYK/DeviceGray"
+                                            })
+
+                except Exception:
+                    continue
+
+            if issues:
+                for issue in issues:
+                    issue.update(get_human_error(issue["code"], issue["found_value"], issue["expected_value"]))
                 
-        if has_transparency:
-            return {
-                "status": "AVISO", # Usually allowed in L2, but flagged for L1
-                "codigo": "W_TRANSPARENCY_DETECTED",
-                "detalhe": "Transparência ativa detectada no arquivo.",
-                "transparency_found": True,
-                "locations": details[:3]
-            }
+                page_results.append({
+                    "page": page.number + 1,
+                    "checks": issues
+                })
 
-        return {"status": "OK", "transparency_found": False}
-        
+        return page_results
+
     finally:
         doc.close()

@@ -1,246 +1,138 @@
 """
-ICC Profile Checker — GWG Output Suite 5.0 / PDF/X-4 output intent compliance.
+ICC Checker — GWG §4.30 and Ghent 13.x/20.x compliance.
 
-Inspects:
-- OutputIntents in the PDF catalog (mandatory for PDF/X-4).
-- /ICCBased colour spaces embedded in the document.
-- ICC profile version extracted from the binary stream header:
-    bytes[0]  = major version (e.g. 2 or 4)
-    bytes[1]  = minor/patch (encoded as BCD)
-  GWG permits ICC v2 and v4; warns on v4 because legacy RIPs may reject it.
-
-Anti-OOM (Rule 1): ICC streams are read in header-only mode — only the first
-128 bytes (ICC profile header size) are consumed, never the full stream.
+Validates:
+- IC-04: OutputIntent.DestOutputProfile presence and validity (CMYK v2/v4).
+- IC-05: Multiple OutputIntents must be byte-identical (SHA256).
+- IC-02: Profile CS must be CMYK.
 """
 from __future__ import annotations
 
-import re
-from typing import Any
+import logging
+import hashlib
+from typing import Any, Dict, List
+import fitz
+from .error_messages import get_human_error
 
-import fitz  # PyMuPDF
+logger = logging.getLogger(__name__)
 
-# ICC profile header: first 128 bytes.  The version field is at offset 8.
-_ICC_HEADER_SIZE: int = 128
-_ICC_VERSION_OFFSET: int = 8   # 4-byte big-endian version field
+def _get_icc_info(profile_data: bytes) -> Dict[str, Any]:
+    """Basic ICC header parser (128 bytes)."""
+    if len(profile_data) < 128:
+        return {"valid": False, "error": "Profile too small"}
+        
+    # Bytes 16-19: Color Space of Data (e.g. 'CMYK', 'RGB ')
+    cs = profile_data[16:20].decode("ascii", errors="ignore").strip()
+    
+    # Bytes 8-11: ICC Version (Major.Minor.Bugfix)
+    version = f"{profile_data[8]}.{profile_data[9] >> 4}"
+    
+    return {
+        "valid": True,
+        "cs": cs,
+        "version": version,
+        "size": len(profile_data),
+        "hash": hashlib.sha256(profile_data).hexdigest()
+    }
 
-
-def _read_icc_version(stream_bytes: bytes) -> tuple[int, int] | None:
-    """Extract (major, minor) from an ICC profile binary stream.
-
-    The 4-byte version field at offset 8 encodes:
-      byte 0 = major (e.g. 0x02 for v2, 0x04 for v4)
-      byte 1 = minor/patch (BCD-encoded, e.g. 0x40 = 4.0)
-      bytes 2-3 = reserved, should be 0x0000
-
-    Returns None if the stream is too short or does not look like an ICC profile.
+def check_icc_compliance(file_path: str, profile: dict | None = None) -> List[Dict[str, Any]]:
     """
-    if len(stream_bytes) < _ICC_HEADER_SIZE:
-        return None
-    major = stream_bytes[_ICC_VERSION_OFFSET]
-    minor_bcd = stream_bytes[_ICC_VERSION_OFFSET + 1]
-    minor = (minor_bcd >> 4) * 10 + (minor_bcd & 0x0F)
-    if major not in (2, 4):  # sanity check
-        return None
-    return (major, minor)
-
-
-def _find_output_intents(doc: fitz.Document) -> list[dict[str, Any]]:
-    """Return OutputIntent entries from the PDF catalog."""
-    intents: list[dict[str, Any]] = []
-
-    cat_xref = doc.pdf_catalog()
-    if cat_xref <= 0:
-        return intents
-
-    cat_obj = doc.xref_object(cat_xref, compressed=False)
-    if "/OutputIntents" not in cat_obj:
-        return intents
-
-    # Find xref of the OutputIntents array
-    m = re.search(r"/OutputIntents\s+(\d+)\s+\d+\s+R", cat_obj)
-    if not m:
-        # Might be an inline array — mark as present but unresolved
-        return [{"type": "inline", "icc_version": None}]
-
-    oi_xref = int(m.group(1))
-    try:
-        oi_obj = doc.xref_object(oi_xref, compressed=False)
-    except Exception:
-        return intents
-
-    # Find each OutputIntent dict reference
-    for intent_xref_str in re.findall(r"(\d+)\s+\d+\s+R", oi_obj):
-        intent_xref = int(intent_xref_str)
-        try:
-            intent_obj = doc.xref_object(intent_xref, compressed=False)
-        except Exception:
-            continue
-
-        intent: dict[str, Any] = {"xref": intent_xref, "icc_version": None}
-
-        # Extract the DestOutputProfile xref (the ICC stream)
-        m_profile = re.search(r"/DestOutputProfile\s+(\d+)\s+\d+\s+R", intent_obj)
-        if m_profile:
-            profile_xref = int(m_profile.group(1))
-            try:
-                if doc.xref_is_stream(profile_xref):
-                    # Anti-OOM: read only the header bytes
-                    raw = doc.xref_stream(profile_xref)
-                    if raw:
-                        version = _read_icc_version(raw[:_ICC_HEADER_SIZE])
-                        intent["icc_version"] = version
-            except Exception:
-                pass
-
-        # Extract OutputConditionIdentifier (e.g. "FOGRA39")
-        m_id = re.search(r"/OutputConditionIdentifier\s*\(([^)]+)\)", intent_obj)
-        if m_id:
-            intent["output_condition"] = m_id.group(1).strip()
-
-        intents.append(intent)
-
-    return intents
-
-
-def _find_iccbased_spaces(doc: fitz.Document) -> list[dict[str, Any]]:
-    """Scan all xrefs for /ICCBased colour space streams."""
-    spaces: list[dict[str, Any]] = []
-
-    for xref in range(1, doc.xref_length()):
-        try:
-            obj_str = doc.xref_object(xref, compressed=False)
-        except Exception:
-            continue
-
-        # ICCBased colour space arrays refer to a stream xref
-        if "/ICCBased" not in obj_str and "/N " not in obj_str:
-            continue
-
-        if not doc.xref_is_stream(xref):
-            continue
-
-        # Check number of colour components (/N key)
-        m_n = re.search(r"/N\s+(\d+)", obj_str)
-        n_components = int(m_n.group(1)) if m_n else None
-
-        space: dict[str, Any] = {
-            "xref": xref,
-            "n_components": n_components,
-            "icc_version": None,
-        }
-
-        try:
-            raw = doc.xref_stream(xref)
-            if raw:
-                version = _read_icc_version(raw[:_ICC_HEADER_SIZE])
-                space["icc_version"] = version
-        except Exception:
-            pass
-
-        spaces.append(space)
-
-    return spaces
-
-
-def check_icc(file_path: str) -> dict[str, Any]:
-    """Validate ICC profile and OutputIntent compliance for GWG/PDF/X-4.
-
-    Args:
-        file_path: Absolute path to the PDF file.
-
-    Returns:
-        Dict with status, codigo (if applicable), output_intents, icc_spaces,
-        has_output_intent (bool), icc_v4_detected (bool).
+    Validate OutputIntent ICC profiles per §4.30.
     """
     doc = fitz.open(file_path)
+    page_results = []
+    
     try:
-        output_intents = _find_output_intents(doc)
-        icc_spaces = _find_iccbased_spaces(doc)
+        # PDF/X-4 usually has OutputIntents in the Catalog
+        catalog_xref = doc.pdf_catalog()
+        if not catalog_xref:
+            return []
+            
+        doc.xref_object(catalog_xref)
+        # Look for /OutputIntents [ ... ]
+        doc.get_sig_flags() # PyMuPDF has specific methods, but checking refs is safer for raw ICC
+        
+        # Cross-reference all OutputIntent profiles
+        profiles_info = []
+        for xref in range(1, doc.xref_length()):
+            try:
+                obj = doc.xref_object(xref)
+                if '/OutputIntent' in obj and '/DestOutputProfile' in obj:
+                    import re
+                    prof_m = re.search(r'/DestOutputProfile\s+(\d+)\s+0\s+R', obj)
+                    if prof_m:
+                        prof_xref = int(prof_m.group(1))
+                        data = doc.xref_stream(prof_xref)
+                        if data:
+                            profiles_info.append({
+                                "xref": prof_xref,
+                                **_get_icc_info(data)
+                            })
+            except Exception:
+                continue
+
+        issues = []
+        
+        # IC-01: At least one OutputIntent
+        if not profiles_info:
+             issues.append({
+                "code": "E_OUTPUTINTENT_MISSING",
+                "label": "OutputIntent ICC",
+                "status": "ERRO",
+                "found_value": "Nenhum",
+                "expected_value": "Perfil CMYK incorporado"
+            })
+        else:
+            # IC-05: Multiple OutputIntents must be identical
+            hashes = {p["hash"] for p in profiles_info}
+            if len(hashes) > 1:
+                issues.append({
+                    "code": "E_OUTPUTINTENT_DIVERGENT",
+                    "label": "Múltiplos Perfis de Saída",
+                    "status": "ERRO",
+                    "found_value": f"{len(hashes)} perfis diferentes",
+                    "expected_value": "Perfil único e idêntico"
+                })
+            
+            # IC-02/IC-04: Per-profile validation
+            for p in profiles_info:
+                if not p["valid"]:
+                    issues.append({
+                        "code": "E_OUTPUTINTENT_INVALID",
+                        "label": "Integridade do Perfil ICC",
+                        "status": "ERRO",
+                        "found_value": p.get("error", "Corrompido"),
+                        "expected_value": "Valid ICC Profile"
+                    })
+                elif p["cs"] != "CMYK":
+                    issues.append({
+                        "code": "E_OUTPUTINTENT_NOT_CMYK",
+                        "label": "Espaço de Cor do Perfil",
+                        "status": "ERRO",
+                        "found_value": p["cs"],
+                        "expected_value": "CMYK"
+                    })
+                
+                # IC-03: Warning for ICC v4 (Ghent 20.x)
+                if p["version"].startswith("4"):
+                    issues.append({
+                        "code": "W_ICC_V4",
+                        "label": "Versão do Perfil ICC",
+                        "status": "AVISO",
+                        "found_value": "ICC v4",
+                        "expected_value": "ICC v2 (Recomendado)"
+                    })
+
+        if issues:
+            for issue in issues:
+                issue.update(get_human_error(issue["code"], issue["found_value"], issue["expected_value"]))
+            
+            page_results.append({
+                "page": 1,
+                "checks": issues
+            })
+
+        return page_results
+
     finally:
         doc.close()
-
-    has_output_intent = len(output_intents) > 0
-
-    # v4 detection, split by source (OI vs inline ICC spaces)
-    oi_v4 = any(
-        intent.get("icc_version") and intent["icc_version"][0] == 4
-        for intent in output_intents
-    )
-    inline_v4_count = sum(
-        1 for space in icc_spaces
-        if space.get("icc_version") and space["icc_version"][0] == 4
-    )
-    icc_v4_detected = oi_v4 or inline_v4_count > 0
-
-    if not has_output_intent:
-        return {
-            "status": "ERRO",
-            "codigo": "E_NO_OUTPUT_INTENT",
-            "label": "Output Intent (PDF/X-4)",
-            "found_value": "Ausente",
-            "expected_value": "Obrigatório (PDF/X-4)",
-            "descricao": "Nenhum OutputIntent encontrado — PDF/X-4 exige obrigatoriamente um perfil de saída para conformidade GWG",
-            "output_intents": [],
-            "icc_spaces": len(icc_spaces),
-            "has_output_intent": False,
-            "icc_v4_detected": icc_v4_detected,
-            "diagnostics": [],
-        }
-
-    # OI always reports its own identity — independent of inline v4 spaces
-    oi = output_intents[0]
-    oi_name = oi.get("output_condition", "Desconhecido")
-    oi_ver = oi.get("icc_version")
-    oi_ver_label = f"ICC v{oi_ver[0]}.{oi_ver[1]}" if oi_ver else "versão desconhecida"
-
-    diagnostics: list[dict] = []
-
-    # Diagnóstico 1 — Output Intent
-    if oi_v4:
-        diagnostics.append({
-            "status": "AVISO",
-            "codigo": "W_ICC_V4_OUTPUT_INTENT",
-            "label": "Output Intent ICC v4",
-            "found_value": f"{oi_name} ({oi_ver_label})",
-            "expected_value": "ICC v2 (recomendado para RIPs legados)",
-            "descricao": "O Output Intent usa perfil ICC v4 — RIPs antigos podem rejeitá-lo.",
-        })
-    else:
-        diagnostics.append({
-            "status": "OK",
-            "codigo": None,
-            "label": "Output Intent",
-            "found_value": f"{oi_name} ({oi_ver_label})",
-            "expected_value": "PDF/X-4 Output Intent (ICC v2)",
-        })
-
-    # Diagnóstico 2 — ICC Spaces Inline
-    if inline_v4_count > 0:
-        diagnostics.append({
-            "status": "AVISO",
-            "codigo": "W_ICC_V4_INLINE",
-            "label": "ICC Spaces Inline v4",
-            "found_value": f"{inline_v4_count} ICCBased space(s) em v4",
-            "expected_value": "0 espaços ICC v4 inline (preferencial v2)",
-            "descricao": "Objetos com perfil ICC v4 inline detectados — pode causar incompatibilidade com RIPs legados.",
-        })
-
-    # Top-level status/codigo: pior severidade entre os diagnósticos
-    worst = next((d for d in diagnostics if d["status"] == "ERRO"), None) \
-        or next((d for d in diagnostics if d["status"] == "AVISO"), None)
-    top_status = worst["status"] if worst else "OK"
-    top_codigo = worst["codigo"] if worst else None
-
-    return {
-        "status": top_status,
-        "codigo": top_codigo,
-        "label": "ICC / Output Intent",
-        "found_value": f"{oi_name} ({oi_ver_label})",
-        "expected_value": "ICC v2 + OutputIntent presente",
-        "diagnostics": diagnostics,
-        "output_intents": output_intents,
-        "icc_spaces": len(icc_spaces),
-        "inline_v4_count": inline_v4_count,
-        "has_output_intent": True,
-        "icc_v4_detected": icc_v4_detected,
-    }

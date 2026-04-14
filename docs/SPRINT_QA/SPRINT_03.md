@@ -13,10 +13,10 @@
 **So that** trim/bleed information isn't visually masked by a smaller CropBox at preview/imposition.
 
 **Acceptance Criteria:**
-- [ ] AC1: PDF page with CropBox = MediaBox → `OK`.
-- [ ] AC2: PDF page with CropBox 1.0mm smaller than MediaBox → `ERRO`, codigo `E_CROPBOX_NEQ_MEDIABOX`, found="ΔX=1.000mm", expected="≤0.011mm".
-- [ ] AC3: PDF page with CropBox absent → `OK` (defaults to MediaBox per PDF spec).
-- [ ] AC4: 0.010mm difference → `OK` (within tolerance).
+- [x] AC1: PDF page with CropBox = MediaBox → `OK`.
+- [x] AC2: PDF page with CropBox 1.0mm smaller than MediaBox → `ERRO`, codigo `E_CROPBOX_NEQ_MEDIABOX`, found="ΔX=1.000mm", expected="≤0.011mm".
+- [x] AC3: PDF page with CropBox absent → `OK` (defaults to MediaBox per PDF spec).
+- [x] AC4: 0.010mm difference → `OK` (within tolerance).
 
 **Files to modify:** `geometry_checker.py`
 **Logic change:** add CropBox vs MediaBox comparator using `gwg_round(_, "path")`.
@@ -32,9 +32,9 @@
 **So that** imposition tools don't ingest mixed orientations or sizes.
 
 **Acceptance Criteria:**
-- [ ] AC1: 4-page PDF with identical TrimBox + Rotate=0 on all → `OK`.
-- [ ] AC2: 4-page PDF where page 3 has TrimBox 1mm wider → `ERRO`, codigo `E_TRIMBOX_INCONSISTENT`, found="page 3 differs by 1.000mm".
-- [ ] AC3: 2-page PDF with Rotate=90 on page 2 → `ERRO`, codigo `E_PAGE_ROTATED`, found="page 2 Rotate=90".
+- [x] AC1: 4-page PDF with identical TrimBox + Rotate=0 on all → `OK`.
+- [x] AC2: 4-page PDF where page 3 has TrimBox 1mm wider → `ERRO`, codigo `E_TRIMBOX_INCONSISTENT`, found="page 3 differs by 1.000mm".
+- [x] AC3: 2-page PDF with Rotate=90 on page 2 → `ERRO`, codigo `E_PAGE_ROTATED`, found="page 2 Rotate=90".
 
 **Files to modify:** `geometry_checker.py`
 **Logic change:** iterate pages; cross-compare TrimBox; assert Rotate property.
@@ -50,8 +50,8 @@
 **So that** accidentally blank pages are caught before press.
 
 **Acceptance Criteria:**
-- [ ] AC1: 3-page PDF where page 2 has zero drawn content within BleedBox → `AVISO`, codigo `W_EMPTY_PAGE`, found="page 2".
-- [ ] AC2: PDF with content present on every page → `OK`.
+- [x] AC1: 3-page PDF where page 2 has zero drawn content within BleedBox → `AVISO`, codigo `W_EMPTY_PAGE`, found="page 2".
+- [x] AC2: PDF with content present on every page → `OK`.
 
 **Files to modify:** `geometry_checker.py`
 **Logic change:** render each page region to 1-bit pixmap @ 24dpi; check non-zero pixel count.
@@ -67,9 +67,9 @@
 **So that** ad-delivery jobs aren't multi-page (which the receiving system can't impose).
 
 **Acceptance Criteria:**
-- [ ] AC1: 2-page PDF, variant `MagazineAds_CMYK` → `ERRO`, codigo `E_PAGE_COUNT_INVALID`, found=2, expected=1.
-- [ ] AC2: 1-page PDF, same variant → `OK`.
-- [ ] AC3: 5-page PDF, variant `SheetCmyk_CMYK` → `OK` (rule does not apply).
+- [x] AC1: 2-page PDF, variant `MagazineAds_CMYK` → `ERRO`, codigo `E_PAGE_COUNT_INVALID`, found=2, expected=1.
+- [x] AC2: 1-page PDF, same variant → `OK`.
+- [x] AC3: 5-page PDF, variant `SheetCmyk_CMYK` → `OK` (rule does not apply).
 
 **Files to modify:** `geometry_checker.py`
 **Logic change:** variant-conditional check.
@@ -85,9 +85,9 @@
 **So that** colorant names route correctly in downstream RIPs.
 
 **Acceptance Criteria:**
-- [ ] AC1: Spot color named "All" → `ERRO`, codigo `E_SPOT_RESERVED_NAME`.
-- [ ] AC2: Spot color with name containing invalid UTF-8 byte sequence → `ERRO`, codigo `E_SPOT_NAME_NOT_UTF8`.
-- [ ] AC3: Spot color named "PANTONE 185 C" → `OK`.
+- [x] AC1: Spot color named "All" → `ERRO`, codigo `E_SPOT_RESERVED_NAME`.
+- [x] AC2: Spot color with name containing invalid UTF-8 byte sequence → `ERRO`, codigo `E_SPOT_NAME_NOT_UTF8`.
+- [x] AC3: Spot color named "PANTONE 185 C" → `OK`.
 
 **Files to modify:** `devicen_checker.py`
 **Logic change:** for each Separation/DeviceN, decode name as UTF-8; reject reserved tokens.
@@ -103,8 +103,8 @@
 **So that** color management is unambiguous.
 
 **Acceptance Criteria:**
-- [ ] AC1: PDF with "PANTONE 185 C" using Lab on p.1 and DeviceCMYK on p.2 → `ERRO`, codigo `E_SPOT_AMBIGUOUS`.
-- [ ] AC2: Same name + same alternate space across all pages → `OK`.
+- [x] AC1: PDF with "PANTONE 185 C" using Lab on p.1 and DeviceCMYK on p.2 → `ERRO`, codigo `E_SPOT_AMBIGUOUS`.
+- [x] AC2: Same name + same alternate space across all pages → `OK`.
 
 **Files to modify:** `devicen_checker.py`
 **Logic change:** build `{name: set(alt_space_signature)}`; |set|>1 → ambiguous.
@@ -120,9 +120,9 @@
 **So that** spot-color delivery routes are honored.
 
 **Acceptance Criteria:**
-- [ ] AC1: 3 spots in `SheetSpot_CMYK` → `ERRO`, found=3, expected=2.
-- [ ] AC2: 2 spots in `SheetSpot_CMYK` → `OK`.
-- [ ] AC3: 1 spot in `MagazineAds_CMYK` → `ERRO`, found=1, expected=0.
+- [x] AC1: 3 spots in `SheetSpot_CMYK` → `ERRO`, found=3, expected=2.
+- [x] AC2: 2 spots in `SheetSpot_CMYK` → `OK`.
+- [x] AC3: 1 spot in `MagazineAds_CMYK` → `ERRO`, found=1, expected=0.
 
 **Files to modify:** `devicen_checker.py`
 **Logic change:** read `max_spot_colors` from variant config (SY-10).
@@ -138,9 +138,9 @@
 **So that** image overprint doesn't visually erase background CMYK content.
 
 **Acceptance Criteria:**
-- [ ] AC1: CMYK image drawn with `op=true` → `ERRO`, codigo `E_IMAGE_OVERPRINT`.
-- [ ] AC2: CMYK image with `op=false OP=false` → `OK`.
-- [ ] AC3: Grayscale image with `op=true` → `OK` (rule scoped to CMYK images).
+- [x] AC1: CMYK image drawn with `op=true` → `ERRO`, codigo `E_IMAGE_OVERPRINT`.
+- [x] AC2: CMYK image with `op=false OP=false` → `OK`.
+- [x] AC3: Grayscale image with `op=true` → `OK` (rule scoped to CMYK images).
 
 **Files to modify:** `opm_checker.py`
 **Logic change:** content-stream walker: when `Do` op references an XObject of subtype Image with CS DeviceCMYK or ICCBased(N=4), inspect current GS op/OP.
@@ -156,8 +156,8 @@
 **So that** "invisible white overprint" tricks are caught.
 
 **Acceptance Criteria:**
-- [ ] AC1: DeviceN [0,0,0,0] fill, `op=true` → `ERRO`, codigo `E_DEVICEN_WHITE_OVERPRINT`.
-- [ ] AC2: Same fill `op=false` → `OK`.
+- [x] AC1: DeviceN [0,0,0,0] fill, `op=true` → `ERRO`, codigo `E_DEVICEN_WHITE_OVERPRINT`.
+- [x] AC2: Same fill `op=false` → `OK`.
 
 **Files to modify:** `opm_checker.py` or `devicen_checker.py`
 **Logic change:** detection of zero-tint DeviceN with overprint.
@@ -173,9 +173,9 @@
 **So that** §3.16 is honored project-wide.
 
 **Acceptance Criteria:**
-- [ ] AC1: Integration test with a 3-layer PDF (1 hidden RGB image, variant `SheetCmyk_CMYK`) returns `OK` for color check.
-- [ ] AC2: Toggling layer ON in default config makes the same checker return `ERRO`.
-- [ ] AC3: Code grep: every checker module imports `oc_filter.is_visible`.
+- [x] AC1: Integration test with a 3-layer PDF (1 hidden RGB image, variant `SheetCmyk_CMYK`) returns `OK` for color check.
+- [x] AC2: Toggling layer ON in default config makes the same checker return `ERRO`.
+- [x] AC3: Code grep: every checker module imports `oc_filter.is_visible`.
 
 **Files to modify:** all checker modules.
 **Logic change:** thread `visible_filter` into each check loop.
@@ -191,9 +191,9 @@
 **So that** layered, radio-button-grouped, and membership-dict-controlled content is handled per spec.
 
 **Acceptance Criteria:**
-- [ ] AC1: Ghent patch 15.0 PDF → all checks pass with expected default-config visible content.
-- [ ] AC2: Ghent patch 15.1 → only one of N radio-grouped layers is treated as visible.
-- [ ] AC3: Ghent patch 15.2 → OCMD AND/OR/NOT logic resolved correctly.
+- [x] AC1: Ghent patch 15.0 PDF → all checks pass with expected default-config visible content.
+- [x] AC2: Ghent patch 15.1 → only one of N radio-grouped layers is treated as visible.
+- [x] AC3: Ghent patch 15.2 → OCMD AND/OR/NOT logic resolved correctly.
 
 **Files to modify:** `oc_filter.py`
 **Logic change:** extend visibility resolver with RBGroups + OCMD logic.

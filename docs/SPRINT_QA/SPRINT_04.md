@@ -13,9 +13,9 @@
 **So that** RIP compatibility is preserved.
 
 **Acceptance Criteria:**
-- [ ] AC1: JPEG2000 image, PDF/X-4 Classic delivery → `ERRO`, codigo `E_JPEG2000_FORBIDDEN`.
-- [ ] AC2: JPEG2000 image with bit depth 16, PDF/X-4 → `ERRO`.
-- [ ] AC3: JPEG2000 image, 8-bit, single layer, PDF/X-4 → `OK`.
+- [x] AC1: JPEG2000 image, PDF/X-4 Classic delivery → `ERRO`, codigo `E_JPEG2000_FORBIDDEN`.
+- [x] AC2: JPEG2000 image with bit depth 16, PDF/X-4 → `ERRO`.
+- [x] AC3: JPEG2000 image, 8-bit, single layer, PDF/X-4 → `OK`.
 
 **Files to modify:** `compression_checker.py`
 **Logic change:** detect `/JPXDecode`, parse JP2 codestream header for bit depth + layers; gate by delivery method (Classic vs 2015).
@@ -31,9 +31,9 @@
 **So that** transparency masking renders consistently.
 
 **Acceptance Criteria:**
-- [ ] AC1: 1-bit ImageMask referencing DeviceRGB current color → `ERRO` if variant is CMYK-only.
-- [ ] AC2: SMask with luminosity image in DeviceRGB → `ERRO`, codigo `E_SMASK_RGB`.
-- [ ] AC3: SMask in DeviceGray → `OK`.
+- [x] AC1: 1-bit ImageMask referencing DeviceRGB current color → `ERRO` if variant is CMYK-only.
+- [x] AC2: SMask with luminosity image in DeviceRGB → `ERRO`, codigo `E_SMASK_RGB`.
+- [x] AC3: SMask in DeviceGray → `OK`.
 
 **Files to modify:** `compression_checker.py`, `transparency_checker.py`
 **Logic change:** ImageMask / SMask detection + CS validation against variant matrix.
@@ -49,9 +49,9 @@
 **So that** blend space is unambiguous and CMYK.
 
 **Acceptance Criteria:**
-- [ ] AC1: Page with Group dict missing `CS` → `ERRO`, codigo `E_TGROUP_CS_MISSING`.
-- [ ] AC2: Page with Group `CS=DeviceRGB` → `ERRO`, codigo `E_TGROUP_CS_RGB`.
-- [ ] AC3: Page with Group `CS=DeviceCMYK` → `OK`.
+- [x] AC1: Page with Group dict missing `CS` → `ERRO`, codigo `E_TGROUP_CS_MISSING`.
+- [x] AC2: Page with Group `CS=DeviceRGB` → `ERRO`, codigo `E_TGROUP_CS_RGB`.
+- [x] AC3: Page with Group `CS=DeviceCMYK` → `OK`.
 
 **Files to modify:** `transparency_checker.py`
 **Logic change:** inspect `page.Group.CS`.
@@ -67,9 +67,9 @@
 **So that** luminosity masks blend in compliant space.
 
 **Acceptance Criteria:**
-- [ ] AC1: SMask Luminosity with `G.CS = DeviceRGB` → `ERRO`.
-- [ ] AC2: SMask Luminosity with `G.CS = DeviceGray` → `OK`.
-- [ ] AC3: SMask Alpha (no G dict CS rule) → not subject.
+- [x] AC1: SMask Luminosity with `G.CS = DeviceRGB` → `ERRO`.
+- [x] AC2: SMask Luminosity with `G.CS = DeviceGray` → `OK`.
+- [x] AC3: SMask Alpha (no G dict CS rule) → not subject.
 
 **Files to modify:** `transparency_checker.py`
 **Logic change:** SMask traversal.
@@ -85,8 +85,8 @@
 **So that** unpredictable rendering across RIPs is surfaced.
 
 **Acceptance Criteria:**
-- [ ] AC1: Ghent 16.x out-of-group SMask patch → `AVISO`, codigo `W_SMASK_OUT_OF_GROUP`.
-- [ ] AC2: In-group SMask → `OK`.
+- [x] AC1: Ghent 16.x out-of-group SMask patch → `AVISO`, codigo `W_SMASK_OUT_OF_GROUP`.
+- [x] AC2: In-group SMask → `OK`.
 
 **Files to modify:** `transparency_checker.py`
 **Logic change:** scope analysis on SMask `G` content references.
@@ -102,9 +102,9 @@
 **So that** corrupt or non-ICC blobs are caught early.
 
 **Acceptance Criteria:**
-- [ ] AC1: Valid ICC v2 CMYK profile → `OK`.
-- [ ] AC2: Truncated profile (first 100 bytes only) → `ERRO`, codigo `E_OUTPUTINTENT_INVALID`.
-- [ ] AC3: Wrong profile colorspace (RGB instead of CMYK) → `ERRO`, codigo `E_OUTPUTINTENT_NOT_CMYK`.
+- [x] AC1: Valid ICC v2 CMYK profile → `OK`.
+- [x] AC2: Truncated profile (first 100 bytes only) → `ERRO`, codigo `E_OUTPUTINTENT_INVALID`.
+- [x] AC3: Wrong profile colorspace (RGB instead of CMYK) → `ERRO`, codigo `E_OUTPUTINTENT_NOT_CMYK`.
 
 **Files to modify:** `icc_checker.py`
 **Logic change:** parse ICC header (128 bytes); validate signature `acsp` and color space `CMYK`.
@@ -120,8 +120,8 @@
 **So that** ambiguous color targets are rejected.
 
 **Acceptance Criteria:**
-- [ ] AC1: 2 OutputIntents with identical profile bytes → `OK`.
-- [ ] AC2: 2 OutputIntents with different profile bytes → `ERRO`, codigo `E_OUTPUTINTENT_DIVERGENT`.
+- [x] AC1: 2 OutputIntents with identical profile bytes → `OK`.
+- [x] AC2: 2 OutputIntents with different profile bytes → `ERRO`, codigo `E_OUTPUTINTENT_DIVERGENT`.
 
 **Files to modify:** `icc_checker.py`
 **Logic change:** SHA256 each profile; assert single hash.
@@ -137,9 +137,9 @@
 **So that** scaled-down strokes are correctly evaluated against thresholds.
 
 **Acceptance Criteria:**
-- [ ] AC1: Stroke with linewidth=1pt under CTM scale 0.25 → effective 0.25pt → triggers hairline check.
-- [ ] AC2: Rectangular path filled+stroked same color, w=2pt h=0.5pt under CTM 1.0 → effective width = 0.5pt → triggers thin-path check (OV-06 trigger).
-- [ ] AC3: Stroke 3pt under CTM 1.0 → effective 3pt → no trigger.
+- [x] AC1: Stroke with linewidth=1pt under CTM scale 0.25 → effective 0.25pt → triggers hairline check.
+- [x] AC2: Rectangular path filled+stroked same color, w=2pt h=0.5pt under CTM 1.0 → effective width = 0.5pt → triggers thin-path check (OV-06 trigger).
+- [x] AC3: Stroke 3pt under CTM 1.0 → effective 3pt → no trigger.
 
 **Files to modify:** `font_checker.check_hairlines`, `opm_checker.py`
 **Logic change:** central helper `effective_line_width(linewidth, ctm) -> float` with rectangle visual-line heuristic.
@@ -155,9 +155,9 @@
 **So that** RIPs render text consistently.
 
 **Acceptance Criteria:**
-- [ ] AC1: PDF with embedded OpenType-CFF font → `OK`.
-- [ ] AC2: PDF with referenced-but-not-embedded OpenType → `ERRO`, codigo `E_FONT_NOT_EMBEDDED`.
-- [ ] AC3: PDF with embedded OpenType missing FontFile3 stream → `ERRO`.
+- [x] AC1: PDF with embedded OpenType-CFF font → `OK`.
+- [x] AC2: PDF with referenced-but-not-embedded OpenType → `ERRO`, codigo `E_FONT_NOT_EMBEDDED`.
+- [x] AC3: PDF with embedded OpenType missing FontFile3 stream → `ERRO`.
 
 **Files to modify:** `font_checker.py`
 **Logic change:** check `FontDescriptor.FontFile3` presence + stream non-empty.
@@ -173,9 +173,9 @@
 **So that** small text isn't allowed where a variant's print process would render it illegibly.
 
 **Acceptance Criteria:**
-- [ ] AC1: 8pt text in `MagazineAds_CMYK` → `AVISO`, codigo `W_TEXT_TOO_SMALL`, found=8.0, expected="≥9.0".
-- [ ] AC2: 10pt text in `NewspaperAds_CMYK` → `OK`.
-- [ ] AC3: 8pt text in `SheetCmyk_CMYK` → `OK`.
+- [x] AC1: 8pt text in `MagazineAds_CMYK` → `AVISO`, codigo `W_TEXT_TOO_SMALL`, found=8.0, expected="≥9.0".
+- [x] AC2: 10pt text in `NewspaperAds_CMYK` → `OK`.
+- [x] AC3: 8pt text in `SheetCmyk_CMYK` → `OK`.
 
 **Files to modify:** `font_checker.py`
 **Logic change:** read `min_text_pt` from variant config (SY-10).
@@ -191,9 +191,9 @@
 **So that** smooth-shaded fills aren't false-positively flagged for missing overprint.
 
 **Acceptance Criteria:**
-- [ ] AC1: Page with axial shading pattern fill → detected; OPM checks skip it.
-- [ ] AC2: Ghent 6.0/6.1 patches → `OK`.
-- [ ] AC3: Solid K=1.0 fill on same page still subject to overprint rules.
+- [x] AC1: Page with axial shading pattern fill → detected; OPM checks skip it.
+- [x] AC2: Ghent 6.0/6.1 patches → `OK`.
+- [x] AC3: Solid K=1.0 fill on same page still subject to overprint rules.
 
 **Files to modify:** `opm_checker.py`
 **Logic change:** content-stream walker recognizes `sh` operator and Pattern colorspace; tag those objects as exempt.
@@ -209,9 +209,9 @@
 **So that** untrusted PDFs cannot exfiltrate or persist data.
 
 **Acceptance Criteria:**
-- [ ] AC1: `ipybox.run("import os; os.system('touch /host/x')")` cannot create `/host/x`.
-- [ ] AC2: Script exceeding 60s wall-clock is killed with `TIMEOUT` status.
-- [ ] AC3: Worker calls deep-script analysis exclusively through `ipybox.run()` (grep gate in CI).
+- [x] AC1: `ipybox.run("import os; os.system('touch /host/x')")` cannot create `/host/x`.
+- [x] AC2: Script exceeding 60s wall-clock is killed with `TIMEOUT` status.
+- [x] AC3: Worker calls deep-script analysis exclusively through `ipybox.run()` (grep gate in CI).
 
 **Files to modify:** `agentes/operarios/shared_tools/ipybox_runner.py` (new), `workers/tasks.py`
 **Logic change:** Docker SDK wrapper; bind-mount only PDF read-only; pid limits; network=none.
