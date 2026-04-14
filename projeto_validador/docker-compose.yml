@@ -26,15 +26,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.worker
-    mem_limit: 4g
+    mem_limit: 3g
     deploy:
-      replicas: 1
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+      replicas: 6
     environment:
       - PYTHONPATH=/app
       - DATABASE_URL=sqlite+aiosqlite:///./data/validador.db
@@ -44,13 +38,14 @@ services:
       - VOLUME_PATH=/volumes/uploads
       - APP_ENV=production
       - GWG_CHECKER_TIMEOUT_S=120
+      - VIPS_CONCURRENCY=2
     volumes:
       - .:/app
       - uploads:/volumes/uploads
       - db_data:/app/data
     depends_on:
       - redis
-    command: celery -A workers.celery_app worker --loglevel=info --concurrency=1 -Q celery,queue:jobs,queue:especialista,queue:routing_decisions,queue:operario_papelaria_plana,queue:operario_editoriais,queue:operario_dobraduras,queue:operario_cortes_especiais,queue:operario_projetos_cad,queue:validador,queue:audit
+    command: celery -A workers.celery_app worker --loglevel=info --concurrency=2 -Q celery,queue:jobs,queue:especialista,queue:routing_decisions,queue:operario_papelaria_plana,queue:operario_editoriais,queue:operario_dobraduras,queue:operario_cortes_especiais,queue:operario_projetos_cad,queue:validador,queue:audit
 
   redis:
     restart: always
