@@ -28,15 +28,18 @@ graph TD
     
     OP_P & OP_E & OP_C -->|Technical Report| Validador[Agente Validador Final]
     
-    Validador -->|is_gold = False| Remediador[Agente Remediador]
-    Remediador -->|Aplica Correções| Validador
+    Validador -->|Erros detectados| Remediador[Agente Remediador]
+    Remediador -->|ColorSpace / Font / Resolution| Validador
     
-    Validador -->|Veredito Final| VeraPDF[Agente VeraPDF - Auditor]
-    VeraPDF -->|Atestado JSON/PDF| Logger[Agente Logger]
+    Validador -->|GOLD_APPROVED ou GOLD_REJECTED| Logger[Agente Logger]
     Logger -->|Persistência DB| Database[(SQLAlchemy / SQLite)]
     
     Logger -->|Job Completed| User
+
+    style Remediador fill:#f9f,stroke:#c0c
 ```
+
+> **Estado atual (pré-Sprint A):** O Remediador executa apenas `ColorSpaceRemediator`, `FontRemediator` e `ResolutionRemediator`. `BleedRemediator` (G002) e `SafetyMarginRemediator` (E004) ainda não estão implementados. O container VeraPDF (Sprint C) também não existe — a auditoria PDF/X-4 usa o check pragmático interno (`pdfx_compliance.py`).
 
 ---
 
@@ -66,14 +69,21 @@ graph TD
 
 O sistema utiliza filas dedicada para evitar que tarefas curtas sejam bloqueadas por tarefas longas de processamento PDF:
 
-| Fila | Agente | Prioridade |
-|:---:|:---:|:---:|
-| `queue:jobs` | Diretor / Gerente | Alta |
-| `queue:especialista` | Especialista (Probing) | Média |
-| `queue:operario_*` | Workers de Produto | Média |
-| `queue:validador` | Validador Final | Alta |
-| `queue:verapdf` | Auditor VeraPDF (JVM) | Baixa (Container Separado) |
-| `queue:audit` | Logger / Persistence | Baixa |
+| Fila | Agente | Prioridade | Status |
+|:---:|:---:|:---:|:---:|
+| `queue:jobs` | Diretor / Gerente | Alta | Implementado |
+| `queue:especialista` | Especialista (Probing) | Média | Implementado |
+| `queue:routing_decisions` | Route Handler (anti-deadlock) | Alta | Implementado |
+| `queue:operario_papelaria_plana` | Operário Papelaria | Média | Implementado |
+| `queue:operario_editoriais` | Operário Editorial | Média | Implementado |
+| `queue:operario_dobraduras` | Operário Dobraduras | Média | Implementado |
+| `queue:operario_cortes_especiais` | Operário Cortes | Média | Implementado |
+| `queue:operario_projetos_cad` | Operário CAD | Média | Implementado |
+| `queue:validador` | Validador Final | Alta | Implementado |
+| `queue:remediador` | Remediador (cor/fonte/res) | Média | Implementado |
+| `queue:validador_final` | Gold layer audit | Alta | Implementado |
+| `queue:audit` | Logger / Persistence | Baixa | Implementado |
+| `queue:verapdf` | Auditor VeraPDF (JVM) | Baixa | **SPRINT C — pendente** |
 
 ---
 

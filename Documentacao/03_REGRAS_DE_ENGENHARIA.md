@@ -2,6 +2,8 @@
 
 O Graphic-Pro segue um conjunto de regras rígidas para garantir que o sistema opere de forma estável em ambientes de produção de alta carga.
 
+> **Status das implementações neste documento:** As Rules 1, 2, 3 e 4 estão em vigor no código atual. A "Inversão de Contrato" descrita na seção de Observabilidade é **objetivo da Sprint A** e ainda não foi implementada.
+
 ## 🛡️ Regras Críticas (Core Rules)
 
 ### Rule 1: Anti-OOM (Out of Memory)
@@ -52,8 +54,23 @@ Tarefas Celery são intrinsecamente síncronas. Para chamar código assíncrono 
 
 O sistema utiliza o Agente Logger para garantir que cada passo do pipeline seja auditável:
 - **Auditoria Geométrica**: Registro das dimensões detectadas em cada stage.
-- **Quality Loss Tracking**: Registro de qualquer remediação que degradou o arquivo original.
-- **Performance**: Tracking de tempo gasto em cada agente (`execution_time_ms`).
+- **Quality Loss Tracking** *(Sprint A — pendente)*: Após a inversão de contrato, qualquer degradação aplicada ficará registrada em `quality_loss_warnings` no `RemediationAction`. O campo `quality_loss_severity: Literal["none","low","medium","high"]` será adicionado ao schema `RemediationAction` na Sprint A.
+- **Performance**: Tracking de tempo gasto em cada agente (`processing_time_ms` em `TechnicalReport`).
+
+### Remediadores implementados hoje
+
+| Código de Erro | Remediador | Comportamento atual |
+|---|---|---|
+| `E006_FORBIDDEN_COLORSPACE` | `ColorSpaceRemediator` | Converte para CMYK via Ghostscript |
+| `E_TAC_EXCEEDED` | `ColorSpaceRemediator` | Reduz TAC para 300% |
+| `E_OUTPUTINTENT_MISSING` | `ColorSpaceRemediator` | Injeta ISOcoated_v2_300_eci.icc |
+| `E_TGROUP_CS_INVALID` | `ColorSpaceRemediator` | Trata grupo de transparência inválido |
+| `W_ICC_V4` | `ColorSpaceRemediator` | Normaliza perfil ICC versão 4 |
+| `E008_NON_EMBEDDED_FONTS` | `FontRemediator` | Re-distila com Ghostscript -dEmbedAllFonts |
+| `W_COURIER_SUBSTITUTION` | `FontRemediator` | **Hard fail** (Regra de Ouro — será invertida na Sprint A) |
+| `W003_BORDERLINE_RESOLUTION` | `ResolutionRemediator` | Downsamples acima de 450dpi; **hard fail** abaixo de 300dpi (será invertido na Sprint A) |
+| `G002` | — | **Sem remediador** (Sprint A — pendente) |
+| `E004` | — | **Sem remediador** (Sprint A — pendente) |
 
 ---
 
