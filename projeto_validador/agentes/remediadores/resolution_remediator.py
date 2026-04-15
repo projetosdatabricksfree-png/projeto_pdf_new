@@ -1,15 +1,17 @@
 """
-ResolutionRemediator — downsample oversized raster images.
+ResolutionRemediator — downsample oversized raster images; upsample if below target.
 
-Strategy: Ghostscript with explicit downsample thresholds for color / gray /
-mono streams. Target 300 dpi (industry standard for offset CMYK printing).
+Strategy:
+- Images *above* 450 dpi: downsampled via Ghostscript bicubic to 300 dpi (lossless quality).
+- Images *below* 300 dpi: upsampled via Ghostscript bicubic to 300 dpi with a
+  quality_loss_warning. Upsampling invents pixels, but delivering a slightly blurry
+  file is better than blocking the job — the warning tells the designer to resupply.
 
-Regra de Ouro: this remediator **never upsamples**. Upscaling invents pixels
-and destroys sharpness — the original low-res image must be resupplied.
+Contract (post-Sprint A): success=True whenever Ghostscript completes, even for
+upsampling. success=False only for technical failures (binary missing, timeout).
 
 Handles:
-  - W003_BORDERLINE_RESOLUTION : images above the threshold get downsampled.
-                                  Images *below* 300 dpi trigger a hard fail.
+  - W003_BORDERLINE_RESOLUTION : images outside the 300–450 dpi acceptable range.
 """
 from __future__ import annotations
 
@@ -44,16 +46,7 @@ class ResolutionRemediator(BaseRemediator):
         codigo = validation_result.codigo or "W003_BORDERLINE_RESOLUTION"
 
         found_dpi = self._parse_dpi(validation_result.found_value)
-        if found_dpi is not None and found_dpi < TARGET_DPI:
-            return self._fail(
-                codigo=codigo,
-                warnings=[f"Image resolution {found_dpi} dpi is below target {TARGET_DPI} dpi"],
-                log=(
-                    "Regra de Ouro: upsampling is forbidden — it fabricates pixels "
-                    "and looks worse on press than the low-res original. The "
-                    "designer must resupply a higher-resolution image."
-                ),
-            )
+        needs_upsample = found_dpi is not None and found_dpi < TARGET_DPI
 
         if shutil.which(self.gs_binary) is None:
             return self._fail(
@@ -64,26 +57,50 @@ class ResolutionRemediator(BaseRemediator):
 
         pdf_out.parent.mkdir(parents=True, exist_ok=True)
 
-        cmd = [
-            self.gs_binary,
-            "-dBATCH", "-dNOPAUSE", "-dSAFER", "-dQUIET",
-            "-sDEVICE=pdfwrite",
-            "-dPDFSETTINGS=/prepress",
-            "-dCompatibilityLevel=1.6",
-            "-dDownsampleColorImages=true",
-            f"-dColorImageResolution={TARGET_DPI}",
-            f"-dColorImageDownsampleThreshold={DOWNSAMPLE_THRESHOLD / TARGET_DPI:.3f}",
-            "-dColorImageDownsampleType=/Bicubic",
-            "-dDownsampleGrayImages=true",
-            f"-dGrayImageResolution={TARGET_DPI}",
-            f"-dGrayImageDownsampleThreshold={DOWNSAMPLE_THRESHOLD / TARGET_DPI:.3f}",
-            "-dGrayImageDownsampleType=/Bicubic",
-            "-dDownsampleMonoImages=true",
-            "-dMonoImageResolution=1200",
-            "-dMonoImageDownsampleType=/Subsample",
-            f"-sOutputFile={pdf_out}",
-            str(pdf_in),
-        ]
+        if needs_upsample:
+            # Upsample: force all color/gray images to TARGET_DPI regardless of source DPI.
+            # Threshold=0.9 ensures images at any DPI (including < 300) get resampled.
+            cmd = [
+                self.gs_binary,
+                "-dBATCH", "-dNOPAUSE", "-dSAFER", "-dQUIET",
+                "-sDEVICE=pdfwrite",
+                "-dPDFSETTINGS=/prepress",
+                "-dCompatibilityLevel=1.6",
+                "-dDownsampleColorImages=true",
+                "-dUpsampleColorImages=true",
+                f"-dColorImageResolution={TARGET_DPI}",
+                "-dColorImageDownsampleThreshold=0.900",
+                "-dColorImageDownsampleType=/Bicubic",
+                "-dDownsampleGrayImages=true",
+                "-dUpsampleGrayImages=true",
+                f"-dGrayImageResolution={TARGET_DPI}",
+                "-dGrayImageDownsampleThreshold=0.900",
+                "-dGrayImageDownsampleType=/Bicubic",
+                f"-sOutputFile={pdf_out}",
+                str(pdf_in),
+            ]
+        else:
+            # Downsample only: only touch images significantly above target.
+            cmd = [
+                self.gs_binary,
+                "-dBATCH", "-dNOPAUSE", "-dSAFER", "-dQUIET",
+                "-sDEVICE=pdfwrite",
+                "-dPDFSETTINGS=/prepress",
+                "-dCompatibilityLevel=1.6",
+                "-dDownsampleColorImages=true",
+                f"-dColorImageResolution={TARGET_DPI}",
+                f"-dColorImageDownsampleThreshold={DOWNSAMPLE_THRESHOLD / TARGET_DPI:.3f}",
+                "-dColorImageDownsampleType=/Bicubic",
+                "-dDownsampleGrayImages=true",
+                f"-dGrayImageResolution={TARGET_DPI}",
+                f"-dGrayImageDownsampleThreshold={DOWNSAMPLE_THRESHOLD / TARGET_DPI:.3f}",
+                "-dGrayImageDownsampleType=/Bicubic",
+                "-dDownsampleMonoImages=true",
+                "-dMonoImageResolution=1200",
+                "-dMonoImageDownsampleType=/Subsample",
+                f"-sOutputFile={pdf_out}",
+                str(pdf_in),
+            ]
 
         try:
             result = subprocess.run(
@@ -101,6 +118,21 @@ class ResolutionRemediator(BaseRemediator):
                 codigo=codigo,
                 warnings=["Ghostscript returned non-zero during downsampling"],
                 log=f"stderr={result.stderr[-800:]!r}",
+            )
+
+        if needs_upsample:
+            return self._warn(
+                codigo=codigo,
+                changes=[
+                    f"Upsampled color/gray images from {found_dpi} dpi to "
+                    f"{TARGET_DPI} dpi (bicubic Ghostscript)",
+                ],
+                warnings=[
+                    f"upsampled from {found_dpi}dpi to {TARGET_DPI}dpi (bicubic): "
+                    "designer should resupply higher-resolution source"
+                ],
+                log=f"gs ok (upsample); output={pdf_out.stat().st_size} bytes",
+                severity="medium",
             )
 
         return self._ok(

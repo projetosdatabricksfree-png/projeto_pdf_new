@@ -3,11 +3,13 @@ Base contract for all remediators.
 
 Remediators are deterministic: given a PDF and a specific ValidationResult node,
 they produce a new PDF (or fail cleanly) and a RemediationAction describing what
-changed. They never use LLMs, never guess, and never upsample/invent data.
+changed. They never use LLMs and never guess.
 
-Regra de Ouro: if the fix would cause quality loss (font substitution, upsampling,
-destructive flattening), the remediator MUST fail and emit a technical_log so the
-validador_final can reject the job.
+Contract (post-Sprint A — "Entregar sempre, auditar tudo"):
+- success=True  whenever the operation completed, even if quality was degraded.
+  Degradations are recorded in quality_loss_warnings for traceability.
+- success=False is reserved exclusively for: binary missing, timeout, or
+  unrecoverable exception. Never fail on a policy decision.
 """
 from __future__ import annotations
 
@@ -21,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 
 class RemediatorError(Exception):
-    """Raised when a remediator cannot fix an error without quality loss."""
+    """Raised when a remediator encounters an unrecoverable technical failure."""
 
 
 class BaseRemediator(ABC):
@@ -48,9 +50,9 @@ class BaseRemediator(ABC):
             validation_result: The exact error node from the Inspector JSON.
 
         Returns:
-            RemediationAction with success=True only if the fix was applied
-            without quality loss. Quality loss must set success=False and populate
-            quality_loss_warnings with actionable technical detail.
+            RemediationAction with success=True when the operation completed
+            (including cases with quality degradation — those go in
+            quality_loss_warnings). success=False only for technical failures.
         """
 
     def _ok(
@@ -59,11 +61,31 @@ class BaseRemediator(ABC):
         changes: list[str],
         log: str,
     ) -> RemediationAction:
+        """Return a clean success with no quality loss."""
         return RemediationAction(
             codigo=codigo,
             remediator=self.name,
             success=True,
             changes_applied=changes,
+            technical_log=log,
+        )
+
+    def _warn(
+        self,
+        codigo: str,
+        changes: list[str],
+        warnings: list[str],
+        log: str,
+        severity: str = "low",
+    ) -> RemediationAction:
+        """Return success=True with quality-loss warnings recorded."""
+        return RemediationAction(
+            codigo=codigo,
+            remediator=self.name,
+            success=True,
+            changes_applied=changes,
+            quality_loss_warnings=warnings,
+            quality_loss_severity=severity,
             technical_log=log,
         )
 
@@ -73,6 +95,7 @@ class BaseRemediator(ABC):
         warnings: list[str],
         log: str,
     ) -> RemediationAction:
+        """Return success=False for genuine technical failures only."""
         return RemediationAction(
             codigo=codigo,
             remediator=self.name,

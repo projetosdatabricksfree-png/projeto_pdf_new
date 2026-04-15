@@ -455,13 +455,16 @@ def task_remediate(self, technical_report_json: str) -> str:
     shutil.copy2(bronze, scratch)
 
     actions: list[RemediationAction] = []
-    # Sort by a deterministic priority so ColorSpace runs before Font, etc.
+    # Sort by a deterministic priority: geometry first, then color, then font/resolution.
+    # Bleed (G002) must run before safety margin (E004) because it changes page geometry.
     priority = {
-        "E006_FORBIDDEN_COLORSPACE": 1,
-        "E_TAC_EXCEEDED": 1,
-        "E008_NON_EMBEDDED_FONTS": 2,
-        "W_COURIER_SUBSTITUTION": 2,
-        "W003_BORDERLINE_RESOLUTION": 3,
+        "G002": 1,
+        "E004": 2,
+        "E006_FORBIDDEN_COLORSPACE": 3,
+        "E_TAC_EXCEEDED": 3,
+        "E008_NON_EMBEDDED_FONTS": 4,
+        "W_COURIER_SUBSTITUTION": 4,
+        "W003_BORDERLINE_RESOLUTION": 5,
     }
     items = sorted(
         report.validation_results.items(),
@@ -497,17 +500,24 @@ def task_remediate(self, technical_report_json: str) -> str:
             if next_scratch.exists():
                 next_scratch.unlink(missing_ok=True)
 
+    # Post-Sprint A contract: always produce a Gold candidate from whatever
+    # scratch state we have. success=False on an action means a technical failure
+    # (binary missing, timeout) — not a policy decision.  Quality degradations
+    # are recorded in quality_loss_warnings and do not block delivery.
     overall_success = bool(actions) and all(a.success for a in actions)
+    has_quality_warnings = any(a.quality_loss_warnings for a in actions)
 
-    if overall_success:
+    gold_produced = False
+    if scratch.exists():
         shutil.move(str(scratch), str(gold))
+        gold_produced = True
     else:
         scratch.unlink(missing_ok=True)
 
     remediation_report = RemediationReport(
         job_id=report.job_id,
         input_path=str(bronze),
-        output_path=str(gold) if overall_success else "",
+        output_path=str(gold) if gold_produced else "",
         actions=actions,
         overall_success=overall_success,
     )
@@ -520,9 +530,10 @@ def task_remediate(self, technical_report_json: str) -> str:
         "payload": remediation_report.model_dump(),
     }, default=str))
 
-    if overall_success:
+    if gold_produced:
         task_validate_gold.delay(remediation_report.model_dump_json())
     else:
+        # Technical failure: could not produce any output file
         _run_async(_update_status(report.job_id, "GOLD_REJECTED"))
 
     return remediation_report.model_dump_json()
@@ -555,6 +566,9 @@ def task_validate_gold(self, remediation_report_json: str) -> str:
         "payload": verdict.model_dump(),
     }, default=str))
 
-    final_status = "GOLD_APPROVED" if verdict.is_gold else "GOLD_REJECTED"
+    # Post-Sprint A: is_gold is informational only. The file is always delivered.
+    # GOLD_DELIVERED     → is_gold=True (fully compliant)
+    # GOLD_DELIVERED_WITH_WARNINGS → is_gold=False but _gold.pdf exists
+    final_status = "GOLD_DELIVERED" if verdict.is_gold else "GOLD_DELIVERED_WITH_WARNINGS"
     _run_async(_update_status(remediation.job_id, final_status))
     return verdict.model_dump_json()

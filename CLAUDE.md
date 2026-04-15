@@ -113,6 +113,31 @@ Utilize as instruções detalhadas em `~/Desktop/PROJETOS/SKILSS/` para tarefas 
 - `qa/`: Planos de teste e validação.
 - `token-economy/`: Gestão de contexto e eficiência de sessão.
 
+## Atualização Obrigatória de Documentação
+
+**SEMPRE que modificar código ou implementar uma story/etapa, atualizar os seguintes arquivos:**
+
+### 1. Docs de Sprint — `docs/SPRINT_QA/AUTO_REMEDIATION/`
+Atualizar os arquivos de sprint conforme o progresso (marcar ACs com `[x]`):
+- `SPRINT_A_GEOMETRIC.md`, `SPRINT_B_COLOR.md`, `SPRINT_C_VERAPDF.md`
+
+### 2. Contexto consolidado — regenerar após cada sessão de desenvolvimento
+```bash
+# Codebase (todo o código Python)
+# Concatenar todos os .py core em:
+Documentacao/sistema/codebase.txt
+
+# Documentação de negócio (todos os .md/.txt)
+# Concatenar todos os docs em:
+Documentacao/negocio/documentacao.txt
+```
+Esses arquivos são a fonte de contexto rápida para novas sessões — mantê-los atualizados evita re-leitura de dezenas de arquivos individuais.
+
+**Ordem de atualização por sessão:**
+1. Implementar o código
+2. Atualizar os `.md` em `Documentacao/` e `docs/SPRINT_QA/`
+3. Regenerar `Documentacao/sistema/codebase.txt` e `Documentacao/negocio/documentacao.txt`
+
 ## Token Economy & Boas Práticas
 - **Plan Mode:** Sempre crie um `implementation_plan.md` antes de mudanças estruturais.
 - **Compactação:** Execute `/compact` ao atingir 50-60% de uso de contexto.

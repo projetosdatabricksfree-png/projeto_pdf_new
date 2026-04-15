@@ -1,13 +1,17 @@
 """
-Validador Final — the 'cliente final' gate.
+Validador Final — audit layer for the Gold candidate.
 
-Runs the full GWG inspector suite against a remediated PDF. Only emits
-is_gold=True when: (a) no critical errors remain, and (b) the file exhibits
-structural PDF/X-4 conformance (GTS_PDFXVersion + CMYK OutputIntent).
+Runs the full GWG inspector suite against a remediated PDF and reports:
+  is_gold=True  → no critical errors remain AND PDF/X-4 structurally compliant.
+  is_gold=False → residual errors or non-compliance detected.
 
-This agent does not 'correct' — rejection here is final. The RemediationReport
-is attached to the audit trail so a human can see why the job didn't graduate
-from Silver to Gold.
+Post-Sprint A contract: is_gold is *informational only*. The Gold PDF is
+always delivered regardless of this flag. The status terminal is:
+  GOLD_DELIVERED              → is_gold=True
+  GOLD_DELIVERED_WITH_WARNINGS → is_gold=False (file still ships)
+
+This agent does not 'correct' — it audits. The RemediationReport is
+attached to the audit trail for full traceability.
 """
 from __future__ import annotations
 

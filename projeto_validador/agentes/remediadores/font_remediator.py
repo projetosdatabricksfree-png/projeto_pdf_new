@@ -2,18 +2,14 @@
 FontRemediator — embed non-embedded fonts deterministically.
 
 Strategy: Ghostscript re-distillation with -dEmbedAllFonts=true and
--dSubsetFonts=true. If the source system did not provide the glyph outlines
-(pure font *reference* with no file available anywhere on the machine),
-Ghostscript cannot fabricate them — we fail rather than substitute.
+-dSubsetFonts=true.
 
 Handles:
-  - E008_NON_EMBEDDED_FONTS  : referenced but not embedded; fixable if installed
-  - W_COURIER_SUBSTITUTION   : renderer already substituted; ALWAYS rejected
-
-Why W_COURIER_SUBSTITUTION is always a hard fail:
-A Courier substitution means a previous tool silently swapped the typeface.
-Embedding Courier over that would lock in the wrong font. Industrial rule:
-the designer must supply the correct font file; this is never auto-fixable.
+  - E008_NON_EMBEDDED_FONTS : referenced but not embedded; fixable if installed.
+  - W_COURIER_SUBSTITUTION  : renderer already substituted Courier. Post-Sprint A
+    contract: we accept this and embed Courier as a fallback, emitting a
+    quality_loss_warning. The designer is informed to resupply the original font.
+    Blocking delivery over a font substitution fails the "entregar sempre" contract.
 """
 from __future__ import annotations
 
@@ -43,16 +39,7 @@ class FontRemediator(BaseRemediator):
         validation_result: ValidationResult,
     ) -> RemediationAction:
         codigo = validation_result.codigo or "E008_NON_EMBEDDED_FONTS"
-
-        if codigo == "W_COURIER_SUBSTITUTION":
-            return self._fail(
-                codigo=codigo,
-                warnings=["Courier substitution detected — original font lost upstream"],
-                log=(
-                    "Regra de Ouro: locking in a wrong typeface would harm the job. "
-                    "Request the original font file from the designer."
-                ),
-            )
+        is_courier_substitution = (codigo == "W_COURIER_SUBSTITUTION")
 
         if shutil.which(self.gs_binary) is None:
             return self._fail(
@@ -108,6 +95,19 @@ class FontRemediator(BaseRemediator):
             )
 
         fonts_found = validation_result.found_value or "referenced fonts"
+
+        if is_courier_substitution:
+            return self._warn(
+                codigo=codigo,
+                changes=[f"Embedded Courier as fallback font ({fonts_found})"],
+                warnings=[
+                    "Courier accepted as fallback font; original font unavailable — "
+                    "designer should resupply the correct font file"
+                ],
+                log=f"gs ok (courier fallback); output={pdf_out.stat().st_size} bytes",
+                severity="low",
+            )
+
         return self._ok(
             codigo=codigo,
             changes=[f"Embedded and subset all fonts ({fonts_found})"],

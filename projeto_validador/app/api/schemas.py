@@ -114,12 +114,18 @@ class HealthResponse(BaseModel):
 # ─── Gold Layer: Remediation + Final Validation ──────────────────────────────
 
 class RemediationAction(BaseModel):
-    """Outcome of one Remediator invocation against a specific error."""
+    """Outcome of one Remediator invocation against a specific error.
+
+    Contract (post-Sprint A):
+    - success=True  → operation completed; degradations go in quality_loss_warnings
+    - success=False → technical failure only (binary missing, timeout, unhandled crash)
+    """
     codigo: str
     remediator: str
     success: bool
     changes_applied: list[str] = []
     quality_loss_warnings: list[str] = []
+    quality_loss_severity: str = "none"  # none | low | medium | high
     technical_log: str = ""
 
 
