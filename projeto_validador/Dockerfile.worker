@@ -19,8 +19,18 @@ RUN apt-get update && apt-get install -y \
     libopencl1 \
     ocl-icd-libopencl1 \
     clinfo \
+    icc-profiles \
+    icc-profiles-free \
+    qpdf \
     && mkdir -p /etc/OpenCL/vendors && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd \
     && rm -rf /var/lib/apt/lists/*
+
+# FOGRA39 ICC profile (Coated v2 300% ECI) — hermetic build: the profile is
+# committed to resources/icc/ so the image is reproducible without network
+# access. Gold-layer ColorSpaceRemediator depends on it.
+RUN mkdir -p /usr/share/color/icc
+COPY resources/icc/ISOcoated_v2_300_eci.icc /usr/share/color/icc/ISOcoated_v2_300_eci.icc
+ENV FOGRA39_ICC_PATH=/usr/share/color/icc/ISOcoated_v2_300_eci.icc
 
 # Set python3.11 as default
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 && \
@@ -46,4 +56,4 @@ RUN mkdir -p /volumes/uploads
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics
 
-CMD ["celery", "-A", "workers.celery_app", "worker", "--loglevel=info", "--concurrency=1", "-Q", "celery,queue:jobs,queue:especialista,queue:routing_decisions,queue:operario_papelaria_plana,queue:operario_editoriais,queue:operario_dobraduras,queue:operario_cortes_especiais,queue:operario_projetos_cad,queue:validador,queue:audit"]
+CMD ["celery", "-A", "workers.celery_app", "worker", "--loglevel=info", "--concurrency=1", "-Q", "celery,queue:jobs,queue:especialista,queue:routing_decisions,queue:operario_papelaria_plana,queue:operario_editoriais,queue:operario_dobraduras,queue:operario_cortes_especiais,queue:operario_projetos_cad,queue:validador,queue:audit,queue:remediador,queue:validador_final"]

@@ -375,3 +375,31 @@ async def download_job_report_pdf(
         media_type="application/pdf",
         filename=report_filename
     )
+
+
+@router.get("/jobs/{job_id}/gold")
+async def download_remediated_pdf(
+    job_id: str,
+    db: AsyncSession = Depends(get_db),
+):
+    """Retrieve the remediated (Gold) PDF if it exists."""
+    job = await get_job(db, job_id)
+    if job is None:
+        raise HTTPException(status_code=404, detail="Job not found")
+
+    # The Gold file is expected to be in the same directory as the Bronze one,
+    # with the suffix _gold.pdf.
+    bronze_path = Path(job.file_path)
+    gold_path = bronze_path.with_name(f"{bronze_path.stem}_gold.pdf")
+
+    if not gold_path.exists():
+        raise HTTPException(
+            status_code=404,
+            detail="Remediated file not found. Either remediation failed or it was not required.",
+        )
+
+    return FileResponse(
+        path=gold_path,
+        media_type="application/pdf",
+        filename=f"{bronze_path.stem}_gold.pdf",
+    )

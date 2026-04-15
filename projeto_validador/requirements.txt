@@ -19,6 +19,7 @@ redis==5.2.1
 # === PDF / Image Analysis ===
 PyMuPDF==1.25.3
 pyvips==2.2.3
+pikepdf==9.4.2
 
 # === HTTP Client ===
 httpx==0.28.1

@@ -46,7 +46,7 @@ services:
       - db_data:/app/data
     depends_on:
       - redis
-    command: celery -A workers.celery_app worker --loglevel=info --concurrency=2 -Q celery,queue:jobs,queue:especialista,queue:routing_decisions,queue:operario_papelaria_plana,queue:operario_editoriais,queue:operario_dobraduras,queue:operario_cortes_especiais,queue:operario_projetos_cad,queue:validador,queue:audit
+    command: celery -A workers.celery_app worker --loglevel=info --concurrency=2 -Q celery,queue:jobs,queue:especialista,queue:routing_decisions,queue:operario_papelaria_plana,queue:operario_editoriais,queue:operario_dobraduras,queue:operario_cortes_especiais,queue:operario_projetos_cad,queue:validador,queue:audit,queue:remediador,queue:validador_final
 
   redis:
     restart: always

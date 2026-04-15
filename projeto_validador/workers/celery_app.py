@@ -45,6 +45,9 @@ celery_app.conf.update(
         # Downstream
         "workers.tasks.task_validate": {"queue": "queue:validador"},
         "workers.tasks.task_log": {"queue": "queue:audit"},
+        # Gold layer — deterministic remediation + final compliance check
+        "workers.tasks.task_remediate": {"queue": "queue:remediador"},
+        "workers.tasks.task_validate_gold": {"queue": "queue:validador_final"},
     },
     worker_prefetch_multiplier=1,
     task_acks_late=True,

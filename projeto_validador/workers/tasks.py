@@ -45,8 +45,8 @@ def _run_async(coro):
 
 async def _update_status(job_id: str, status: str) -> None:
     """Update job status in the database."""
+    from app.database.crud import create_event, update_job_status
     from app.database.session import async_session_factory
-    from app.database.crud import update_job_status, create_event
 
     async with async_session_factory() as db:
         await update_job_status(db, job_id, status)
@@ -73,8 +73,8 @@ def task_route(self, job_payload_json: str, job_metadata_json: str = "{}") -> st
         Serialized RoutingPayload
     """
     logger.critical(f"TASK_RECEIVED: task_route starting for job {job_payload_json}")
-    from app.api.schemas import JobPayload
     from agentes.gerente.agent import AgenteGerente
+    from app.api.schemas import JobPayload
 
     payload = JobPayload.model_validate_json(job_payload_json)
     job_metadata = json.loads(job_metadata_json)
@@ -116,8 +116,9 @@ def task_route(self, job_payload_json: str, job_metadata_json: str = "{}") -> st
 
 def _run_operario(routing_json: str, agent_class_path: str) -> str:
     """Generic operário runner."""
-    from app.api.schemas import RoutingPayload
     import importlib
+
+    from app.api.schemas import RoutingPayload
 
     payload = RoutingPayload.model_validate_json(routing_json)
     logger.info(f"[operario] Processing job {payload.job_id} via {payload.route_to}")
@@ -129,6 +130,10 @@ def _run_operario(routing_json: str, agent_class_path: str) -> str:
 
     agent = agent_class()
     report = agent.processar(payload)
+
+    # Forward the Bronze file path so the Gold layer can locate it downstream.
+    if report.file_path is None:
+        report.file_path = payload.file_path
 
     # Dispatch to validador
     report_json = report.model_dump_json()
@@ -190,8 +195,8 @@ def task_process_especialista(self, routing_json: str) -> str:
     dispatching directly to operário tasks.  This decouples the Especialista from
     the Operários and prevents Celery thread-pool deadlocks (Rule 3).
     """
-    from app.api.schemas import RoutingPayload
     from agentes.especialista.agent import AgenteEspecialista
+    from app.api.schemas import RoutingPayload
 
     payload = RoutingPayload.model_validate_json(routing_json)
     logger.info(f"[especialista] Deep probing job {payload.job_id}")
@@ -293,8 +298,8 @@ def task_validate(self, report_json: str) -> str:
     Produces the final verdict (APROVADO/REPROVADO/APROVADO_COM_RESSALVAS).
     """
     logger.critical("TASK_RECEIVED: task_validate starting")
-    from app.api.schemas import TechnicalReport
     from agentes.validador.agent import AgenteValidador
+    from app.api.schemas import TechnicalReport
 
     report = TechnicalReport.model_validate_json(report_json)
     logger.info(f"[task_validate] Validating job {report.job_id}")
@@ -322,6 +327,16 @@ def task_validate(self, report_json: str) -> str:
         "payload": final_report.model_dump(),
     }, default=str))
 
+    # Gold layer kickoff — only when there are critical errors AND the registry
+    # can handle at least one of them. Warnings-only jobs skip remediation.
+    if final_report.status != "APROVADO" and report.file_path:
+        from agentes.remediadores.registry import supported_codes
+        fixable = {vr.codigo for vr in report.validation_results.values()
+                   if vr.codigo in supported_codes() and vr.status in {"REPROVADO", "AVISO"}}
+        if fixable:
+            logger.info(f"[task_validate] dispatching Gold remediation for {report.job_id}: {fixable}")
+            task_remediate.delay(report.model_dump_json())
+
     return final_report.model_dump_json()
 
 
@@ -332,13 +347,13 @@ async def _persist_final_report(
     processing_agent: Optional[str] = None
 ) -> None:
     """Persist the final report and update job status."""
-    from app.database.session import async_session_factory
     from app.database.crud import complete_job, upsert_validation_result
+    from app.database.session import async_session_factory
 
     async with async_session_factory() as db:
         # Save each validation detail
         detalhes = final_report.detalhes_tecnicos or {}
-        
+
         # If technical details are nested (standard for this pipeline)
         if "validacoes" in detalhes and isinstance(detalhes["validacoes"], dict):
             checks_to_save = detalhes["validacoes"]
@@ -362,8 +377,14 @@ async def _persist_final_report(
                 check_name=detail_dict.get("label") or detail_dict.get("check_name") or check_code,
                 status=detail_dict.get("status", "OK"),
                 error_code=detail_dict.get("codigo") or detail_dict.get("error_code"),
-                value_found=str(detail_dict.get("found_value") or detail_dict.get("value_found") or detail_dict.get("valor", "")),
-                value_expected=str(detail_dict.get("expected_value") or detail_dict.get("value_expected") or ""),
+                value_found=str(
+                    detail_dict.get("found_value")
+                    or detail_dict.get("value_found")
+                    or detail_dict.get("valor", "")
+                ),
+                value_expected=str(
+                    detail_dict.get("expected_value") or detail_dict.get("value_expected") or ""
+                ),
                 pages_affected=_pages_from_detail(detail_dict),
             )
 
@@ -388,3 +409,152 @@ def task_log(self, event_json: str) -> None:
     event_data = json.loads(event_json)
     logger_agent = AgenteLogger()
     _run_async(logger_agent.registrar_evento(event_data))
+
+
+# ─── Gold Layer ──────────────────────────────────────────────────────────────
+
+@celery_app.task(name="workers.tasks.task_remediate", bind=True)
+def task_remediate(self, technical_report_json: str) -> str:
+    """Run deterministic Gold-layer remediation on a rejected job.
+
+    Reads the TechnicalReport from task_validate, dispatches each fixable
+    ValidationResult to the matching Remediator in sequence (order matters —
+    color conversion before font embedding before resolution tweaks), then
+    hands the Gold candidate to task_validate_gold.
+
+    Returns the serialized RemediationReport.
+    """
+    from pathlib import Path
+
+    from agentes.remediadores.registry import get_remediator
+    from app.api.schemas import (
+        RemediationAction,
+        RemediationReport,
+        TechnicalReport,
+    )
+
+    logger.critical("TASK_RECEIVED: task_remediate starting")
+    report = TechnicalReport.model_validate_json(technical_report_json)
+
+    if not report.file_path:
+        logger.error(f"[task_remediate] missing file_path for job {report.job_id}")
+        return RemediationReport(
+            job_id=report.job_id,
+            input_path="",
+            output_path="",
+            overall_success=False,
+        ).model_dump_json()
+
+    _run_async(_update_status(report.job_id, "REMEDIATING"))
+
+    bronze = Path(report.file_path)
+    gold = bronze.with_name(f"{bronze.stem}_gold.pdf")
+    # Work on a scratch copy so failed remediators don't corrupt Bronze.
+    import shutil
+    scratch = bronze.with_name(f"{bronze.stem}_scratch.pdf")
+    shutil.copy2(bronze, scratch)
+
+    actions: list[RemediationAction] = []
+    # Sort by a deterministic priority so ColorSpace runs before Font, etc.
+    priority = {
+        "E006_FORBIDDEN_COLORSPACE": 1,
+        "E_TAC_EXCEEDED": 1,
+        "E008_NON_EMBEDDED_FONTS": 2,
+        "W_COURIER_SUBSTITUTION": 2,
+        "W003_BORDERLINE_RESOLUTION": 3,
+    }
+    items = sorted(
+        report.validation_results.items(),
+        key=lambda kv: priority.get(kv[1].codigo or "", 99),
+    )
+
+    for _check_name, vr in items:
+        if not vr.codigo or vr.status not in {"REPROVADO", "AVISO"}:
+            continue
+        remediator = get_remediator(vr.codigo)
+        if remediator is None:
+            continue
+
+        next_scratch = bronze.with_name(f"{bronze.stem}_scratch_{vr.codigo}.pdf")
+        try:
+            action = remediator.remediate(scratch, next_scratch, vr)
+        except Exception as exc:
+            logger.exception("Remediator %s crashed: %s", remediator.name, exc)
+            action = RemediationAction(
+                codigo=vr.codigo,
+                remediator=remediator.name,
+                success=False,
+                quality_loss_warnings=[f"Remediator crashed: {exc}"],
+                technical_log=str(exc),
+            )
+        actions.append(action)
+
+        if action.success and next_scratch.exists():
+            # Chain: each successful step becomes input for the next.
+            shutil.move(str(next_scratch), str(scratch))
+        else:
+            # Keep previous scratch; do not advance pipeline on failure.
+            if next_scratch.exists():
+                next_scratch.unlink(missing_ok=True)
+
+    overall_success = bool(actions) and all(a.success for a in actions)
+
+    if overall_success:
+        shutil.move(str(scratch), str(gold))
+    else:
+        scratch.unlink(missing_ok=True)
+
+    remediation_report = RemediationReport(
+        job_id=report.job_id,
+        input_path=str(bronze),
+        output_path=str(gold) if overall_success else "",
+        actions=actions,
+        overall_success=overall_success,
+    )
+
+    task_log.delay(json.dumps({
+        "job_id": report.job_id,
+        "agent_name": "remediador",
+        "event_type": "REMEDIATION",
+        "event_level": "INFO" if overall_success else "WARNING",
+        "payload": remediation_report.model_dump(),
+    }, default=str))
+
+    if overall_success:
+        task_validate_gold.delay(remediation_report.model_dump_json())
+    else:
+        _run_async(_update_status(report.job_id, "GOLD_REJECTED"))
+
+    return remediation_report.model_dump_json()
+
+
+@celery_app.task(name="workers.tasks.task_validate_gold", bind=True)
+def task_validate_gold(self, remediation_report_json: str) -> str:
+    """Run validador_final against the Gold candidate.
+
+    Emits a GoldValidationReport and updates job status to either
+    GOLD_APPROVED or GOLD_REJECTED. The Bronze file is never touched.
+    """
+    from pathlib import Path
+
+    from agentes.validador_final.agent import validate_gold
+    from app.api.schemas import RemediationReport
+
+    logger.critical("TASK_RECEIVED: task_validate_gold starting")
+    remediation = RemediationReport.model_validate_json(remediation_report_json)
+    _run_async(_update_status(remediation.job_id, "GOLD_VALIDATING"))
+
+    gold_path = Path(remediation.output_path)
+    verdict = validate_gold(remediation.job_id, gold_path)
+
+    task_log.delay(json.dumps({
+        "job_id": remediation.job_id,
+        "agent_name": "validador_final",
+        "event_type": "GOLD_VALIDATION",
+        "event_level": "INFO" if verdict.is_gold else "ERROR",
+        "payload": verdict.model_dump(),
+    }, default=str))
+
+    final_status = "GOLD_APPROVED" if verdict.is_gold else "GOLD_REJECTED"
+    _run_async(_update_status(remediation.job_id, final_status))
+    return verdict.model_dump_json()

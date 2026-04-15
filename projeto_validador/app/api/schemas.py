@@ -10,7 +10,6 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
-
 # ─── Diretor → Gerente (queue:jobs) ───────────────────────────────────────────
 
 class JobPayload(BaseModel):
@@ -64,6 +63,7 @@ class TechnicalReport(BaseModel):
     timestamp: datetime = Field(default_factory=lambda: datetime.now())
     dimensoes_mm: Optional[dict] = None
     paginas_com_erro: list[int] = []
+    file_path: Optional[str] = None  # forwarded so Gold layer can locate Bronze PDF
 
 
 # ─── Validador → Cliente (GET /jobs/{id}/report) ─────────────────────────────
@@ -109,6 +109,40 @@ class HealthResponse(BaseModel):
     status: str = "healthy"
     service: str = "preflight-validator"
     version: str = "1.0.0"
+
+
+# ─── Gold Layer: Remediation + Final Validation ──────────────────────────────
+
+class RemediationAction(BaseModel):
+    """Outcome of one Remediator invocation against a specific error."""
+    codigo: str
+    remediator: str
+    success: bool
+    changes_applied: list[str] = []
+    quality_loss_warnings: list[str] = []
+    technical_log: str = ""
+
+
+class RemediationReport(BaseModel):
+    """Aggregate report produced by the remediation orchestrator."""
+    job_id: str
+    input_path: str          # Bronze (original)
+    output_path: str         # Gold candidate (_gold.pdf)
+    actions: list[RemediationAction] = []
+    overall_success: bool = False
+    pdfx_version_target: str = "PDF/X-4"
+    icc_profile: str = "ISOcoated_v2_300_eci.icc"
+    timestamp: datetime = Field(default_factory=lambda: datetime.now())
+
+
+class GoldValidationReport(BaseModel):
+    """Final verdict from validador_final — only is_gold=True ships to production."""
+    job_id: str
+    is_gold: bool
+    pdfx_compliance: dict = {}     # {version, gts_pdfx_version, output_intent}
+    remaining_errors: list[ValidationResult] = []
+    rejection_reason: Optional[str] = None
+    timestamp: datetime = Field(default_factory=lambda: datetime.now())
 
 
 # ─── Audit Event Payload ─────────────────────────────────────────────────────

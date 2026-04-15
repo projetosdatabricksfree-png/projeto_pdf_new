@@ -1,0 +1,662 @@
+{
+  "host": "http://localhost:8001",
+  "concurrency": 100,
+  "total_files": 92,
+  "wall_elapsed_s": 33.15,
+  "throughput_files_per_min": 166.52,
+  "counts": {
+    "aprovado": 0,
+    "aprovado_com_ressalvas": 0,
+    "reprovado": 92,
+    "timeout": 0,
+    "error": 0
+  },
+  "upload_latency_p50_ms": 1356.3,
+  "e2e_latency_p50_ms": 19969.2,
+  "jobs": [
+    {
+      "file": "GWG160_Transp_Basic_BM_DeviceCMYK_Non-knockout_X4.pdf",
+      "job_id": "28beca34-17bf-4395-8020-4c1f7bc4e4b7",
+      "upload_ms": 671.1,
+      "total_ms": 6698.7,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG1611_Softmasks_Text_part2_X4.pdf",
+      "job_id": "84c41f09-9ed5-4ca2-9f30-50e88e4ead1a",
+      "upload_ms": 739.8,
+      "total_ms": 6810.8,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG191_DeviceN_Overprint_Yellow_X1a.pdf",
+      "job_id": "ba69bde9-6f74-4279-943c-bd7e287f8128",
+      "upload_ms": 742.5,
+      "total_ms": 6807.0,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG161_Transp_Basic_BM_ICCBasedRGB_x4.pdf",
+      "job_id": "3fb86bd1-3159-4699-8978-2412e90103a5",
+      "upload_ms": 736.2,
+      "total_ms": 6797.7,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG133_ICCbasedRGB_OverPrint_x4.pdf",
+      "job_id": "2f9571d7-9715-4206-9e5e-329396367e95",
+      "upload_ms": 724.0,
+      "total_ms": 6808.6,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG190_DeviceN_Overprint_Black_X1a.pdf",
+      "job_id": "7d2bd421-e3d9-4344-a71e-c978be9a6792",
+      "upload_ms": 828.2,
+      "total_ms": 6856.1,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG181_16Bit_DeviceCMYK_x4.pdf",
+      "job_id": "6d2618a9-cfc4-418e-b632-6f6b184f23e3",
+      "upload_ms": 964.2,
+      "total_ms": 7001.7,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG082_DeviceN-Support_4c_x3.pdf",
+      "job_id": "0cb7e523-c4d3-4e6c-9910-e7979cd7fe47",
+      "upload_ms": 1058.3,
+      "total_ms": 7081.1,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG051_Font_subset_PSnames_ident_x1a.pdf",
+      "job_id": "847b3d9b-cd37-4f11-af1e-16813414e55f",
+      "upload_ms": 357.4,
+      "total_ms": 9415.3,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG060_Shading_x1a.pdf",
+      "job_id": "314b13d2-5b24-4894-8303-a3ea722fcf2e",
+      "upload_ms": 517.2,
+      "total_ms": 9562.8,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG051-052_Font_subset_PSnames_ReadMe.pdf",
+      "job_id": "3eb5c875-8b0f-49e6-9f24-4e8744baffc2",
+      "upload_ms": 518.8,
+      "total_ms": 9554.6,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG172_JPEG2000_compression_ICCBasedRGB_README.pdf",
+      "job_id": "d672f247-fd7f-4a10-9fad-87e8ffd95025",
+      "upload_ms": 575.4,
+      "total_ms": 9620.4,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG205-206_ICC-V4-Images_README.pdf",
+      "job_id": "71d55fa6-f241-4689-9a54-e57234bc89f3",
+      "upload_ms": 660.5,
+      "total_ms": 9704.9,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG020_CMYKSpot_OP_x1a.pdf",
+      "job_id": "47fa95e9-5ad5-4bac-a788-9da173b51763",
+      "upload_ms": 1009.0,
+      "total_ms": 10291.8,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG161_Transp_Basic_BM_DeviceCMYK_Knockout_X4.pdf",
+      "job_id": "9ac3d73c-fe94-455f-9499-106527cef22a",
+      "upload_ms": 1097.7,
+      "total_ms": 10326.3,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG132_ICCbasedCMYK_OverPrint_x4.pdf",
+      "job_id": "b39839e7-b924-4c18-abce-234fabac6894",
+      "upload_ms": 1010.6,
+      "total_ms": 10293.0,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG050_Font_Substitution_ReadMe.pdf",
+      "job_id": "2b8bfbf7-e652-4452-bf6e-d7a9f626e3c8",
+      "upload_ms": 393.1,
+      "total_ms": 12454.9,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG051_Font_subset_PSnames_ident_Font-report.pdf",
+      "job_id": "37b17d50-e04f-4cf6-a862-58e9df7d6809",
+      "upload_ms": 565.0,
+      "total_ms": 12664.9,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG090_Font-Support_x3.pdf",
+      "job_id": "33f6e0fd-02b2-46dc-9a72-ce9d408b0727",
+      "upload_ms": 709.0,
+      "total_ms": 12750.8,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG190_DeviceN_Overprint_Black_ReadMe.pdf",
+      "job_id": "233378d3-a398-468b-b786-79728977ba21",
+      "upload_ms": 782.0,
+      "total_ms": 12900.4,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG081_DeviceN-Support_5c_ReadMe.pdf",
+      "job_id": "67747ab2-9ef9-4aa2-b57b-fb819bbd0eaf",
+      "upload_ms": 1037.2,
+      "total_ms": 13295.3,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG166-1611_SoftMasks_ReadMe.pdf",
+      "job_id": "2d0e8c0b-46c9-43bb-8b31-c99c7f6dbc54",
+      "upload_ms": 1013.3,
+      "total_ms": 13346.1,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG168_Softmasks_Vector_part1_X4.pdf",
+      "job_id": "b3df1bc8-444a-435a-842f-9a438a5213d2",
+      "upload_ms": 1114.8,
+      "total_ms": 13381.9,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG081_DeviceN-Support_5c_X1a.pdf",
+      "job_id": "eff82caf-ec42-4d17-970a-fce1175d9427",
+      "upload_ms": 1143.6,
+      "total_ms": 13350.5,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG061_Shading_x1a.pdf",
+      "job_id": "ccca8b4c-8de9-414d-84c9-fdec8f441eb1",
+      "upload_ms": 1209.6,
+      "total_ms": 13458.8,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG120_White_OP-KO_X1.pdf",
+      "job_id": "fb99cf75-13b3-44de-9d96-44e09082e89e",
+      "upload_ms": 1208.3,
+      "total_ms": 13482.7,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG041_White_OP_x3.pdf",
+      "job_id": "5570462c-e41a-42b9-9051-9413d12a215a",
+      "upload_ms": 1147.5,
+      "total_ms": 13483.5,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG080_DeviceN-Support_6c_ReadMe.pdf",
+      "job_id": "2a715040-1c2d-467a-a1b1-2a344d03d576",
+      "upload_ms": 1081.2,
+      "total_ms": 16372.8,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG041_White_OP_ReadMe.pdf",
+      "job_id": "bc9c9c91-3894-4d45-a6a7-b573a6e180e4",
+      "upload_ms": 1092.8,
+      "total_ms": 16378.2,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG031_Gray Image Overprint_CMYK+Spot_ReadMe.pdf",
+      "job_id": "3a10ea8c-f2e5-41bb-ad10-d880b464a98e",
+      "upload_ms": 1137.0,
+      "total_ms": 16379.1,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG090_Font-Support_ReadMe.pdf",
+      "job_id": "bdafecd5-5623-451a-b4a9-8eeffc1e21eb",
+      "upload_ms": 1064.1,
+      "total_ms": 16385.2,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG010_CMYK_OP_x3.pdf",
+      "job_id": "62b96dcd-f955-4a9c-b04c-31ed0ae89d59",
+      "upload_ms": 1254.8,
+      "total_ms": 16584.5,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG152_OptionalContent-OCMD_X4.pdf",
+      "job_id": "77b94e5b-a2d1-4674-8d4b-7498d05c100c",
+      "upload_ms": 1276.4,
+      "total_ms": 16571.2,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG162_Transp_Basic_BM_DeviceCMYK_Isolate_X4.pdf",
+      "job_id": "588e9ddc-064b-45a1-9cc6-5c35487dbd87",
+      "upload_ms": 1217.4,
+      "total_ms": 16564.0,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "Ghent_PDF-Output-Test-V50_ICC-CMS_X4.pdf",
+      "job_id": "5daa82e3-33e3-4f79-809d-19e5368ca4f0",
+      "upload_ms": 968.6,
+      "total_ms": 19317.2,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG011_Overprint-Mode_ReadMe.pdf",
+      "job_id": "e1cd81c4-0a17-4360-aa6e-78a362ab86ae",
+      "upload_ms": 1236.1,
+      "total_ms": 19538.5,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG151_OptionalContent-OCRB_ReadMe.pdf",
+      "job_id": "ca9c5533-4367-451d-b3d3-d8082abc3f17",
+      "upload_ms": 1199.4,
+      "total_ms": 19540.1,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG167_Softmasks_Images_ICCBasedRGB_README.pdf",
+      "job_id": "a02a2b24-bb09-4856-a613-799ef49e57e9",
+      "upload_ms": 1190.9,
+      "total_ms": 19455.0,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG060-061_Shading_ReadMe.pdf",
+      "job_id": "a4b46863-04ba-47ba-89e9-7ffe9ee34ee4",
+      "upload_ms": 1282.4,
+      "total_ms": 19579.5,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG030_Gray_K_black_OP_ReadMe.pdf",
+      "job_id": "28550786-245c-43b6-b534-06d56bec6b75",
+      "upload_ms": 1294.8,
+      "total_ms": 19590.9,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "Ghent_PDF-Output-Test-V50_SPOT_X4.pdf",
+      "job_id": "1ff03e6b-5cbc-43d9-96a3-afe155d67e06",
+      "upload_ms": 1289.7,
+      "total_ms": 19603.7,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG150_OptionalContent-OCCD_X4.pdf",
+      "job_id": "5bfdf015-6913-4a8c-b15d-eeab49e5b17b",
+      "upload_ms": 1373.9,
+      "total_ms": 19666.4,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG040_White_OP_x1a.pdf",
+      "job_id": "4557b803-aa6a-4a56-93f8-0a52c0841501",
+      "upload_ms": 1298.8,
+      "total_ms": 19869.0,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG050_Font_Substitution_x3.pdf",
+      "job_id": "8a170ee0-ffee-4f00-b097-215956cc75be",
+      "upload_ms": 1406.6,
+      "total_ms": 19989.0,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG030_Gray_K_black_OP_X1.pdf",
+      "job_id": "d5f5d578-0de0-47fe-9d3c-f6fd052d3b8b",
+      "upload_ms": 1403.3,
+      "total_ms": 19947.0,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG205_ICC-V4-CMYK-Image_x4.pdf",
+      "job_id": "ee0ad4d8-2de2-4aec-8481-0042974f6950",
+      "upload_ms": 1341.9,
+      "total_ms": 19928.2,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG206_ICC_V4-RGB-Image_x4.pdf",
+      "job_id": "4759e6d1-e79c-4b2e-bde8-567432bcf728",
+      "upload_ms": 1370.6,
+      "total_ms": 19949.5,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "Ghent_PDF-Output-Test-V50_CMYK_X4.pdf",
+      "job_id": "75187760-82aa-4740-b890-f9c0746de40e",
+      "upload_ms": 1133.9,
+      "total_ms": 22555.1,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG221_OutputIntentChangeIndicator_README.pdf",
+      "job_id": "8f447e54-1c23-4672-bc0c-a2bf8dd831fd",
+      "upload_ms": 1261.2,
+      "total_ms": 22801.6,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG040_White_OP_ReadMe.pdf",
+      "job_id": "d5f9ea70-b4d8-4c9c-9d91-546781d518a4",
+      "upload_ms": 1319.6,
+      "total_ms": 22913.1,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG152_OptionalContent-OCMD_ReadMe.pdf",
+      "job_id": "a4b88875-feb4-4b36-b85e-cec9d1e3d248",
+      "upload_ms": 1395.8,
+      "total_ms": 22954.8,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG164_Transp_Basic_BM_ICCbasedCMYK_x4.pdf",
+      "job_id": "42adc54b-3bac-4134-ba14-48439f365cf8",
+      "upload_ms": 1462.6,
+      "total_ms": 23035.5,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG180_16Bit_Images_ICCbasedRGB_x4.pdf",
+      "job_id": "3374bd24-53b2-4eea-92b4-2b53ff30b4f2",
+      "upload_ms": 1428.9,
+      "total_ms": 22976.5,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG230_Four_different Grays_x1a.pdf",
+      "job_id": "fdfe9302-cc4c-4997-b67a-86522c780108",
+      "upload_ms": 1519.3,
+      "total_ms": 22973.7,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG160-162_Transp_Basic_BM_DeviceCMYK_ReadMe.pdf",
+      "job_id": "0e768b93-b23b-4d21-a9d6-91bfa63390aa",
+      "upload_ms": 1422.4,
+      "total_ms": 23084.3,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG167_Softmasks_Images_ICCBasedRGB_x4.pdf",
+      "job_id": "301d4b44-498b-4d9c-813e-1155052064db",
+      "upload_ms": 1501.9,
+      "total_ms": 23077.3,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG183_16Bit_Images_DeviceGray_x4.pdf",
+      "job_id": "4d13fcde-4b36-4c69-973c-ff14d93296ca",
+      "upload_ms": 1476.2,
+      "total_ms": 23107.0,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG151_OptionalContent-RBGroup_X4.pdf",
+      "job_id": "64fa9890-04ec-4f09-85e4-340688a1fe6d",
+      "upload_ms": 1685.2,
+      "total_ms": 23250.1,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG010_CMYK_OP_ReadMe.pdf",
+      "job_id": "08259d0f-de13-4d8b-ba59-bd30ca186843",
+      "upload_ms": 1444.3,
+      "total_ms": 26059.5,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG091_FontSupport-OpenType_ReadMe.pdf",
+      "job_id": "6481cda5-ba66-49f7-af22-2a290a9b81d1",
+      "upload_ms": 1709.8,
+      "total_ms": 26150.8,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG150_OptionalContent-OCCD_ReadMe.pdf",
+      "job_id": "9e91a422-417e-4bbb-8931-c3bcc38d1113",
+      "upload_ms": 1558.0,
+      "total_ms": 26207.5,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG221_OutputIntentChangeIndicator_x4.pdf",
+      "job_id": "39ad7a21-12cd-459c-a316-1cf21d6a92ca",
+      "upload_ms": 1572.0,
+      "total_ms": 26190.2,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG180-184_16Bit_Images_README.pdf",
+      "job_id": "490c0e26-05fe-47ab-ba5b-18780d638baa",
+      "upload_ms": 1430.1,
+      "total_ms": 26182.0,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG1610_Softmasks_Text_part1_X4.pdf",
+      "job_id": "3bb1b785-200d-4b23-a6d1-b1343f6eac55",
+      "upload_ms": 1707.8,
+      "total_ms": 26321.8,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG170_JPEG2000_compression_DeviceCMYK_X4.pdf",
+      "job_id": "cc0226d5-b931-4603-9f79-5f805b76b911",
+      "upload_ms": 1909.1,
+      "total_ms": 26312.5,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG161-164_Transp_Basic_BM_ICCBased_README.pdf",
+      "job_id": "8641247c-d658-41c9-83a8-a1af1cb5943b",
+      "upload_ms": 1485.0,
+      "total_ms": 26193.5,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG220_ColorConversionIndicator_README.pdf",
+      "job_id": "b895bb93-e5a0-4123-9665-f1e8a6a6c2cd",
+      "upload_ms": 1688.3,
+      "total_ms": 26181.2,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG172_JPEG2000_compression_ICCBasedRGB_x4.pdf",
+      "job_id": "9004f49a-64ad-440d-b866-0bc60ec1fd7c",
+      "upload_ms": 1995.0,
+      "total_ms": 26615.1,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG166_Softmasks_Images_DeviceCMYK_X4.pdf",
+      "job_id": "b1433f0e-0896-4396-bd78-a1f616d29470",
+      "upload_ms": 2110.3,
+      "total_ms": 26694.2,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG080_DeviceN-Support_6c_x3.pdf",
+      "job_id": "e59b8f59-bb60-4fd2-a5df-038206fc6c0c",
+      "upload_ms": 1944.7,
+      "total_ms": 27061.0,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG031_Gray Image Overprint_CMYK+Spot_X1a.pdf",
+      "job_id": "c0e36e4c-d49a-48c8-9882-629afc0e01d7",
+      "upload_ms": 2115.5,
+      "total_ms": 27062.0,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG132-133_ICCbased_Overprint_README.pdf",
+      "job_id": "4f04f9e3-cc35-433d-a1a9-04a073f8e7cb",
+      "upload_ms": 1762.3,
+      "total_ms": 29164.5,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG192_DeviceN_Overprint_White_ReadMe.pdf",
+      "job_id": "bbe1ee9d-2abb-49b4-830b-c3d5725ab4e3",
+      "upload_ms": 1811.5,
+      "total_ms": 29264.1,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG052_Font_subset_PSnames_diff_Font-report.pdf",
+      "job_id": "42c17389-7672-4961-93fc-4b676f8653d8",
+      "upload_ms": 1521.1,
+      "total_ms": 29299.8,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG082_DeviceN-Support_4c_ReadMe.pdf",
+      "job_id": "310680c7-e643-403c-b4d9-87680bb014a0",
+      "upload_ms": 1968.8,
+      "total_ms": 29545.7,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG191_DeviceN_Overprint_Yellow_ReadMe.pdf",
+      "job_id": "e5d8211d-cf16-49d0-8b94-d1f3db4a5dd5",
+      "upload_ms": 1916.3,
+      "total_ms": 29664.2,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG192_DeviceN_Overprint_White_X1a.pdf",
+      "job_id": "bd3669fe-dc2e-41b4-83e5-3e14f41827b1",
+      "upload_ms": 2113.9,
+      "total_ms": 29683.4,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG173_JBIG2_compression_X4.pdf",
+      "job_id": "55c7a67a-5b75-4ef9-884b-c014480914b9",
+      "upload_ms": 2514.6,
+      "total_ms": 29774.5,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG180-184_16Bit_Images_README.pdf",
+      "job_id": "a6c59128-5d43-4baf-8b69-28affcd105bf",
+      "upload_ms": 2215.4,
+      "total_ms": 29758.2,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG170+173_ImageCompression_ReadMe.pdf",
+      "job_id": "778f05b4-4ba8-44f9-ab7b-ac5cda693aa1",
+      "upload_ms": 2152.9,
+      "total_ms": 29821.0,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG020_CMYKSpot_OP_ReadMe.pdf",
+      "job_id": "f39d0b43-273b-4f81-a0e8-b35057c892a2",
+      "upload_ms": 2058.1,
+      "total_ms": 29902.4,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG052_Font_subset_PSnames_diff_x1a.pdf",
+      "job_id": "81816022-6457-4c6e-849b-950a0d26e633",
+      "upload_ms": 2340.8,
+      "total_ms": 30118.3,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG169_Softmasks_Vector_part2_X4.pdf",
+      "job_id": "6b2126e2-58c1-48fa-9ef3-f2c41762a492",
+      "upload_ms": 2720.5,
+      "total_ms": 30112.9,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG130_ICC_Source_Profile_README.pdf",
+      "job_id": "ca08e8ea-e8e2-4c34-a8a4-d35c51c891a2",
+      "upload_ms": 1890.3,
+      "total_ms": 29992.5,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG011_Overprint-Mode_x3.pdf",
+      "job_id": "f7a0ef0d-d9ec-467f-b987-b0773ced9d32",
+      "upload_ms": 2337.6,
+      "total_ms": 30148.6,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG182_16Bit_Images_ICCbasedGray_x4.pdf",
+      "job_id": "71a7f484-13e6-4895-8cde-5b7b2c9274fb",
+      "upload_ms": 2072.9,
+      "total_ms": 30025.6,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG184_16Bit_Images_ICCbasedCMYK_x4.pdf",
+      "job_id": "9c66943d-48ce-44b3-8ac6-0ce5df37c783",
+      "upload_ms": 2719.7,
+      "total_ms": 30021.6,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG220_ColorConversionIndicator_x4.pdf",
+      "job_id": "3dab8940-674a-4f52-a1b6-dd3d993c5b9e",
+      "upload_ms": 2115.7,
+      "total_ms": 30003.9,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG130_ICC_Source_Profile_x4.pdf",
+      "job_id": "149f7caa-8ffc-43ab-89b1-b1631c9db434",
+      "upload_ms": 2975.0,
+      "total_ms": 30118.3,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG091_FontSupport-OpenType_X4.pdf",
+      "job_id": "2eac2d59-090a-45f8-bb3f-80cb66b6f27b",
+      "upload_ms": 3139.6,
+      "total_ms": 30461.4,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG230_Four_different Grays_README.pdf",
+      "job_id": "85b5e3c7-aa6d-479b-a5c5-f026ebc27788",
+      "upload_ms": 2267.6,
+      "total_ms": 32971.2,
+      "final_status": "REPROVADO"
+    },
+    {
+      "file": "GWG120_White_OP-KO_ReadMe.pdf",
+      "job_id": "15f958fd-5cc9-45f2-a33a-0347b23b5def",
+      "upload_ms": 2905.1,
+      "total_ms": 33086.6,
+      "final_status": "REPROVADO"
+    }
+  ]
+}
