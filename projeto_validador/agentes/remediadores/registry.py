@@ -14,16 +14,18 @@ from .color_space_remediator import ColorSpaceRemediator
 from .font_remediator import FontRemediator
 from .resolution_remediator import ResolutionRemediator
 from .safety_margin_remediator import SafetyMarginRemediator
+from .transparency_flattener import TransparencyFlattener
 
 _REGISTRY: dict[str, Type[BaseRemediator]] = {
     # Geometry — Sprint A
     "G002": BleedRemediator,
     "E004": SafetyMarginRemediator,
+    # Transparency — Sprint B (primary handler for TGroup colorspace errors)
+    "E_TGROUP_CS_INVALID": TransparencyFlattener,
     # Color space
     "E006_FORBIDDEN_COLORSPACE": ColorSpaceRemediator,
     "E_TAC_EXCEEDED": ColorSpaceRemediator,
     "E_OUTPUTINTENT_MISSING": ColorSpaceRemediator,
-    "E_TGROUP_CS_INVALID": ColorSpaceRemediator,
     "W_ICC_V4": ColorSpaceRemediator,
     # Fonts
     "E008_NON_EMBEDDED_FONTS": FontRemediator,

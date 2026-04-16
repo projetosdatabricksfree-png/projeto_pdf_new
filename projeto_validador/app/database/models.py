@@ -99,6 +99,7 @@ class Job(Base):
     warning_count: int = Column(Integer, nullable=False, default=0)
     detected_product: Optional[str] = Column(String(200), nullable=True)
     processing_agent: Optional[str] = Column(String(100), nullable=True)
+    verapdf_report: Optional[str] = Column(Text, nullable=True)  # Sprint C: JSON VeraPDFReport
 
     # Relationships
     events = relationship("Event", back_populates="job", lazy="selectin")

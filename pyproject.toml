@@ -24,3 +24,8 @@ fix = true
 [tool.ruff.isort]
 known-first-party = ["app", "agentes", "workers"]
 combine-as-imports = true
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: marks tests that require real system binaries (gs, pyvips) — skipped in CI without --run-integration",
+]

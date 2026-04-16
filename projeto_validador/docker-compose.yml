@@ -57,6 +57,41 @@ services:
     volumes:
       - redis_data:/data
 
+  # Sprint C — dedicated VeraPDF auditor (JVM isolated from main workers — AC1/AC2)
+  validador-verapdf:
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/verapdf.Dockerfile
+    mem_limit: 2g
+    environment:
+      - PYTHONPATH=/app
+      - DATABASE_URL=sqlite+aiosqlite:///./data/validador.db
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+      - VOLUME_PATH=/volumes/uploads
+      - APP_ENV=production
+    volumes:
+      - .:/app
+      - uploads:/volumes/uploads
+      - db_data:/app/data
+      - gold_tmp:/app/tmp/gold  # AC5: shared volume for _gold.pdf access
+    depends_on:
+      - redis
+    # AC3: dedicated queue:verapdf — 1 replica (JVM overhead is high)
+    command: >
+      celery -A workers.celery_app worker
+      --loglevel=info
+      --concurrency=1
+      -Q queue:verapdf
+    healthcheck:
+      test: ["CMD", "verapdf", "--version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
   frontend:
     restart: always
     build: ./frontend
@@ -74,3 +109,4 @@ volumes:
   uploads:
   redis_data:
   db_data:
+  gold_tmp:  # Sprint C: shared between main workers and validador-verapdf

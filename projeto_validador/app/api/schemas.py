@@ -151,6 +151,32 @@ class GoldValidationReport(BaseModel):
     timestamp: datetime = Field(default_factory=lambda: datetime.now())
 
 
+# ─── Sprint C: VeraPDF Attestation ──────────────────────────────────────────
+
+class VeraPDFRuleViolation(BaseModel):
+    """A single rule violation from VeraPDF output."""
+    rule_id: str
+    object_type: str = ""
+    description: str = ""
+    check_count: int = 0
+    failed_count: int = 0
+    passed_count: int = 0
+
+
+class VeraPDFReport(BaseModel):
+    """Structured output from the VeraPDF CLI audit.
+
+    Persisted as JSON in tmp/gold/{job_id}_verapdf.json and in jobs.verapdf_report.
+    """
+    job_id: str
+    passed: bool
+    profile: str = "PDF/X-4"
+    rule_violations: list[VeraPDFRuleViolation] = []
+    raw_json: str = ""
+    gold_path: str = ""
+    timestamp: datetime = Field(default_factory=lambda: datetime.now())
+
+
 # ─── Audit Event Payload ─────────────────────────────────────────────────────
 
 class AuditEvent(BaseModel):

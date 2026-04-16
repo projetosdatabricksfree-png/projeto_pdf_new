@@ -30,7 +30,6 @@ except ImportError:  # pragma: no cover
 
 from sqlalchemy.dialects.sqlite import insert as _sqlite_insert
 
-
 # ─── Job CRUD ─────────────────────────────────────────────────────────────────
 
 async def create_job(
@@ -292,6 +291,25 @@ async def create_performance_metric(
     db.add(metric)
     await db.flush()
     return metric
+
+
+# ─── VeraPDF Report CRUD ─────────────────────────────────────────────────────
+
+async def save_verapdf_report(db: AsyncSession, job_id: str, report_json: str) -> None:
+    """Persist the VeraPDF attestation JSON in jobs.verapdf_report."""
+    await db.execute(
+        update(Job).where(Job.id == job_id).values(verapdf_report=report_json)
+    )
+    await db.flush()
+
+
+async def get_verapdf_report(db: AsyncSession, job_id: str) -> Optional[str]:
+    """Retrieve the persisted VeraPDF report JSON for a job, or None."""
+    result = await db.execute(
+        select(Job.verapdf_report).where(Job.id == job_id)
+    )
+    row = result.scalar_one_or_none()
+    return row
 
 
 # ─── Query Helpers ────────────────────────────────────────────────────────────

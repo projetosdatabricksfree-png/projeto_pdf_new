@@ -7,6 +7,7 @@ from agentes.remediadores.font_remediator import FontRemediator
 from agentes.remediadores.registry import get_remediator, supported_codes
 from agentes.remediadores.resolution_remediator import ResolutionRemediator
 from agentes.remediadores.safety_margin_remediator import SafetyMarginRemediator
+from agentes.remediadores.transparency_flattener import TransparencyFlattener
 
 
 def test_registry_routes_color_space_codes():
@@ -30,9 +31,10 @@ def test_registry_routes_geometry_codes():
 
 
 def test_registry_routes_color_space_extended_codes():
-    """A-07 AC3-AC4: OutputIntent and transparency group codes."""
+    """A-07/B-01 AC6: OutputIntent → ColorSpaceRemediator; TGroup → TransparencyFlattener."""
     assert isinstance(get_remediator("E_OUTPUTINTENT_MISSING"), ColorSpaceRemediator)
-    assert isinstance(get_remediator("E_TGROUP_CS_INVALID"), ColorSpaceRemediator)
+    # Sprint B: E_TGROUP_CS_INVALID is now the primary responsibility of TransparencyFlattener
+    assert isinstance(get_remediator("E_TGROUP_CS_INVALID"), TransparencyFlattener)
 
 
 def test_registry_returns_none_for_unknown_code():
@@ -49,3 +51,11 @@ def test_supported_codes_covers_sprint_a():
     assert "W003_BORDERLINE_RESOLUTION" in codes
     assert "E_OUTPUTINTENT_MISSING" in codes
     assert "E_TGROUP_CS_INVALID" in codes
+
+
+def test_supported_codes_covers_sprint_b():
+    """B-01 AC6: Sprint B codes must appear in supported_codes()."""
+    codes = supported_codes()
+    assert "E_TGROUP_CS_INVALID" in codes
+    assert "E_OUTPUTINTENT_MISSING" in codes
+    assert "E006_FORBIDDEN_COLORSPACE" in codes

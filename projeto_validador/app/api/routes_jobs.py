@@ -11,7 +11,7 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -20,12 +20,14 @@ from app.api.schemas import (
     JobCreatedResponse,
     JobPayload,
     JobStatusResponse,
+    VeraPDFReport,
 )
 from app.database.crud import (
     create_event,
     create_job,
     get_job,
     get_job_validation_results,
+    get_verapdf_report,
 )
 from app.database.session import get_db
 
@@ -143,6 +145,7 @@ async def upload_and_validate(
     except Exception as exc:
         # Log failure — Rule 4: Idempotency (job remains QUEUED for retry)
         import logging
+
         from workers.celery_app import CELERY_BROKER_URL
         logging.getLogger(__name__).error(f"Failed to dispatch job {job_id} to Celery (Broker: {CELERY_BROKER_URL}): {exc}")
 
@@ -301,11 +304,11 @@ async def get_job_file(
     job = await get_job(db, job_id)
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
-        
+
     file_path = Path(job.file_path)
     if not file_path.exists():
         raise HTTPException(status_code=404, detail="File not found on disk")
-        
+
     return FileResponse(
         path=file_path,
         media_type="application/pdf",
@@ -320,26 +323,26 @@ async def download_job_report_pdf(
     job = await get_job(db, job_id)
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
-    
+
     if job.status != "DONE":
         raise HTTPException(
-            status_code=409, 
+            status_code=409,
             detail=f"Report not ready. Current status: {job.status}"
         )
 
     results = await get_job_validation_results(db, job_id)
-    
+
     # Generate PDF
     from app.utils.pdf_generator import AgenteGeradorPDF
     generator = AgenteGeradorPDF()
-    
+
     report_filename = f"Relatorio_Validacao_{job_id[:8]}.pdf"
     job_dir = Path(VOLUME_PATH) / job_id
     report_path = job_dir / report_filename
-    
+
     # Ensure directory exists (it should, but safety first)
     job_dir.mkdir(parents=True, exist_ok=True)
-    
+
     # Convert ORM objects to dicts for the generator
     job_dict = {
         "id": job.id,
@@ -349,7 +352,7 @@ async def download_job_report_pdf(
         "detected_product": job.detected_product,
         "processing_agent": job.processing_agent
     }
-    
+
     results_list = [
         {
             "check_code": r.check_code,
@@ -357,23 +360,105 @@ async def download_job_report_pdf(
             "status": r.status,
             "value_found": r.value_found,
             "value_expected": r.value_expected
-        } 
+        }
         for r in results
     ]
 
     # Generate in a thread to keep the event loop free (fitz is sync)
     import asyncio
     await asyncio.to_thread(
-        generator.gerar_relatorio, 
-        job_dict, 
-        results_list, 
+        generator.gerar_relatorio,
+        job_dict,
+        results_list,
         str(report_path)
     )
-    
+
     return FileResponse(
         path=report_path,
         media_type="application/pdf",
         filename=report_filename
+    )
+
+
+@router.get("/jobs/{job_id}/verapdf", response_model=VeraPDFReport)
+async def get_verapdf_attestation(
+    job_id: str,
+    db: AsyncSession = Depends(get_db),
+) -> VeraPDFReport:
+    """C-05 AC1: Return the VeraPDF attestation JSON for a job.
+
+    Returns 404 if the job doesn't exist or the attestation has not been produced yet.
+    """
+    job = await get_job(db, job_id)
+    if job is None:
+        raise HTTPException(status_code=404, detail="Job not found")
+
+    # Try DB column first, then filesystem fallback.
+    report_json = await get_verapdf_report(db, job_id)
+
+    if report_json is None:
+        # Fallback: look for the JSON file in the job upload directory
+        bronze_path = Path(job.file_path)
+        json_path = bronze_path.parent / f"{job_id}_verapdf.json"
+        if json_path.exists():
+            report_json = json_path.read_text(encoding="utf-8")
+
+    if report_json is None:
+        raise HTTPException(
+            status_code=404,
+            detail="VeraPDF attestation not available. Remediation may not have run yet.",
+        )
+
+    return VeraPDFReport.model_validate_json(report_json)
+
+
+@router.get("/jobs/{job_id}/verapdf.pdf")
+async def get_verapdf_attestation_pdf(
+    job_id: str,
+    db: AsyncSession = Depends(get_db),
+):
+    """C-05 AC2: Return a PDF-rendered version of the VeraPDF attestation.
+
+    Generated on-the-fly with PyMuPDF. Returns 404 if no attestation exists.
+    """
+    job = await get_job(db, job_id)
+    if job is None:
+        raise HTTPException(status_code=404, detail="Job not found")
+
+    report_json = await get_verapdf_report(db, job_id)
+    if report_json is None:
+        bronze_path = Path(job.file_path)
+        json_path = bronze_path.parent / f"{job_id}_verapdf.json"
+        if json_path.exists():
+            report_json = json_path.read_text(encoding="utf-8")
+
+    if report_json is None:
+        raise HTTPException(
+            status_code=404,
+            detail="VeraPDF attestation not available for this job.",
+        )
+
+    report = VeraPDFReport.model_validate_json(report_json)
+
+    # Generate attestation PDF via PyMuPDF (no extra dependency)
+    import asyncio
+
+    from app.utils.verapdf_pdf_generator import generate_attestation_pdf
+    job_dir = Path(VOLUME_PATH) / job_id
+    job_dir.mkdir(parents=True, exist_ok=True)
+    attestation_path = job_dir / f"{job_id}_verapdf_attestation.pdf"
+
+    await asyncio.to_thread(
+        generate_attestation_pdf,
+        report,
+        job.original_filename,
+        str(attestation_path),
+    )
+
+    return FileResponse(
+        path=attestation_path,
+        media_type="application/pdf",
+        filename=f"verapdf_attestation_{job_id[:8]}.pdf",
     )
 
 

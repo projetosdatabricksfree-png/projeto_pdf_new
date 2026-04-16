@@ -413,6 +413,41 @@ def task_log(self, event_json: str) -> None:
 
 # ─── Gold Layer ──────────────────────────────────────────────────────────────
 
+# B-04: Canonical remediation order — geometry first, then transparency,
+# then color space, then font embedding, then resolution.
+# Running transparency flattening (E_TGROUP_CS_INVALID) before color conversion
+# ensures GS's PDF 1.3 flatten step doesn't recreate RGB objects that the
+# colour remediator would have already handled.
+_REMEDIATION_ORDER: list[str] = [
+    "G002",                    # Bleed (geometry)
+    "E004",                    # Safety margin (geometry)
+    "E_TGROUP_CS_INVALID",     # Transparency flatten (must precede colour conversion)
+    "E_OUTPUTINTENT_MISSING",  # OutputIntent injection (after flatten, before full colour)
+    "E006_FORBIDDEN_COLORSPACE",  # Forbidden colourspace conversion
+    "E_TAC_EXCEEDED",          # TAC re-separation (same GS path as forbidden CS)
+    "E008_NON_EMBEDDED_FONTS", # Font embedding
+    "W_COURIER_SUBSTITUTION",  # Courier substitution (font family)
+    "W003_BORDERLINE_RESOLUTION",  # Resolution upsampling
+]
+
+
+def _remediation_order(codes: list[str]) -> list[str]:
+    """Return *codes* sorted by the canonical remediation order.
+
+    Codes not present in the canonical list are appended at the end in their
+    original relative order (stable sort).
+
+    Args:
+        codes: List of error/warning codes to sort.
+
+    Returns:
+        Sorted list with canonical order applied.
+    """
+    canonical_index = {code: idx for idx, code in enumerate(_REMEDIATION_ORDER)}
+    # Use len(_REMEDIATION_ORDER) as sentinel for unknown codes so they sort last.
+    return sorted(codes, key=lambda c: canonical_index.get(c, len(_REMEDIATION_ORDER)))
+
+
 @celery_app.task(name="workers.tasks.task_remediate", bind=True)
 def task_remediate(self, technical_report_json: str) -> str:
     """Run deterministic Gold-layer remediation on a rejected job.
@@ -455,21 +490,18 @@ def task_remediate(self, technical_report_json: str) -> str:
     shutil.copy2(bronze, scratch)
 
     actions: list[RemediationAction] = []
-    # Sort by a deterministic priority: geometry first, then color, then font/resolution.
-    # Bleed (G002) must run before safety margin (E004) because it changes page geometry.
-    priority = {
-        "G002": 1,
-        "E004": 2,
-        "E006_FORBIDDEN_COLORSPACE": 3,
-        "E_TAC_EXCEEDED": 3,
-        "E008_NON_EMBEDDED_FONTS": 4,
-        "W_COURIER_SUBSTITUTION": 4,
-        "W003_BORDERLINE_RESOLUTION": 5,
-    }
-    items = sorted(
-        report.validation_results.items(),
-        key=lambda kv: priority.get(kv[1].codigo or "", 99),
+    # B-04: Sort by canonical remediation order (geometry → transparency → colour →
+    # font → resolution). _remediation_order guarantees upstream fixes never invalidate
+    # downstream ones (e.g. flatten rebuilds objects that resolution_remediator needs).
+    ordered_codes = _remediation_order(
+        [vr.codigo for vr in report.validation_results.values() if vr.codigo]
     )
+    code_to_items = {
+        vr.codigo: (k, vr)
+        for k, vr in report.validation_results.items()
+        if vr.codigo
+    }
+    items = [code_to_items[c] for c in ordered_codes if c in code_to_items]
 
     for _check_name, vr in items:
         if not vr.codigo or vr.status not in {"REPROVADO", "AVISO"}:
@@ -539,24 +571,171 @@ def task_remediate(self, technical_report_json: str) -> str:
     return remediation_report.model_dump_json()
 
 
+# ─── Sprint C: VeraPDF rule → remediator code mapping ────────────────────────
+
+# VeraPDF rule IDs follow ISO 15930-7 clause numbering.
+# Format: "{clause}.{testNumber}" — e.g. "6.2.2.1".
+# Only rules where a known remediator can fix the issue are listed here.
+_VERAPDF_RULE_MAP: dict[str, str] = {
+    # 6.2.x — OutputIntent requirements
+    "6.2.2.1": "E_OUTPUTINTENT_MISSING",  # /OutputIntents absent
+    "6.2.2.2": "E_OUTPUTINTENT_MISSING",  # wrong /S subtype
+    "6.2.3.1": "E_OUTPUTINTENT_MISSING",  # missing DestOutputProfile
+    "6.2.4.1": "E_OUTPUTINTENT_MISSING",  # corrupt DestOutputProfile
+    # 6.3.x — Colour space requirements
+    "6.3.2.1": "E006_FORBIDDEN_COLORSPACE",  # RGB device colour
+    "6.3.3.1": "E006_FORBIDDEN_COLORSPACE",  # CalRGB colour
+    "6.3.5.1": "E_TAC_EXCEEDED",            # total area coverage
+    # 6.4.x — Transparency groups
+    "6.4.1.1": "E_TGROUP_CS_INVALID",  # TGroup CS != DeviceCMYK
+    "6.4.2.1": "E_TGROUP_CS_INVALID",  # TGroup /CS absent
+}
+
+
+def _map_verapdf_rule_to_code(rule_id: str) -> str | None:
+    """Map a VeraPDF rule clause ID to a known remediator error code.
+
+    C-04 AC1: initial dictionary covering rules 6.2.x, 6.3.x, 6.4.x.
+    Returns None when no remediator handles the rule.
+    """
+    return _VERAPDF_RULE_MAP.get(rule_id)
+
+
+def _derive_codes_from_violations(violations) -> list[str]:
+    """Collect distinct remediable codes from a VeraPDF violation list."""
+    codes: list[str] = []
+    seen: set[str] = set()
+    for v in violations:
+        code = _map_verapdf_rule_to_code(v.rule_id)
+        if code and code not in seen:
+            codes.append(code)
+            seen.add(code)
+    return codes
+
+
 @celery_app.task(name="workers.tasks.task_validate_gold", bind=True)
-def task_validate_gold(self, remediation_report_json: str) -> str:
-    """Run validador_final against the Gold candidate.
+def task_validate_gold(self, remediation_report_json: str, _retry_pass: int = 0) -> str:
+    """Run validador_final + VeraPDF against the Gold candidate.
+
+    Sprint C additions:
+    - Dispatches task_verapdf_audit to queue:verapdf after primary validation.
+    - C-04: up to 1 re-remediation pass when VeraPDF finds mappable violations.
 
     Emits a GoldValidationReport and updates job status to either
-    GOLD_APPROVED or GOLD_REJECTED. The Bronze file is never touched.
+    GOLD_DELIVERED or GOLD_DELIVERED_WITH_WARNINGS.
+    The Bronze file is never touched.
     """
     from pathlib import Path
 
     from agentes.validador_final.agent import validate_gold
     from app.api.schemas import RemediationReport
 
-    logger.critical("TASK_RECEIVED: task_validate_gold starting")
+    logger.critical("TASK_RECEIVED: task_validate_gold starting (pass=%d)", _retry_pass)
     remediation = RemediationReport.model_validate_json(remediation_report_json)
     _run_async(_update_status(remediation.job_id, "GOLD_VALIDATING"))
 
     gold_path = Path(remediation.output_path)
-    verdict = validate_gold(remediation.job_id, gold_path)
+
+    # ── VeraPDF audit (async, dedicated queue) ───────────────────────────────
+    # AC5 (C-02): dispatch to validador-verapdf container after producing Gold.
+    # We also attempt inline VeraPDF for the validate_gold fallback chain.
+    verapdf_report = None
+    try:
+        from app.api.schemas import VeraPDFReport
+        from workers.tasks_verapdf import _parse_verapdf_json, run_verapdf, task_verapdf_audit
+
+        # Try inline VeraPDF (works if binary is on PATH in this container).
+        ok, stdout, stderr = run_verapdf(gold_path)
+        if ok:
+            parsed = _parse_verapdf_json(stdout, remediation.job_id)
+            verapdf_report = VeraPDFReport(
+                job_id=remediation.job_id,
+                passed=parsed["passed"],
+                profile=parsed.get("profile", "PDF/X-4"),
+                rule_violations=parsed.get("rule_violations", []),
+                raw_json=stdout,
+                gold_path=str(gold_path),
+            )
+        else:
+            # Binary absent in this container — dispatch to dedicated queue.
+            task_verapdf_audit.apply_async(
+                args=[remediation.job_id, str(gold_path)],
+                queue="queue:verapdf",
+            )
+    except Exception as exc:
+        logger.debug("[task_validate_gold] VeraPDF probe skipped: %s", exc)
+
+    # ── C-04: Re-remediation loop (max 1 retry) ──────────────────────────────
+    if (
+        verapdf_report is not None
+        and not verapdf_report.passed
+        and _retry_pass == 0
+        and verapdf_report.rule_violations
+    ):
+        remediable = _derive_codes_from_violations(verapdf_report.rule_violations)
+        if remediable:
+            logger.info(
+                "[task_validate_gold] VeraPDF residuals — re-remediation pass 1: %s",
+                remediable,
+            )
+            # Rebuild a minimal TechnicalReport to drive task_remediate.
+            from app.api.schemas import ValidationResult as VR
+
+            fake_vr: dict[str, VR] = {
+                c: VR(status="REPROVADO", codigo=c, found_value="verapdf_residual")
+                for c in remediable
+            }
+            # Inline execution to avoid infinite celery dispatch (AC3).
+            import shutil as _shutil
+            gold_repass = gold_path.with_name(f"{gold_path.stem}_repass.pdf")
+            _shutil.copy2(gold_path, gold_repass)
+
+            from agentes.remediadores.registry import get_remediator
+            from app.api.schemas import RemediationAction, RemediationReport as RR
+
+            scratch = gold_repass
+            repass_actions: list[RemediationAction] = []
+            for code in _remediation_order(remediable):
+                vr_item = fake_vr.get(code)
+                if vr_item is None:
+                    continue
+                remediator = get_remediator(code)
+                if remediator is None:
+                    continue
+                next_s = gold_path.with_name(f"{gold_path.stem}_rp_{code}.pdf")
+                try:
+                    action = remediator.remediate(scratch, next_s, vr_item)
+                except Exception as exc:
+                    logger.exception("[repass] remediator %s crashed: %s", code, exc)
+                    action = RemediationAction(
+                        codigo=code,
+                        remediator=getattr(remediator, "name", code),
+                        success=False,
+                        quality_loss_warnings=[f"crash: {exc}"],
+                    )
+                repass_actions.append(action)
+                if action.success and next_s.exists():
+                    _shutil.move(str(next_s), str(scratch))
+                elif next_s.exists():
+                    next_s.unlink(missing_ok=True)
+
+            if scratch.exists() and str(scratch) != str(gold_repass):
+                _shutil.move(str(scratch), str(gold_path))
+            elif gold_repass.exists():
+                _shutil.move(str(gold_repass), str(gold_path))
+
+            # Second-pass validation — _retry_pass=1 prevents infinite recursion.
+            repass_report = RR(
+                job_id=remediation.job_id,
+                input_path=remediation.input_path,
+                output_path=str(gold_path),
+                actions=repass_actions,
+                overall_success=all(a.success for a in repass_actions),
+            )
+            return task_validate_gold(repass_report.model_dump_json(), _retry_pass=1)
+
+    # ── Primary validate_gold ─────────────────────────────────────────────────
+    verdict = validate_gold(remediation.job_id, gold_path, verapdf_report=verapdf_report)
 
     task_log.delay(json.dumps({
         "job_id": remediation.job_id,
