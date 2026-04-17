@@ -59,6 +59,12 @@ O projeto utiliza um servidor MCP customizado para garantir qualidade e visibili
 - **`graphic-pro`**: Monitora fila Redis (`queue:jobs`), valida schemas e aplica regras Anti-OOM.
 - **`vulnicheck`**: Auditoria de segurança em dependências em tempo real.
 - **`ipybox`**: Sandbox Docker para execução segura de scripts de validação PDF.
+- **`sonarqube`**: MCP oficial da SonarQube para análise de qualidade e segurança via Docker.
+
+Para ativar o SonarQube MCP no desenvolvimento, mantenha estes envs disponíveis antes de iniciar o cliente MCP:
+- `SONARQUBE_TOKEN`
+- `SONARQUBE_ORG` para SonarQube Cloud
+- `SONARQUBE_URL` para SonarQube Server ou Community Build
 
 ## Arquitetura de Agentes
 O pipeline segue um fluxo determinístico e assíncrono via **Celery + Redis**:

@@ -1,6 +1,7 @@
 {
   "enabledMcpjsonServers": [
     "sequential-thinking",
-    "python-interpreter"
+    "python-interpreter",
+    "sonarqube"
   ]
 }

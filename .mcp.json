@@ -15,6 +15,24 @@
         "-m",
         "mcp_server_python_interpreter"
       ]
+    },
+    "sonarqube": {
+      "type": "stdio",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--init",
+        "--pull=always",
+        "-e",
+        "SONARQUBE_TOKEN",
+        "-e",
+        "SONARQUBE_ORG",
+        "-e",
+        "SONARQUBE_URL",
+        "mcp/sonarqube"
+      ]
     }
   }
 }
