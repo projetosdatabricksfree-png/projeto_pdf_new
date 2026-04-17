@@ -8,8 +8,10 @@ const PIPELINE_STAGE = {
   PROBING:    { label: 'Análise profunda',     hint: 'Especialista inspecionando a estrutura do PDF...' },
   PROCESSING: { label: 'Validação técnica',    hint: 'Operário executando os 9 checkers GWG...' },
   VALIDATING: { label: 'Gerando relatório',    hint: 'Validador consolidando o veredicto...' },
-  DONE:       { label: 'Concluído',            hint: 'Validação pré-flight finalizada.' },
   COMPLETED:  { label: 'Concluído',            hint: 'Validação pré-flight finalizada.' },
+  GOLD_DELIVERED: { label: 'Concluído (Gold)', hint: 'Arquivo corrigido automaticamente.' },
+  GOLD_DELIVERED_WITH_WARNINGS: { label: 'Concluído (com avisos)', hint: 'Arquivo corrigido com ressalvas.' },
+  GOLD_REJECTED: { label: 'Falha (Gold)', hint: 'Tentativa de correção automática falhou.' },
   FAILED:     { label: 'Falha',                hint: 'Erro na pipeline de validação.' },
 };
 
@@ -64,7 +66,12 @@ const ProgressTracker = ({ jobId, onComplete, onFailed }) => {
           timeLeft: timeLeft
         });
 
-        if (data.pipeline_status === 'DONE' || data.pipeline_status === 'COMPLETED') {
+        if (
+          data.pipeline_status === 'DONE' || 
+          data.pipeline_status === 'COMPLETED' ||
+          data.pipeline_status === 'GOLD_DELIVERED' ||
+          data.pipeline_status === 'GOLD_DELIVERED_WITH_WARNINGS'
+        ) {
           clearInterval(interval.current);
           try {
             const report = await preflightApi.getReport(jobId);
@@ -85,7 +92,7 @@ const ProgressTracker = ({ jobId, onComplete, onFailed }) => {
           }
           return;
         }
-        if (data.pipeline_status === 'FAILED') {
+        if (data.pipeline_status === 'FAILED' || data.pipeline_status === 'GOLD_REJECTED') {
           clearInterval(interval.current);
           if (!cancelled && onFailed) {
             onFailed({

@@ -257,7 +257,13 @@ def run_all_gwg_checks(
     erros: list[str] = []
     avisos: list[str] = []
 
-    # 0. OC Filter computation (§3.16) — Foundation for all others.
+    # 0. Initialize the progress board (AC1: Board MUST exist before any update_stage calls)
+    init_progress(
+        job_id or "",
+        [{"name": name, "label": label} for name, label, _, _ in RUNNERS],
+    )
+
+    # 1. OC Filter computation (§3.16) — Foundation for all others.
     # Runs synchronously in the parent process; result is injected into profile
     # so every child checker can consume it without re-parsing the PDF.
     from agentes.operarios.shared_tools.gwg.oc_filter import build_visibility_filter
@@ -281,12 +287,6 @@ def run_all_gwg_checks(
     checks["oc_filter"] = oc_filter_check
     normalized.extend(_normalize("oc_filter", "W_OC_FILTER", oc_filter_check))
     update_stage(job_id or "", "oc_filter", "OK", 0, log="Filtro aplicado")
-
-    # Publish the initial board (all stages, all PENDING)
-    init_progress(
-        job_id or "",
-        [{"name": name, "label": label} for name, label, _, _ in RUNNERS],
-    )
 
     # Initial ETA Heuristic
     try:

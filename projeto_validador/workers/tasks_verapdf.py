@@ -77,12 +77,28 @@ def _parse_verapdf_json(raw: str, job_id: str) -> dict:
 
         violations: list[VeraPDFRuleViolation] = []
         for summary in details.get("ruleSummaries", []):
-            rule_id_obj = summary.get("ruleId", {})
-            clause = rule_id_obj.get("clause", "")
-            test_no = rule_id_obj.get("testNumber", "")
-            rule_id = f"{clause}.{test_no}" if clause else str(rule_id_obj)
+            # C-04: Robust parsing for variations in VeraPDF JSON output.
+            # Some versions put clause/testNumber at the top level of summary,
+            # others nest them inside a 'ruleId' object.
+            rule_id_obj = summary.get("ruleId")
+            
+            if isinstance(rule_id_obj, dict):
+                clause = rule_id_obj.get("clause", "")
+                test_no = rule_id_obj.get("testNumber", "")
+            else:
+                # Fallback to top-level fields (seen in some 1.26 distributions)
+                clause = summary.get("clause", "")
+                test_no = summary.get("testNumber", "")
+
+            rule_id = f"{clause}.{test_no}" if clause else str(rule_id_obj or "unknown")
 
             checks = summary.get("checks", {})
+            if isinstance(checks, list) and checks:
+                # Handle unexpected list format for checks
+                checks = checks[0]
+            elif not isinstance(checks, dict):
+                checks = {}
+
             failed = int(checks.get("failedChecks", 0))
             if failed > 0:
                 violations.append(
@@ -102,7 +118,7 @@ def _parse_verapdf_json(raw: str, job_id: str) -> dict:
             "rule_violations": violations,
         }
     except Exception as exc:
-        logger.warning("[verapdf] parse error: %s", exc)
+        logger.error("[verapdf] parse error: %s | data shape: %s", exc, type(data) if 'data' in locals() else 'unknown')
         return {"passed": False, "profile": "unknown", "rule_violations": []}
 
 

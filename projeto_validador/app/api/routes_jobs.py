@@ -50,12 +50,12 @@ ALLOWED_CONTENT_TYPES: set[str] = {
 
 @router.post("/validate", response_model=JobCreatedResponse, status_code=202)
 async def upload_and_validate(
+    current_user: Annotated[User, Depends(get_current_user)],
     file: UploadFile = File(...),
     client_locale: str = Form(default="pt-BR"),
     gramatura_gsm: int = Form(default=0),
     encadernacao: str = Form(default="none"),
     grain_direction: str = Form(default="unknown"),
-    current_user: Annotated[User, Depends(get_current_user)] = Depends(),
     db: AsyncSession = Depends(get_db),
 ) -> JobCreatedResponse:
     """Receive a file for pre-flight validation via streaming upload.
@@ -224,7 +224,15 @@ async def get_job_report(
     if job is None:
         raise HTTPException(status_code=404, detail="Job not found")
 
-    if job.status != "DONE":
+    ALLOWED_FINAL_STATES = {
+        "DONE", 
+        "FAILED", 
+        "GOLD_DELIVERED", 
+        "GOLD_DELIVERED_WITH_WARNINGS",
+        "GOLD_REJECTED"
+    }
+
+    if job.status not in ALLOWED_FINAL_STATES:
         raise HTTPException(
             status_code=409,
             detail=f"Report not ready. Current status: {job.status}",

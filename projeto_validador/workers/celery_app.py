@@ -18,7 +18,7 @@ celery_app = Celery(
     "preflight_validator",
     broker=CELERY_BROKER_URL,
     backend=CELERY_RESULT_BACKEND,
-    include=["workers.tasks"],
+    include=["workers.tasks", "workers.tasks_verapdf"],
 )
 
 # Queue configuration — exact names from the specification
@@ -48,6 +48,8 @@ celery_app.conf.update(
         # Gold layer — deterministic remediation + final compliance check
         "workers.tasks.task_remediate": {"queue": "queue:remediador"},
         "workers.tasks.task_validate_gold": {"queue": "queue:validador_final"},
+        # Sprint C: dedicated VeraPDF audit queue
+        "workers.tasks_verapdf.task_verapdf_audit": {"queue": "queue:verapdf"},
     },
     worker_prefetch_multiplier=1,
     task_acks_late=True,

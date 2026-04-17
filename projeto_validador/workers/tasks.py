@@ -331,8 +331,9 @@ def task_validate(self, report_json: str) -> str:
     # can handle at least one of them. Warnings-only jobs skip remediation.
     if final_report.status != "APROVADO" and report.file_path:
         from agentes.remediadores.registry import supported_codes
+        # Fixing status mapping: Operários use "ERRO", check uses "REPROVADO" or "ERRO"
         fixable = {vr.codigo for vr in report.validation_results.values()
-                   if vr.codigo in supported_codes() and vr.status in {"REPROVADO", "AVISO"}}
+                   if vr.codigo in supported_codes() and vr.status in {"REPROVADO", "ERRO", "AVISO"}}
         if fixable:
             logger.info(f"[task_validate] dispatching Gold remediation for {report.job_id}: {fixable}")
             task_remediate.delay(report.model_dump_json())
