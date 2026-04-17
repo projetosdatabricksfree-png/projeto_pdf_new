@@ -11,6 +11,7 @@ from datetime import datetime
 from typing import Optional
 
 from sqlalchemy import (
+    Boolean,
     Column,
     DateTime,
     Float,
@@ -27,6 +28,19 @@ from sqlalchemy.orm import DeclarativeBase, relationship
 class Base(DeclarativeBase):
     """Base class for all ORM models."""
     pass
+
+
+# ─── Auth Models ──────────────────────────────────────────────────────────────
+
+class User(Base):
+    """System user for authentication."""
+    __tablename__ = "users"
+
+    id: int = Column(Integer, primary_key=True, autoincrement=True)
+    email: str = Column(String(255), unique=True, index=True, nullable=False)
+    hashed_password: str = Column(String(255), nullable=False)
+    is_active: bool = Column(Boolean, default=True)
+    created_at: datetime = Column(DateTime, nullable=False, default=func.now())
 
 
 # ─── Enums ────────────────────────────────────────────────────────────────────

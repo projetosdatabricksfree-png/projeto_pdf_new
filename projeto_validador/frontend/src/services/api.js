@@ -8,6 +8,15 @@ const api = axios.create({
   baseURL: API_BASE_URL,
 });
 
+// Interceptor to add Authorization header
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 export const preflightApi = {
   /**
    * Upload PDF for multi-agent validation

@@ -22,6 +22,9 @@ from app.api.schemas import (
     JobStatusResponse,
     VeraPDFReport,
 )
+from typing import Annotated
+from app.api.auth import get_current_user
+from app.database.models import User
 from app.database.crud import (
     create_event,
     create_job,
@@ -52,6 +55,7 @@ async def upload_and_validate(
     gramatura_gsm: int = Form(default=0),
     encadernacao: str = Form(default="none"),
     grain_direction: str = Form(default="unknown"),
+    current_user: Annotated[User, Depends(get_current_user)] = Depends(),
     db: AsyncSession = Depends(get_db),
 ) -> JobCreatedResponse:
     """Receive a file for pre-flight validation via streaming upload.
@@ -160,6 +164,7 @@ async def upload_and_validate(
 @router.get("/jobs/{job_id}/status", response_model=JobStatusResponse)
 async def get_job_status(
     job_id: str,
+    current_user: Annotated[User, Depends(get_current_user)],
     db: AsyncSession = Depends(get_db),
 ) -> JobStatusResponse:
     """Poll job status."""
@@ -180,7 +185,11 @@ async def get_job_status(
 
 
 @router.get("/jobs/{job_id}/progress")
-async def get_job_progress(job_id: str, db: AsyncSession = Depends(get_db)):
+async def get_job_progress(
+    job_id: str,
+    current_user: Annotated[User, Depends(get_current_user)],
+    db: AsyncSession = Depends(get_db)
+):
     """Deterministic stage board for the frontend.
 
     Reads the live checker progress published by run_all_gwg_checks into Redis.
@@ -204,6 +213,7 @@ async def get_job_progress(job_id: str, db: AsyncSession = Depends(get_db)):
 @router.get("/jobs/{job_id}/report", response_model=FinalReport)
 async def get_job_report(
     job_id: str,
+    current_user: Annotated[User, Depends(get_current_user)],
     db: AsyncSession = Depends(get_db),
 ) -> FinalReport:
     """Retrieve the final validation report.
@@ -317,6 +327,7 @@ async def get_job_file(
 @router.get("/jobs/{job_id}/download-pdf")
 async def download_job_report_pdf(
     job_id: str,
+    current_user: Annotated[User, Depends(get_current_user)],
     db: AsyncSession = Depends(get_db),
 ):
     """Generate and download the validation report as a PDF."""

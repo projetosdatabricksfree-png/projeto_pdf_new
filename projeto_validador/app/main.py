@@ -18,13 +18,34 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.api.routes_health import router as health_router
 from app.api.routes_jobs import router as jobs_router
-from app.database.session import close_db, init_db
+from app.api.auth import router as auth_router
+from app.database.session import close_db, init_db, async_session_factory
+from app.database.models import User
+from app.api.auth_utils import get_password_hash
+from sqlalchemy import select
+
+
+async def seed_admin_user():
+    """Seed the default admin@admin user if it doesn't exist."""
+    async with async_session_factory() as db:
+        result = await db.execute(select(User).where(User.email == "admin@admin"))
+        user = result.scalar_one_or_none()
+        if not user:
+            admin = User(
+                email="admin@admin",
+                hashed_password=get_password_hash("admin"),
+                is_active=True
+            )
+            db.add(admin)
+            await db.commit()
+            print("Admin user seeded: admin@admin / admin")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifespan: init DB on startup, close on shutdown."""
     await init_db()
+    await seed_admin_user()
     yield
     await close_db()
 
@@ -110,4 +131,5 @@ async def unhandled_exception_handler(request: Request, exc: Exception):
 
 # Register routers
 app.include_router(health_router)
+app.include_router(auth_router)
 app.include_router(jobs_router)

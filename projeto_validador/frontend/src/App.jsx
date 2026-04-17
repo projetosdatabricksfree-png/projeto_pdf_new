@@ -5,13 +5,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 // Components
 import Sidebar from './components/Sidebar';
 import UploadZone from './components/UploadZone';
+import LoginPage from './components/LoginPage';
 const ProgressTracker = lazy(() => import('./components/ProgressTracker'));
 const ReportDashboard = lazy(() => import('./components/ReportDashboard'));
+
+// Auth
+import { useAuth } from './context/AuthContext';
 
 // Styles
 import './App.css';
 
 function App() {
+  const { isAuthenticated } = useAuth();
   const [view, setView] = useState('upload');
   const [phase, setPhase] = useState('upload');
   const [jobId, setJobId] = useState(null);
@@ -31,6 +36,10 @@ function App() {
     setPhase('upload');
     setJobId(null);
   }, []);
+
+  if (!isAuthenticated) {
+    return <LoginPage />;
+  }
 
   return (
     <>

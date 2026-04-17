@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Lock, Mail, Eye, EyeOff, ShieldCheck, AlertCircle } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import './LoginPage.css';
 
-const CREDENTIALS = {
-  email: 'admin@admin',
-  password: 'admin',
-};
-
-export default function LoginPage({ onLogin }) {
+export default function LoginPage() {
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -19,17 +17,13 @@ export default function LoginPage({ onLogin }) {
     setError('');
     setLoading(true);
 
-    // Simulate async check
-    await new Promise((r) => setTimeout(r, 600));
-
-    if (email === CREDENTIALS.email && password === CREDENTIALS.password) {
-      sessionStorage.setItem('auth', '1');
-      onLogin();
-    } else {
-      setError('Credenciais inválidas. Verifique e-mail e senha.');
+    try {
+      await login(email, password);
+    } catch (err) {
+      setError(err.message || 'Credenciais inválidas. Verifique e-mail e senha.');
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (

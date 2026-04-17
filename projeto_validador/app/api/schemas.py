@@ -12,6 +12,11 @@ from pydantic import BaseModel, Field
 
 # ─── Diretor → Gerente (queue:jobs) ───────────────────────────────────────────
 
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
 class JobPayload(BaseModel):
     """Payload published to queue:jobs after file upload."""
     job_id: str
