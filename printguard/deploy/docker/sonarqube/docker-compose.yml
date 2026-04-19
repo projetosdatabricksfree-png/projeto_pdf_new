@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: sonarqube-db
+    networks:
+      - sonarqube-net
+    environment:
+      - POSTGRES_USER=sonarqube
+      - POSTGRES_PASSWORD=sonarqube
+      - POSTGRES_DB=sonarqube
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sonarqube"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  init-plugins:
+    image: alpine:latest
+    container_name: sonarqube-init-plugins
+    networks:
+      - sonarqube-net
+    volumes:
+      - sonarqube_extensions:/opt/sonarqube/extensions
+    command: >
+      sh -c "mkdir -p /opt/sonarqube/extensions/plugins &&
+             wget -O /opt/sonarqube/extensions/plugins/sonar-cxx-plugin-2.2.2.1409.jar https://github.com/SonarOpenCommunity/sonar-cxx/releases/download/cxx-2.2.2/sonar-cxx-plugin-2.2.2.1409.jar"
+
+  sonarqube:
+    image: sonarqube:community
+    container_name: sonarqube-server
+    depends_on:
+      db:
+        condition: service_healthy
+      init-plugins:
+        condition: service_completed_successfully
+    networks:
+      - sonarqube-net
+    ports:
+      - "9000:9000"
+    environment:
+      - SONAR_JDBC_URL=jdbc:postgresql://db:5432/sonarqube
+      - SONAR_JDBC_USERNAME=sonarqube
+      - SONAR_JDBC_PASSWORD=sonarqube
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+    restart: unless-stopped
+
+networks:
+  sonarqube-net:
+    driver: bridge
+
+volumes:
+  postgresql_data:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:

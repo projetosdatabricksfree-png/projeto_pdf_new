@@ -1,0 +1,24 @@
+{
+    "id": "printing_standard",
+    "name": "Standard Printing Check",
+    "rules": {
+        "color_space": {
+            "enabled": true,
+            "severity": "ERROR",
+            "params": {
+                "disallowed": "RGB, Lab"
+            }
+        },
+        "resolution": {
+            "enabled": true,
+            "severity": "WARNING",
+            "params": {
+                "threshold_dpi": "300"
+            }
+        },
+        "page_size": {
+            "enabled": true,
+            "severity": "ERROR"
+        }
+    }
+}

@@ -1,0 +1,14 @@
+# Target labels
+ catch2-populate
+# Source files and their labels
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/catch2-subbuild/CMakeFiles/catch2-populate
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/catch2-subbuild/CMakeFiles/catch2-populate.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/catch2-subbuild/CMakeFiles/catch2-populate-complete.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/catch2-subbuild/catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-build.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/catch2-subbuild/catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-configure.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/catch2-subbuild/catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-download.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/catch2-subbuild/catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-install.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/catch2-subbuild/catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-mkdir.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/catch2-subbuild/catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-patch.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/catch2-subbuild/catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-test.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/catch2-subbuild/catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-update.rule

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libprintguard_persistence.a CMakeFiles/printguard_persistence.dir/database.cpp.o CMakeFiles/printguard_persistence.dir/job_repository.cpp.o
+/usr/bin/ranlib libprintguard_persistence.a

@@ -1,0 +1,82 @@
+{
+    "id": "digital_print_safe",
+    "name": "Digital Print Safe",
+    "description": "Conservador para impressoras digitais: TAC 300%, DPI minimo 200. Mais regras como ERROR.",
+    "rules": {
+        "color_space": {
+            "enabled": true,
+            "severity": "ERROR",
+            "params": {}
+        },
+        "page_size": {
+            "enabled": true,
+            "severity": "ERROR",
+            "params": {}
+        },
+        "bleed": {
+            "enabled": true,
+            "severity": "ERROR",
+            "params": {}
+        },
+        "resolution": {
+            "enabled": true,
+            "severity": "ERROR",
+            "params": {
+                "threshold_dpi": "250",
+                "error_dpi": "200"
+            }
+        },
+        "safety_margin": {
+            "enabled": true,
+            "severity": "ERROR",
+            "params": {}
+        },
+        "transparency": {
+            "enabled": true,
+            "severity": "ERROR",
+            "params": {}
+        },
+        "tac": {
+            "enabled": false,
+            "severity": "ERROR",
+            "params": {
+                "max_tac_percent": "300"
+            }
+        },
+        "output_intent": {
+            "enabled": false,
+            "severity": "ERROR",
+            "params": {}
+        },
+        "white_overprint": {
+            "enabled": false,
+            "severity": "ERROR",
+            "params": {}
+        },
+        "black_consistency": {
+            "enabled": false,
+            "severity": "ERROR",
+            "params": {}
+        },
+        "annotations": {
+            "enabled": false,
+            "severity": "WARNING",
+            "params": {}
+        },
+        "layers": {
+            "enabled": false,
+            "severity": "WARNING",
+            "params": {}
+        },
+        "spot_colors": {
+            "enabled": false,
+            "severity": "WARNING",
+            "params": {}
+        },
+        "rotation": {
+            "enabled": false,
+            "severity": "WARNING",
+            "params": {}
+        }
+    }
+}

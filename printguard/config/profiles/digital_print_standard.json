@@ -1,0 +1,82 @@
+{
+    "id": "digital_print_standard",
+    "name": "Digital Print Standard",
+    "description": "Agressivo para impressoras digitais: TAC 320%, DPI minimo 150. Aplica fixes automaticos onde possivel.",
+    "rules": {
+        "color_space": {
+            "enabled": true,
+            "severity": "ERROR",
+            "params": {}
+        },
+        "page_size": {
+            "enabled": true,
+            "severity": "ERROR",
+            "params": {}
+        },
+        "bleed": {
+            "enabled": true,
+            "severity": "ERROR",
+            "params": {}
+        },
+        "resolution": {
+            "enabled": true,
+            "severity": "WARNING",
+            "params": {
+                "threshold_dpi": "200",
+                "error_dpi": "150"
+            }
+        },
+        "safety_margin": {
+            "enabled": true,
+            "severity": "WARNING",
+            "params": {}
+        },
+        "transparency": {
+            "enabled": true,
+            "severity": "WARNING",
+            "params": {}
+        },
+        "tac": {
+            "enabled": false,
+            "severity": "ERROR",
+            "params": {
+                "max_tac_percent": "320"
+            }
+        },
+        "output_intent": {
+            "enabled": false,
+            "severity": "ERROR",
+            "params": {}
+        },
+        "white_overprint": {
+            "enabled": false,
+            "severity": "ERROR",
+            "params": {}
+        },
+        "black_consistency": {
+            "enabled": false,
+            "severity": "WARNING",
+            "params": {}
+        },
+        "annotations": {
+            "enabled": false,
+            "severity": "WARNING",
+            "params": {}
+        },
+        "layers": {
+            "enabled": false,
+            "severity": "WARNING",
+            "params": {}
+        },
+        "spot_colors": {
+            "enabled": false,
+            "severity": "WARNING",
+            "params": {}
+        },
+        "rotation": {
+            "enabled": false,
+            "severity": "WARNING",
+            "params": {}
+        }
+    }
+}

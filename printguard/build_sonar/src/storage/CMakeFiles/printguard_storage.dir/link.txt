@@ -1,0 +1,2 @@
+/usr/bin/ar qc libprintguard_storage.a CMakeFiles/printguard_storage.dir/local_storage.cpp.o
+/usr/bin/ranlib libprintguard_storage.a

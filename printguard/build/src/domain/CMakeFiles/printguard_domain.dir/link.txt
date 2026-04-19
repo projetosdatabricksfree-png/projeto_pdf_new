@@ -1,0 +1,2 @@
+/usr/bin/ar qc libprintguard_domain.a CMakeFiles/printguard_domain.dir/config_loader.cpp.o CMakeFiles/printguard_domain.dir/finding.cpp.o CMakeFiles/printguard_domain.dir/state_machine.cpp.o
+/usr/bin/ranlib libprintguard_domain.a

@@ -1,0 +1,3 @@
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/catch2-subbuild/CMakeFiles/catch2-populate.dir
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/catch2-subbuild/CMakeFiles/edit_cache.dir
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/catch2-subbuild/CMakeFiles/rebuild_cache.dir

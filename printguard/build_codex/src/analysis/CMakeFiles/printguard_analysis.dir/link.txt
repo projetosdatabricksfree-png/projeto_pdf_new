@@ -1,0 +1,2 @@
+/usr/bin/ar qc libprintguard_analysis.a CMakeFiles/printguard_analysis.dir/rule_engine.cpp.o
+/usr/bin/ranlib libprintguard_analysis.a

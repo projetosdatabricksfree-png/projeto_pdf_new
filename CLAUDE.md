@@ -2,150 +2,164 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-Este arquivo guia o comportamento da IA no projeto Graphic-Pro.
+---
 
-## Comandos e Portas
+## Project Overview
 
-### Docker Stack
+**PrintGuard** is a SaaS preflight and PDF auto-correction engine for digital print shops. It analyzes uploaded PDFs against configurable presets (product dimensions) and validation profiles (rule sets), reports findings (e.g., wrong color space, insufficient DPI), auto-applies safe fixes, and generates reports/previews.
+
+The codebase is pure **C++20**, built with **CMake**, and uses **QPDF** as the PDF engine.
+
+---
+
+## Build
+
+### System dependencies (Ubuntu/Debian)
+
 ```bash
-docker compose -f projeto_validador/docker-compose.yml up -d --build
-docker compose -f projeto_validador/docker-compose.yml down
-docker compose -f projeto_validador/docker-compose.yml logs -f agent-gerente
+sudo apt-get install build-essential cmake git pkg-config \
+    libssl-dev nlohmann-json3-dev libqpdf-dev zlib1g-dev \
+    libjpeg-dev libpq-dev libpqxx-dev liblcms2-dev mupdf-tools
 ```
-- **Frontend:** `http://localhost:5173`
-- **API (FastAPI):** `http://localhost:8001`
-- **Redis (Fila):** `localhost:63799`
 
-### Testes
+### Debug build (standard workflow)
+
 ```bash
-# Rodar todos os testes (dentro de projeto_validador/)
-cd projeto_validador && pytest tests/ -v
+# First build (also fetches FetchContent deps: spdlog, cpp-httplib, Catch2, libpqxx)
+cmake -S printguard -B printguard/build -DCMAKE_BUILD_TYPE=Debug
+cmake --build printguard/build -j$(nproc)
 
-# Rodar um único teste
-cd projeto_validador && pytest tests/test_api.py::TestHealthEndpoint::test_health_returns_200 -v
-
-# Rodar testes de sprint específico
-cd projeto_validador && pytest tests/sprint1/ -v
-cd projeto_validador && pytest tests/sprint2/ -v
-
-# End-to-end com stack Docker rodando
-cd projeto_validador && bash test_backend.sh
+# Or use the convenience script:
+./printguard/scripts/setup.sh
 ```
 
-### Lint (CI gate — deve passar antes de commitar)
+### Release / Docker build
+
 ```bash
-# A partir da raiz do repositório
-ruff check .
-ruff format --check .
+docker build -t printguard ./printguard
 ```
-Configuração em `pyproject.toml`: linha máxima 100, target Python 3.10, fix automático habilitado.
 
-### Migrações de Banco (Alembic)
+---
+
+## Testing
+
+Tests use **Catch2 v3**. The test binary is `unit_tests`.
+
 ```bash
-cd projeto_validador
-alembic revision --autogenerate -m "descrição"
-alembic upgrade head
+# Build and run all tests
+cmake --build printguard/build --target unit_tests
+cd printguard/build && ctest --output-on-failure
+
+# Run with coverage (for SonarQube)
+cmake -S printguard -B printguard/build_sonar -DCMAKE_BUILD_TYPE=Debug -DPRINTGUARD_COVERAGE=ON
+cmake --build printguard/build_sonar --target unit_tests
+cd printguard/build_sonar && ctest --output-on-failure
+gcovr -r . --sonarqube build_sonar/coverage.xml
 ```
 
-### Frontend (desenvolvimento local sem Docker)
+Test sources are in `printguard/tests/unit/` and link `printguard_common`, `printguard_domain`, and `printguard_pdf` libraries.
+
+---
+
+## Running the Applications
+
+Four binaries are produced under `printguard/build/apps/`:
+
+| Binary | Purpose |
+|---|---|
+| `printguard-api` | HTTP API server (cpp-httplib, port configurable via env) |
+| `printguard-worker` | Poll-based async job processor |
+| `printguard-cli` | Local batch processor — no database required |
+| `printguard-inspect` | Debug tool to dump a PDF's canonical model |
+
+**CLI (no DB needed):**
 ```bash
-cd projeto_validador/frontend
-npm install
-npm run dev   # http://localhost:5173
+./printguard/build/apps/cli/printguard-cli <input_dir> <corrected_dir> <report_dir> [preset_id] [profile_id]
 ```
 
-### Ambiente MCP Profissional (Monitoramento)
-O projeto utiliza um servidor MCP customizado para garantir qualidade e visibilidade:
-- **`graphic-pro`**: Monitora fila Redis (`queue:jobs`), valida schemas e aplica regras Anti-OOM.
-- **`vulnicheck`**: Auditoria de segurança em dependências em tempo real.
-- **`ipybox`**: Sandbox Docker para execução segura de scripts de validação PDF.
-- **`sonarqube`**: MCP oficial da SonarQube para análise de qualidade e segurança via Docker.
-
-Para ativar o SonarQube MCP no desenvolvimento, mantenha estes envs disponíveis antes de iniciar o cliente MCP:
-- `SONARQUBE_TOKEN`
-- `SONARQUBE_ORG` para SonarQube Cloud
-- `SONARQUBE_URL` para SonarQube Server ou Community Build
-
-## Arquitetura de Agentes
-O pipeline segue um fluxo determinístico e assíncrono via **Celery + Redis**:
-
-```
-HTTP Upload → API (FastAPI) → task_route (Celery, queue:jobs)
-  → task_gerente → [confiança < 85%?]
-      sim → task_process_especialista (queue:especialista)
-              → publica em queue:routing_decisions
-                → task_receive_routing_decision (consumidor dedicado — Rule 3)
-      não → task_process_<tipo> (queue:operario_<tipo>)
-              → task_validate (queue:validador)
-                → task_log (queue:audit)
-```
-
-- **Diretor** (`app/api/routes_jobs.py`): Recebe upload via streaming em chunks de 8 MB, cria job no DB, enfileira `task_route`.
-- **Gerente** (`agentes/gerente/agent.py`): Classifica tipo gráfico por lógica geométrica e ExifTool. Retorna confiança 0–100.
-- **Especialista** (`agentes/especialista/`): Sonda profunda com PyMuPDF/Ghostscript se confiança do Gerente < 85%. Publica resultado em `queue:routing_decisions` — NÃO despacha direto para operário (evita deadlock de thread pool).
-- **Operários** (`agentes/operarios/`): Um por tipo de produto — `papelaria_plana`, `editoriais`, `dobraduras`, `cortes_especiais`, `projetos_cad`. Cada um tem sua fila Celery dedicada.
-- **Validador** (`agentes/validador/agent.py`): Veredicto final baseado na tabela GWG (`messages_table.py`). Emite `APPROVED`, `REJECTED`, ou `APPROVED_WITH_WARNINGS`.
-- **Logger** (`agentes/logger/`): Persistência assíncrona via SQLAlchemy 2.0 + aiosqlite.
-
-### Fluxo de dados entre tarefas Celery
-Todas as tarefas se comunicam via **Pydantic models serializados como JSON string**:
-- `JobPayload` → Diretor para task_route
-- `RoutingPayload` → task_route / Especialista para operários (inclui `route_to`, `confidence`, `reason`, `produto_detectado`)
-- `TechnicalReport` → operários para task_validate
-- `FinalReport` → task_validate para task_log e banco
-
-Schemas em `app/api/schemas.py`. Sempre use `.model_dump_json()` para serializar e `.model_validate_json()` para desserializar.
-
-### Stack Técnica
-- **API errors:** RFC 9457 Problem Details (`application/problem+json`)
-- **DB:** SQLite (dev) via `aiosqlite`; `asyncpg` disponível para Postgres em prod
-- **GPU:** Worker configurado com NVIDIA (OpenCL/VIPS) via `docker-compose.yml`
-- **Frontend:** React + Vite + TailwindCSS (`frontend/src/`)
-- **PDF tools:** PyMuPDF (manipulação), Ghostscript (auditoria profunda), ExifTool (metadados), pyvips (análise TAC Anti-OOM)
-
-## Regras de Negócio Críticas
-1. **Rule 1 (Anti-OOM):** NUNCA carregue arquivos inteiros em memória. Use streaming ou `mmap`. O worker tem `mem_limit: 4g`. Upload usa chunks de 8 MB (`CHUNK_SIZE` em `routes_jobs.py`).
-2. **Rule 2 (Anti-RAG):** Mensagens de resultado são 100% determinísticas. NUNCA use LLM para gerar mensagens de validação — toda localização (pt-BR, en-US, es-ES) está hardcoded em `agentes/validador/messages_table.py`.
-3. **Rule 3 (Deadlock Prevention):** O Especialista publica em `queue:routing_decisions` e NÃO chama operários diretamente. O consumidor dedicado `task_receive_routing_decision` faz o dispatch. Isso previne esgotamento de thread pool quando um único worker pool gerencia os dois lados do pipeline.
-4. **Rule 4 (Idempotência):** Jobs falhos permanecem em `QUEUED` para retry — nunca mova para `FAILED` sem mecanismo de reprocessamento.
-5. **Rule 7 (Visual Feedback):** O frontend deve mostrar o stage atual via `ProgressTracker`.
-6. **Celery sync/async bridge:** Tarefas Celery são síncronas; use `_run_async()` em `workers/tasks.py` para chamar código async (nunca crie novos event loops diretamente nem use `asyncio.run()` fora de `_run_async`).
-7. **GWG compliance:** Mensagens de resultado devem sempre referenciar a tabela em `agentes/validador/messages_table.py`.
-
-## Organização de Skills (Padrão Repositório)
-Utilize as instruções detalhadas em `~/Desktop/PROJETOS/SKILSS/` para tarefas específicas:
-- `po/`: Para requisitos e critérios de aceite.
-- `python-backend/`: Padrões FastAPI e Celery.
-- `qa/`: Planos de teste e validação.
-- `token-economy/`: Gestão de contexto e eficiência de sessão.
-
-## Atualização Obrigatória de Documentação
-
-**SEMPRE que modificar código ou implementar uma story/etapa, atualizar os seguintes arquivos:**
-
-### 1. Docs de Sprint — `docs/SPRINT_QA/AUTO_REMEDIATION/`
-Atualizar os arquivos de sprint conforme o progresso (marcar ACs com `[x]`):
-- `SPRINT_A_GEOMETRIC.md`, `SPRINT_B_COLOR.md`, `SPRINT_C_VERAPDF.md`
-
-### 2. Contexto consolidado — regenerar após cada sessão de desenvolvimento
+**Inspect a PDF:**
 ```bash
-# Codebase (todo o código Python)
-# Concatenar todos os .py core em:
-Documentacao/sistema/codebase.txt
-
-# Documentação de negócio (todos os .md/.txt)
-# Concatenar todos os docs em:
-Documentacao/negocio/documentacao.txt
+./printguard/build/apps/inspect/printguard-inspect path/to/file.pdf
 ```
-Esses arquivos são a fonte de contexto rápida para novas sessões — mantê-los atualizados evita re-leitura de dezenas de arquivos individuais.
 
-**Ordem de atualização por sessão:**
-1. Implementar o código
-2. Atualizar os `.md` em `Documentacao/` e `docs/SPRINT_QA/`
-3. Regenerar `Documentacao/sistema/codebase.txt` e `Documentacao/negocio/documentacao.txt`
+**API + Worker (requires PostgreSQL):**
+```bash
+export PG_CONN_STR="host=localhost dbname=printguard user=pg password=pg"
+export STORAGE_ROOT="./storage_data"
+export PRESETS_PATH="./printguard/config/presets"
+export PROFILES_PATH="./printguard/config/profiles"
+./printguard/build/apps/api/printguard-api
+# In another terminal:
+./printguard/build/apps/worker/printguard-worker
+```
 
-## Token Economy & Boas Práticas
-- **Plan Mode:** Sempre crie um `implementation_plan.md` antes de mudanças estruturais.
-- **Compactação:** Execute `/compact` ao atingir 50-60% de uso de contexto.
-- **MCP Off:** Desconecte MCPs não utilizados para economizar tokens.
-- **Edição Direta:** Prefira `replace_file_content` para mudanças cirúrgicas.
+---
+
+## Architecture
+
+### Module layout (`printguard/src/` + `printguard/include/printguard/`)
+
+Each module is a separate CMake static library:
+
+```
+common/       — Logger (spdlog wrapper), Env, Crypto (SHA-256 via OpenSSL)
+domain/       — Core value types: Job, Finding, FixRecord, ProductPreset, ValidationProfile,
+                StateMachine; ConfigLoader reads JSON presets/profiles from disk
+pdf/          — PdfLoader (wraps QPDF) → produces DocumentModel (canonical model of pages/boxes)
+analysis/     — RuleEngine: takes DocumentModel + Preset + Profile → returns AnalysisResult (Findings)
+fix/          — FixPlanner (builds FixPlan from Findings) + FixEngine (applies fixes to PDF)
+orchestration/— JobOrchestrator (upload → store → DB record → worker pipeline)
+              — LocalBatchProcessor (CLI mode, no DB: iterate directory, run full pipeline per file)
+persistence/  — Database (libpqxx singleton), JobRepository (CRUD + claim_next_job)
+storage/      — IStorage interface + LocalStorage implementation (files on disk keyed by job/tenant/type)
+render/       — PreviewRenderer (page PNG previews via mupdf)
+report/       — ReportBuilder (generates Markdown reports)
+```
+
+### Job lifecycle (API/Worker mode)
+
+1. `POST /v1/jobs` → `JobOrchestrator::process_upload` → stores original PDF, creates DB row (`status=uploaded`)
+2. `printguard-worker` polls `claim_next_job(uploaded → processing)`
+3. `JobOrchestrator::run_pipeline(job_id)`:
+   - Load PDF → `PdfLoader` → `DocumentModel`
+   - Analyze → `RuleEngine::run` → `AnalysisResult` (Findings)
+   - Plan fixes → `FixPlanner::build_plan`
+   - Apply fixes → `FixEngine::execute` → corrected PDF artifact
+   - Re-analyze corrected PDF (revalidation delta)
+   - Render previews → `PreviewRenderer`
+   - Build report → `ReportBuilder`
+   - Update job `status=completed` or `failed`
+
+### Finding severity and fixability
+
+```cpp
+enum class FindingSeverity { INFO, WARNING, ERROR };
+enum class Fixability { NONE, AUTOMATIC_SAFE, AUTOMATIC_RISKY };
+```
+
+A Finding is "blocking" if `severity == ERROR`. `AUTOMATIC_SAFE` fixes are always applied; `AUTOMATIC_RISKY` fixes require explicit enablement. Unresolvable blocking findings leave the job in a `manual_review` state.
+
+### Configuration (JSON, no DB)
+
+- **Presets** (`config/presets/*.json`): product physical dimensions + color space constraints + min DPI
+- **Profiles** (`config/profiles/*.json`): named rule sets with per-rule `enabled`, `severity`, and `params`
+
+`ConfigLoader::load_presets(dir)` and `load_profiles(dir)` return `std::map<std::string, T>` keyed by `id`.
+
+### Database schema
+
+Three tables: `tenants`, `jobs`, `artifacts`. Migrations are in `printguard/db/migrations/`. Apply them manually in order with `psql`. The dev seed tenant id is `00000000-0000-0000-0000-000000000000` with `api_key=dev-key-123`.
+
+---
+
+## Compiler flags
+
+All builds enforce `-Wall -Wextra -Werror -Wpedantic`, `-fstack-protector-strong`, and `-D_GLIBCXX_ASSERTIONS`. New code must compile clean with these flags.
+
+## SonarQube
+
+```bash
+./printguard/scripts/run_sonar.sh <SONAR_TOKEN>
+```
+
+Requires a local SonarQube instance at `http://localhost:9000` and Docker for the scanner.

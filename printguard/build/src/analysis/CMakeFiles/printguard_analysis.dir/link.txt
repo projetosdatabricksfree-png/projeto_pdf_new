@@ -1,0 +1,2 @@
+/usr/bin/ar qc libprintguard_analysis.a CMakeFiles/printguard_analysis.dir/rule_engine.cpp.o CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.o CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.o CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.o CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.o CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.o CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.o
+/usr/bin/ranlib libprintguard_analysis.a

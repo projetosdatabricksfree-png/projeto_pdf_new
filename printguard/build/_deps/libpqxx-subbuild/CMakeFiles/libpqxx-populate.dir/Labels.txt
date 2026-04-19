@@ -1,0 +1,14 @@
+# Target labels
+ libpqxx-populate
+# Source files and their labels
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-subbuild/CMakeFiles/libpqxx-populate
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-subbuild/CMakeFiles/libpqxx-populate.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-subbuild/CMakeFiles/libpqxx-populate-complete.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-subbuild/libpqxx-populate-prefix/src/libpqxx-populate-stamp/libpqxx-populate-build.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-subbuild/libpqxx-populate-prefix/src/libpqxx-populate-stamp/libpqxx-populate-configure.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-subbuild/libpqxx-populate-prefix/src/libpqxx-populate-stamp/libpqxx-populate-download.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-subbuild/libpqxx-populate-prefix/src/libpqxx-populate-stamp/libpqxx-populate-install.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-subbuild/libpqxx-populate-prefix/src/libpqxx-populate-stamp/libpqxx-populate-mkdir.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-subbuild/libpqxx-populate-prefix/src/libpqxx-populate-stamp/libpqxx-populate-patch.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-subbuild/libpqxx-populate-prefix/src/libpqxx-populate-stamp/libpqxx-populate-test.rule
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-subbuild/libpqxx-populate-prefix/src/libpqxx-populate-stamp/libpqxx-populate-update.rule

@@ -1,0 +1,5 @@
+In file included from src/pdf/pdf_loader.cpp:2:
+include/printguard/common/logging.hpp:5:10: fatal error: spdlog/spdlog.h: No such file or directory
+    5 | #include <spdlog/spdlog.h>
+      |          ^~~~~~~~~~~~~~~~~
+compilation terminated.

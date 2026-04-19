@@ -1,0 +1,2 @@
+/usr/bin/ar qc libprintguard_fix.a CMakeFiles/printguard_fix.dir/fix_engine.cpp.o CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.o CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.o
+/usr/bin/ranlib libprintguard_fix.a

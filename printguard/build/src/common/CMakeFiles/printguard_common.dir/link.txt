@@ -1,0 +1,2 @@
+/usr/bin/ar qc libprintguard_common.a CMakeFiles/printguard_common.dir/logging/logger.cpp.o CMakeFiles/printguard_common.dir/crypto.cpp.o
+/usr/bin/ranlib libprintguard_common.a

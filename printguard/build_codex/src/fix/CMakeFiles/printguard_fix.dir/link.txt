@@ -1,0 +1,2 @@
+/usr/bin/ar qc libprintguard_fix.a CMakeFiles/printguard_fix.dir/fix_engine.cpp.o
+/usr/bin/ranlib libprintguard_fix.a
