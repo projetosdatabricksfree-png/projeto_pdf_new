@@ -7,6 +7,14 @@
 #include "printguard/analysis/rules/color_space_rule.hpp"
 #include "printguard/analysis/rules/image_resolution_rule.hpp"
 #include "printguard/analysis/rules/safety_margin_rule.hpp"
+#include "printguard/analysis/rules/tac_rule.hpp"
+#include "printguard/analysis/rules/output_intent_rule.hpp"
+#include "printguard/analysis/rules/white_overprint_rule.hpp"
+#include "printguard/analysis/rules/black_consistency_rule.hpp"
+#include "printguard/analysis/rules/annotation_rule.hpp"
+#include "printguard/analysis/rules/layer_rule.hpp"
+#include "printguard/analysis/rules/spot_color_rule.hpp"
+#include "printguard/analysis/rules/rotation_rule.hpp"
 #include "printguard/analysis/rules/transparency_rule.hpp"
 #include <qpdf/QPDF.hh>
 
@@ -55,6 +63,14 @@ std::unique_ptr<RuleEngine> create_default_engine() {
     engine->register_rule(std::make_unique<ImageResolutionRule>());
     engine->register_rule(std::make_unique<SafetyMarginRule>());
     engine->register_rule(std::make_unique<TransparencyRule>());
+    engine->register_rule(std::make_unique<TacRule>());
+    engine->register_rule(std::make_unique<OutputIntentRule>());
+    engine->register_rule(std::make_unique<WhiteOverprintRule>());
+    engine->register_rule(std::make_unique<BlackConsistencyRule>());
+    engine->register_rule(std::make_unique<AnnotationRule>());
+    engine->register_rule(std::make_unique<LayerRule>());
+    engine->register_rule(std::make_unique<SpotColorRule>());
+    engine->register_rule(std::make_unique<RotationRule>());
     return engine;
 }
 

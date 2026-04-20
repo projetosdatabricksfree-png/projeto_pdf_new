@@ -6,5 +6,5 @@ CXX_DEFINES = -DCPPHTTPLIB_OPENSSL_SUPPORT -DCPPHTTPLIB_ZLIB_SUPPORT -DPOINTERHO
 
 CXX_INCLUDES = -I/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include -I/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include -I/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/libpqxx-build/include -I/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/libpqxx-src/include -isystem /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/httplib-src
 
-CXX_FLAGS = -g -std=c++20 -Wall -Wextra -Werror -Wpedantic -fstack-protector-strong -D_GLIBCXX_ASSERTIONS
+CXX_FLAGS = -O2 -g -DNDEBUG -std=c++20 -Wall -Wextra -Werror -Wpedantic -fstack-protector-strong -D_GLIBCXX_ASSERTIONS
 

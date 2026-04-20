@@ -6,5 +6,5 @@ CXX_DEFINES = -DPOINTERHOLDER_TRANSITION=4 -DSPDLOG_COMPILED_LIB
 
 CXX_INCLUDES = -I/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include -I/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include
 
-CXX_FLAGS = -g -std=c++20 -Wall -Wextra -Werror -Wpedantic -fstack-protector-strong -D_GLIBCXX_ASSERTIONS
+CXX_FLAGS = -O2 -g -DNDEBUG -std=c++20 -Wall -Wextra -Werror -Wpedantic -fstack-protector-strong -D_GLIBCXX_ASSERTIONS
 

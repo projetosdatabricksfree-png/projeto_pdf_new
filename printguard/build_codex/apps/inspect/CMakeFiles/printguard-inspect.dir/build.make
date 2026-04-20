@@ -95,7 +95,7 @@ apps/inspect/printguard-inspect: apps/inspect/CMakeFiles/printguard-inspect.dir/
 apps/inspect/printguard-inspect: src/common/libprintguard_common.a
 apps/inspect/printguard-inspect: src/pdf/libprintguard_pdf.a
 apps/inspect/printguard-inspect: src/common/libprintguard_common.a
-apps/inspect/printguard-inspect: _deps/spdlog-build/libspdlogd.a
+apps/inspect/printguard-inspect: _deps/spdlog-build/libspdlog.a
 apps/inspect/printguard-inspect: /usr/lib/x86_64-linux-gnu/libssl.so
 apps/inspect/printguard-inspect: /usr/lib/x86_64-linux-gnu/libcrypto.so
 apps/inspect/printguard-inspect: /usr/lib/x86_64-linux-gnu/libqpdf.so.29.9.0

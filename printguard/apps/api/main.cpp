@@ -27,7 +27,7 @@ int main() {
     }
 
     storage::LocalStorage store(common::Env::get("STORAGE_ROOT", "./storage_data"));
-    orchestration::JobOrchestrator orchestrator(store);
+    orchestration::JobOrchestrator orchestrator(store, presets, profiles);
 
     httplib::Server svr;
 

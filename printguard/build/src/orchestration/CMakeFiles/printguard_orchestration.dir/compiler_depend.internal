@@ -28,6 +28,7 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/local_batch_processor.
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/spdlog-src/include/spdlog/tweakme.h
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/spdlog-src/include/spdlog/version.h
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_engine.hpp
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_interface.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/common/crypto.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/common/logging.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/config_loader.hpp
@@ -35,6 +36,7 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/local_batch_processor.
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/preset.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/profile.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_engine.hpp
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_interface.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/orchestration/local_batch_processor.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/pdf/canonical_model.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/pdf/pdf_loader.hpp

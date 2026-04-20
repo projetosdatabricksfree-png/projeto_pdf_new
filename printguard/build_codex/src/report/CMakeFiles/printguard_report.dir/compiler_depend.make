@@ -3,11 +3,13 @@
 
 src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/report/report_builder.cpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_engine.hpp \
+  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_interface.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/config_loader.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/finding.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/preset.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/profile.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_engine.hpp \
+  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_interface.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/orchestration/local_batch_processor.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/pdf/canonical_model.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/render/preview_renderer.hpp \
@@ -65,6 +67,7 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
   /usr/include/c++/13/bits/ios_base.h \
   /usr/include/c++/13/bits/istream.tcc \
   /usr/include/c++/13/bits/iterator_concepts.h \
+  /usr/include/c++/13/bits/list.tcc \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
   /usr/include/c++/13/bits/locale_conv.h \
@@ -115,12 +118,15 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
   /usr/include/c++/13/bits/stl_iterator.h \
   /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/13/bits/stl_iterator_base_types.h \
+  /usr/include/c++/13/bits/stl_list.h \
   /usr/include/c++/13/bits/stl_map.h \
   /usr/include/c++/13/bits/stl_multimap.h \
+  /usr/include/c++/13/bits/stl_multiset.h \
   /usr/include/c++/13/bits/stl_numeric.h \
   /usr/include/c++/13/bits/stl_pair.h \
   /usr/include/c++/13/bits/stl_raw_storage_iter.h \
   /usr/include/c++/13/bits/stl_relops.h \
+  /usr/include/c++/13/bits/stl_set.h \
   /usr/include/c++/13/bits/stl_tempbuf.h \
   /usr/include/c++/13/bits/stl_tree.h \
   /usr/include/c++/13/bits/stl_uninitialized.h \
@@ -175,9 +181,11 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
   /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
+  /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/iterator \
   /usr/include/c++/13/limits \
+  /usr/include/c++/13/list \
   /usr/include/c++/13/locale \
   /usr/include/c++/13/map \
   /usr/include/c++/13/memory \
@@ -193,6 +201,7 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ranges \
   /usr/include/c++/13/ratio \
+  /usr/include/c++/13/set \
   /usr/include/c++/13/span \
   /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
@@ -278,6 +287,23 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
   /usr/include/nlohmann/thirdparty/hedley/hedley.hpp \
   /usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
   /usr/include/pthread.h \
+  /usr/include/qpdf/Buffer.hh \
+  /usr/include/qpdf/Constants.h \
+  /usr/include/qpdf/DLL.h \
+  /usr/include/qpdf/InputSource.hh \
+  /usr/include/qpdf/JSON.hh \
+  /usr/include/qpdf/PDFVersion.hh \
+  /usr/include/qpdf/Pipeline.hh \
+  /usr/include/qpdf/PointerHolder.hh \
+  /usr/include/qpdf/QIntC.hh \
+  /usr/include/qpdf/QPDF.hh \
+  /usr/include/qpdf/QPDFExc.hh \
+  /usr/include/qpdf/QPDFObjGen.hh \
+  /usr/include/qpdf/QPDFObjectHandle.hh \
+  /usr/include/qpdf/QPDFStreamFilter.hh \
+  /usr/include/qpdf/QPDFTokenizer.hh \
+  /usr/include/qpdf/QPDFXRefEntry.hh \
+  /usr/include/qpdf/Types.h \
   /usr/include/sched.h \
   /usr/include/stdc-predef.h \
   /usr/include/stdint.h \
@@ -325,13 +351,22 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
   /usr/include/x86_64-linux-gnu/bits/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/select-decl.h \
   /usr/include/x86_64-linux-gnu/bits/select.h \
+  /usr/include/x86_64-linux-gnu/bits/select2.h \
   /usr/include/x86_64-linux-gnu/bits/setjmp.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio2-decl.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio2.h \
   /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
+  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
   /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
   /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
   /usr/include/x86_64-linux-gnu/bits/syscall.h \
@@ -368,10 +403,14 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
   /usr/include/x86_64-linux-gnu/bits/typesizes.h \
   /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
   /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd-decl.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd.h \
   /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
   /usr/include/x86_64-linux-gnu/bits/waitflags.h \
   /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
   /usr/include/x86_64-linux-gnu/bits/wchar.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2-decl.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
   /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
   /usr/include/x86_64-linux-gnu/bits/wordsize.h \
   /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
@@ -440,6 +479,8 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
 
+/usr/include/x86_64-linux-gnu/bits/unistd.h:
+
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
@@ -447,12 +488,6 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h:
 
@@ -470,11 +505,19 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
 
+/usr/include/x86_64-linux-gnu/bits/strings_fortified.h:
+
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib.h:
+
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
 
-/usr/include/x86_64-linux-gnu/bits/timex.h:
+/usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
 
-/usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
+/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h:
 
@@ -487,6 +530,8 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 /usr/include/x86_64-linux-gnu/bits/time.h:
 
 /usr/include/x86_64-linux-gnu/bits/select.h:
+
+/usr/include/x86_64-linux-gnu/bits/select-decl.h:
 
 /usr/include/x86_64-linux-gnu/bits/sched.h:
 
@@ -511,8 +556,6 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
 
 /usr/include/x86_64-linux-gnu/bits/getopt_core.h:
-
-/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
 
 /usr/include/x86_64-linux-gnu/bits/fp-fast.h:
 
@@ -548,6 +591,38 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/sched.h:
 
+/usr/include/qpdf/QPDFXRefEntry.hh:
+
+/usr/include/qpdf/QPDFTokenizer.hh:
+
+/usr/include/qpdf/QPDFStreamFilter.hh:
+
+/usr/include/qpdf/QPDFObjectHandle.hh:
+
+/usr/include/qpdf/QIntC.hh:
+
+/usr/include/x86_64-linux-gnu/bits/wchar2.h:
+
+/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
+
+/usr/include/qpdf/PointerHolder.hh:
+
+/usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
+
+/usr/include/qpdf/PDFVersion.hh:
+
+/usr/include/qpdf/JSON.hh:
+
+/usr/include/qpdf/DLL.h:
+
+/usr/include/qpdf/Constants.h:
+
+/usr/include/x86_64-linux-gnu/bits/timex.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
+
+/usr/include/qpdf/Buffer.hh:
+
 /usr/include/pthread.h:
 
 /usr/include/nlohmann/thirdparty/hedley/hedley.hpp:
@@ -576,27 +651,35 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/nlohmann/detail/meta/detected.hpp:
 
-/usr/include/c++/13/bits/max_size_type.h:
+/usr/include/nlohmann/detail/meta/call_std/begin.hpp:
 
-/usr/include/stdint.h:
+/usr/include/nlohmann/detail/macro_unscope.hpp:
 
-/usr/include/endian.h:
+/usr/include/x86_64-linux-gnu/bits/unistd-decl.h:
 
-/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/profile.hpp:
+/usr/include/nlohmann/detail/macro_scope.hpp:
 
-/usr/include/c++/13/bits/stl_map.h:
+/usr/include/nlohmann/detail/json_pointer.hpp:
 
-/usr/include/c++/13/locale:
+/usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
+
+/usr/include/nlohmann/detail/iterators/primitive_iterator.hpp:
+
+/usr/include/qpdf/QPDF.hh:
 
 /usr/include/c++/13/bits/stl_numeric.h:
 
 /usr/include/stdio.h:
+
+/usr/include/qpdf/InputSource.hh:
 
 /usr/include/c++/13/bits/stl_iterator_base_types.h:
 
 /usr/include/c++/13/bits/stl_construct.h:
 
 /usr/include/c++/13/bits/std_mutex.h:
+
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_interface.hpp:
 
 /usr/include/c++/13/bits/stl_bvector.h:
 
@@ -608,17 +691,11 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/c++/13/valarray:
 
-/usr/include/c++/13/bits/postypes.h:
-
-/usr/include/c++/13/bits/uses_allocator.h:
-
-/usr/include/strings.h:
-
-/usr/include/c++/13/iomanip:
-
 /usr/include/nlohmann/detail/output/binary_writer.hpp:
 
 /usr/include/c++/13/bits/sstream.tcc:
+
+/usr/include/qpdf/Types.h:
 
 /usr/include/c++/13/cwctype:
 
@@ -638,15 +715,25 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/c++/13/bits/ranges_algobase.h:
 
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:
+
+/usr/include/nlohmann/detail/iterators/iterator_traits.hpp:
+
+/usr/include/c++/13/bits/quoted_string.h:
+
 /usr/include/c++/13/bits/unordered_map.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio2-decl.h:
 
 /usr/include/c++/13/bits/ptr_traits.h:
 
-/usr/include/c++/13/bits/std_abs.h:
+/usr/include/nlohmann/detail/iterators/json_reverse_iterator.hpp:
 
-/usr/include/c++/13/bits/parse_numbers.h:
+/usr/include/c++/13/bits/ranges_uninitialized.h:
 
 /usr/include/c++/13/bits/slice_array.h:
+
+/usr/include/c++/13/bits/stl_set.h:
 
 /usr/include/c++/13/bits/ostream_insert.h:
 
@@ -668,7 +755,19 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/c++/13/bits/fs_fwd.h:
 
-/usr/include/c++/13/bits/shared_ptr_atomic.h:
+/usr/include/nlohmann/detail/meta/identity_tag.hpp:
+
+/usr/include/c++/13/debug/assertions.h:
+
+/usr/include/c++/13/bits/max_size_type.h:
+
+/usr/include/stdint.h:
+
+/usr/include/endian.h:
+
+/usr/include/x86_64-linux-gnu/bits/wchar2-decl.h:
+
+/usr/include/c++/13/bits/stl_list.h:
 
 /usr/include/c++/13/bits/erase_if.h:
 
@@ -688,6 +787,14 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/nlohmann/detail/iterators/internal_iterator.hpp:
 
+/usr/include/x86_64-linux-gnu/bits/waitflags.h:
+
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/config_loader.hpp:
+
+/usr/include/x86_64-linux-gnu/sys/syscall.h:
+
+/usr/include/c++/13/clocale:
+
 /usr/include/stdlib.h:
 
 /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/preset.hpp:
@@ -696,11 +803,9 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/c++/13/bits/invoke.h:
 
-/usr/include/c++/13/bits/valarray_array.h:
+/usr/include/x86_64-linux-gnu/bits/types/error_t.h:
 
-/usr/include/c++/13/bits/atomic_lockfree_defines.h:
-
-/usr/include/nlohmann/detail/macro_unscope.hpp:
+/usr/include/c++/13/bits/hashtable.h:
 
 /usr/include/c++/13/bits/alloc_traits.h:
 
@@ -726,14 +831,6 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/c++/13/bits/unique_ptr.h:
 
-/usr/include/x86_64-linux-gnu/bits/errno.h:
-
-/usr/include/c++/13/bits/stl_pair.h:
-
-/usr/include/c++/13/bits/fs_path.h:
-
-/usr/include/c++/13/bits/basic_string.tcc:
-
 /usr/include/x86_64-linux-gnu/bits/posix2_lim.h:
 
 /usr/include/c++/13/bits/enable_special_members.h:
@@ -742,49 +839,33 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/c++/13/bits/stream_iterator.h:
 
-/usr/include/c++/13/backward/binders.h:
+/usr/include/nlohmann/detail/json_custom_base_class.hpp:
 
-/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
-
-/usr/include/c++/13/bits/stl_multimap.h:
-
-/usr/include/c++/13/bits/exception_ptr.h:
-
-/usr/include/c++/13/bits/locale_conv.h:
-
-/usr/include/c++/13/bits/istream.tcc:
+/usr/include/c++/13/bits/stl_raw_storage_iter.h:
 
 /usr/include/c++/13/algorithm:
 
 /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/report/report_builder.cpp:
 
-/usr/include/c++/13/bits/stl_vector.h:
-
 /usr/include/c++/13/bits/stl_tempbuf.h:
 
-/usr/include/c++/13/bits/stl_tree.h:
+/usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
 
-/usr/include/c++/13/bits/codecvt.h:
+/usr/include/asm-generic/errno.h:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
 /usr/include/nlohmann/detail/iterators/iteration_proxy.hpp:
 
-/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
+/usr/include/c++/13/bits/exception_ptr.h:
 
-/usr/include/c++/13/bits/stl_relops.h:
+/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
 
-/usr/include/x86_64-linux-gnu/bits/waitflags.h:
+/usr/include/c++/13/bits/stl_multimap.h:
 
-/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/config_loader.hpp:
+/usr/include/c++/13/bits/locale_conv.h:
 
-/usr/include/c++/13/bit:
-
-/usr/include/c++/13/bits/allocated_ptr.h:
-
-/usr/include/x86_64-linux-gnu/sys/syscall.h:
-
-/usr/include/c++/13/clocale:
+/usr/include/c++/13/bits/istream.tcc:
 
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
@@ -793,6 +874,58 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 /usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
 
 /usr/include/math.h:
+
+/usr/include/c++/13/bits/concept_check.h:
+
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_engine.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
+
+/usr/include/c++/13/pstl/glue_numeric_defs.h:
+
+/usr/include/qpdf/QPDFObjGen.hh:
+
+/usr/include/c++/13/bits/parse_numbers.h:
+
+/usr/include/c++/13/bits/std_abs.h:
+
+/usr/include/c++/13/bits/postypes.h:
+
+/usr/include/c++/13/bits/stl_multiset.h:
+
+/usr/include/c++/13/bits/uses_allocator.h:
+
+/usr/include/strings.h:
+
+/usr/include/c++/13/iomanip:
+
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_interface.hpp:
+
+/usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h:
+
+/usr/include/c++/13/any:
+
+/usr/include/c++/13/bits/ranges_util.h:
+
+/usr/include/c++/13/bits/stl_iterator_base_funcs.h:
+
+/usr/include/asm-generic/errno-base.h:
+
+/usr/include/c++/13/backward/binders.h:
+
+/usr/include/c++/13/bits/locale_facets_nonio.tcc:
+
+/usr/include/c++/13/bits/stl_heap.h:
+
+/usr/include/c++/13/utility:
+
+/usr/include/x86_64-linux-gnu/bits/types/FILE.h:
+
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_engine.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
+
+/usr/include/c++/13/bits/stl_relops.h:
 
 /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/finding.hpp:
 
@@ -804,11 +937,11 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/c++/13/bits/hash_bytes.h:
 
-/usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h:
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/profile.hpp:
 
-/usr/include/c++/13/any:
+/usr/include/c++/13/bits/stl_map.h:
 
-/usr/include/c++/13/bits/ranges_util.h:
+/usr/include/c++/13/locale:
 
 /usr/include/c++/13/bits/atomic_base.h:
 
@@ -834,47 +967,21 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/nlohmann/detail/input/binary_reader.hpp:
 
-/usr/include/c++/13/bits/locale_facets_nonio.tcc:
-
-/usr/include/c++/13/bits/stl_heap.h:
-
-/usr/include/c++/13/utility:
-
-/usr/include/x86_64-linux-gnu/bits/types/FILE.h:
-
-/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_engine.hpp:
-
-/usr/include/asm-generic/errno-base.h:
-
-/usr/include/c++/13/bits/stl_iterator_base_funcs.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
-
-/usr/include/asm-generic/errno.h:
-
-/usr/include/c++/13/bits/concept_check.h:
-
-/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_engine.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
-
-/usr/include/c++/13/pstl/glue_numeric_defs.h:
-
 /usr/include/c++/13/cstdint:
 
 /usr/include/nlohmann/detail/meta/cpp_future.hpp:
 
 /usr/include/c++/13/cstdlib:
 
-/usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
-
-/usr/include/nlohmann/detail/iterators/primitive_iterator.hpp:
-
 /usr/include/c++/13/bits/stl_uninitialized.h:
 
 /usr/include/c++/13/bits/new_allocator.h:
 
 /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/orchestration/local_batch_processor.hpp:
+
+/usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp:
+
+/usr/include/c++/13/bits/cxxabi_forced.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_inline.h:
 
@@ -890,6 +997,30 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/c++/13/bits/forward_list.tcc:
 
+/usr/include/c++/13/bits/valarray_array.h:
+
+/usr/include/c++/13/bits/atomic_lockfree_defines.h:
+
+/usr/include/c++/13/bits/allocated_ptr.h:
+
+/usr/include/c++/13/bit:
+
+/usr/include/qpdf/Pipeline.hh:
+
+/usr/include/c++/13/bits/basic_string.tcc:
+
+/usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
+
+/usr/include/nlohmann/detail/json_ref.hpp:
+
+/usr/include/c++/13/bits/charconv.h:
+
+/usr/include/x86_64-linux-gnu/bits/errno.h:
+
+/usr/include/c++/13/bits/stl_pair.h:
+
+/usr/include/c++/13/bits/fs_path.h:
+
 /usr/include/wchar.h:
 
 /usr/include/c++/13/bits/shared_ptr_base.h:
@@ -900,27 +1031,7 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/c++/13/bits/chrono.h:
 
-/usr/include/c++/13/bits/stl_raw_storage_iter.h:
-
-/usr/include/nlohmann/detail/json_custom_base_class.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
-
-/usr/include/c++/13/bits/streambuf_iterator.h:
-
-/usr/include/nlohmann/ordered_map.hpp:
-
-/usr/include/c++/13/ostream:
-
-/usr/include/x86_64-linux-gnu/asm/unistd.h:
-
-/usr/include/c++/13/tr1/riemann_zeta.tcc:
-
 /usr/include/nlohmann/byte_container_with_subtype.hpp:
-
-/usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp:
-
-/usr/include/c++/13/bits/cxxabi_forced.h:
 
 /usr/include/c++/13/bits/exception.h:
 
@@ -950,11 +1061,27 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/c++/13/sstream:
 
-/usr/include/x86_64-linux-gnu/bits/types/error_t.h:
-
-/usr/include/c++/13/bits/hashtable.h:
+/usr/include/x86_64-linux-gnu/bits/stdio.h:
 
 /usr/include/c++/13/bits/forward_list.h:
+
+/usr/include/c++/13/bits/codecvt.h:
+
+/usr/include/c++/13/bits/stl_tree.h:
+
+/usr/include/c++/13/bits/stl_vector.h:
+
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
+
+/usr/include/c++/13/bits/streambuf_iterator.h:
+
+/usr/include/nlohmann/ordered_map.hpp:
+
+/usr/include/c++/13/ostream:
+
+/usr/include/x86_64-linux-gnu/asm/unistd.h:
+
+/usr/include/c++/13/tr1/riemann_zeta.tcc:
 
 /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
 
@@ -1000,6 +1127,8 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/c++/13/cerrno:
 
+/usr/include/x86_64-linux-gnu/bits/select2.h:
+
 /usr/include/c++/13/cmath:
 
 /usr/include/c++/13/codecvt:
@@ -1024,17 +1153,11 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/c++/13/cwchar:
 
-/usr/include/nlohmann/detail/meta/identity_tag.hpp:
-
-/usr/include/c++/13/debug/assertions.h:
-
 /usr/include/nlohmann/json.hpp:
 
 /usr/include/c++/13/ext/aligned_buffer.h:
 
 /usr/include/locale.h:
-
-/usr/include/c++/13/ext/alloc_traits.h:
 
 /usr/include/c++/13/bits/gslice_array.h:
 
@@ -1058,6 +1181,8 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/c++/13/ios:
 
+/usr/include/c++/13/iostream:
+
 /usr/include/c++/13/istream:
 
 /usr/include/c++/13/bits/ios_base.h:
@@ -1069,6 +1194,10 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 /usr/include/c++/13/limits:
 
 /usr/include/nlohmann/detail/conversions/to_json.hpp:
+
+/usr/include/c++/13/ext/alloc_traits.h:
+
+/usr/include/c++/13/list:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h:
 
@@ -1084,15 +1213,13 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/c++/13/ranges:
 
+/usr/include/c++/13/bits/shared_ptr_atomic.h:
+
+/usr/include/c++/13/set:
+
 /usr/include/c++/13/span:
 
 /usr/include/c++/13/stdexcept:
-
-/usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
-
-/usr/include/c++/13/bits/charconv.h:
-
-/usr/include/nlohmann/detail/json_ref.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 
@@ -1132,7 +1259,11 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 
 /usr/include/c++/13/tr1/modified_bessel_func.tcc:
 
+/usr/include/qpdf/QPDFExc.hh:
+
 /usr/include/c++/13/tr1/special_function_util.h:
+
+/usr/include/c++/13/bits/list.tcc:
 
 /usr/include/c++/13/bits/nested_exception.h:
 
@@ -1155,10 +1286,6 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 /usr/include/c++/13/bits/atomic_wait.h:
 
 /usr/include/features.h:
-
-/usr/include/c++/13/bits/ranges_uninitialized.h:
-
-/usr/include/nlohmann/detail/iterators/json_reverse_iterator.hpp:
 
 /usr/include/linux/close_range.h:
 
@@ -1189,13 +1316,3 @@ src/report/CMakeFiles/printguard_report.dir/report_builder.cpp.o: /home/diego/De
 /usr/include/c++/13/cstdio:
 
 /usr/include/nlohmann/detail/input/parser.hpp:
-
-/usr/include/c++/13/bits/quoted_string.h:
-
-/usr/include/nlohmann/detail/iterators/iterator_traits.hpp:
-
-/usr/include/nlohmann/detail/json_pointer.hpp:
-
-/usr/include/nlohmann/detail/macro_scope.hpp:
-
-/usr/include/nlohmann/detail/meta/call_std/begin.hpp:

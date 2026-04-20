@@ -470,12 +470,12 @@ tests/clean: tests/CMakeFiles/unit_tests.dir/clean
 _deps/spdlog-build/CMakeFiles/spdlog.dir/all:
 	$(MAKE) $(MAKESILENT) -f _deps/spdlog-build/CMakeFiles/spdlog.dir/build.make _deps/spdlog-build/CMakeFiles/spdlog.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/spdlog-build/CMakeFiles/spdlog.dir/build.make _deps/spdlog-build/CMakeFiles/spdlog.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=93,94,95,96,97 "Built target spdlog"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=91,92,93,94 "Built target spdlog"
 .PHONY : _deps/spdlog-build/CMakeFiles/spdlog.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/spdlog-build/CMakeFiles/spdlog.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/spdlog-build/CMakeFiles/spdlog.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 0
 .PHONY : _deps/spdlog-build/CMakeFiles/spdlog.dir/rule
@@ -496,12 +496,12 @@ _deps/spdlog-build/CMakeFiles/spdlog.dir/clean:
 _deps/catch2-build/src/CMakeFiles/Catch2.dir/all:
 	$(MAKE) $(MAKESILENT) -f _deps/catch2-build/src/CMakeFiles/Catch2.dir/build.make _deps/catch2-build/src/CMakeFiles/Catch2.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/catch2-build/src/CMakeFiles/Catch2.dir/build.make _deps/catch2-build/src/CMakeFiles/Catch2.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57 "Built target Catch2"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48 "Built target Catch2"
 .PHONY : _deps/catch2-build/src/CMakeFiles/Catch2.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/catch2-build/src/CMakeFiles/Catch2.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 57
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 48
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/catch2-build/src/CMakeFiles/Catch2.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 0
 .PHONY : _deps/catch2-build/src/CMakeFiles/Catch2.dir/rule
@@ -522,12 +522,12 @@ _deps/catch2-build/src/CMakeFiles/Catch2.dir/clean:
 _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/all: _deps/catch2-build/src/CMakeFiles/Catch2.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/build.make _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/build.make _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=58 "Built target Catch2WithMain"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=49 "Built target Catch2WithMain"
 .PHONY : _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 58
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 49
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 0
 .PHONY : _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/rule
@@ -548,12 +548,12 @@ _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/clean:
 _deps/libpqxx-build/src/CMakeFiles/pqxx.dir/all:
 	$(MAKE) $(MAKESILENT) -f _deps/libpqxx-build/src/CMakeFiles/pqxx.dir/build.make _deps/libpqxx-build/src/CMakeFiles/pqxx.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/libpqxx-build/src/CMakeFiles/pqxx.dir/build.make _deps/libpqxx-build/src/CMakeFiles/pqxx.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74 "Built target pqxx"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=50,51,52,53,54,55,56,57,58,59,60,61,62 "Built target pqxx"
 .PHONY : _deps/libpqxx-build/src/CMakeFiles/pqxx.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/libpqxx-build/src/CMakeFiles/pqxx.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 16
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 13
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/libpqxx-build/src/CMakeFiles/pqxx.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 0
 .PHONY : _deps/libpqxx-build/src/CMakeFiles/pqxx.dir/rule
@@ -574,7 +574,7 @@ _deps/libpqxx-build/src/CMakeFiles/pqxx.dir/clean:
 src/common/CMakeFiles/printguard_common.dir/all: _deps/spdlog-build/CMakeFiles/spdlog.dir/all
 	$(MAKE) $(MAKESILENT) -f src/common/CMakeFiles/printguard_common.dir/build.make src/common/CMakeFiles/printguard_common.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/common/CMakeFiles/printguard_common.dir/build.make src/common/CMakeFiles/printguard_common.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=81 "Built target printguard_common"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=74,75 "Built target printguard_common"
 .PHONY : src/common/CMakeFiles/printguard_common.dir/all
 
 # Build rule for subdir invocation for target.
@@ -602,12 +602,12 @@ src/persistence/CMakeFiles/printguard_persistence.dir/all: _deps/libpqxx-build/s
 src/persistence/CMakeFiles/printguard_persistence.dir/all: src/common/CMakeFiles/printguard_common.dir/all
 	$(MAKE) $(MAKESILENT) -f src/persistence/CMakeFiles/printguard_persistence.dir/build.make src/persistence/CMakeFiles/printguard_persistence.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/persistence/CMakeFiles/printguard_persistence.dir/build.make src/persistence/CMakeFiles/printguard_persistence.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=88,89 "Built target printguard_persistence"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=87 "Built target printguard_persistence"
 .PHONY : src/persistence/CMakeFiles/printguard_persistence.dir/all
 
 # Build rule for subdir invocation for target.
 src/persistence/CMakeFiles/printguard_persistence.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 24
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 20
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/persistence/CMakeFiles/printguard_persistence.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 0
 .PHONY : src/persistence/CMakeFiles/printguard_persistence.dir/rule
@@ -629,7 +629,7 @@ src/storage/CMakeFiles/printguard_storage.dir/all: _deps/spdlog-build/CMakeFiles
 src/storage/CMakeFiles/printguard_storage.dir/all: src/common/CMakeFiles/printguard_common.dir/all
 	$(MAKE) $(MAKESILENT) -f src/storage/CMakeFiles/printguard_storage.dir/build.make src/storage/CMakeFiles/printguard_storage.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/storage/CMakeFiles/printguard_storage.dir/build.make src/storage/CMakeFiles/printguard_storage.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=92 "Built target printguard_storage"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=90 "Built target printguard_storage"
 .PHONY : src/storage/CMakeFiles/printguard_storage.dir/all
 
 # Build rule for subdir invocation for target.
@@ -656,7 +656,7 @@ src/domain/CMakeFiles/printguard_domain.dir/all: _deps/spdlog-build/CMakeFiles/s
 src/domain/CMakeFiles/printguard_domain.dir/all: src/common/CMakeFiles/printguard_common.dir/all
 	$(MAKE) $(MAKESILENT) -f src/domain/CMakeFiles/printguard_domain.dir/build.make src/domain/CMakeFiles/printguard_domain.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/domain/CMakeFiles/printguard_domain.dir/build.make src/domain/CMakeFiles/printguard_domain.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=82,83 "Built target printguard_domain"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=76,77 "Built target printguard_domain"
 .PHONY : src/domain/CMakeFiles/printguard_domain.dir/all
 
 # Build rule for subdir invocation for target.
@@ -692,12 +692,12 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/all: src/render/CMakeF
 src/orchestration/CMakeFiles/printguard_orchestration.dir/all: src/report/CMakeFiles/printguard_report.dir/all
 	$(MAKE) $(MAKESILENT) -f src/orchestration/CMakeFiles/printguard_orchestration.dir/build.make src/orchestration/CMakeFiles/printguard_orchestration.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/orchestration/CMakeFiles/printguard_orchestration.dir/build.make src/orchestration/CMakeFiles/printguard_orchestration.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=86 "Built target printguard_orchestration"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=85 "Built target printguard_orchestration"
 .PHONY : src/orchestration/CMakeFiles/printguard_orchestration.dir/all
 
 # Build rule for subdir invocation for target.
 src/orchestration/CMakeFiles/printguard_orchestration.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 35
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 41
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/orchestration/CMakeFiles/printguard_orchestration.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 0
 .PHONY : src/orchestration/CMakeFiles/printguard_orchestration.dir/rule
@@ -719,7 +719,7 @@ src/pdf/CMakeFiles/printguard_pdf.dir/all: _deps/spdlog-build/CMakeFiles/spdlog.
 src/pdf/CMakeFiles/printguard_pdf.dir/all: src/common/CMakeFiles/printguard_common.dir/all
 	$(MAKE) $(MAKESILENT) -f src/pdf/CMakeFiles/printguard_pdf.dir/build.make src/pdf/CMakeFiles/printguard_pdf.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/pdf/CMakeFiles/printguard_pdf.dir/build.make src/pdf/CMakeFiles/printguard_pdf.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=87 "Built target printguard_pdf"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=86 "Built target printguard_pdf"
 .PHONY : src/pdf/CMakeFiles/printguard_pdf.dir/all
 
 # Build rule for subdir invocation for target.
@@ -748,12 +748,12 @@ src/analysis/CMakeFiles/printguard_analysis.dir/all: src/domain/CMakeFiles/print
 src/analysis/CMakeFiles/printguard_analysis.dir/all: src/pdf/CMakeFiles/printguard_pdf.dir/all
 	$(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=79,80 "Built target printguard_analysis"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=67,68,69,70,71,72,73 "Built target printguard_analysis"
 .PHONY : src/analysis/CMakeFiles/printguard_analysis.dir/all
 
 # Build rule for subdir invocation for target.
 src/analysis/CMakeFiles/printguard_analysis.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 11
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/analysis/CMakeFiles/printguard_analysis.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 0
 .PHONY : src/analysis/CMakeFiles/printguard_analysis.dir/rule
@@ -776,12 +776,12 @@ src/fix/CMakeFiles/printguard_fix.dir/all: src/common/CMakeFiles/printguard_comm
 src/fix/CMakeFiles/printguard_fix.dir/all: src/domain/CMakeFiles/printguard_domain.dir/all
 	$(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=84,85 "Built target printguard_fix"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=78,79,80,81,82,83,84 "Built target printguard_fix"
 .PHONY : src/fix/CMakeFiles/printguard_fix.dir/all
 
 # Build rule for subdir invocation for target.
 src/fix/CMakeFiles/printguard_fix.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 10
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/fix/CMakeFiles/printguard_fix.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 0
 .PHONY : src/fix/CMakeFiles/printguard_fix.dir/rule
@@ -803,7 +803,7 @@ src/render/CMakeFiles/printguard_render.dir/all: _deps/spdlog-build/CMakeFiles/s
 src/render/CMakeFiles/printguard_render.dir/all: src/common/CMakeFiles/printguard_common.dir/all
 	$(MAKE) $(MAKESILENT) -f src/render/CMakeFiles/printguard_render.dir/build.make src/render/CMakeFiles/printguard_render.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/render/CMakeFiles/printguard_render.dir/build.make src/render/CMakeFiles/printguard_render.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=90 "Built target printguard_render"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=88 "Built target printguard_render"
 .PHONY : src/render/CMakeFiles/printguard_render.dir/all
 
 # Build rule for subdir invocation for target.
@@ -831,7 +831,7 @@ src/report/CMakeFiles/printguard_report.dir/all: src/common/CMakeFiles/printguar
 src/report/CMakeFiles/printguard_report.dir/all: src/domain/CMakeFiles/printguard_domain.dir/all
 	$(MAKE) $(MAKESILENT) -f src/report/CMakeFiles/printguard_report.dir/build.make src/report/CMakeFiles/printguard_report.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/report/CMakeFiles/printguard_report.dir/build.make src/report/CMakeFiles/printguard_report.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=91 "Built target printguard_report"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=89 "Built target printguard_report"
 .PHONY : src/report/CMakeFiles/printguard_report.dir/all
 
 # Build rule for subdir invocation for target.
@@ -868,12 +868,12 @@ apps/api/CMakeFiles/printguard-api.dir/all: src/render/CMakeFiles/printguard_ren
 apps/api/CMakeFiles/printguard-api.dir/all: src/report/CMakeFiles/printguard_report.dir/all
 	$(MAKE) $(MAKESILENT) -f apps/api/CMakeFiles/printguard-api.dir/build.make apps/api/CMakeFiles/printguard-api.dir/depend
 	$(MAKE) $(MAKESILENT) -f apps/api/CMakeFiles/printguard-api.dir/build.make apps/api/CMakeFiles/printguard-api.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=75 "Built target printguard-api"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=63 "Built target printguard-api"
 .PHONY : apps/api/CMakeFiles/printguard-api.dir/all
 
 # Build rule for subdir invocation for target.
 apps/api/CMakeFiles/printguard-api.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 36
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 42
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 apps/api/CMakeFiles/printguard-api.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 0
 .PHONY : apps/api/CMakeFiles/printguard-api.dir/rule
@@ -905,12 +905,12 @@ apps/worker/CMakeFiles/printguard-worker.dir/all: src/render/CMakeFiles/printgua
 apps/worker/CMakeFiles/printguard-worker.dir/all: src/report/CMakeFiles/printguard_report.dir/all
 	$(MAKE) $(MAKESILENT) -f apps/worker/CMakeFiles/printguard-worker.dir/build.make apps/worker/CMakeFiles/printguard-worker.dir/depend
 	$(MAKE) $(MAKESILENT) -f apps/worker/CMakeFiles/printguard-worker.dir/build.make apps/worker/CMakeFiles/printguard-worker.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=78 "Built target printguard-worker"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=66 "Built target printguard-worker"
 .PHONY : apps/worker/CMakeFiles/printguard-worker.dir/all
 
 # Build rule for subdir invocation for target.
 apps/worker/CMakeFiles/printguard-worker.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 36
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 42
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 apps/worker/CMakeFiles/printguard-worker.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 0
 .PHONY : apps/worker/CMakeFiles/printguard-worker.dir/rule
@@ -933,7 +933,7 @@ apps/inspect/CMakeFiles/printguard-inspect.dir/all: src/common/CMakeFiles/printg
 apps/inspect/CMakeFiles/printguard-inspect.dir/all: src/pdf/CMakeFiles/printguard_pdf.dir/all
 	$(MAKE) $(MAKESILENT) -f apps/inspect/CMakeFiles/printguard-inspect.dir/build.make apps/inspect/CMakeFiles/printguard-inspect.dir/depend
 	$(MAKE) $(MAKESILENT) -f apps/inspect/CMakeFiles/printguard-inspect.dir/build.make apps/inspect/CMakeFiles/printguard-inspect.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=77 "Built target printguard-inspect"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=65 "Built target printguard-inspect"
 .PHONY : apps/inspect/CMakeFiles/printguard-inspect.dir/all
 
 # Build rule for subdir invocation for target.
@@ -970,12 +970,12 @@ apps/cli/CMakeFiles/printguard-cli.dir/all: src/render/CMakeFiles/printguard_ren
 apps/cli/CMakeFiles/printguard-cli.dir/all: src/report/CMakeFiles/printguard_report.dir/all
 	$(MAKE) $(MAKESILENT) -f apps/cli/CMakeFiles/printguard-cli.dir/build.make apps/cli/CMakeFiles/printguard-cli.dir/depend
 	$(MAKE) $(MAKESILENT) -f apps/cli/CMakeFiles/printguard-cli.dir/build.make apps/cli/CMakeFiles/printguard-cli.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=76 "Built target printguard-cli"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=64 "Built target printguard-cli"
 .PHONY : apps/cli/CMakeFiles/printguard-cli.dir/all
 
 # Build rule for subdir invocation for target.
 apps/cli/CMakeFiles/printguard-cli.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 36
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 42
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 apps/cli/CMakeFiles/printguard-cli.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 0
 .PHONY : apps/cli/CMakeFiles/printguard-cli.dir/rule
@@ -996,17 +996,26 @@ apps/cli/CMakeFiles/printguard-cli.dir/clean:
 tests/CMakeFiles/unit_tests.dir/all: _deps/spdlog-build/CMakeFiles/spdlog.dir/all
 tests/CMakeFiles/unit_tests.dir/all: _deps/catch2-build/src/CMakeFiles/Catch2.dir/all
 tests/CMakeFiles/unit_tests.dir/all: _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/all
+tests/CMakeFiles/unit_tests.dir/all: _deps/libpqxx-build/src/CMakeFiles/pqxx.dir/all
 tests/CMakeFiles/unit_tests.dir/all: src/common/CMakeFiles/printguard_common.dir/all
+tests/CMakeFiles/unit_tests.dir/all: src/persistence/CMakeFiles/printguard_persistence.dir/all
+tests/CMakeFiles/unit_tests.dir/all: src/storage/CMakeFiles/printguard_storage.dir/all
 tests/CMakeFiles/unit_tests.dir/all: src/domain/CMakeFiles/printguard_domain.dir/all
+tests/CMakeFiles/unit_tests.dir/all: src/orchestration/CMakeFiles/printguard_orchestration.dir/all
 tests/CMakeFiles/unit_tests.dir/all: src/pdf/CMakeFiles/printguard_pdf.dir/all
+tests/CMakeFiles/unit_tests.dir/all: src/analysis/CMakeFiles/printguard_analysis.dir/all
+tests/CMakeFiles/unit_tests.dir/all: src/fix/CMakeFiles/printguard_fix.dir/all
+tests/CMakeFiles/unit_tests.dir/all: src/render/CMakeFiles/printguard_render.dir/all
+tests/CMakeFiles/unit_tests.dir/all: src/report/CMakeFiles/printguard_report.dir/all
+tests/CMakeFiles/unit_tests.dir/all: apps/cli/CMakeFiles/printguard-cli.dir/all
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/depend
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=98,99,100 "Built target unit_tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=95,96,97,98,99,100 "Built target unit_tests"
 .PHONY : tests/CMakeFiles/unit_tests.dir/all
 
 # Build rule for subdir invocation for target.
 tests/CMakeFiles/unit_tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 70
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 97
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/unit_tests.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles 0
 .PHONY : tests/CMakeFiles/unit_tests.dir/rule

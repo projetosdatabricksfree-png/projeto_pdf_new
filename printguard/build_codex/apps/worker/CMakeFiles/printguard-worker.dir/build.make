@@ -108,7 +108,7 @@ apps/worker/printguard-worker: src/report/libprintguard_report.a
 apps/worker/printguard-worker: src/domain/libprintguard_domain.a
 apps/worker/printguard-worker: src/pdf/libprintguard_pdf.a
 apps/worker/printguard-worker: src/common/libprintguard_common.a
-apps/worker/printguard-worker: _deps/spdlog-build/libspdlogd.a
+apps/worker/printguard-worker: _deps/spdlog-build/libspdlog.a
 apps/worker/printguard-worker: /usr/lib/x86_64-linux-gnu/libssl.so
 apps/worker/printguard-worker: /usr/lib/x86_64-linux-gnu/libcrypto.so
 apps/worker/printguard-worker: /usr/lib/x86_64-linux-gnu/libqpdf.so.29.9.0

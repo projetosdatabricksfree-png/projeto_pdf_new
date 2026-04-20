@@ -1,4 +1,4 @@
 runner 0 0
-smoke_tests 3 0.00425391
+smoke_tests 4 0.00862058
 ---
 runner

@@ -179,13 +179,20 @@ src/common/CMakeFiles/printguard_common.dir/crypto.cpp.o: /home/diego/Desktop/PR
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
   /usr/include/x86_64-linux-gnu/bits/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/select-decl.h \
   /usr/include/x86_64-linux-gnu/bits/select.h \
+  /usr/include/x86_64-linux-gnu/bits/select2.h \
   /usr/include/x86_64-linux-gnu/bits/setjmp.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio2-decl.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio2.h \
   /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
   /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
   /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
   /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
@@ -224,6 +231,8 @@ src/common/CMakeFiles/printguard_common.dir/crypto.cpp.o: /home/diego/Desktop/PR
   /usr/include/x86_64-linux-gnu/bits/waitflags.h \
   /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
   /usr/include/x86_64-linux-gnu/bits/wchar.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2-decl.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
   /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
   /usr/include/x86_64-linux-gnu/bits/wordsize.h \
   /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
@@ -533,14 +542,23 @@ src/common/CMakeFiles/printguard_common.dir/logging/logger.cpp.o: /home/diego/De
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
   /usr/include/x86_64-linux-gnu/bits/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/select-decl.h \
   /usr/include/x86_64-linux-gnu/bits/select.h \
+  /usr/include/x86_64-linux-gnu/bits/select2.h \
   /usr/include/x86_64-linux-gnu/bits/semaphore.h \
   /usr/include/x86_64-linux-gnu/bits/setjmp.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio2-decl.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio2.h \
   /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
+  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
   /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
   /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
   /usr/include/x86_64-linux-gnu/bits/syscall.h \
@@ -577,10 +595,14 @@ src/common/CMakeFiles/printguard_common.dir/logging/logger.cpp.o: /home/diego/De
   /usr/include/x86_64-linux-gnu/bits/typesizes.h \
   /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
   /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd-decl.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd.h \
   /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
   /usr/include/x86_64-linux-gnu/bits/waitflags.h \
   /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
   /usr/include/x86_64-linux-gnu/bits/wchar.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2-decl.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
   /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
   /usr/include/x86_64-linux-gnu/bits/wordsize.h \
   /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
@@ -616,7 +638,13 @@ src/common/CMakeFiles/printguard_common.dir/logging/logger.cpp.o: /home/diego/De
 
 /usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
 
+/usr/include/x86_64-linux-gnu/bits/unistd-decl.h:
+
 /usr/include/x86_64-linux-gnu/bits/syscall.h:
+
+/usr/include/x86_64-linux-gnu/bits/strings_fortified.h:
+
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:
 
 /usr/include/x86_64-linux-gnu/bits/semaphore.h:
 
@@ -627,8 +655,6 @@ src/common/CMakeFiles/printguard_common.dir/logging/logger.cpp.o: /home/diego/De
 /usr/include/x86_64-linux-gnu/bits/math-vector.h:
 
 /usr/include/x86_64-linux-gnu/bits/getopt_core.h:
-
-/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
 
 /usr/include/x86_64-linux-gnu/bits/fp-fast.h:
 
@@ -680,8 +706,6 @@ src/common/CMakeFiles/printguard_common.dir/logging/logger.cpp.o: /home/diego/De
 
 /usr/include/c++/13/cstdint:
 
-/usr/include/c++/13/cmath:
-
 /usr/include/x86_64-linux-gnu/bits/posix_opt.h:
 
 /usr/include/c++/13/climits:
@@ -722,8 +746,6 @@ src/common/CMakeFiles/printguard_common.dir/logging/logger.cpp.o: /home/diego/De
 
 /usr/include/c++/13/bits/hashtable_policy.h:
 
-/usr/include/c++/13/bits/erase_if.h:
-
 /usr/include/c++/13/bits/chrono_io.h:
 
 /usr/include/c++/13/bits/atomic_timed_wait.h:
@@ -741,6 +763,8 @@ src/common/CMakeFiles/printguard_common.dir/logging/logger.cpp.o: /home/diego/De
 /usr/include/c++/13/array:
 
 /usr/include/assert.h:
+
+/usr/include/x86_64-linux-gnu/bits/unistd.h:
 
 _deps/spdlog-src/include/spdlog/version.h:
 
@@ -777,6 +801,26 @@ _deps/spdlog-src/include/spdlog/details/log_msg_buffer.h:
 _deps/spdlog-src/include/spdlog/details/log_msg.h:
 
 _deps/spdlog-src/include/spdlog/details/file_helper.h:
+
+/usr/include/c++/13/tr1/legendre_function.tcc:
+
+_deps/spdlog-src/include/spdlog/details/console_globals.h:
+
+_deps/spdlog-src/include/spdlog/details/circular_q.h:
+
+_deps/spdlog-src/include/spdlog/details/backtracer.h:
+
+/usr/include/c++/13/functional:
+
+_deps/spdlog-src/include/spdlog/common.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h:
+
+/usr/include/x86_64-linux-gnu/bits/environments.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h:
 
 /usr/include/locale.h:
 
@@ -852,6 +896,10 @@ _deps/spdlog-src/include/spdlog/logger.h:
 
 /usr/include/c++/13/initializer_list:
 
+/usr/include/c++/13/bits/erase_if.h:
+
+/usr/include/x86_64-linux-gnu/bits/wchar2-decl.h:
+
 /usr/include/c++/13/ext/type_traits.h:
 
 /usr/include/c++/13/ext/string_conversions.h:
@@ -864,11 +912,9 @@ _deps/spdlog-src/include/spdlog/logger.h:
 
 /usr/include/c++/13/bits/functional_hash.h:
 
-/usr/include/x86_64-linux-gnu/bits/environments.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h:
-
 /usr/include/c++/13/debug/assertions.h:
+
+/usr/include/x86_64-linux-gnu/bits/select-decl.h:
 
 /usr/include/c++/13/ctime:
 
@@ -1020,8 +1066,6 @@ _deps/spdlog-src/include/spdlog/details/null_mutex.h:
 
 /usr/include/ctype.h:
 
-/usr/include/c++/13/bits/quoted_string.h:
-
 /usr/include/c++/13/charconv:
 
 /usr/include/openssl/obj_mac.h:
@@ -1078,13 +1122,15 @@ _deps/spdlog-src/include/spdlog/sinks/basic_file_sink.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h:
 
+/usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
+
 /usr/include/c++/13/bits/istream.tcc:
 
 /usr/include/c++/13/bits/locale_conv.h:
 
 /usr/include/alloca.h:
-
-/usr/include/c++/13/bits/ptr_traits.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h:
 
@@ -1101,6 +1147,12 @@ _deps/spdlog-src/include/spdlog/sinks/basic_file_sink.h:
 /usr/include/x86_64-linux-gnu/bits/confname.h:
 
 /usr/include/c++/13/bits/locale_facets_nonio.h:
+
+/usr/include/c++/13/span:
+
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/common/logging/logger.cpp:
+
+/usr/include/openssl/objectserr.h:
 
 /usr/include/c++/13/bits/invoke.h:
 
@@ -1162,10 +1214,6 @@ _deps/spdlog-src/include/spdlog/sinks/basic_file_sink.h:
 
 /usr/include/openssl/e_os2.h:
 
-/usr/include/c++/13/tr1/legendre_function.tcc:
-
-_deps/spdlog-src/include/spdlog/details/console_globals.h:
-
 /usr/include/c++/13/bits/ostream.tcc:
 
 /usr/include/openssl/evp.h:
@@ -1216,6 +1264,8 @@ _deps/spdlog-src/include/spdlog/details/console_globals.h:
 
 /usr/include/x86_64-linux-gnu/asm/errno.h:
 
+/usr/include/x86_64-linux-gnu/bits/stdlib.h:
+
 _deps/spdlog-src/include/spdlog/sinks/ansicolor_sink.h:
 
 /usr/include/c++/13/ext/numeric_traits.h:
@@ -1258,6 +1308,10 @@ _deps/spdlog-src/include/spdlog/sinks/ansicolor_sink.h:
 
 /usr/include/x86_64-linux-gnu/bits/sched.h:
 
+/usr/include/c++/13/cmath:
+
+/usr/include/x86_64-linux-gnu/bits/select2.h:
+
 /usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
 
 /usr/include/time.h:
@@ -1271,6 +1325,16 @@ _deps/spdlog-src/include/spdlog/details/synchronous_factory.h:
 /usr/include/c++/13/cwchar:
 
 /usr/include/x86_64-linux-gnu/sys/select.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio.h:
+
+/usr/include/c++/13/bits/ptr_traits.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio2-decl.h:
+
+/usr/include/c++/13/bits/quoted_string.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:
 
 /usr/include/openssl/core_dispatch.h:
 
@@ -1292,12 +1356,6 @@ _deps/spdlog-src/include/spdlog/details/synchronous_factory.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
 
-/usr/include/c++/13/span:
-
-/usr/include/openssl/objectserr.h:
-
-/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/common/logging/logger.cpp:
-
 /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
 
 /usr/include/c++/13/bits/charconv.h:
@@ -1311,6 +1369,8 @@ _deps/spdlog-src/include/spdlog/details/synchronous_factory.h:
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
 
@@ -1336,11 +1396,11 @@ _deps/spdlog-src/include/spdlog/details/synchronous_factory.h:
 
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
+/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
+
+/usr/include/x86_64-linux-gnu/bits/wchar2.h:
+
 /usr/include/x86_64-linux-gnu/bits/xopen_lim.h:
-
-/usr/include/c++/13/functional:
-
-_deps/spdlog-src/include/spdlog/common.h:
 
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
@@ -1369,15 +1429,3 @@ _deps/spdlog-src/include/spdlog/common.h:
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
 /usr/include/x86_64-linux-gnu/sys/cdefs.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h:
-
-_deps/spdlog-src/include/spdlog/details/backtracer.h:
-
-_deps/spdlog-src/include/spdlog/details/circular_q.h:

@@ -83,17 +83,241 @@ src/analysis/CMakeFiles/printguard_analysis.dir/rule_engine.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_analysis.dir/rule_engine.cpp.s"
 	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rule_engine.cpp -o CMakeFiles/printguard_analysis.dir/rule_engine.cpp.s
 
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/flags.make
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/page_geometry_rule.cpp
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/analysis/CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/analysis/CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.o -MF CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.o.d -o CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/page_geometry_rule.cpp
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/page_geometry_rule.cpp > CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.i
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/page_geometry_rule.cpp -o CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.s
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/flags.make
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/bleed_rule.cpp
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/analysis/CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/analysis/CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.o -MF CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.o.d -o CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/bleed_rule.cpp
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/bleed_rule.cpp > CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.i
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/bleed_rule.cpp -o CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.s
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/flags.make
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/color_space_rule.cpp
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/analysis/CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/analysis/CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.o -MF CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.o.d -o CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/color_space_rule.cpp
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/color_space_rule.cpp > CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.i
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/color_space_rule.cpp -o CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.s
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/flags.make
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/image_resolution_rule.cpp
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/analysis/CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/analysis/CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.o -MF CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.o.d -o CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/image_resolution_rule.cpp
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/image_resolution_rule.cpp > CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.i
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/image_resolution_rule.cpp -o CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.s
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/flags.make
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/safety_margin_rule.cpp
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/analysis/CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/analysis/CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.o -MF CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.o.d -o CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/safety_margin_rule.cpp
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/safety_margin_rule.cpp > CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.i
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/safety_margin_rule.cpp -o CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.s
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/flags.make
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/transparency_rule.cpp
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object src/analysis/CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/analysis/CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.o -MF CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.o.d -o CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/transparency_rule.cpp
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/transparency_rule.cpp > CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.i
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/transparency_rule.cpp -o CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.s
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/flags.make
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/tac_rule.cpp
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/analysis/CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/analysis/CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.o -MF CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.o.d -o CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/tac_rule.cpp
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/tac_rule.cpp > CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.i
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/tac_rule.cpp -o CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.s
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/flags.make
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/output_intent_rule.cpp
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/analysis/CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/analysis/CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.o -MF CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.o.d -o CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/output_intent_rule.cpp
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/output_intent_rule.cpp > CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.i
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/output_intent_rule.cpp -o CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.s
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/flags.make
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/white_overprint_rule.cpp
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/analysis/CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/analysis/CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.o -MF CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.o.d -o CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/white_overprint_rule.cpp
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/white_overprint_rule.cpp > CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.i
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/white_overprint_rule.cpp -o CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.s
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/flags.make
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/black_consistency_rule.cpp
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/analysis/CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/analysis/CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.o -MF CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.o.d -o CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/black_consistency_rule.cpp
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/black_consistency_rule.cpp > CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.i
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/black_consistency_rule.cpp -o CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.s
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/flags.make
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/annotation_rule.cpp
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/analysis/CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/analysis/CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.o -MF CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.o.d -o CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/annotation_rule.cpp
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/annotation_rule.cpp > CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.i
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/annotation_rule.cpp -o CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.s
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/flags.make
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/layer_rule.cpp
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/analysis/CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/analysis/CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.o -MF CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.o.d -o CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/layer_rule.cpp
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/layer_rule.cpp > CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.i
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/layer_rule.cpp -o CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.s
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/flags.make
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/spot_color_rule.cpp
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/analysis/CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/analysis/CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.o -MF CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.o.d -o CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/spot_color_rule.cpp
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/spot_color_rule.cpp > CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.i
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/spot_color_rule.cpp -o CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.s
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/flags.make
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/rotation_rule.cpp
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.o: src/analysis/CMakeFiles/printguard_analysis.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object src/analysis/CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/analysis/CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.o -MF CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.o.d -o CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/rotation_rule.cpp
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/rotation_rule.cpp > CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.i
+
+src/analysis/CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/analysis/rules/rotation_rule.cpp -o CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.s
+
 # Object files for target printguard_analysis
 printguard_analysis_OBJECTS = \
-"CMakeFiles/printguard_analysis.dir/rule_engine.cpp.o"
+"CMakeFiles/printguard_analysis.dir/rule_engine.cpp.o" \
+"CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.o" \
+"CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.o" \
+"CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.o" \
+"CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.o" \
+"CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.o" \
+"CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.o" \
+"CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.o" \
+"CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.o" \
+"CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.o" \
+"CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.o" \
+"CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.o" \
+"CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.o" \
+"CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.o" \
+"CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.o"
 
 # External object files for target printguard_analysis
 printguard_analysis_EXTERNAL_OBJECTS =
 
 src/analysis/libprintguard_analysis.a: src/analysis/CMakeFiles/printguard_analysis.dir/rule_engine.cpp.o
+src/analysis/libprintguard_analysis.a: src/analysis/CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.o
+src/analysis/libprintguard_analysis.a: src/analysis/CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.o
+src/analysis/libprintguard_analysis.a: src/analysis/CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.o
+src/analysis/libprintguard_analysis.a: src/analysis/CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.o
+src/analysis/libprintguard_analysis.a: src/analysis/CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.o
+src/analysis/libprintguard_analysis.a: src/analysis/CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.o
+src/analysis/libprintguard_analysis.a: src/analysis/CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.o
+src/analysis/libprintguard_analysis.a: src/analysis/CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.o
+src/analysis/libprintguard_analysis.a: src/analysis/CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.o
+src/analysis/libprintguard_analysis.a: src/analysis/CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.o
+src/analysis/libprintguard_analysis.a: src/analysis/CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.o
+src/analysis/libprintguard_analysis.a: src/analysis/CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.o
+src/analysis/libprintguard_analysis.a: src/analysis/CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.o
+src/analysis/libprintguard_analysis.a: src/analysis/CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.o
 src/analysis/libprintguard_analysis.a: src/analysis/CMakeFiles/printguard_analysis.dir/build.make
 src/analysis/libprintguard_analysis.a: src/analysis/CMakeFiles/printguard_analysis.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libprintguard_analysis.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX static library libprintguard_analysis.a"
 	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && $(CMAKE_COMMAND) -P CMakeFiles/printguard_analysis.dir/cmake_clean_target.cmake
 	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/analysis && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/printguard_analysis.dir/link.txt --verbose=$(VERBOSE)
 

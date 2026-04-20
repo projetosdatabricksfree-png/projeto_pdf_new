@@ -106,7 +106,7 @@ apps/api/printguard-api: src/pdf/libprintguard_pdf.a
 apps/api/printguard-api: /usr/lib/x86_64-linux-gnu/libqpdf.so.29.9.0
 apps/api/printguard-api: src/storage/libprintguard_storage.a
 apps/api/printguard-api: src/common/libprintguard_common.a
-apps/api/printguard-api: _deps/spdlog-build/libspdlogd.a
+apps/api/printguard-api: _deps/spdlog-build/libspdlog.a
 apps/api/printguard-api: /usr/lib/x86_64-linux-gnu/libssl.so
 apps/api/printguard-api: /usr/lib/x86_64-linux-gnu/libcrypto.so
 apps/api/printguard-api: /usr/lib/x86_64-linux-gnu/libz.so

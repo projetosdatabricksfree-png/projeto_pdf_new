@@ -32,57 +32,62 @@ Implementar conversao RGB→CMYK completa usando LittleCMS2 (lcms2), cobrindo ta
 
 ### Integrar lcms2 no CMake
 
-- [ ] Adicionar `find_package(PkgConfig REQUIRED)` e `pkg_check_modules(LCMS2 REQUIRED lcms2)` no CMakeLists.txt raiz
-- [ ] Verificar que `liblcms2-dev` ja esta no Dockerfile (ja esta)
-- [ ] Linkar lcms2 na lib `printguard_fix`
+- [x] Adicionar `find_package(PkgConfig REQUIRED)` e `pkg_check_modules(LCMS2 REQUIRED lcms2)` no CMakeLists.txt raiz
+- [x] Verificar que `liblcms2-dev` ja esta no Dockerfile (ja esta)
+- [x] Linkar lcms2 na lib `printguard_fix`
 
 ### Perfil ICC
 
-- [ ] Criar diretorio `config/icc/`
-- [ ] Incluir perfil ICC CMYK livre (ex: `FOGRA39L.icc` ou `USWebCoatedSWOP.icc`)
+- [x] Criar diretorio `config/icc/`
+- [x] Incluir perfil ICC CMYK livre (ex: `FOGRA39L.icc` ou `USWebCoatedSWOP.icc`)
 - [ ] Alternativa: gerar perfil CMYK basico via lcms2 se nao houver perfil livre disponivel
-- [ ] Documentar qual perfil foi escolhido e porque
+  - Estado atual: nao foi necessario; foi incluido no projeto o perfil livre `GRACoL2013.icc`, copiado a partir de `GRACoL2013_CRPC6.icc`.
+- [x] Documentar qual perfil foi escolhido e porque
+  - Perfil escolhido: `GRACoL2013.icc`
+  - Local: `config/icc/GRACoL2013.icc`
+  - Motivo: mantem compatibilidade com os presets atuais do projeto (`output_intent_profile = GRACoL2013.icc`) e usa uma caracterizacao CMYK livre amplamente distribuida no sistema.
 
 ### ImageColorConvertFix (Novo)
 
-- [ ] Criar `src/fix/fixes/image_color_convert_fix.hpp/.cpp`
-- [ ] ID: `ImageColorConvertFix`
-- [ ] targets_finding_code: `PG_ERR_RGB_COLORSPACE`
+- [x] Criar `src/fix/fixes/image_color_convert_fix.hpp/.cpp`
+- [x] ID: `ImageColorConvertFix`
+- [x] targets_finding_code: `PG_ERR_RGB_COLORSPACE`
 - [ ] Logica:
-  - [ ] Iterar todas as paginas do PDF
-  - [ ] Para cada pagina, iterar `/Resources/XObject` procurando `/Subtype /Image`
-  - [ ] Para cada imagem: verificar `/ColorSpace`
-  - [ ] Se `/DeviceRGB` ou `/ICCBased` com 3 componentes:
-    - [ ] Decodificar stream de pixels via QPDF (`getStreamData`)
-    - [ ] Criar transformacao lcms2: `cmsCreateTransform(sRGB, TYPE_RGB_8, cmykProfile, TYPE_CMYK_8, INTENT_PERCEPTUAL, 0)`
-    - [ ] Transformar pixels RGB → CMYK
-    - [ ] Criar novo stream com dados CMYK
-    - [ ] Atualizar `/ColorSpace` para `/DeviceCMYK`
-    - [ ] Atualizar `/BitsPerComponent` se necessario
-  - [ ] Registrar FixRecord com contagem de imagens convertidas
-- [ ] Ler perfil ICC do `preset.color_policy.output_intent_profile` ou usar default
+  - [x] Iterar todas as paginas do PDF
+  - [x] Para cada pagina, iterar `/Resources/XObject` procurando `/Subtype /Image`
+  - [x] Para cada imagem: verificar `/ColorSpace`
+  - [x] Se `/DeviceRGB` ou `/ICCBased` com 3 componentes:
+    - [x] Decodificar stream de pixels via QPDF (`getStreamData`)
+    - [x] Criar transformacao lcms2: `cmsCreateTransform(sRGB, TYPE_RGB_8, cmykProfile, TYPE_CMYK_8, INTENT_PERCEPTUAL, 0)`
+    - [x] Transformar pixels RGB → CMYK
+    - [x] Criar novo stream com dados CMYK
+    - [x] Atualizar `/ColorSpace` para `/DeviceCMYK`
+    - [x] Atualizar `/BitsPerComponent` se necessario
+  - [x] Registrar FixRecord com contagem de imagens convertidas
+- [x] Ler perfil ICC do `preset.color_policy.output_intent_profile` ou usar default
 
 ### Melhorar ConvertRgbToCmykFix existente
 
-- [ ] Substituir formula naive `rgb_to_cmyk()` por transformacao lcms2
-- [ ] Manter regex para detectar operadores `rg`/`RG` nos content streams
-- [ ] Usar mesmo perfil ICC que o ImageColorConvertFix
-- [ ] Preservar grays neutros como antes
+- [x] Substituir formula naive `rgb_to_cmyk()` por transformacao lcms2
+- [x] Manter regex para detectar operadores `rg`/`RG` nos content streams
+- [x] Usar mesmo perfil ICC que o ImageColorConvertFix
+- [x] Preservar grays neutros como antes
 
 ### Registro
 
-- [ ] Registrar `ImageColorConvertFix` no factory `create_default_fix_engine()`
-- [ ] Manter `ConvertRgbToCmykFix` registrado (agora com lcms2)
+- [x] Registrar `ImageColorConvertFix` no factory `create_default_fix_engine()`
+- [x] Manter `ConvertRgbToCmykFix` registrado (agora com lcms2)
 
 ### Testes
 
-- [ ] Teste: PDF com imagem RGB e convertido para CMYK
-- [ ] Teste: PDF com operadores RGB de stream e convertido
-- [ ] Teste: cores convertidas sao visuais aceitaveis (nao invertidas, nao degradadas)
-- [ ] Teste: PDF resultante e valido (QPDF check)
-- [ ] Teste: imagens grayscale nao sao tocadas
+- [x] Teste: PDF com imagem RGB e convertido para CMYK
+- [x] Teste: PDF com operadores RGB de stream e convertido
+- [x] Teste: cores convertidas sao visuais aceitaveis (nao invertidas, nao degradadas)
+- [x] Teste: PDF resultante e valido (QPDF check)
+- [x] Teste: imagens grayscale nao sao tocadas
 - [ ] Teste de performance: conversao de imagem grande nao excede 10s no VPS
-- [ ] Compilacao limpa
+  - Estado atual: teste automatizado com imagem RGB grande passou abaixo de 10s no ambiente atual; validacao dedicada no VPS alvo ainda nao foi executada.
+- [x] Compilacao limpa
 
 ## Arquivos Impactados
 
@@ -103,8 +108,9 @@ Implementar conversao RGB→CMYK completa usando LittleCMS2 (lcms2), cobrindo ta
 
 ## Criterios de Aceite
 
-- [ ] Imagens RGB em PDF sao convertidas para CMYK com qualidade visual aceitavel
-- [ ] Operadores RGB em content streams sao convertidos usando lcms2
-- [ ] PDF resultante valido
-- [ ] Compilacao limpa
+- [x] Imagens RGB em PDF sao convertidas para CMYK com qualidade visual aceitavel
+- [x] Operadores RGB em content streams sao convertidos usando lcms2
+- [x] PDF resultante valido
+- [x] Compilacao limpa
 - [ ] Performance aceitavel no VPS
+  - Estado atual: cobertura automatizada criada e aprovada no ambiente atual; falta validacao especifica no VPS alvo.

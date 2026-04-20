@@ -69,10 +69,38 @@ include src/fix/CMakeFiles/printguard_fix.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/fix/CMakeFiles/printguard_fix.dir/flags.make
 
+src/fix/CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/flags.make
+src/fix/CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/color_transform_lcms.cpp
+src/fix/CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/fix/CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/fix/CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.o -MF CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.o.d -o CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/color_transform_lcms.cpp
+
+src/fix/CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/color_transform_lcms.cpp > CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.i
+
+src/fix/CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/color_transform_lcms.cpp -o CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.s
+
+src/fix/CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/flags.make
+src/fix/CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/pdf_color_utils.cpp
+src/fix/CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/fix/CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/fix/CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.o -MF CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.o.d -o CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/pdf_color_utils.cpp
+
+src/fix/CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/pdf_color_utils.cpp > CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.i
+
+src/fix/CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/pdf_color_utils.cpp -o CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.s
+
 src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/flags.make
 src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fix_engine.cpp
 src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.o"
 	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.o -MF CMakeFiles/printguard_fix.dir/fix_engine.cpp.o.d -o CMakeFiles/printguard_fix.dir/fix_engine.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fix_engine.cpp
 
 src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.i: cmake_force
@@ -83,17 +111,197 @@ src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_fix.dir/fix_engine.cpp.s"
 	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fix_engine.cpp -o CMakeFiles/printguard_fix.dir/fix_engine.cpp.s
 
+src/fix/CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/flags.make
+src/fix/CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/normalize_boxes_fix.cpp
+src/fix/CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/fix/CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/fix/CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.o -MF CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.o.d -o CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/normalize_boxes_fix.cpp
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/normalize_boxes_fix.cpp > CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.i
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/normalize_boxes_fix.cpp -o CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.s
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/flags.make
+src/fix/CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/convert_rgb_to_cmyk_fix.cpp
+src/fix/CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/fix/CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/fix/CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.o -MF CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.o.d -o CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/convert_rgb_to_cmyk_fix.cpp
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/convert_rgb_to_cmyk_fix.cpp > CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.i
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/convert_rgb_to_cmyk_fix.cpp -o CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.s
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/flags.make
+src/fix/CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/image_color_convert_fix.cpp
+src/fix/CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/fix/CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/fix/CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.o -MF CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.o.d -o CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/image_color_convert_fix.cpp
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/image_color_convert_fix.cpp > CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.i
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/image_color_convert_fix.cpp -o CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.s
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/flags.make
+src/fix/CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/attach_output_intent_fix.cpp
+src/fix/CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object src/fix/CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/fix/CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.o -MF CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.o.d -o CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/attach_output_intent_fix.cpp
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/attach_output_intent_fix.cpp > CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.i
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/attach_output_intent_fix.cpp -o CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.s
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/flags.make
+src/fix/CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/tac_reduction_fix.cpp
+src/fix/CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/fix/CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/fix/CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.o -MF CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.o.d -o CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/tac_reduction_fix.cpp
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/tac_reduction_fix.cpp > CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.i
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/tac_reduction_fix.cpp -o CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.s
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/flags.make
+src/fix/CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/black_normalization_fix.cpp
+src/fix/CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/fix/CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/fix/CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.o -MF CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.o.d -o CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/black_normalization_fix.cpp
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/black_normalization_fix.cpp > CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.i
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/black_normalization_fix.cpp -o CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.s
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/flags.make
+src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/remove_white_overprint_fix.cpp
+src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.o -MF CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.o.d -o CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/remove_white_overprint_fix.cpp
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/remove_white_overprint_fix.cpp > CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.i
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/remove_white_overprint_fix.cpp -o CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.s
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/flags.make
+src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/remove_annotations_fix.cpp
+src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.o -MF CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.o.d -o CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/remove_annotations_fix.cpp
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/remove_annotations_fix.cpp > CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.i
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/remove_annotations_fix.cpp -o CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.s
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/flags.make
+src/fix/CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/flatten_layers_fix.cpp
+src/fix/CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/fix/CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/fix/CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.o -MF CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.o.d -o CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/flatten_layers_fix.cpp
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/flatten_layers_fix.cpp > CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.i
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/flatten_layers_fix.cpp -o CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.s
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/flags.make
+src/fix/CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/spot_color_conversion_fix.cpp
+src/fix/CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/fix/CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/fix/CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.o -MF CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.o.d -o CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/spot_color_conversion_fix.cpp
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/spot_color_conversion_fix.cpp > CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.i
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/spot_color_conversion_fix.cpp -o CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.s
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/flags.make
+src/fix/CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/rotation_fix.cpp
+src/fix/CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.o: src/fix/CMakeFiles/printguard_fix.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/fix/CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/fix/CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.o -MF CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.o.d -o CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/rotation_fix.cpp
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/rotation_fix.cpp > CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.i
+
+src/fix/CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/rotation_fix.cpp -o CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.s
+
 # Object files for target printguard_fix
 printguard_fix_OBJECTS = \
-"CMakeFiles/printguard_fix.dir/fix_engine.cpp.o"
+"CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.o" \
+"CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.o" \
+"CMakeFiles/printguard_fix.dir/fix_engine.cpp.o" \
+"CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.o" \
+"CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.o" \
+"CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.o" \
+"CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.o" \
+"CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.o" \
+"CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.o" \
+"CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.o" \
+"CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.o" \
+"CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.o" \
+"CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.o" \
+"CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.o"
 
 # External object files for target printguard_fix
 printguard_fix_EXTERNAL_OBJECTS =
 
+src/fix/libprintguard_fix.a: src/fix/CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.o
+src/fix/libprintguard_fix.a: src/fix/CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.o
 src/fix/libprintguard_fix.a: src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.o
+src/fix/libprintguard_fix.a: src/fix/CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.o
+src/fix/libprintguard_fix.a: src/fix/CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.o
+src/fix/libprintguard_fix.a: src/fix/CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.o
+src/fix/libprintguard_fix.a: src/fix/CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.o
+src/fix/libprintguard_fix.a: src/fix/CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.o
+src/fix/libprintguard_fix.a: src/fix/CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.o
+src/fix/libprintguard_fix.a: src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.o
+src/fix/libprintguard_fix.a: src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.o
+src/fix/libprintguard_fix.a: src/fix/CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.o
+src/fix/libprintguard_fix.a: src/fix/CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.o
+src/fix/libprintguard_fix.a: src/fix/CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.o
 src/fix/libprintguard_fix.a: src/fix/CMakeFiles/printguard_fix.dir/build.make
 src/fix/libprintguard_fix.a: src/fix/CMakeFiles/printguard_fix.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libprintguard_fix.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX static library libprintguard_fix.a"
 	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && $(CMAKE_COMMAND) -P CMakeFiles/printguard_fix.dir/cmake_clean_target.cmake
 	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/src/fix && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/printguard_fix.dir/link.txt --verbose=$(VERBOSE)
 

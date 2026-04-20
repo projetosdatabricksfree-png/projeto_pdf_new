@@ -34,52 +34,53 @@ Refatorar o `FixPlanner` para usar `preset.fix_policy` e `preset.manual_review_p
 
 ### Refatorar FixPlanner
 
-- [ ] Remover mapeamento hardcoded de finding codes → fixes
-- [ ] Novo fluxo de `build_plan()`:
-  - [ ] Para cada finding com fixability AUTOMATIC_SAFE:
-    - [ ] Consultar qual IFix trata esse finding code (via `IFix::targets_finding_code()`)
-    - [ ] Consultar `preset.fix_policy` para verificar se o fix esta habilitado:
-      - [ ] `PG_ERR_RGB_COLORSPACE` → `fix_policy.auto_fix_rgb_to_cmyk`
-      - [ ] `PG_ERR_MISSING_BLEED_BOX` → `fix_policy.auto_normalize_boxes`
-      - [ ] `PG_ERR_MISSING_OUTPUT_INTENT` → `fix_policy.auto_attach_output_intent`
-      - [ ] `PG_ERR_TAC_EXCEEDED` → `fix_policy.auto_reduce_tac`
-      - [ ] `PG_ERR_WHITE_OVERPRINT` → `fix_policy.auto_remove_white_overprint`
-      - [ ] `PG_WARN_RICH_BLACK_TEXT` → `fix_policy.auto_normalize_black`
-      - [ ] `PG_WARN_ANNOTATIONS` → `fix_policy.auto_remove_annotations`
-      - [ ] `PG_WARN_LAYERS_PRESENT` → `fix_policy.auto_remove_layers_when_safe`
-      - [ ] `PG_WARN_SPOT_COLORS` → `fix_policy.auto_fix_spot_to_cmyk`
-      - [ ] `PG_WARN_ROTATION_MISMATCH` → `fix_policy.auto_rotate_pages`
-    - [ ] Se habilitado: adicionar ao plano
-    - [ ] Se desabilitado: adicionar a `skipped_fixes` com motivo
+- [x] Remover mapeamento hardcoded de finding codes → fixes
+- [x] Novo fluxo de `build_plan()`:
+  - [x] Para cada finding com fixability AUTOMATIC_SAFE:
+    - [x] Consultar qual IFix trata esse finding code (via `IFix::targets_finding_code()`)
+    - [x] Consultar `preset.fix_policy` para verificar se o fix esta habilitado:
+      - [x] `PG_ERR_RGB_COLORSPACE` → `fix_policy.auto_fix_rgb_to_cmyk`
+      - [x] `PG_ERR_MISSING_BLEED_BOX` → `fix_policy.auto_normalize_boxes`
+      - [x] `PG_ERR_MISSING_OUTPUT_INTENT` → `fix_policy.auto_attach_output_intent`
+      - [x] `PG_ERR_TAC_EXCEEDED` → `fix_policy.auto_reduce_tac`
+      - [x] `PG_ERR_WHITE_OVERPRINT` → `fix_policy.auto_remove_white_overprint`
+      - [x] `PG_WARN_RICH_BLACK_TEXT` → `fix_policy.auto_normalize_black`
+      - [x] `PG_WARN_ANNOTATIONS` → `fix_policy.auto_remove_annotations`
+      - [x] `PG_WARN_LAYERS_PRESENT` → `fix_policy.auto_remove_layers_when_safe`
+      - [x] `PG_WARN_SPOT_COLORS` → `fix_policy.auto_fix_spot_to_cmyk`
+      - [x] `PG_WARN_ROTATION_MISMATCH` → `fix_policy.auto_rotate_pages`
+    - [x] Se habilitado: adicionar ao plano
+    - [x] Se desabilitado: adicionar a `skipped_fixes` com motivo
 
 ### Logica de Manual Review
 
-- [ ] Apos construir o plano, avaliar findings nao resolvidos:
-  - [ ] Se finding tem severity ERROR e nao ha fix disponivel ou fix desabilitado → `manual_review_required`
-  - [ ] Consultar `manual_review_policy` para findings especificos:
-    - [ ] `PG_ERR_SAFETY_MARGIN` → `manual_review_on_safety_margin_violation`
-    - [ ] bleed visual ausente → `manual_review_on_visual_bleed_missing`
-    - [ ] transparencia complexa → `manual_review_on_complex_transparency`
+- [x] Apos construir o plano, avaliar findings nao resolvidos:
+  - [x] Se finding tem severity ERROR e nao ha fix disponivel ou fix desabilitado → `manual_review_required`
+  - [x] Consultar `manual_review_policy` para findings especificos:
+    - [x] `PG_ERR_SAFETY_MARGIN` → `manual_review_on_safety_margin_violation`
+    - [x] bleed visual ausente → `manual_review_on_visual_bleed_missing`
+    - [x] transparencia complexa → `manual_review_on_complex_transparency`
     - [ ] fonte nao embutida → `manual_review_on_font_embedding_issue`
-    - [ ] resolucao abaixo do minimo → `manual_review_on_low_resolution_below_error`
-- [ ] Resultado do plano: `needs_manual_review` boolean + `manual_review_reasons` lista
+      - Estado atual: hook declarativo implementado no planner para `PG_ERR_FONT_NOT_EMBEDDED`, mas ainda nao existe regra produtora desse finding no repositório.
+    - [x] resolucao abaixo do minimo → `manual_review_on_low_resolution_below_error`
+- [x] Resultado do plano: `needs_manual_review` boolean + `manual_review_reasons` lista
 
 ### Status Final
 
-- [ ] Definir logica clara de status final baseada no plano:
-  - [ ] Todos os findings resolvidos → `completed`
-  - [ ] Alguns findings nao resolvidos mas nenhum blocking → `completed` (com warnings)
-  - [ ] Findings blocking nao resolvidos + manual_review → `manual_review_required`
-  - [ ] Erro no pipeline → `failed`
+- [x] Definir logica clara de status final baseada no plano:
+  - [x] Todos os findings resolvidos → `completed`
+  - [x] Alguns findings nao resolvidos mas nenhum blocking → `completed` (com warnings)
+  - [x] Findings blocking nao resolvidos + manual_review → `manual_review_required`
+  - [x] Erro no pipeline → `failed`
 
 ### Testes
 
-- [ ] Teste: preset com `auto_fix_rgb_to_cmyk: false` NAO inclui fix de cor no plano
-- [ ] Teste: preset com `auto_fix_rgb_to_cmyk: true` INCLUI fix de cor no plano
-- [ ] Teste: finding blocking sem fix → `manual_review_required`
-- [ ] Teste: preset documental (bleed 0) nao gera manual_review por bleed
-- [ ] Teste: `manual_review_policy` e respeitada corretamente
-- [ ] Compilacao limpa
+- [x] Teste: preset com `auto_fix_rgb_to_cmyk: false` NAO inclui fix de cor no plano
+- [x] Teste: preset com `auto_fix_rgb_to_cmyk: true` INCLUI fix de cor no plano
+- [x] Teste: finding blocking sem fix → `manual_review_required`
+- [x] Teste: preset documental (bleed 0) nao gera manual_review por bleed
+- [x] Teste: `manual_review_policy` e respeitada corretamente
+- [x] Compilacao limpa
 
 ## Arquivos Impactados
 
@@ -87,10 +88,12 @@ Refatorar o `FixPlanner` para usar `preset.fix_policy` e `preset.manual_review_p
 |---|---|
 | `include/printguard/fix/fix_engine.hpp` | Atualizar FixPlan com manual_review |
 | `src/fix/fix_engine.cpp` | Refatorar build_plan() |
+| `src/orchestration/local_batch_processor.cpp` | Passar preset para o planner |
+| `tests/unit/historia_10_fix_planner_preset_test.cpp` | Cobertura da H10 |
 
 ## Criterios de Aceite
 
-- [ ] Nenhum hardcode de finding code no FixPlanner
-- [ ] Todas as decisoes vem do preset/profile
-- [ ] Manual review funciona corretamente por familia de produto
-- [ ] Compilacao limpa
+- [x] Nenhum hardcode de finding code no FixPlanner
+- [x] Todas as decisoes vem do preset/profile
+- [x] Manual review funciona corretamente por familia de produto
+- [x] Compilacao limpa

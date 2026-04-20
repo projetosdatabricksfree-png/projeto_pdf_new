@@ -9,6 +9,9 @@ struct JobStatusValue {
     static constexpr const char* UPLOADED = "uploaded";
     static constexpr const char* PROCESSING = "processing";
     static constexpr const char* ANALYZING = "analyzing";
+    static constexpr const char* FIXING = "fixing";
+    static constexpr const char* REVALIDATING = "revalidating";
+    static constexpr const char* MANUAL_REVIEW_REQUIRED = "manual_review_required";
     static constexpr const char* COMPLETED = "completed";
     static constexpr const char* FAILED = "failed";
 };

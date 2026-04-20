@@ -205,6 +205,30 @@ printguard_fix/fast:
 	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/build
 .PHONY : printguard_fix/fast
 
+color_transform_lcms.o: color_transform_lcms.cpp.o
+.PHONY : color_transform_lcms.o
+
+# target to build an object file
+color_transform_lcms.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.o
+.PHONY : color_transform_lcms.cpp.o
+
+color_transform_lcms.i: color_transform_lcms.cpp.i
+.PHONY : color_transform_lcms.i
+
+# target to preprocess a source file
+color_transform_lcms.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.i
+.PHONY : color_transform_lcms.cpp.i
+
+color_transform_lcms.s: color_transform_lcms.cpp.s
+.PHONY : color_transform_lcms.s
+
+# target to generate assembly for a file
+color_transform_lcms.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/color_transform_lcms.cpp.s
+.PHONY : color_transform_lcms.cpp.s
+
 fix_engine.o: fix_engine.cpp.o
 .PHONY : fix_engine.o
 
@@ -229,6 +253,294 @@ fix_engine.cpp.s:
 	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.s
 .PHONY : fix_engine.cpp.s
 
+fixes/attach_output_intent_fix.o: fixes/attach_output_intent_fix.cpp.o
+.PHONY : fixes/attach_output_intent_fix.o
+
+# target to build an object file
+fixes/attach_output_intent_fix.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.o
+.PHONY : fixes/attach_output_intent_fix.cpp.o
+
+fixes/attach_output_intent_fix.i: fixes/attach_output_intent_fix.cpp.i
+.PHONY : fixes/attach_output_intent_fix.i
+
+# target to preprocess a source file
+fixes/attach_output_intent_fix.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.i
+.PHONY : fixes/attach_output_intent_fix.cpp.i
+
+fixes/attach_output_intent_fix.s: fixes/attach_output_intent_fix.cpp.s
+.PHONY : fixes/attach_output_intent_fix.s
+
+# target to generate assembly for a file
+fixes/attach_output_intent_fix.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/attach_output_intent_fix.cpp.s
+.PHONY : fixes/attach_output_intent_fix.cpp.s
+
+fixes/black_normalization_fix.o: fixes/black_normalization_fix.cpp.o
+.PHONY : fixes/black_normalization_fix.o
+
+# target to build an object file
+fixes/black_normalization_fix.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.o
+.PHONY : fixes/black_normalization_fix.cpp.o
+
+fixes/black_normalization_fix.i: fixes/black_normalization_fix.cpp.i
+.PHONY : fixes/black_normalization_fix.i
+
+# target to preprocess a source file
+fixes/black_normalization_fix.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.i
+.PHONY : fixes/black_normalization_fix.cpp.i
+
+fixes/black_normalization_fix.s: fixes/black_normalization_fix.cpp.s
+.PHONY : fixes/black_normalization_fix.s
+
+# target to generate assembly for a file
+fixes/black_normalization_fix.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/black_normalization_fix.cpp.s
+.PHONY : fixes/black_normalization_fix.cpp.s
+
+fixes/convert_rgb_to_cmyk_fix.o: fixes/convert_rgb_to_cmyk_fix.cpp.o
+.PHONY : fixes/convert_rgb_to_cmyk_fix.o
+
+# target to build an object file
+fixes/convert_rgb_to_cmyk_fix.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.o
+.PHONY : fixes/convert_rgb_to_cmyk_fix.cpp.o
+
+fixes/convert_rgb_to_cmyk_fix.i: fixes/convert_rgb_to_cmyk_fix.cpp.i
+.PHONY : fixes/convert_rgb_to_cmyk_fix.i
+
+# target to preprocess a source file
+fixes/convert_rgb_to_cmyk_fix.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.i
+.PHONY : fixes/convert_rgb_to_cmyk_fix.cpp.i
+
+fixes/convert_rgb_to_cmyk_fix.s: fixes/convert_rgb_to_cmyk_fix.cpp.s
+.PHONY : fixes/convert_rgb_to_cmyk_fix.s
+
+# target to generate assembly for a file
+fixes/convert_rgb_to_cmyk_fix.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/convert_rgb_to_cmyk_fix.cpp.s
+.PHONY : fixes/convert_rgb_to_cmyk_fix.cpp.s
+
+fixes/flatten_layers_fix.o: fixes/flatten_layers_fix.cpp.o
+.PHONY : fixes/flatten_layers_fix.o
+
+# target to build an object file
+fixes/flatten_layers_fix.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.o
+.PHONY : fixes/flatten_layers_fix.cpp.o
+
+fixes/flatten_layers_fix.i: fixes/flatten_layers_fix.cpp.i
+.PHONY : fixes/flatten_layers_fix.i
+
+# target to preprocess a source file
+fixes/flatten_layers_fix.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.i
+.PHONY : fixes/flatten_layers_fix.cpp.i
+
+fixes/flatten_layers_fix.s: fixes/flatten_layers_fix.cpp.s
+.PHONY : fixes/flatten_layers_fix.s
+
+# target to generate assembly for a file
+fixes/flatten_layers_fix.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/flatten_layers_fix.cpp.s
+.PHONY : fixes/flatten_layers_fix.cpp.s
+
+fixes/image_color_convert_fix.o: fixes/image_color_convert_fix.cpp.o
+.PHONY : fixes/image_color_convert_fix.o
+
+# target to build an object file
+fixes/image_color_convert_fix.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.o
+.PHONY : fixes/image_color_convert_fix.cpp.o
+
+fixes/image_color_convert_fix.i: fixes/image_color_convert_fix.cpp.i
+.PHONY : fixes/image_color_convert_fix.i
+
+# target to preprocess a source file
+fixes/image_color_convert_fix.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.i
+.PHONY : fixes/image_color_convert_fix.cpp.i
+
+fixes/image_color_convert_fix.s: fixes/image_color_convert_fix.cpp.s
+.PHONY : fixes/image_color_convert_fix.s
+
+# target to generate assembly for a file
+fixes/image_color_convert_fix.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/image_color_convert_fix.cpp.s
+.PHONY : fixes/image_color_convert_fix.cpp.s
+
+fixes/normalize_boxes_fix.o: fixes/normalize_boxes_fix.cpp.o
+.PHONY : fixes/normalize_boxes_fix.o
+
+# target to build an object file
+fixes/normalize_boxes_fix.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.o
+.PHONY : fixes/normalize_boxes_fix.cpp.o
+
+fixes/normalize_boxes_fix.i: fixes/normalize_boxes_fix.cpp.i
+.PHONY : fixes/normalize_boxes_fix.i
+
+# target to preprocess a source file
+fixes/normalize_boxes_fix.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.i
+.PHONY : fixes/normalize_boxes_fix.cpp.i
+
+fixes/normalize_boxes_fix.s: fixes/normalize_boxes_fix.cpp.s
+.PHONY : fixes/normalize_boxes_fix.s
+
+# target to generate assembly for a file
+fixes/normalize_boxes_fix.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.s
+.PHONY : fixes/normalize_boxes_fix.cpp.s
+
+fixes/remove_annotations_fix.o: fixes/remove_annotations_fix.cpp.o
+.PHONY : fixes/remove_annotations_fix.o
+
+# target to build an object file
+fixes/remove_annotations_fix.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.o
+.PHONY : fixes/remove_annotations_fix.cpp.o
+
+fixes/remove_annotations_fix.i: fixes/remove_annotations_fix.cpp.i
+.PHONY : fixes/remove_annotations_fix.i
+
+# target to preprocess a source file
+fixes/remove_annotations_fix.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.i
+.PHONY : fixes/remove_annotations_fix.cpp.i
+
+fixes/remove_annotations_fix.s: fixes/remove_annotations_fix.cpp.s
+.PHONY : fixes/remove_annotations_fix.s
+
+# target to generate assembly for a file
+fixes/remove_annotations_fix.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_annotations_fix.cpp.s
+.PHONY : fixes/remove_annotations_fix.cpp.s
+
+fixes/remove_white_overprint_fix.o: fixes/remove_white_overprint_fix.cpp.o
+.PHONY : fixes/remove_white_overprint_fix.o
+
+# target to build an object file
+fixes/remove_white_overprint_fix.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.o
+.PHONY : fixes/remove_white_overprint_fix.cpp.o
+
+fixes/remove_white_overprint_fix.i: fixes/remove_white_overprint_fix.cpp.i
+.PHONY : fixes/remove_white_overprint_fix.i
+
+# target to preprocess a source file
+fixes/remove_white_overprint_fix.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.i
+.PHONY : fixes/remove_white_overprint_fix.cpp.i
+
+fixes/remove_white_overprint_fix.s: fixes/remove_white_overprint_fix.cpp.s
+.PHONY : fixes/remove_white_overprint_fix.s
+
+# target to generate assembly for a file
+fixes/remove_white_overprint_fix.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/remove_white_overprint_fix.cpp.s
+.PHONY : fixes/remove_white_overprint_fix.cpp.s
+
+fixes/rotation_fix.o: fixes/rotation_fix.cpp.o
+.PHONY : fixes/rotation_fix.o
+
+# target to build an object file
+fixes/rotation_fix.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.o
+.PHONY : fixes/rotation_fix.cpp.o
+
+fixes/rotation_fix.i: fixes/rotation_fix.cpp.i
+.PHONY : fixes/rotation_fix.i
+
+# target to preprocess a source file
+fixes/rotation_fix.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.i
+.PHONY : fixes/rotation_fix.cpp.i
+
+fixes/rotation_fix.s: fixes/rotation_fix.cpp.s
+.PHONY : fixes/rotation_fix.s
+
+# target to generate assembly for a file
+fixes/rotation_fix.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/rotation_fix.cpp.s
+.PHONY : fixes/rotation_fix.cpp.s
+
+fixes/spot_color_conversion_fix.o: fixes/spot_color_conversion_fix.cpp.o
+.PHONY : fixes/spot_color_conversion_fix.o
+
+# target to build an object file
+fixes/spot_color_conversion_fix.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.o
+.PHONY : fixes/spot_color_conversion_fix.cpp.o
+
+fixes/spot_color_conversion_fix.i: fixes/spot_color_conversion_fix.cpp.i
+.PHONY : fixes/spot_color_conversion_fix.i
+
+# target to preprocess a source file
+fixes/spot_color_conversion_fix.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.i
+.PHONY : fixes/spot_color_conversion_fix.cpp.i
+
+fixes/spot_color_conversion_fix.s: fixes/spot_color_conversion_fix.cpp.s
+.PHONY : fixes/spot_color_conversion_fix.s
+
+# target to generate assembly for a file
+fixes/spot_color_conversion_fix.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/spot_color_conversion_fix.cpp.s
+.PHONY : fixes/spot_color_conversion_fix.cpp.s
+
+fixes/tac_reduction_fix.o: fixes/tac_reduction_fix.cpp.o
+.PHONY : fixes/tac_reduction_fix.o
+
+# target to build an object file
+fixes/tac_reduction_fix.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.o
+.PHONY : fixes/tac_reduction_fix.cpp.o
+
+fixes/tac_reduction_fix.i: fixes/tac_reduction_fix.cpp.i
+.PHONY : fixes/tac_reduction_fix.i
+
+# target to preprocess a source file
+fixes/tac_reduction_fix.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.i
+.PHONY : fixes/tac_reduction_fix.cpp.i
+
+fixes/tac_reduction_fix.s: fixes/tac_reduction_fix.cpp.s
+.PHONY : fixes/tac_reduction_fix.s
+
+# target to generate assembly for a file
+fixes/tac_reduction_fix.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/fixes/tac_reduction_fix.cpp.s
+.PHONY : fixes/tac_reduction_fix.cpp.s
+
+pdf_color_utils.o: pdf_color_utils.cpp.o
+.PHONY : pdf_color_utils.o
+
+# target to build an object file
+pdf_color_utils.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.o
+.PHONY : pdf_color_utils.cpp.o
+
+pdf_color_utils.i: pdf_color_utils.cpp.i
+.PHONY : pdf_color_utils.i
+
+# target to preprocess a source file
+pdf_color_utils.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.i
+.PHONY : pdf_color_utils.cpp.i
+
+pdf_color_utils.s: pdf_color_utils.cpp.s
+.PHONY : pdf_color_utils.s
+
+# target to generate assembly for a file
+pdf_color_utils.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/fix/CMakeFiles/printguard_fix.dir/build.make src/fix/CMakeFiles/printguard_fix.dir/pdf_color_utils.cpp.s
+.PHONY : pdf_color_utils.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -245,9 +557,48 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... printguard_fix"
+	@echo "... color_transform_lcms.o"
+	@echo "... color_transform_lcms.i"
+	@echo "... color_transform_lcms.s"
 	@echo "... fix_engine.o"
 	@echo "... fix_engine.i"
 	@echo "... fix_engine.s"
+	@echo "... fixes/attach_output_intent_fix.o"
+	@echo "... fixes/attach_output_intent_fix.i"
+	@echo "... fixes/attach_output_intent_fix.s"
+	@echo "... fixes/black_normalization_fix.o"
+	@echo "... fixes/black_normalization_fix.i"
+	@echo "... fixes/black_normalization_fix.s"
+	@echo "... fixes/convert_rgb_to_cmyk_fix.o"
+	@echo "... fixes/convert_rgb_to_cmyk_fix.i"
+	@echo "... fixes/convert_rgb_to_cmyk_fix.s"
+	@echo "... fixes/flatten_layers_fix.o"
+	@echo "... fixes/flatten_layers_fix.i"
+	@echo "... fixes/flatten_layers_fix.s"
+	@echo "... fixes/image_color_convert_fix.o"
+	@echo "... fixes/image_color_convert_fix.i"
+	@echo "... fixes/image_color_convert_fix.s"
+	@echo "... fixes/normalize_boxes_fix.o"
+	@echo "... fixes/normalize_boxes_fix.i"
+	@echo "... fixes/normalize_boxes_fix.s"
+	@echo "... fixes/remove_annotations_fix.o"
+	@echo "... fixes/remove_annotations_fix.i"
+	@echo "... fixes/remove_annotations_fix.s"
+	@echo "... fixes/remove_white_overprint_fix.o"
+	@echo "... fixes/remove_white_overprint_fix.i"
+	@echo "... fixes/remove_white_overprint_fix.s"
+	@echo "... fixes/rotation_fix.o"
+	@echo "... fixes/rotation_fix.i"
+	@echo "... fixes/rotation_fix.s"
+	@echo "... fixes/spot_color_conversion_fix.o"
+	@echo "... fixes/spot_color_conversion_fix.i"
+	@echo "... fixes/spot_color_conversion_fix.s"
+	@echo "... fixes/tac_reduction_fix.o"
+	@echo "... fixes/tac_reduction_fix.i"
+	@echo "... fixes/tac_reduction_fix.s"
+	@echo "... pdf_color_utils.o"
+	@echo "... pdf_color_utils.i"
+	@echo "... pdf_color_utils.s"
 .PHONY : help
 
 

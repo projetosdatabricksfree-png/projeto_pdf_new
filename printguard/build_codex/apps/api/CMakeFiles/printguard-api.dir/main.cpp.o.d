@@ -32,6 +32,8 @@ apps/api/CMakeFiles/printguard-api.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar2-decl.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar2.h \
  /usr/include/c++/13/type_traits /usr/include/c++/13/compare \
  /usr/include/c++/13/concepts /usr/include/c++/13/bits/stl_construct.h \
  /usr/include/c++/13/new /usr/include/c++/13/bits/exception.h \
@@ -98,22 +100,28 @@ apps/api/CMakeFiles/printguard-api.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+ /usr/include/x86_64-linux-gnu/bits/select2.h \
+ /usr/include/x86_64-linux-gnu/bits/select-decl.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib.h \
  /usr/include/c++/13/bits/std_abs.h /usr/include/c++/13/cstdio \
  /usr/include/stdio.h /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
- /usr/include/c++/13/cerrno /usr/include/errno.h \
- /usr/include/x86_64-linux-gnu/bits/errno.h /usr/include/linux/errno.h \
- /usr/include/x86_64-linux-gnu/asm/errno.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio2-decl.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/c++/13/cerrno \
+ /usr/include/errno.h /usr/include/x86_64-linux-gnu/bits/errno.h \
+ /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
  /usr/include/c++/13/bits/charconv.h \
@@ -188,6 +196,8 @@ apps/api/CMakeFiles/printguard-api.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/confname.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd-decl.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
  /usr/include/linux/close_range.h /usr/include/syscall.h \
  /usr/include/x86_64-linux-gnu/sys/syscall.h \
@@ -240,6 +250,8 @@ apps/api/CMakeFiles/printguard-api.dir/main.cpp.o: \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include/spdlog/fmt/fmt.h \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include/spdlog/fmt/bundled/core.h \
  /usr/include/c++/13/cstring /usr/include/string.h /usr/include/strings.h \
+ /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
+ /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
  /usr/include/c++/13/iterator /usr/include/c++/13/bits/stream_iterator.h \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include/spdlog/fmt/bundled/format.h \
  /usr/include/c++/13/cmath /usr/include/math.h \
@@ -306,7 +318,6 @@ apps/api/CMakeFiles/printguard-api.dir/main.cpp.o: \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/libpqxx-src/include/pqxx/result.hxx \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/libpqxx-src/include/pqxx/except.hxx \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/libpqxx-src/include/pqxx/types.hxx \
- /usr/include/c++/13/ranges \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/libpqxx-src/include/pqxx/util.hxx \
  /usr/include/c++/13/version \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/libpqxx-src/include/pqxx/version.hxx \
@@ -324,9 +335,6 @@ apps/api/CMakeFiles/printguard-api.dir/main.cpp.o: \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/libpqxx-src/include/pqxx/internal/ignore-deprecated-pre.hxx \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/libpqxx-src/include/pqxx/internal/ignore-deprecated-post.hxx \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/libpqxx-src/include/pqxx/blob.hxx \
- /usr/include/c++/13/filesystem /usr/include/c++/13/bits/fs_fwd.h \
- /usr/include/c++/13/bits/fs_path.h /usr/include/c++/13/codecvt \
- /usr/include/c++/13/bits/fs_dir.h /usr/include/c++/13/bits/fs_ops.h \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/libpqxx-src/include/pqxx/dbtransaction.hxx \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/libpqxx-src/include/pqxx/transaction_base.hxx \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/libpqxx-src/include/pqxx/connection.hxx \
@@ -366,6 +374,9 @@ apps/api/CMakeFiles/printguard-api.dir/main.cpp.o: \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/persistence/job_repository.hpp \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/job.hpp \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/storage/storage.hpp \
+ /usr/include/c++/13/filesystem /usr/include/c++/13/bits/fs_fwd.h \
+ /usr/include/c++/13/bits/fs_path.h /usr/include/c++/13/codecvt \
+ /usr/include/c++/13/bits/fs_dir.h /usr/include/c++/13/bits/fs_ops.h \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/config_loader.hpp \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/preset.hpp \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/profile.hpp \
@@ -388,6 +399,7 @@ apps/api/CMakeFiles/printguard-api.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/asm/sockios.h \
  /usr/include/asm-generic/sockios.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
+ /usr/include/x86_64-linux-gnu/bits/socket2.h \
  /usr/include/x86_64-linux-gnu/bits/in.h /usr/include/ifaddrs.h \
  /usr/include/net/if.h /usr/include/netdb.h /usr/include/rpc/netdb.h \
  /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h \
@@ -430,7 +442,7 @@ apps/api/CMakeFiles/printguard-api.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
  /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
  /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
- /usr/include/c++/13/fstream \
+ /usr/include/x86_64-linux-gnu/bits/fcntl2.h /usr/include/c++/13/fstream \
  /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
  /usr/include/c++/13/bits/fstream.tcc /usr/include/c++/13/iostream \
@@ -532,6 +544,7 @@ apps/api/CMakeFiles/printguard-api.dir/main.cpp.o: \
  /usr/include/nlohmann/detail/meta/std_fs.hpp \
  /usr/include/nlohmann/detail/conversions/to_json.hpp \
  /usr/include/nlohmann/detail/iterators/iteration_proxy.hpp \
+ /usr/include/c++/13/ranges \
  /usr/include/nlohmann/byte_container_with_subtype.hpp \
  /usr/include/nlohmann/detail/hash.hpp \
  /usr/include/nlohmann/detail/input/binary_reader.hpp \

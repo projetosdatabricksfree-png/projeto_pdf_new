@@ -6,6 +6,14 @@ add_library(printguard_analysis STATIC
     rules/image_resolution_rule.cpp
     rules/safety_margin_rule.cpp
     rules/transparency_rule.cpp
+    rules/tac_rule.cpp
+    rules/output_intent_rule.cpp
+    rules/white_overprint_rule.cpp
+    rules/black_consistency_rule.cpp
+    rules/annotation_rule.cpp
+    rules/layer_rule.cpp
+    rules/spot_color_rule.cpp
+    rules/rotation_rule.cpp
 )
 
 target_include_directories(printguard_analysis PUBLIC

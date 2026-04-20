@@ -125,12 +125,117 @@ tests/CMakeFiles/unit_tests.dir/unit/pdf_test.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/unit/pdf_test.cpp.s"
 	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/pdf_test.cpp -o CMakeFiles/unit_tests.dir/unit/pdf_test.cpp.s
 
+tests/CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.o: tests/CMakeFiles/unit_tests.dir/flags.make
+tests/CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_05_rules_test.cpp
+tests/CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.o: tests/CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object tests/CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.o -MF CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.o.d -o CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_05_rules_test.cpp
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_05_rules_test.cpp > CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.i
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_05_rules_test.cpp -o CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.s
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.o: tests/CMakeFiles/unit_tests.dir/flags.make
+tests/CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_06_rules_test.cpp
+tests/CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.o: tests/CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object tests/CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.o -MF CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.o.d -o CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_06_rules_test.cpp
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_06_rules_test.cpp > CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.i
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_06_rules_test.cpp -o CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.s
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.o: tests/CMakeFiles/unit_tests.dir/flags.make
+tests/CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp
+tests/CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.o: tests/CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object tests/CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.o -MF CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.o.d -o CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp > CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.i
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp -o CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.s
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.o: tests/CMakeFiles/unit_tests.dir/flags.make
+tests/CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_08_fixes_intent_tac_preto_test.cpp
+tests/CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.o: tests/CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object tests/CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.o -MF CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.o.d -o CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_08_fixes_intent_tac_preto_test.cpp
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_08_fixes_intent_tac_preto_test.cpp > CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.i
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_08_fixes_intent_tac_preto_test.cpp -o CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.s
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.o: tests/CMakeFiles/unit_tests.dir/flags.make
+tests/CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_09_fixes_limpeza_test.cpp
+tests/CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.o: tests/CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object tests/CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.o -MF CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.o.d -o CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_09_fixes_limpeza_test.cpp
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_09_fixes_limpeza_test.cpp > CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.i
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_09_fixes_limpeza_test.cpp -o CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.s
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.o: tests/CMakeFiles/unit_tests.dir/flags.make
+tests/CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_10_fix_planner_preset_test.cpp
+tests/CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.o: tests/CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object tests/CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.o -MF CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.o.d -o CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_10_fix_planner_preset_test.cpp
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_10_fix_planner_preset_test.cpp > CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.i
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_10_fix_planner_preset_test.cpp -o CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.s
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.o: tests/CMakeFiles/unit_tests.dir/flags.make
+tests/CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.o: /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_11_pipeline_completo_test.cpp
+tests/CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.o: tests/CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object tests/CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.o"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT tests/CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.o -MF CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.o.d -o CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_11_pipeline_completo_test.cpp
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.i"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_11_pipeline_completo_test.cpp > CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.i
+
+tests/CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.s"
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/tests/unit/historia_11_pipeline_completo_test.cpp -o CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.s
+
 # Object files for target unit_tests
 unit_tests_OBJECTS = \
 "CMakeFiles/unit_tests.dir/unit/smoke_test.cpp.o" \
 "CMakeFiles/unit_tests.dir/unit/domain_test.cpp.o" \
 "CMakeFiles/unit_tests.dir/unit/preset_schema_test.cpp.o" \
-"CMakeFiles/unit_tests.dir/unit/pdf_test.cpp.o"
+"CMakeFiles/unit_tests.dir/unit/pdf_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.o"
 
 # External object files for target unit_tests
 unit_tests_EXTERNAL_OBJECTS =
@@ -139,19 +244,39 @@ tests/unit_tests: tests/CMakeFiles/unit_tests.dir/unit/smoke_test.cpp.o
 tests/unit_tests: tests/CMakeFiles/unit_tests.dir/unit/domain_test.cpp.o
 tests/unit_tests: tests/CMakeFiles/unit_tests.dir/unit/preset_schema_test.cpp.o
 tests/unit_tests: tests/CMakeFiles/unit_tests.dir/unit/pdf_test.cpp.o
+tests/unit_tests: tests/CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.o
+tests/unit_tests: tests/CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.o
+tests/unit_tests: tests/CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.o
+tests/unit_tests: tests/CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.o
+tests/unit_tests: tests/CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.o
+tests/unit_tests: tests/CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.o
+tests/unit_tests: tests/CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.o
 tests/unit_tests: tests/CMakeFiles/unit_tests.dir/build.make
 tests/unit_tests: src/common/libprintguard_common.a
 tests/unit_tests: src/domain/libprintguard_domain.a
 tests/unit_tests: src/pdf/libprintguard_pdf.a
-tests/unit_tests: _deps/catch2-build/src/libCatch2Maind.a
+tests/unit_tests: src/analysis/libprintguard_analysis.a
+tests/unit_tests: src/fix/libprintguard_fix.a
+tests/unit_tests: src/orchestration/libprintguard_orchestration.a
+tests/unit_tests: _deps/catch2-build/src/libCatch2Main.a
+tests/unit_tests: src/analysis/libprintguard_analysis.a
+tests/unit_tests: src/pdf/libprintguard_pdf.a
+tests/unit_tests: src/fix/libprintguard_fix.a
+tests/unit_tests: /usr/lib/x86_64-linux-gnu/libqpdf.so.29.9.0
+tests/unit_tests: src/render/libprintguard_render.a
+tests/unit_tests: src/report/libprintguard_report.a
+tests/unit_tests: src/domain/libprintguard_domain.a
+tests/unit_tests: src/persistence/libprintguard_persistence.a
+tests/unit_tests: _deps/libpqxx-build/src/libpqxx-7.7.a
+tests/unit_tests: /usr/lib/x86_64-linux-gnu/libpq.so
+tests/unit_tests: src/storage/libprintguard_storage.a
 tests/unit_tests: src/common/libprintguard_common.a
-tests/unit_tests: _deps/spdlog-build/libspdlogd.a
+tests/unit_tests: _deps/spdlog-build/libspdlog.a
 tests/unit_tests: /usr/lib/x86_64-linux-gnu/libssl.so
 tests/unit_tests: /usr/lib/x86_64-linux-gnu/libcrypto.so
-tests/unit_tests: /usr/lib/x86_64-linux-gnu/libqpdf.so.29.9.0
-tests/unit_tests: _deps/catch2-build/src/libCatch2d.a
+tests/unit_tests: _deps/catch2-build/src/libCatch2.a
 tests/unit_tests: tests/CMakeFiles/unit_tests.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable unit_tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable unit_tests"
 	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/tests && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/unit_tests.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

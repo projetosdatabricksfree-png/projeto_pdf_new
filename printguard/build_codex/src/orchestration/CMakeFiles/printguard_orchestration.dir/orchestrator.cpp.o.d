@@ -33,6 +33,8 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/orchestrator.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar2-decl.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar2.h \
  /usr/include/c++/13/type_traits /usr/include/c++/13/compare \
  /usr/include/c++/13/concepts /usr/include/c++/13/bits/stl_construct.h \
  /usr/include/c++/13/new /usr/include/c++/13/bits/exception.h \
@@ -99,22 +101,28 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/orchestrator.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+ /usr/include/x86_64-linux-gnu/bits/select2.h \
+ /usr/include/x86_64-linux-gnu/bits/select-decl.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib.h \
  /usr/include/c++/13/bits/std_abs.h /usr/include/c++/13/cstdio \
  /usr/include/stdio.h /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
- /usr/include/c++/13/cerrno /usr/include/errno.h \
- /usr/include/x86_64-linux-gnu/bits/errno.h /usr/include/linux/errno.h \
- /usr/include/x86_64-linux-gnu/asm/errno.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio2-decl.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/c++/13/cerrno \
+ /usr/include/errno.h /usr/include/x86_64-linux-gnu/bits/errno.h \
+ /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
  /usr/include/c++/13/bits/charconv.h \
@@ -188,14 +196,33 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/orchestrator.cpp.o: \
  /usr/include/c++/13/ext/aligned_buffer.h \
  /usr/include/c++/13/bits/align.h /usr/include/c++/13/bits/fs_dir.h \
  /usr/include/c++/13/bits/fs_ops.h \
- /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/preset.hpp \
- /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/profile.hpp \
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/orchestration/local_batch_processor.hpp \
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_engine.hpp \
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_interface.hpp \
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/finding.hpp \
  /usr/include/c++/13/map /usr/include/c++/13/bits/stl_tree.h \
  /usr/include/c++/13/bits/node_handle.h \
  /usr/include/c++/13/bits/stl_map.h \
  /usr/include/c++/13/bits/stl_multimap.h \
- /usr/include/c++/13/bits/erase_if.h /usr/include/c++/13/memory \
- /usr/include/c++/13/bits/stl_tempbuf.h \
+ /usr/include/c++/13/bits/erase_if.h \
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/preset.hpp \
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/profile.hpp \
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/pdf/canonical_model.hpp \
+ /usr/include/qpdf/QPDF.hh /usr/include/qpdf/DLL.h \
+ /usr/include/qpdf/Types.h /usr/include/c++/13/functional \
+ /usr/include/c++/13/bits/std_function.h \
+ /usr/include/c++/13/unordered_map \
+ /usr/include/c++/13/bits/unordered_map.h \
+ /usr/include/c++/13/bits/hashtable.h \
+ /usr/include/c++/13/bits/hashtable_policy.h \
+ /usr/include/c++/13/bits/enable_special_members.h \
+ /usr/include/c++/13/array /usr/include/c++/13/bits/stl_algo.h \
+ /usr/include/c++/13/bits/algorithmfwd.h \
+ /usr/include/c++/13/bits/stl_heap.h \
+ /usr/include/c++/13/bits/uniform_int_dist.h \
+ /usr/include/c++/13/bits/stl_tempbuf.h /usr/include/c++/13/iostream \
+ /usr/include/c++/13/list /usr/include/c++/13/bits/stl_list.h \
+ /usr/include/c++/13/bits/list.tcc /usr/include/c++/13/memory \
  /usr/include/c++/13/bits/stl_raw_storage_iter.h \
  /usr/include/c++/13/bits/shared_ptr_atomic.h \
  /usr/include/c++/13/bits/atomic_base.h \
@@ -214,6 +241,8 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/orchestrator.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/confname.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd-decl.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
  /usr/include/linux/close_range.h /usr/include/syscall.h \
  /usr/include/x86_64-linux-gnu/sys/syscall.h \
@@ -225,29 +254,7 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/orchestrator.cpp.o: \
  /usr/include/c++/13/bits/ranges_uninitialized.h \
  /usr/include/c++/13/bits/ranges_algobase.h \
  /usr/include/c++/13/pstl/glue_memory_defs.h \
- /usr/include/c++/13/pstl/execution_defs.h \
- /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/persistence/job_repository.hpp \
- /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/job.hpp \
- /usr/include/c++/13/chrono /usr/include/c++/13/bits/stl_algo.h \
- /usr/include/c++/13/bits/algorithmfwd.h \
- /usr/include/c++/13/bits/stl_heap.h \
- /usr/include/c++/13/bits/uniform_int_dist.h \
- /usr/include/c++/13/bits/chrono_io.h /usr/include/c++/13/format \
- /usr/include/c++/13/array /usr/include/c++/13/charconv \
- /usr/include/c++/13/optional \
- /usr/include/c++/13/bits/enable_special_members.h \
- /usr/include/c++/13/span /usr/include/c++/13/variant \
- /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/pdf/pdf_loader.hpp \
- /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/pdf/canonical_model.hpp \
- /usr/include/qpdf/QPDF.hh /usr/include/qpdf/DLL.h \
- /usr/include/qpdf/Types.h /usr/include/c++/13/functional \
- /usr/include/c++/13/bits/std_function.h \
- /usr/include/c++/13/unordered_map \
- /usr/include/c++/13/bits/unordered_map.h \
- /usr/include/c++/13/bits/hashtable.h \
- /usr/include/c++/13/bits/hashtable_policy.h /usr/include/c++/13/iostream \
- /usr/include/c++/13/list /usr/include/c++/13/bits/stl_list.h \
- /usr/include/c++/13/bits/list.tcc /usr/include/qpdf/Buffer.hh \
+ /usr/include/c++/13/pstl/execution_defs.h /usr/include/qpdf/Buffer.hh \
  /usr/include/qpdf/PointerHolder.hh /usr/include/qpdf/InputSource.hh \
  /usr/include/qpdf/PDFVersion.hh /usr/include/qpdf/QIntC.hh \
  /usr/include/qpdf/QPDFExc.hh /usr/include/qpdf/Constants.h \
@@ -257,16 +264,25 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/orchestrator.cpp.o: \
  /usr/include/qpdf/QPDFObjectHandle.hh /usr/include/qpdf/JSON.hh \
  /usr/include/qpdf/QPDFTokenizer.hh /usr/include/qpdf/QPDFStreamFilter.hh \
  /usr/include/qpdf/Pipeline.hh /usr/include/qpdf/QPDFXRefEntry.hh \
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/config_loader.hpp \
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_engine.hpp \
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_interface.hpp \
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/render/preview_renderer.hpp \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/common/logging.hpp \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include/spdlog/spdlog.h \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include/spdlog/common.h \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include/spdlog/tweakme.h \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include/spdlog/details/null_mutex.h \
  /usr/include/c++/13/atomic /usr/include/c++/13/utility \
- /usr/include/c++/13/bits/stl_relops.h \
+ /usr/include/c++/13/bits/stl_relops.h /usr/include/c++/13/chrono \
+ /usr/include/c++/13/bits/chrono_io.h /usr/include/c++/13/format \
+ /usr/include/c++/13/charconv /usr/include/c++/13/optional \
+ /usr/include/c++/13/span /usr/include/c++/13/variant \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include/spdlog/fmt/fmt.h \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include/spdlog/fmt/bundled/core.h \
  /usr/include/c++/13/cstring /usr/include/string.h /usr/include/strings.h \
+ /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
+ /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
  /usr/include/c++/13/iterator /usr/include/c++/13/bits/stream_iterator.h \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include/spdlog/fmt/bundled/format.h \
  /usr/include/c++/13/cmath /usr/include/math.h \
@@ -320,5 +336,12 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/orchestrator.cpp.o: \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include/spdlog/details/file_helper.h \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include/spdlog/sinks/base_sink.h \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/common/crypto.hpp \
- /usr/include/c++/13/algorithm /usr/include/c++/13/bits/ranges_algo.h \
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/job.hpp \
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/pdf/pdf_loader.hpp \
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/persistence/job_repository.hpp \
+ /usr/include/c++/13/fstream \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
+ /usr/include/c++/13/bits/fstream.tcc /usr/include/c++/13/algorithm \
+ /usr/include/c++/13/bits/ranges_algo.h \
  /usr/include/c++/13/pstl/glue_algorithm_defs.h

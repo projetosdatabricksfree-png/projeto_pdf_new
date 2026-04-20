@@ -2128,3 +2128,564 @@ events:
         
       exitCode: 0
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:57 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "PQXX_HAVE_GCC_PURE"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_ef8c2/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_ef8c2.dir/build.make CMakeFiles/cmTC_ef8c2.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_ef8c2.dir/gcc_pure.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_ef8c2.dir/gcc_pure.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/gcc_pure.cxx
+        Linking CXX executable cmTC_ef8c2
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ef8c2.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_ef8c2.dir/gcc_pure.cxx.o -o cmTC_ef8c2 
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:61 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "PQXX_HAVE_GCC_VISIBILITY"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_860a3/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_860a3.dir/build.make CMakeFiles/cmTC_860a3.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_860a3.dir/gcc_visibility.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_860a3.dir/gcc_visibility.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/gcc_visibility.cxx
+        Linking CXX executable cmTC_860a3
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_860a3.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_860a3.dir/gcc_visibility.cxx.o -o cmTC_860a3 
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:65 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "PQXX_HAVE_LIKELY"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_ec632/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_ec632.dir/build.make CMakeFiles/cmTC_ec632.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_ec632.dir/likely.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_ec632.dir/likely.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/likely.cxx
+        Linking CXX executable cmTC_ec632
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ec632.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_ec632.dir/likely.cxx.o -o cmTC_ec632 
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:69 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "PQXX_HAVE_CXA_DEMANGLE"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_a2d8d/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_a2d8d.dir/build.make CMakeFiles/cmTC_a2d8d.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_a2d8d.dir/cxa_demangle.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_a2d8d.dir/cxa_demangle.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/cxa_demangle.cxx
+        Linking CXX executable cmTC_a2d8d
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a2d8d.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_a2d8d.dir/cxa_demangle.cxx.o -o cmTC_a2d8d 
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:73 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "PQXX_HAVE_CONCEPTS"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_1e47b/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_1e47b.dir/build.make CMakeFiles/cmTC_1e47b.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_1e47b.dir/concepts.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_1e47b.dir/concepts.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/concepts.cxx
+        Linking CXX executable cmTC_1e47b
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1e47b.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_1e47b.dir/concepts.cxx.o -o cmTC_1e47b 
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:77 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "PQXX_HAVE_SPAN"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_40eca/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_40eca.dir/build.make CMakeFiles/cmTC_40eca.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_40eca.dir/span.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_40eca.dir/span.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/span.cxx
+        Linking CXX executable cmTC_40eca
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_40eca.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_40eca.dir/span.cxx.o -o cmTC_40eca 
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:81 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "PQXX_HAVE_MULTIDIMENSIONAL_SUBSCRIPT"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_b4459/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_b4459.dir/build.make CMakeFiles/cmTC_b4459.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_b4459.dir/multidim-subscript.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_b4459.dir/multidim-subscript.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/multidim-subscript.cxx
+        /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/multidim-subscript.cxx:7:7: error: ‘int table::operator[](int, int) const’ must have exactly one argument
+            7 |   int operator[](int x, int y) const { return x + width * y; }
+              |       ^~~~~~~~
+        /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/multidim-subscript.cxx: In function ‘int main()’:
+        /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/multidim-subscript.cxx:13:19: warning: top-level comma expression in array subscript is deprecated [-Wcomma-subscript]
+           13 |   return table{}[0, 0];
+              |                   ^
+        /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/multidim-subscript.cxx:13:17: error: no match for ‘operator[]’ (operand types are ‘table’ and ‘int’)
+           13 |   return table{}[0, 0];
+              |                 ^
+        gmake[1]: *** [CMakeFiles/cmTC_b4459.dir/build.make:78: CMakeFiles/cmTC_b4459.dir/multidim-subscript.cxx.o] Error 1
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        gmake: *** [Makefile:127: cmTC_b4459/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:85 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "PQXX_HAVE_CHARCONV_FLOAT"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_80ecc/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_80ecc.dir/build.make CMakeFiles/cmTC_80ecc.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_80ecc.dir/charconv_float.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_80ecc.dir/charconv_float.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/charconv_float.cxx
+        Linking CXX executable cmTC_80ecc
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_80ecc.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_80ecc.dir/charconv_float.cxx.o -o cmTC_80ecc 
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:89 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "PQXX_HAVE_CHARCONV_INT"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_21246/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_21246.dir/build.make CMakeFiles/cmTC_21246.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_21246.dir/charconv_int.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_21246.dir/charconv_int.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/charconv_int.cxx
+        Linking CXX executable cmTC_21246
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_21246.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_21246.dir/charconv_int.cxx.o -o cmTC_21246 
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:93 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "PQXX_HAVE_PATH"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_dc1f2/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_dc1f2.dir/build.make CMakeFiles/cmTC_dc1f2.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_dc1f2.dir/fs.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_dc1f2.dir/fs.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/fs.cxx
+        Linking CXX executable cmTC_dc1f2
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_dc1f2.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_dc1f2.dir/fs.cxx.o -o cmTC_dc1f2 
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:97 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "PQXX_HAVE_THREAD_LOCAL"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_68890/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_68890.dir/build.make CMakeFiles/cmTC_68890.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_68890.dir/thread_local.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_68890.dir/thread_local.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/thread_local.cxx
+        Linking CXX executable cmTC_68890
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_68890.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_68890.dir/thread_local.cxx.o -o cmTC_68890 
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:101 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "PQXX_HAVE_SLEEP_FOR"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_e11ca/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_e11ca.dir/build.make CMakeFiles/cmTC_e11ca.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_e11ca.dir/sleep_for.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_e11ca.dir/sleep_for.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/sleep_for.cxx
+        Linking CXX executable cmTC_e11ca
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e11ca.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_e11ca.dir/sleep_for.cxx.o -o cmTC_e11ca 
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:105 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "PQXX_HAVE_STRERROR_R"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_efeaf/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_efeaf.dir/build.make CMakeFiles/cmTC_efeaf.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_efeaf.dir/strerror_r.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_efeaf.dir/strerror_r.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/strerror_r.cxx
+        Linking CXX executable cmTC_efeaf
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_efeaf.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_efeaf.dir/strerror_r.cxx.o -o cmTC_efeaf 
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:109 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "PQXX_HAVE_STRERROR_S"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_2bdde/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_2bdde.dir/build.make CMakeFiles/cmTC_2bdde.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_2bdde.dir/strerror_s.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_2bdde.dir/strerror_s.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/strerror_s.cxx
+        /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/strerror_s.cxx: In function ‘int main()’:
+        /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/strerror_s.cxx:10:10: error: ‘strerror_s’ was not declared in this scope; did you mean ‘strerror_r’?
+           10 |   return strerror_s(buf, 200, 1);
+              |          ^~~~~~~~~~
+              |          strerror_r
+        gmake[1]: *** [CMakeFiles/cmTC_2bdde.dir/build.make:78: CMakeFiles/cmTC_2bdde.dir/strerror_s.cxx.o] Error 1
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        gmake: *** [Makefile:127: cmTC_2bdde/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:113 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "PQXX_HAVE_YEAR_MONTH_DAY"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_11513/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_11513.dir/build.make CMakeFiles/cmTC_11513.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_11513.dir/year_month_day.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_11513.dir/year_month_day.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/year_month_day.cxx
+        Linking CXX executable cmTC_11513
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_11513.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_11513.dir/year_month_day.cxx.o -o cmTC_11513 
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:117 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "PQXX_HAVE_CMP"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_a9959/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_a9959.dir/build.make CMakeFiles/cmTC_a9959.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_a9959.dir/cmp.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_a9959.dir/cmp.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/cmp.cxx
+        Linking CXX executable cmTC_a9959
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a9959.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_a9959.dir/cmp.cxx.o -o cmTC_a9959 
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:121 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "PQXX_HAVE_UNREACHABLE"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_7aee9/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_7aee9.dir/build.make CMakeFiles/cmTC_7aee9.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_7aee9.dir/unreachable.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_7aee9.dir/unreachable.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/unreachable.cxx
+        /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/unreachable.cxx: In function ‘int main(int, char**)’:
+        /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/unreachable.cxx:12:10: error: ‘unreachable’ is not a member of ‘std’
+           12 |     std::unreachable();
+              |          ^~~~~~~~~~~
+        /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/unreachable.cxx:12:10: note: ‘std::unreachable’ is only available from C++23 onwards
+        gmake[1]: *** [CMakeFiles/cmTC_7aee9.dir/build.make:78: CMakeFiles/cmTC_7aee9.dir/unreachable.cxx.o] Error 1
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        gmake: *** [Makefile:127: cmTC_7aee9/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "build/_deps/libpqxx-src/cmake/config.cmake:126 (try_compile)"
+      - "build/_deps/libpqxx-src/CMakeLists.txt:27 (include)"
+    directories:
+      source: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+      binary: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/cmake"
+    buildResult:
+      variable: "need_fslib"
+      cached: true
+      stdout: |
+        Change Dir: '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_aae0e/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_aae0e.dir/build.make CMakeFiles/cmTC_aae0e.dir/build
+        gmake[1]: Entering directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_aae0e.dir/need_fslib.cxx.o
+        /usr/bin/c++   -std=c++20 -o CMakeFiles/cmTC_aae0e.dir/need_fslib.cxx.o -c /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-src/config-tests/need_fslib.cxx
+        Linking CXX executable cmTC_aae0e
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_aae0e.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_aae0e.dir/need_fslib.cxx.o -o cmTC_aae0e 
+        gmake[1]: Leaving directory '/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/libpqxx-build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+...

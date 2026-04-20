@@ -356,14 +356,23 @@ src/persistence/CMakeFiles/printguard_persistence.dir/database.cpp.o: /home/dieg
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
   /usr/include/x86_64-linux-gnu/bits/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/select-decl.h \
   /usr/include/x86_64-linux-gnu/bits/select.h \
+  /usr/include/x86_64-linux-gnu/bits/select2.h \
   /usr/include/x86_64-linux-gnu/bits/semaphore.h \
   /usr/include/x86_64-linux-gnu/bits/setjmp.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio2-decl.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio2.h \
   /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
+  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
   /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
   /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
   /usr/include/x86_64-linux-gnu/bits/syscall.h \
@@ -400,10 +409,14 @@ src/persistence/CMakeFiles/printguard_persistence.dir/database.cpp.o: /home/dieg
   /usr/include/x86_64-linux-gnu/bits/typesizes.h \
   /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
   /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd-decl.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd.h \
   /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
   /usr/include/x86_64-linux-gnu/bits/waitflags.h \
   /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
   /usr/include/x86_64-linux-gnu/bits/wchar.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2-decl.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
   /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
   /usr/include/x86_64-linux-gnu/bits/wordsize.h \
   /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
@@ -790,14 +803,23 @@ src/persistence/CMakeFiles/printguard_persistence.dir/job_repository.cpp.o: /hom
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
   /usr/include/x86_64-linux-gnu/bits/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/select-decl.h \
   /usr/include/x86_64-linux-gnu/bits/select.h \
+  /usr/include/x86_64-linux-gnu/bits/select2.h \
   /usr/include/x86_64-linux-gnu/bits/semaphore.h \
   /usr/include/x86_64-linux-gnu/bits/setjmp.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio2-decl.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio2.h \
   /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+  /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
+  /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
   /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
   /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
   /usr/include/x86_64-linux-gnu/bits/syscall.h \
@@ -834,10 +856,14 @@ src/persistence/CMakeFiles/printguard_persistence.dir/job_repository.cpp.o: /hom
   /usr/include/x86_64-linux-gnu/bits/typesizes.h \
   /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
   /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd-decl.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd.h \
   /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
   /usr/include/x86_64-linux-gnu/bits/waitflags.h \
   /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
   /usr/include/x86_64-linux-gnu/bits/wchar.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2-decl.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar2.h \
   /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
   /usr/include/x86_64-linux-gnu/bits/wordsize.h \
   /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
@@ -915,6 +941,8 @@ src/persistence/CMakeFiles/printguard_persistence.dir/job_repository.cpp.o: /hom
 
 /usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
 
+/usr/include/x86_64-linux-gnu/bits/unistd-decl.h:
+
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
@@ -944,6 +972,12 @@ src/persistence/CMakeFiles/printguard_persistence.dir/job_repository.cpp.o: /hom
 /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
+
+/usr/include/x86_64-linux-gnu/bits/strings_fortified.h:
+
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib.h:
 
 /usr/include/x86_64-linux-gnu/bits/timex.h:
 
@@ -980,6 +1014,8 @@ src/persistence/CMakeFiles/printguard_persistence.dir/job_repository.cpp.o: /hom
 /usr/include/x86_64-linux-gnu/bits/local_lim.h:
 
 /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
+
+/usr/include/x86_64-linux-gnu/bits/wchar2.h:
 
 /usr/include/x86_64-linux-gnu/bits/fp-logb.h:
 
@@ -1161,6 +1197,8 @@ _deps/libpqxx-src/include/pqxx/util.hxx:
 
 /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/common/env.hpp:
 
+/usr/include/x86_64-linux-gnu/bits/unistd.h:
+
 _deps/spdlog-src/include/spdlog/version.h:
 
 /usr/include/c++/13/bits/locale_facets.h:
@@ -1271,6 +1309,8 @@ _deps/libpqxx-src/include/pqxx/transaction_focus.hxx:
 
 /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
 
+/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h:
+
 _deps/libpqxx-src/include/pqxx/internal/ignore-deprecated-pre.hxx:
 
 _deps/libpqxx-src/include/pqxx/internal/result_iter.hxx:
@@ -1371,6 +1411,8 @@ _deps/libpqxx-src/include/pqxx/internal/array-composite.hxx:
 
 _deps/libpqxx-src/include/pqxx/internal/encoding_group.hxx:
 
+/usr/include/x86_64-linux-gnu/bits/stdio.h:
+
 _deps/libpqxx-src/include/pqxx/dbtransaction.hxx:
 
 _deps/libpqxx-src/include/pqxx/cursor.hxx:
@@ -1467,6 +1509,8 @@ _deps/libpqxx-src/include/pqxx/result.hxx:
 
 _deps/libpqxx-src/include/pqxx/transaction.hxx:
 
+/usr/include/x86_64-linux-gnu/bits/select-decl.h:
+
 _deps/libpqxx-src/include/pqxx/strconv.hxx:
 
 /usr/include/c++/13/bits/functexcept.h:
@@ -1553,9 +1597,13 @@ _deps/spdlog-src/include/spdlog/sinks/basic_file_sink.h:
 
 /usr/include/c++/13/iosfwd:
 
+/usr/include/x86_64-linux-gnu/bits/stdio2-decl.h:
+
 /usr/include/c++/13/bits/ptr_traits.h:
 
 /usr/include/c++/13/bits/ranges_uninitialized.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:
 
 /usr/include/c++/13/bits/quoted_string.h:
 
@@ -1617,6 +1665,8 @@ _deps/libpqxx-src/include/pqxx/transaction_base.hxx:
 
 /usr/include/c++/13/bits/stl_iterator_base_types.h:
 
+/usr/include/x86_64-linux-gnu/bits/wchar2-decl.h:
+
 /usr/include/c++/13/bits/erase_if.h:
 
 /usr/include/c++/13/bits/stl_list.h:
@@ -1670,6 +1720,8 @@ _deps/libpqxx-src/include/pqxx/internal/statement_parameters.hxx:
 /usr/include/c++/13/charconv:
 
 /usr/include/c++/13/chrono:
+
+/usr/include/x86_64-linux-gnu/bits/select2.h:
 
 /usr/include/c++/13/cmath:
 

@@ -28,13 +28,16 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/local_batch_processor.
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include/spdlog/tweakme.h
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include/spdlog/version.h
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_engine.hpp
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_interface.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/common/crypto.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/common/logging.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/config_loader.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/finding.hpp
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/job.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/preset.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/profile.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_engine.hpp
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_interface.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/orchestration/local_batch_processor.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/pdf/canonical_model.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/pdf/pdf_loader.hpp
@@ -396,14 +399,23 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/local_batch_processor.
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h
  /usr/include/x86_64-linux-gnu/bits/sched.h
+ /usr/include/x86_64-linux-gnu/bits/select-decl.h
  /usr/include/x86_64-linux-gnu/bits/select.h
+ /usr/include/x86_64-linux-gnu/bits/select2.h
  /usr/include/x86_64-linux-gnu/bits/semaphore.h
  /usr/include/x86_64-linux-gnu/bits/setjmp.h
  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h
  /usr/include/x86_64-linux-gnu/bits/stdint-least.h
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h
+ /usr/include/x86_64-linux-gnu/bits/stdio.h
+ /usr/include/x86_64-linux-gnu/bits/stdio2-decl.h
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h
+ /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h
+ /usr/include/x86_64-linux-gnu/bits/stdlib.h
+ /usr/include/x86_64-linux-gnu/bits/string_fortified.h
+ /usr/include/x86_64-linux-gnu/bits/strings_fortified.h
  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h
  /usr/include/x86_64-linux-gnu/bits/syscall.h
@@ -440,10 +452,14 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/local_batch_processor.
  /usr/include/x86_64-linux-gnu/bits/typesizes.h
  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h
  /usr/include/x86_64-linux-gnu/bits/uio_lim.h
+ /usr/include/x86_64-linux-gnu/bits/unistd-decl.h
+ /usr/include/x86_64-linux-gnu/bits/unistd.h
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h
  /usr/include/x86_64-linux-gnu/bits/waitflags.h
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h
  /usr/include/x86_64-linux-gnu/bits/wchar.h
+ /usr/include/x86_64-linux-gnu/bits/wchar2-decl.h
+ /usr/include/x86_64-linux-gnu/bits/wchar2.h
  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h
  /usr/include/x86_64-linux-gnu/bits/wordsize.h
  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h
@@ -502,15 +518,23 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/orchestrator.cpp.o
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include/spdlog/spdlog.h
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include/spdlog/tweakme.h
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/spdlog-src/include/spdlog/version.h
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_engine.hpp
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_interface.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/common/crypto.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/common/logging.hpp
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/config_loader.hpp
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/finding.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/job.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/preset.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/profile.hpp
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_engine.hpp
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_interface.hpp
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/orchestration/local_batch_processor.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/orchestration/orchestrator.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/pdf/canonical_model.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/pdf/pdf_loader.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/persistence/job_repository.hpp
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/render/preview_renderer.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/storage/storage.hpp
  /usr/include/alloca.h
  /usr/include/asm-generic/errno-base.h
@@ -553,6 +577,7 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/orchestrator.cpp.o
  /usr/include/c++/13/bits/fs_fwd.h
  /usr/include/c++/13/bits/fs_ops.h
  /usr/include/c++/13/bits/fs_path.h
+ /usr/include/c++/13/bits/fstream.tcc
  /usr/include/c++/13/bits/functexcept.h
  /usr/include/c++/13/bits/functional_hash.h
  /usr/include/c++/13/bits/hash_bytes.h
@@ -671,6 +696,7 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/orchestrator.cpp.o
  /usr/include/c++/13/ext/type_traits.h
  /usr/include/c++/13/filesystem
  /usr/include/c++/13/format
+ /usr/include/c++/13/fstream
  /usr/include/c++/13/functional
  /usr/include/c++/13/initializer_list
  /usr/include/c++/13/iomanip
@@ -802,14 +828,23 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/orchestrator.cpp.o
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h
  /usr/include/x86_64-linux-gnu/bits/sched.h
+ /usr/include/x86_64-linux-gnu/bits/select-decl.h
  /usr/include/x86_64-linux-gnu/bits/select.h
+ /usr/include/x86_64-linux-gnu/bits/select2.h
  /usr/include/x86_64-linux-gnu/bits/semaphore.h
  /usr/include/x86_64-linux-gnu/bits/setjmp.h
  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h
  /usr/include/x86_64-linux-gnu/bits/stdint-least.h
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h
+ /usr/include/x86_64-linux-gnu/bits/stdio.h
+ /usr/include/x86_64-linux-gnu/bits/stdio2-decl.h
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h
+ /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h
+ /usr/include/x86_64-linux-gnu/bits/stdlib.h
+ /usr/include/x86_64-linux-gnu/bits/string_fortified.h
+ /usr/include/x86_64-linux-gnu/bits/strings_fortified.h
  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h
  /usr/include/x86_64-linux-gnu/bits/syscall.h
@@ -846,16 +881,22 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/orchestrator.cpp.o
  /usr/include/x86_64-linux-gnu/bits/typesizes.h
  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h
  /usr/include/x86_64-linux-gnu/bits/uio_lim.h
+ /usr/include/x86_64-linux-gnu/bits/unistd-decl.h
+ /usr/include/x86_64-linux-gnu/bits/unistd.h
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h
  /usr/include/x86_64-linux-gnu/bits/waitflags.h
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h
  /usr/include/x86_64-linux-gnu/bits/wchar.h
+ /usr/include/x86_64-linux-gnu/bits/wchar2-decl.h
+ /usr/include/x86_64-linux-gnu/bits/wchar2.h
  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h
  /usr/include/x86_64-linux-gnu/bits/wordsize.h
  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h
  /usr/include/x86_64-linux-gnu/c++/13/bits/atomic_word.h
+ /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h
+ /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h
  /usr/include/x86_64-linux-gnu/c++/13/bits/cpu_defines.h
  /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h

@@ -229,6 +229,174 @@ unit/domain_test.cpp.s:
 	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/domain_test.cpp.s
 .PHONY : unit/domain_test.cpp.s
 
+unit/historia_05_rules_test.o: unit/historia_05_rules_test.cpp.o
+.PHONY : unit/historia_05_rules_test.o
+
+# target to build an object file
+unit/historia_05_rules_test.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.o
+.PHONY : unit/historia_05_rules_test.cpp.o
+
+unit/historia_05_rules_test.i: unit/historia_05_rules_test.cpp.i
+.PHONY : unit/historia_05_rules_test.i
+
+# target to preprocess a source file
+unit/historia_05_rules_test.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.i
+.PHONY : unit/historia_05_rules_test.cpp.i
+
+unit/historia_05_rules_test.s: unit/historia_05_rules_test.cpp.s
+.PHONY : unit/historia_05_rules_test.s
+
+# target to generate assembly for a file
+unit/historia_05_rules_test.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_05_rules_test.cpp.s
+.PHONY : unit/historia_05_rules_test.cpp.s
+
+unit/historia_06_rules_test.o: unit/historia_06_rules_test.cpp.o
+.PHONY : unit/historia_06_rules_test.o
+
+# target to build an object file
+unit/historia_06_rules_test.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.o
+.PHONY : unit/historia_06_rules_test.cpp.o
+
+unit/historia_06_rules_test.i: unit/historia_06_rules_test.cpp.i
+.PHONY : unit/historia_06_rules_test.i
+
+# target to preprocess a source file
+unit/historia_06_rules_test.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.i
+.PHONY : unit/historia_06_rules_test.cpp.i
+
+unit/historia_06_rules_test.s: unit/historia_06_rules_test.cpp.s
+.PHONY : unit/historia_06_rules_test.s
+
+# target to generate assembly for a file
+unit/historia_06_rules_test.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_06_rules_test.cpp.s
+.PHONY : unit/historia_06_rules_test.cpp.s
+
+unit/historia_07_fix_rgb_cmyk_lcms2_test.o: unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.o
+.PHONY : unit/historia_07_fix_rgb_cmyk_lcms2_test.o
+
+# target to build an object file
+unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.o
+.PHONY : unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.o
+
+unit/historia_07_fix_rgb_cmyk_lcms2_test.i: unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.i
+.PHONY : unit/historia_07_fix_rgb_cmyk_lcms2_test.i
+
+# target to preprocess a source file
+unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.i
+.PHONY : unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.i
+
+unit/historia_07_fix_rgb_cmyk_lcms2_test.s: unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.s
+.PHONY : unit/historia_07_fix_rgb_cmyk_lcms2_test.s
+
+# target to generate assembly for a file
+unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.s
+.PHONY : unit/historia_07_fix_rgb_cmyk_lcms2_test.cpp.s
+
+unit/historia_08_fixes_intent_tac_preto_test.o: unit/historia_08_fixes_intent_tac_preto_test.cpp.o
+.PHONY : unit/historia_08_fixes_intent_tac_preto_test.o
+
+# target to build an object file
+unit/historia_08_fixes_intent_tac_preto_test.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.o
+.PHONY : unit/historia_08_fixes_intent_tac_preto_test.cpp.o
+
+unit/historia_08_fixes_intent_tac_preto_test.i: unit/historia_08_fixes_intent_tac_preto_test.cpp.i
+.PHONY : unit/historia_08_fixes_intent_tac_preto_test.i
+
+# target to preprocess a source file
+unit/historia_08_fixes_intent_tac_preto_test.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.i
+.PHONY : unit/historia_08_fixes_intent_tac_preto_test.cpp.i
+
+unit/historia_08_fixes_intent_tac_preto_test.s: unit/historia_08_fixes_intent_tac_preto_test.cpp.s
+.PHONY : unit/historia_08_fixes_intent_tac_preto_test.s
+
+# target to generate assembly for a file
+unit/historia_08_fixes_intent_tac_preto_test.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_08_fixes_intent_tac_preto_test.cpp.s
+.PHONY : unit/historia_08_fixes_intent_tac_preto_test.cpp.s
+
+unit/historia_09_fixes_limpeza_test.o: unit/historia_09_fixes_limpeza_test.cpp.o
+.PHONY : unit/historia_09_fixes_limpeza_test.o
+
+# target to build an object file
+unit/historia_09_fixes_limpeza_test.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.o
+.PHONY : unit/historia_09_fixes_limpeza_test.cpp.o
+
+unit/historia_09_fixes_limpeza_test.i: unit/historia_09_fixes_limpeza_test.cpp.i
+.PHONY : unit/historia_09_fixes_limpeza_test.i
+
+# target to preprocess a source file
+unit/historia_09_fixes_limpeza_test.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.i
+.PHONY : unit/historia_09_fixes_limpeza_test.cpp.i
+
+unit/historia_09_fixes_limpeza_test.s: unit/historia_09_fixes_limpeza_test.cpp.s
+.PHONY : unit/historia_09_fixes_limpeza_test.s
+
+# target to generate assembly for a file
+unit/historia_09_fixes_limpeza_test.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_09_fixes_limpeza_test.cpp.s
+.PHONY : unit/historia_09_fixes_limpeza_test.cpp.s
+
+unit/historia_10_fix_planner_preset_test.o: unit/historia_10_fix_planner_preset_test.cpp.o
+.PHONY : unit/historia_10_fix_planner_preset_test.o
+
+# target to build an object file
+unit/historia_10_fix_planner_preset_test.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.o
+.PHONY : unit/historia_10_fix_planner_preset_test.cpp.o
+
+unit/historia_10_fix_planner_preset_test.i: unit/historia_10_fix_planner_preset_test.cpp.i
+.PHONY : unit/historia_10_fix_planner_preset_test.i
+
+# target to preprocess a source file
+unit/historia_10_fix_planner_preset_test.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.i
+.PHONY : unit/historia_10_fix_planner_preset_test.cpp.i
+
+unit/historia_10_fix_planner_preset_test.s: unit/historia_10_fix_planner_preset_test.cpp.s
+.PHONY : unit/historia_10_fix_planner_preset_test.s
+
+# target to generate assembly for a file
+unit/historia_10_fix_planner_preset_test.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_10_fix_planner_preset_test.cpp.s
+.PHONY : unit/historia_10_fix_planner_preset_test.cpp.s
+
+unit/historia_11_pipeline_completo_test.o: unit/historia_11_pipeline_completo_test.cpp.o
+.PHONY : unit/historia_11_pipeline_completo_test.o
+
+# target to build an object file
+unit/historia_11_pipeline_completo_test.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.o
+.PHONY : unit/historia_11_pipeline_completo_test.cpp.o
+
+unit/historia_11_pipeline_completo_test.i: unit/historia_11_pipeline_completo_test.cpp.i
+.PHONY : unit/historia_11_pipeline_completo_test.i
+
+# target to preprocess a source file
+unit/historia_11_pipeline_completo_test.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.i
+.PHONY : unit/historia_11_pipeline_completo_test.cpp.i
+
+unit/historia_11_pipeline_completo_test.s: unit/historia_11_pipeline_completo_test.cpp.s
+.PHONY : unit/historia_11_pipeline_completo_test.s
+
+# target to generate assembly for a file
+unit/historia_11_pipeline_completo_test.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/unit_tests.dir/build.make tests/CMakeFiles/unit_tests.dir/unit/historia_11_pipeline_completo_test.cpp.s
+.PHONY : unit/historia_11_pipeline_completo_test.cpp.s
+
 unit/pdf_test.o: unit/pdf_test.cpp.o
 .PHONY : unit/pdf_test.o
 
@@ -320,6 +488,27 @@ help:
 	@echo "... unit/domain_test.o"
 	@echo "... unit/domain_test.i"
 	@echo "... unit/domain_test.s"
+	@echo "... unit/historia_05_rules_test.o"
+	@echo "... unit/historia_05_rules_test.i"
+	@echo "... unit/historia_05_rules_test.s"
+	@echo "... unit/historia_06_rules_test.o"
+	@echo "... unit/historia_06_rules_test.i"
+	@echo "... unit/historia_06_rules_test.s"
+	@echo "... unit/historia_07_fix_rgb_cmyk_lcms2_test.o"
+	@echo "... unit/historia_07_fix_rgb_cmyk_lcms2_test.i"
+	@echo "... unit/historia_07_fix_rgb_cmyk_lcms2_test.s"
+	@echo "... unit/historia_08_fixes_intent_tac_preto_test.o"
+	@echo "... unit/historia_08_fixes_intent_tac_preto_test.i"
+	@echo "... unit/historia_08_fixes_intent_tac_preto_test.s"
+	@echo "... unit/historia_09_fixes_limpeza_test.o"
+	@echo "... unit/historia_09_fixes_limpeza_test.i"
+	@echo "... unit/historia_09_fixes_limpeza_test.s"
+	@echo "... unit/historia_10_fix_planner_preset_test.o"
+	@echo "... unit/historia_10_fix_planner_preset_test.i"
+	@echo "... unit/historia_10_fix_planner_preset_test.s"
+	@echo "... unit/historia_11_pipeline_completo_test.o"
+	@echo "... unit/historia_11_pipeline_completo_test.i"
+	@echo "... unit/historia_11_pipeline_completo_test.s"
 	@echo "... unit/pdf_test.o"
 	@echo "... unit/pdf_test.i"
 	@echo "... unit/pdf_test.s"

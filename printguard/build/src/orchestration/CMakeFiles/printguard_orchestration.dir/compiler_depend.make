@@ -27,6 +27,7 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/local_batch_processor.
   _deps/spdlog-src/include/spdlog/tweakme.h \
   _deps/spdlog-src/include/spdlog/version.h \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_engine.hpp \
+  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_interface.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/common/crypto.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/common/logging.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/config_loader.hpp \
@@ -34,6 +35,7 @@ src/orchestration/CMakeFiles/printguard_orchestration.dir/local_batch_processor.
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/preset.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/profile.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_engine.hpp \
+  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_interface.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/orchestration/local_batch_processor.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/pdf/canonical_model.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/pdf/pdf_loader.hpp \
@@ -1355,6 +1357,10 @@ _deps/spdlog-src/include/spdlog/version.h:
 
 _deps/spdlog-src/include/spdlog/sinks/stdout_color_sinks.h:
 
+/usr/include/nlohmann/detail/conversions/from_json.hpp:
+
+/usr/include/c++/13/bits/basic_ios.h:
+
 /usr/include/c++/13/tuple:
 
 /usr/include/c++/13/bits/list.tcc:
@@ -1395,15 +1401,13 @@ _deps/spdlog-src/include/spdlog/sinks/base_sink.h:
 
 /usr/include/c++/13/tr1/exp_integral.tcc:
 
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_interface.hpp:
+
 _deps/spdlog-src/include/spdlog/details/circular_q.h:
 
 /usr/include/wchar.h:
 
 /usr/include/c++/13/bits/shared_ptr_base.h:
-
-/usr/include/nlohmann/detail/conversions/from_json.hpp:
-
-/usr/include/c++/13/bits/basic_ios.h:
 
 /usr/include/x86_64-linux-gnu/bits/confname.h:
 
@@ -1414,6 +1418,10 @@ _deps/spdlog-src/include/spdlog/details/circular_q.h:
 /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
 
 /usr/include/c++/13/sstream:
+
+/usr/include/c++/13/tr1/legendre_function.tcc:
+
+_deps/spdlog-src/include/spdlog/details/console_globals.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/error_t.h:
 
@@ -1483,6 +1491,10 @@ _deps/spdlog-src/include/spdlog/tweakme.h:
 
 _deps/spdlog-src/include/spdlog/details/registry.h:
 
+/usr/include/c++/13/tr1/hypergeometric.tcc:
+
+/usr/include/c++/13/bits/range_access.h:
+
 /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/finding.hpp:
 
 /usr/include/assert.h:
@@ -1493,13 +1505,19 @@ _deps/spdlog-src/include/spdlog/details/registry.h:
 
 /usr/include/c++/13/bits/cxxabi_forced.h:
 
-/usr/include/nlohmann/thirdparty/hedley/hedley.hpp:
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_interface.hpp:
 
-/usr/include/c++/13/chrono:
+/usr/include/c++/13/bits/std_mutex.h:
+
+/usr/include/c++/13/bits/stl_construct.h:
 
 /usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
 
 /usr/include/c++/13/pstl/glue_numeric_defs.h:
+
+/usr/include/nlohmann/thirdparty/hedley/hedley.hpp:
+
+/usr/include/c++/13/chrono:
 
 /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/common/crypto.hpp:
 
@@ -1527,19 +1545,9 @@ _deps/spdlog-src/include/spdlog/details/registry.h:
 
 /usr/include/alloca.h:
 
-/usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h:
-
-/usr/include/c++/13/bits/ranges_util.h:
-
-/usr/include/c++/13/any:
-
 /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
 
 /usr/include/asm-generic/errno.h:
-
-/usr/include/asm-generic/errno-base.h:
-
-/usr/include/c++/13/bits/stl_iterator_base_funcs.h:
 
 /usr/include/c++/13/algorithm:
 
@@ -1556,6 +1564,16 @@ _deps/spdlog-src/include/spdlog/details/registry.h:
 /usr/include/c++/13/bits/stl_uninitialized.h:
 
 /usr/include/c++/13/locale:
+
+/usr/include/c++/13/bits/stl_iterator_base_funcs.h:
+
+/usr/include/asm-generic/errno-base.h:
+
+/usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h:
+
+/usr/include/c++/13/any:
+
+/usr/include/c++/13/bits/ranges_util.h:
 
 /usr/include/c++/13/array:
 
@@ -1620,10 +1638,6 @@ _deps/spdlog-src/include/spdlog/details/registry.h:
 /usr/include/nlohmann/detail/meta/cpp_future.hpp:
 
 /usr/include/c++/13/cstdlib:
-
-/usr/include/c++/13/bits/std_mutex.h:
-
-/usr/include/c++/13/bits/stl_construct.h:
 
 /usr/include/c++/13/bits/stl_algo.h:
 
@@ -1815,10 +1829,6 @@ _deps/spdlog-src/include/spdlog/common.h:
 
 /usr/include/c++/13/stop_token:
 
-_deps/spdlog-src/include/spdlog/details/console_globals.h:
-
-/usr/include/c++/13/tr1/legendre_function.tcc:
-
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 
 /usr/include/c++/13/string:
@@ -1830,7 +1840,3 @@ _deps/spdlog-src/include/spdlog/details/console_globals.h:
 /usr/include/c++/13/string_view:
 
 /usr/include/c++/13/tr1/ell_integral.tcc:
-
-/usr/include/c++/13/bits/range_access.h:
-
-/usr/include/c++/13/tr1/hypergeometric.tcc:

@@ -28,6 +28,7 @@ apps/cli/CMakeFiles/printguard-cli.dir/main.cpp.o
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/spdlog-src/include/spdlog/tweakme.h
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build/_deps/spdlog-src/include/spdlog/version.h
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_engine.hpp
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/analysis/rule_interface.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/common/logging.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/common/version.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/config_loader.hpp
@@ -35,6 +36,7 @@ apps/cli/CMakeFiles/printguard-cli.dir/main.cpp.o
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/preset.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/profile.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_engine.hpp
+ /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_interface.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/orchestration/local_batch_processor.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/pdf/canonical_model.hpp
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/render/preview_renderer.hpp
@@ -83,6 +85,7 @@ apps/cli/CMakeFiles/printguard-cli.dir/main.cpp.o
  /usr/include/c++/13/bits/ios_base.h
  /usr/include/c++/13/bits/istream.tcc
  /usr/include/c++/13/bits/iterator_concepts.h
+ /usr/include/c++/13/bits/list.tcc
  /usr/include/c++/13/bits/locale_classes.h
  /usr/include/c++/13/bits/locale_classes.tcc
  /usr/include/c++/13/bits/locale_conv.h
@@ -132,11 +135,14 @@ apps/cli/CMakeFiles/printguard-cli.dir/main.cpp.o
  /usr/include/c++/13/bits/stl_iterator.h
  /usr/include/c++/13/bits/stl_iterator_base_funcs.h
  /usr/include/c++/13/bits/stl_iterator_base_types.h
+ /usr/include/c++/13/bits/stl_list.h
  /usr/include/c++/13/bits/stl_map.h
  /usr/include/c++/13/bits/stl_multimap.h
+ /usr/include/c++/13/bits/stl_multiset.h
  /usr/include/c++/13/bits/stl_pair.h
  /usr/include/c++/13/bits/stl_raw_storage_iter.h
  /usr/include/c++/13/bits/stl_relops.h
+ /usr/include/c++/13/bits/stl_set.h
  /usr/include/c++/13/bits/stl_tempbuf.h
  /usr/include/c++/13/bits/stl_tree.h
  /usr/include/c++/13/bits/stl_uninitialized.h
@@ -194,6 +200,7 @@ apps/cli/CMakeFiles/printguard-cli.dir/main.cpp.o
  /usr/include/c++/13/istream
  /usr/include/c++/13/iterator
  /usr/include/c++/13/limits
+ /usr/include/c++/13/list
  /usr/include/c++/13/locale
  /usr/include/c++/13/map
  /usr/include/c++/13/memory
@@ -207,6 +214,7 @@ apps/cli/CMakeFiles/printguard-cli.dir/main.cpp.o
  /usr/include/c++/13/pstl/pstl_config.h
  /usr/include/c++/13/ratio
  /usr/include/c++/13/semaphore
+ /usr/include/c++/13/set
  /usr/include/c++/13/span
  /usr/include/c++/13/sstream
  /usr/include/c++/13/stdexcept
@@ -248,6 +256,23 @@ apps/cli/CMakeFiles/printguard-cli.dir/main.cpp.o
  /usr/include/locale.h
  /usr/include/math.h
  /usr/include/pthread.h
+ /usr/include/qpdf/Buffer.hh
+ /usr/include/qpdf/Constants.h
+ /usr/include/qpdf/DLL.h
+ /usr/include/qpdf/InputSource.hh
+ /usr/include/qpdf/JSON.hh
+ /usr/include/qpdf/PDFVersion.hh
+ /usr/include/qpdf/Pipeline.hh
+ /usr/include/qpdf/PointerHolder.hh
+ /usr/include/qpdf/QIntC.hh
+ /usr/include/qpdf/QPDF.hh
+ /usr/include/qpdf/QPDFExc.hh
+ /usr/include/qpdf/QPDFObjGen.hh
+ /usr/include/qpdf/QPDFObjectHandle.hh
+ /usr/include/qpdf/QPDFStreamFilter.hh
+ /usr/include/qpdf/QPDFTokenizer.hh
+ /usr/include/qpdf/QPDFXRefEntry.hh
+ /usr/include/qpdf/Types.h
  /usr/include/sched.h
  /usr/include/semaphore.h
  /usr/include/stdc-predef.h

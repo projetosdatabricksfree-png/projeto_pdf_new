@@ -25,6 +25,7 @@ endif()
 
 # Dependency Management (FetchContent)
 include(FetchContent)
+find_package(PkgConfig REQUIRED)
 
 # 1. spdlog (Logging)
 set(SPDLOG_BUILD_EXAMPLE OFF CACHE BOOL "" FORCE)
@@ -36,6 +37,13 @@ FetchContent_Declare(
     GIT_TAG v1.12.0
 )
 FetchContent_MakeAvailable(spdlog)
+if(NOT MSVC)
+    # Our project uses -Werror, but we don't want third-party deps to fail the build on
+    # compiler-specific warnings.
+    if(TARGET spdlog)
+        target_compile_options(spdlog PRIVATE -Wno-error -Wno-error=array-bounds -Wno-array-bounds)
+    endif()
+endif()
 
 # 2. nlohmann_json (JSON) - Using system package
 find_package(nlohmann_json REQUIRED)
@@ -83,6 +91,9 @@ find_package(qpdf REQUIRED)
 
 # 9. OpenSSL (For SHA256 and Security)
 find_package(OpenSSL REQUIRED)
+
+# 10. LittleCMS2 (Color conversion)
+pkg_check_modules(LCMS2 REQUIRED lcms2)
 
 # Include directories
 add_library(PrintGuard_Config INTERFACE)

@@ -229,6 +229,342 @@ rule_engine.cpp.s:
 	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rule_engine.cpp.s
 .PHONY : rule_engine.cpp.s
 
+rules/annotation_rule.o: rules/annotation_rule.cpp.o
+.PHONY : rules/annotation_rule.o
+
+# target to build an object file
+rules/annotation_rule.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.o
+.PHONY : rules/annotation_rule.cpp.o
+
+rules/annotation_rule.i: rules/annotation_rule.cpp.i
+.PHONY : rules/annotation_rule.i
+
+# target to preprocess a source file
+rules/annotation_rule.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.i
+.PHONY : rules/annotation_rule.cpp.i
+
+rules/annotation_rule.s: rules/annotation_rule.cpp.s
+.PHONY : rules/annotation_rule.s
+
+# target to generate assembly for a file
+rules/annotation_rule.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/annotation_rule.cpp.s
+.PHONY : rules/annotation_rule.cpp.s
+
+rules/black_consistency_rule.o: rules/black_consistency_rule.cpp.o
+.PHONY : rules/black_consistency_rule.o
+
+# target to build an object file
+rules/black_consistency_rule.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.o
+.PHONY : rules/black_consistency_rule.cpp.o
+
+rules/black_consistency_rule.i: rules/black_consistency_rule.cpp.i
+.PHONY : rules/black_consistency_rule.i
+
+# target to preprocess a source file
+rules/black_consistency_rule.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.i
+.PHONY : rules/black_consistency_rule.cpp.i
+
+rules/black_consistency_rule.s: rules/black_consistency_rule.cpp.s
+.PHONY : rules/black_consistency_rule.s
+
+# target to generate assembly for a file
+rules/black_consistency_rule.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/black_consistency_rule.cpp.s
+.PHONY : rules/black_consistency_rule.cpp.s
+
+rules/bleed_rule.o: rules/bleed_rule.cpp.o
+.PHONY : rules/bleed_rule.o
+
+# target to build an object file
+rules/bleed_rule.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.o
+.PHONY : rules/bleed_rule.cpp.o
+
+rules/bleed_rule.i: rules/bleed_rule.cpp.i
+.PHONY : rules/bleed_rule.i
+
+# target to preprocess a source file
+rules/bleed_rule.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.i
+.PHONY : rules/bleed_rule.cpp.i
+
+rules/bleed_rule.s: rules/bleed_rule.cpp.s
+.PHONY : rules/bleed_rule.s
+
+# target to generate assembly for a file
+rules/bleed_rule.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/bleed_rule.cpp.s
+.PHONY : rules/bleed_rule.cpp.s
+
+rules/color_space_rule.o: rules/color_space_rule.cpp.o
+.PHONY : rules/color_space_rule.o
+
+# target to build an object file
+rules/color_space_rule.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.o
+.PHONY : rules/color_space_rule.cpp.o
+
+rules/color_space_rule.i: rules/color_space_rule.cpp.i
+.PHONY : rules/color_space_rule.i
+
+# target to preprocess a source file
+rules/color_space_rule.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.i
+.PHONY : rules/color_space_rule.cpp.i
+
+rules/color_space_rule.s: rules/color_space_rule.cpp.s
+.PHONY : rules/color_space_rule.s
+
+# target to generate assembly for a file
+rules/color_space_rule.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/color_space_rule.cpp.s
+.PHONY : rules/color_space_rule.cpp.s
+
+rules/image_resolution_rule.o: rules/image_resolution_rule.cpp.o
+.PHONY : rules/image_resolution_rule.o
+
+# target to build an object file
+rules/image_resolution_rule.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.o
+.PHONY : rules/image_resolution_rule.cpp.o
+
+rules/image_resolution_rule.i: rules/image_resolution_rule.cpp.i
+.PHONY : rules/image_resolution_rule.i
+
+# target to preprocess a source file
+rules/image_resolution_rule.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.i
+.PHONY : rules/image_resolution_rule.cpp.i
+
+rules/image_resolution_rule.s: rules/image_resolution_rule.cpp.s
+.PHONY : rules/image_resolution_rule.s
+
+# target to generate assembly for a file
+rules/image_resolution_rule.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/image_resolution_rule.cpp.s
+.PHONY : rules/image_resolution_rule.cpp.s
+
+rules/layer_rule.o: rules/layer_rule.cpp.o
+.PHONY : rules/layer_rule.o
+
+# target to build an object file
+rules/layer_rule.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.o
+.PHONY : rules/layer_rule.cpp.o
+
+rules/layer_rule.i: rules/layer_rule.cpp.i
+.PHONY : rules/layer_rule.i
+
+# target to preprocess a source file
+rules/layer_rule.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.i
+.PHONY : rules/layer_rule.cpp.i
+
+rules/layer_rule.s: rules/layer_rule.cpp.s
+.PHONY : rules/layer_rule.s
+
+# target to generate assembly for a file
+rules/layer_rule.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/layer_rule.cpp.s
+.PHONY : rules/layer_rule.cpp.s
+
+rules/output_intent_rule.o: rules/output_intent_rule.cpp.o
+.PHONY : rules/output_intent_rule.o
+
+# target to build an object file
+rules/output_intent_rule.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.o
+.PHONY : rules/output_intent_rule.cpp.o
+
+rules/output_intent_rule.i: rules/output_intent_rule.cpp.i
+.PHONY : rules/output_intent_rule.i
+
+# target to preprocess a source file
+rules/output_intent_rule.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.i
+.PHONY : rules/output_intent_rule.cpp.i
+
+rules/output_intent_rule.s: rules/output_intent_rule.cpp.s
+.PHONY : rules/output_intent_rule.s
+
+# target to generate assembly for a file
+rules/output_intent_rule.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/output_intent_rule.cpp.s
+.PHONY : rules/output_intent_rule.cpp.s
+
+rules/page_geometry_rule.o: rules/page_geometry_rule.cpp.o
+.PHONY : rules/page_geometry_rule.o
+
+# target to build an object file
+rules/page_geometry_rule.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.o
+.PHONY : rules/page_geometry_rule.cpp.o
+
+rules/page_geometry_rule.i: rules/page_geometry_rule.cpp.i
+.PHONY : rules/page_geometry_rule.i
+
+# target to preprocess a source file
+rules/page_geometry_rule.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.i
+.PHONY : rules/page_geometry_rule.cpp.i
+
+rules/page_geometry_rule.s: rules/page_geometry_rule.cpp.s
+.PHONY : rules/page_geometry_rule.s
+
+# target to generate assembly for a file
+rules/page_geometry_rule.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/page_geometry_rule.cpp.s
+.PHONY : rules/page_geometry_rule.cpp.s
+
+rules/rotation_rule.o: rules/rotation_rule.cpp.o
+.PHONY : rules/rotation_rule.o
+
+# target to build an object file
+rules/rotation_rule.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.o
+.PHONY : rules/rotation_rule.cpp.o
+
+rules/rotation_rule.i: rules/rotation_rule.cpp.i
+.PHONY : rules/rotation_rule.i
+
+# target to preprocess a source file
+rules/rotation_rule.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.i
+.PHONY : rules/rotation_rule.cpp.i
+
+rules/rotation_rule.s: rules/rotation_rule.cpp.s
+.PHONY : rules/rotation_rule.s
+
+# target to generate assembly for a file
+rules/rotation_rule.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/rotation_rule.cpp.s
+.PHONY : rules/rotation_rule.cpp.s
+
+rules/safety_margin_rule.o: rules/safety_margin_rule.cpp.o
+.PHONY : rules/safety_margin_rule.o
+
+# target to build an object file
+rules/safety_margin_rule.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.o
+.PHONY : rules/safety_margin_rule.cpp.o
+
+rules/safety_margin_rule.i: rules/safety_margin_rule.cpp.i
+.PHONY : rules/safety_margin_rule.i
+
+# target to preprocess a source file
+rules/safety_margin_rule.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.i
+.PHONY : rules/safety_margin_rule.cpp.i
+
+rules/safety_margin_rule.s: rules/safety_margin_rule.cpp.s
+.PHONY : rules/safety_margin_rule.s
+
+# target to generate assembly for a file
+rules/safety_margin_rule.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/safety_margin_rule.cpp.s
+.PHONY : rules/safety_margin_rule.cpp.s
+
+rules/spot_color_rule.o: rules/spot_color_rule.cpp.o
+.PHONY : rules/spot_color_rule.o
+
+# target to build an object file
+rules/spot_color_rule.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.o
+.PHONY : rules/spot_color_rule.cpp.o
+
+rules/spot_color_rule.i: rules/spot_color_rule.cpp.i
+.PHONY : rules/spot_color_rule.i
+
+# target to preprocess a source file
+rules/spot_color_rule.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.i
+.PHONY : rules/spot_color_rule.cpp.i
+
+rules/spot_color_rule.s: rules/spot_color_rule.cpp.s
+.PHONY : rules/spot_color_rule.s
+
+# target to generate assembly for a file
+rules/spot_color_rule.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/spot_color_rule.cpp.s
+.PHONY : rules/spot_color_rule.cpp.s
+
+rules/tac_rule.o: rules/tac_rule.cpp.o
+.PHONY : rules/tac_rule.o
+
+# target to build an object file
+rules/tac_rule.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.o
+.PHONY : rules/tac_rule.cpp.o
+
+rules/tac_rule.i: rules/tac_rule.cpp.i
+.PHONY : rules/tac_rule.i
+
+# target to preprocess a source file
+rules/tac_rule.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.i
+.PHONY : rules/tac_rule.cpp.i
+
+rules/tac_rule.s: rules/tac_rule.cpp.s
+.PHONY : rules/tac_rule.s
+
+# target to generate assembly for a file
+rules/tac_rule.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/tac_rule.cpp.s
+.PHONY : rules/tac_rule.cpp.s
+
+rules/transparency_rule.o: rules/transparency_rule.cpp.o
+.PHONY : rules/transparency_rule.o
+
+# target to build an object file
+rules/transparency_rule.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.o
+.PHONY : rules/transparency_rule.cpp.o
+
+rules/transparency_rule.i: rules/transparency_rule.cpp.i
+.PHONY : rules/transparency_rule.i
+
+# target to preprocess a source file
+rules/transparency_rule.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.i
+.PHONY : rules/transparency_rule.cpp.i
+
+rules/transparency_rule.s: rules/transparency_rule.cpp.s
+.PHONY : rules/transparency_rule.s
+
+# target to generate assembly for a file
+rules/transparency_rule.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/transparency_rule.cpp.s
+.PHONY : rules/transparency_rule.cpp.s
+
+rules/white_overprint_rule.o: rules/white_overprint_rule.cpp.o
+.PHONY : rules/white_overprint_rule.o
+
+# target to build an object file
+rules/white_overprint_rule.cpp.o:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.o
+.PHONY : rules/white_overprint_rule.cpp.o
+
+rules/white_overprint_rule.i: rules/white_overprint_rule.cpp.i
+.PHONY : rules/white_overprint_rule.i
+
+# target to preprocess a source file
+rules/white_overprint_rule.cpp.i:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.i
+.PHONY : rules/white_overprint_rule.cpp.i
+
+rules/white_overprint_rule.s: rules/white_overprint_rule.cpp.s
+.PHONY : rules/white_overprint_rule.s
+
+# target to generate assembly for a file
+rules/white_overprint_rule.cpp.s:
+	cd /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex && $(MAKE) $(MAKESILENT) -f src/analysis/CMakeFiles/printguard_analysis.dir/build.make src/analysis/CMakeFiles/printguard_analysis.dir/rules/white_overprint_rule.cpp.s
+.PHONY : rules/white_overprint_rule.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -248,6 +584,48 @@ help:
 	@echo "... rule_engine.o"
 	@echo "... rule_engine.i"
 	@echo "... rule_engine.s"
+	@echo "... rules/annotation_rule.o"
+	@echo "... rules/annotation_rule.i"
+	@echo "... rules/annotation_rule.s"
+	@echo "... rules/black_consistency_rule.o"
+	@echo "... rules/black_consistency_rule.i"
+	@echo "... rules/black_consistency_rule.s"
+	@echo "... rules/bleed_rule.o"
+	@echo "... rules/bleed_rule.i"
+	@echo "... rules/bleed_rule.s"
+	@echo "... rules/color_space_rule.o"
+	@echo "... rules/color_space_rule.i"
+	@echo "... rules/color_space_rule.s"
+	@echo "... rules/image_resolution_rule.o"
+	@echo "... rules/image_resolution_rule.i"
+	@echo "... rules/image_resolution_rule.s"
+	@echo "... rules/layer_rule.o"
+	@echo "... rules/layer_rule.i"
+	@echo "... rules/layer_rule.s"
+	@echo "... rules/output_intent_rule.o"
+	@echo "... rules/output_intent_rule.i"
+	@echo "... rules/output_intent_rule.s"
+	@echo "... rules/page_geometry_rule.o"
+	@echo "... rules/page_geometry_rule.i"
+	@echo "... rules/page_geometry_rule.s"
+	@echo "... rules/rotation_rule.o"
+	@echo "... rules/rotation_rule.i"
+	@echo "... rules/rotation_rule.s"
+	@echo "... rules/safety_margin_rule.o"
+	@echo "... rules/safety_margin_rule.i"
+	@echo "... rules/safety_margin_rule.s"
+	@echo "... rules/spot_color_rule.o"
+	@echo "... rules/spot_color_rule.i"
+	@echo "... rules/spot_color_rule.s"
+	@echo "... rules/tac_rule.o"
+	@echo "... rules/tac_rule.i"
+	@echo "... rules/tac_rule.s"
+	@echo "... rules/transparency_rule.o"
+	@echo "... rules/transparency_rule.i"
+	@echo "... rules/transparency_rule.s"
+	@echo "... rules/white_overprint_rule.o"
+	@echo "... rules/white_overprint_rule.i"
+	@echo "... rules/white_overprint_rule.s"
 .PHONY : help
 
 

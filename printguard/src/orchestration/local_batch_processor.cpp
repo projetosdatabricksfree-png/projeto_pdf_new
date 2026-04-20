@@ -2,6 +2,7 @@
 
 #include "printguard/common/crypto.hpp"
 #include "printguard/common/logging.hpp"
+#include "printguard/domain/job.hpp"
 #include "printguard/pdf/pdf_loader.hpp"
 #include "printguard/report/report_builder.hpp"
 #include <algorithm>
@@ -94,6 +95,17 @@ bool has_blocking_findings(std::vector<domain::Finding> const& findings) {
     });
 }
 
+std::string derive_final_status(
+    bool has_blocking_remanescente,
+    bool needs_manual_review,
+    std::vector<std::string> const& manual_review_reasons) {
+    if (has_blocking_remanescente &&
+        (needs_manual_review || !manual_review_reasons.empty())) {
+        return "manual_review_required";
+    }
+    return "completed";
+}
+
 } // namespace
 
 LocalBatchProcessor::LocalBatchProcessor(
@@ -158,11 +170,25 @@ FileProcessResult LocalBatchProcessor::process_file(
     const std::string& report_dir,
     const std::string& preferred_preset_id,
     const std::string& profile_id) const {
+    auto const& preset = select_preset(input_pdf, preferred_preset_id);
+    auto const& profile = get_profile(profile_id);
+    return process_file(input_pdf, corrected_dir, report_dir, preset, profile);
+}
+
+FileProcessResult LocalBatchProcessor::process_file(
+    const std::string& input_pdf,
+    const std::string& corrected_dir,
+    const std::string& report_dir,
+    const domain::ProductPreset& preset,
+    const domain::ValidationProfile& profile,
+    std::function<void(const std::string&)> stage_callback) const {
     FileProcessResult result;
     auto started_at = std::chrono::steady_clock::now();
     result.original_path = input_pdf;
     result.original_filename = std::filesystem::path(input_pdf).filename().string();
-    result.profile_id = profile_id;
+    result.profile_id = profile.id;
+    result.preset_id = preset.id;
+    result.preset_family = domain::product_family_to_string(preset.family);
 
     std::filesystem::path corrected_path =
         std::filesystem::path(corrected_dir) /
@@ -178,19 +204,28 @@ FileProcessResult LocalBatchProcessor::process_file(
         auto bytes = read_file_to_bytes(input_pdf);
         result.checksum_sha256 = common::Crypto::sha256(bytes);
 
-        auto const& preset = select_preset(input_pdf, preferred_preset_id);
-        auto const& profile = get_profile(profile_id);
-        result.preset_id = preset.id;
-
+        if (stage_callback) {
+            stage_callback(domain::JobStatusValue::ANALYZING);
+        }
         auto analysis_started = std::chrono::steady_clock::now();
         auto initial = m_rule_engine->run(input_pdf, preset, profile);
         result.analysis_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                                  std::chrono::steady_clock::now() - analysis_started)
                                  .count();
         result.initial_findings = initial.findings;
+        result.warnings.insert(result.warnings.end(), initial.warnings.begin(), initial.warnings.end());
 
+        if (stage_callback) {
+            stage_callback(domain::JobStatusValue::FIXING);
+        }
         auto fix_started = std::chrono::steady_clock::now();
-        auto fix_plan = m_fix_planner.build_plan(result.initial_findings, *m_fix_engine);
+        auto fix_plan = m_fix_planner.build_plan(result.initial_findings, *m_fix_engine, preset);
+        result.planner_status = fix_plan.status;
+        result.fixes_not_applied = fix_plan.unresolved_finding_codes;
+        result.skipped_fixes = fix_plan.skipped_fixes;
+        result.manual_review_reasons = fix_plan.manual_review_reasons;
+        result.needs_manual_review = fix_plan.needs_manual_review;
+        result.has_blocking_unresolved = fix_plan.has_blocking_unresolved;
         result.fixes_not_applied = fix_plan.unresolved_finding_codes;
         result.correction_attempted = !fix_plan.actions.empty();
         auto fix_result =
@@ -202,6 +237,9 @@ FileProcessResult LocalBatchProcessor::process_file(
         result.correction_applied = fix_result.changes_applied;
         result.corrected_is_passthrough = !fix_result.changes_applied;
 
+        if (stage_callback) {
+            stage_callback(domain::JobStatusValue::REVALIDATING);
+        }
         auto revalidation_started = std::chrono::steady_clock::now();
         auto postfix = m_rule_engine->run(result.corrected_path, preset, profile);
         result.revalidation_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -209,6 +247,7 @@ FileProcessResult LocalBatchProcessor::process_file(
                                      .count();
         result.postfix_findings = postfix.findings;
         result.revalidation = build_delta(result.initial_findings, result.postfix_findings);
+        result.warnings.insert(result.warnings.end(), postfix.warnings.begin(), postfix.warnings.end());
 
         auto preview_started = std::chrono::steady_clock::now();
         auto preview = m_preview_renderer.render_first_page(
@@ -217,15 +256,16 @@ FileProcessResult LocalBatchProcessor::process_file(
                                 std::chrono::steady_clock::now() - preview_started)
                                 .count();
         result.preview_path = preview.output_path;
+        result.preview_generated = preview.generated;
         if (!preview.generated && !preview.warning.empty()) {
             result.warnings.push_back(preview.warning);
         }
 
-        if (has_blocking_findings(result.postfix_findings)) {
-            result.final_status = "manual_review_required";
-        } else {
-            result.final_status = "completed";
-        }
+        result.has_blocking_unresolved = has_blocking_findings(result.postfix_findings);
+        result.final_status = derive_final_status(
+            result.has_blocking_unresolved, result.needs_manual_review, result.manual_review_reasons);
+
+        persist_reports(result);
     } catch (const std::exception& e) {
         result.final_status = "failed";
         result.errors.push_back(e.what());
@@ -235,11 +275,13 @@ FileProcessResult LocalBatchProcessor::process_file(
                           std::chrono::steady_clock::now() - started_at)
                           .count();
 
-    try {
-        persist_reports(result);
-    } catch (const std::exception& e) {
-        result.errors.push_back(std::string("Falha ao gerar relatorios: ") + e.what());
-        result.report_ms = 0;
+    if (result.final_status == "failed") {
+        try {
+            persist_reports(result);
+        } catch (const std::exception& e) {
+            result.errors.push_back(std::string("Falha ao gerar relatorios: ") + e.what());
+            result.report_ms = 0;
+        }
     }
 
     return result;

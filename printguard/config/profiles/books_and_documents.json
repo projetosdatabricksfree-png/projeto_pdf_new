@@ -37,15 +37,15 @@
             "params": {}
         },
         "tac": {
-            "enabled": false,
-            "severity": "WARNING",
+            "enabled": true,
+            "severity": "ERROR",
             "params": {
                 "max_tac_percent": "300"
             }
         },
         "output_intent": {
-            "enabled": false,
-            "severity": "WARNING",
+            "enabled": true,
+            "severity": "ERROR",
             "params": {}
         },
         "white_overprint": {
@@ -54,17 +54,17 @@
             "params": {}
         },
         "black_consistency": {
-            "enabled": false,
-            "severity": "INFO",
+            "enabled": true,
+            "severity": "WARNING",
             "params": {}
         },
         "annotations": {
-            "enabled": false,
+            "enabled": true,
             "severity": "WARNING",
             "params": {}
         },
         "layers": {
-            "enabled": false,
+            "enabled": true,
             "severity": "WARNING",
             "params": {}
         },

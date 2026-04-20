@@ -65,12 +65,16 @@ std::string SafetyMarginRule::category() const {
 std::vector<domain::Finding> SafetyMarginRule::evaluate(const RuleContext& ctx) const {
     std::vector<domain::Finding> findings;
 
+    if (ctx.preset.safe_margin_mm == 0.0) {
+        return findings;
+    }
+
     QPDFPageDocumentHelper doc_helper(ctx.pdf);
     auto pages = doc_helper.getAllPages();
     std::regex text_position_pattern(
         R"(1\s+0\s+0\s+1\s+([-+]?[0-9]*\.?[0-9]+)\s+([-+]?[0-9]*\.?[0-9]+)\s+Tm)");
 
-    constexpr double threshold_mm = 5.0;
+    double const threshold_mm = ctx.preset.safe_margin_mm;
     for (std::size_t index = 0; index < pages.size(); ++index) {
         auto& page = pages.at(index);
         BoxPts trim = to_box(page.getTrimBox(false, false));

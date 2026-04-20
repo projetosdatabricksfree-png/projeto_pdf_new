@@ -50,6 +50,9 @@ std::vector<std::string> residual_messages(const orchestration::FileProcessResul
     for (auto const& finding : result.postfix_findings) {
         messages.push_back(finding.user_message);
     }
+    for (auto const& reason : result.manual_review_reasons) {
+        messages.push_back(reason);
+    }
     for (auto const& error : result.errors) {
         messages.push_back(error);
     }
@@ -86,6 +89,19 @@ std::string join_messages(const std::vector<std::string>& messages, std::string 
     return out.str();
 }
 
+std::string family_recommendation(std::string const& family) {
+    if (family == "documents_and_books") {
+        return "Para materiais editoriais, revise paginacao, orientacao final e legibilidade das imagens.";
+    }
+    if (family == "signage_and_large_format") {
+        return "Para grande formato, confirme escala final, resolucao e cobertura total de tinta antes da producao.";
+    }
+    if (family == "labels_and_stickers") {
+        return "Para rotulos e adesivos, valide area de corte, sangria e aderencia das cores ao material.";
+    }
+    return "Para impressos rapidos, confirme sangria, orientacao e cores finais antes de liberar.";
+}
+
 } // namespace
 
 nlohmann::json ReportBuilder::build_technical_report(const orchestration::FileProcessResult& result) {
@@ -110,17 +126,24 @@ nlohmann::json ReportBuilder::build_technical_report(const orchestration::FilePr
         {"original_path", result.original_path},
         {"checksum_sha256", result.checksum_sha256},
         {"preset_used", result.preset_id},
+        {"preset_family", result.preset_family},
         {"validation_profile_used", result.profile_id},
         {"initial_findings", initial},
         {"fixes_applied", fixes},
         {"fixes_not_applied", result.fixes_not_applied},
+        {"skipped_fixes", result.skipped_fixes},
         {"postfix_findings", postfix},
         {"revalidation", {{"resolved_codes", result.revalidation.resolved_codes},
                            {"remaining_codes", result.revalidation.remaining_codes},
                            {"introduced_codes", result.revalidation.introduced_codes}}},
+        {"manual_review_reasons", result.manual_review_reasons},
+        {"needs_manual_review", result.needs_manual_review},
+        {"has_blocking_unresolved", result.has_blocking_unresolved},
+        {"planner_status", result.planner_status},
         {"status_final", result.final_status},
         {"corrected_path", result.corrected_path},
         {"preview_path", result.preview_path},
+        {"preview_generated", result.preview_generated},
         {"errors", result.errors},
         {"warnings", result.warnings},
         {"processing_time_ms",
@@ -148,6 +171,13 @@ nlohmann::json ReportBuilder::build_client_report(const orchestration::FileProce
          join_messages(fix_messages, "Nenhuma correcao automatica segura foi aplicada.")},
         {"o_que_ainda_exige_atencao",
          join_messages(residual, "Nao restaram pendencias apos a revalidacao.")},
+        {"revisao_manual",
+         join_messages(
+             result.manual_review_reasons,
+             result.final_status == "manual_review_required"
+                 ? "O arquivo precisa de uma revisao manual antes da producao."
+                 : "Nao houve necessidade de revisao manual.")},
+        {"recomendacao_por_familia", family_recommendation(result.preset_family)},
         {"fixes_aplicados", result.correction_applied},
         {"arquivo_saida", result.corrected_path},
     };
@@ -159,11 +189,32 @@ std::string ReportBuilder::build_summary_markdown(const orchestration::FileProce
     out << "- Arquivo original: `" << result.original_filename << "`\n";
     out << "- Status final: `" << result.final_status << "`\n";
     out << "- Preset usado: `" << result.preset_id << "`\n";
+    out << "- Familia do preset: `" << result.preset_family << "`\n";
     out << "- Perfil usado: `" << result.profile_id << "`\n";
     out << "- Findings iniciais: `" << result.initial_findings.size() << "`\n";
     out << "- Findings apos correcao: `" << result.postfix_findings.size() << "`\n";
     out << "- Correcao aplicada: `" << (result.correction_applied ? "sim" : "nao") << "`\n";
+    out << "- Status do planner: `" << result.planner_status << "`\n";
     out << "- Saida gerada: `" << result.corrected_path << "`\n";
+    out << "- Preview gerado: `" << (result.preview_generated ? "sim" : "nao") << "`\n";
+    out << "- Relatorio tecnico: `" << result.technical_report_path << "`\n";
+    out << "- Relatorio cliente: `" << result.client_report_path << "`\n";
+    out << "- Resumo markdown: `" << result.summary_path << "`\n";
+    if (!result.manual_review_reasons.empty()) {
+        out << "- Revisao manual:\n";
+        for (auto const& reason : result.manual_review_reasons) {
+            out << "  - " << reason << "\n";
+        }
+    }
+    if (!result.revalidation.resolved_codes.empty()) {
+        out << "- Findings resolvidos: `" << result.revalidation.resolved_codes.size() << "`\n";
+    }
+    if (!result.revalidation.remaining_codes.empty()) {
+        out << "- Findings remanescentes: `" << result.revalidation.remaining_codes.size() << "`\n";
+    }
+    if (!result.revalidation.introduced_codes.empty()) {
+        out << "- Findings introduzidos: `" << result.revalidation.introduced_codes.size() << "`\n";
+    }
     if (!result.errors.empty()) {
         out << "- Erros: `" << result.errors.size() << "`\n";
     }

@@ -41,3 +41,4 @@ get-pip.py
 .env
 .env.*
 !.env.example
+printguard/build_codex/

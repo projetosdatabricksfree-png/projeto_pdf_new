@@ -4,6 +4,32 @@
 
 namespace printguard::storage {
 
+namespace {
+
+std::string filename_for_type(std::string const& type) {
+    if (type == "original") {
+        return "original.pdf";
+    }
+    if (type == "corrected_pdf") {
+        return "corrected.pdf";
+    }
+    if (type == "preview_png") {
+        return "preview.png";
+    }
+    if (type == "technical_report") {
+        return "technical_report.json";
+    }
+    if (type == "client_report") {
+        return "client_report.json";
+    }
+    if (type == "summary_report") {
+        return "summary_report.md";
+    }
+    return type + ".dat";
+}
+
+} // namespace
+
 LocalStorage::LocalStorage(const std::string& root_path) : m_root(root_path) {
     if (!std::filesystem::exists(m_root)) {
         std::filesystem::create_directories(m_root);
@@ -14,10 +40,7 @@ std::string LocalStorage::put(const std::string& job_id, const std::string& tena
     // Structure: {root}/{tenant_id}/{job_id}/{type}/
     auto dir = m_root / tenant_id / job_id / type;
     std::filesystem::create_directories(dir);
-
-    // For now, use fixed name or derived from filename? 
-    // Skill says: "Original preserved". I'll use "original.pdf" for the type "original".
-    std::string filename = (type == "original") ? "original.pdf" : (type + ".dat");
+    std::string filename = filename_for_type(type);
     auto full_path = dir / filename;
 
     std::ofstream ofs(full_path, std::ios::binary);

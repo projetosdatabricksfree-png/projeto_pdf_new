@@ -107,7 +107,7 @@ apps/cli/printguard-cli: src/pdf/libprintguard_pdf.a
 apps/cli/printguard-cli: /usr/lib/x86_64-linux-gnu/libqpdf.so.29.9.0
 apps/cli/printguard-cli: src/storage/libprintguard_storage.a
 apps/cli/printguard-cli: src/common/libprintguard_common.a
-apps/cli/printguard-cli: _deps/spdlog-build/libspdlogd.a
+apps/cli/printguard-cli: _deps/spdlog-build/libspdlog.a
 apps/cli/printguard-cli: /usr/lib/x86_64-linux-gnu/libssl.so
 apps/cli/printguard-cli: /usr/lib/x86_64-linux-gnu/libcrypto.so
 apps/cli/printguard-cli: apps/cli/CMakeFiles/printguard-cli.dir/link.txt

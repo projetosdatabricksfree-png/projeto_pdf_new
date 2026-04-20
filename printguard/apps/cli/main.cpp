@@ -10,14 +10,45 @@ using namespace printguard;
 int main(int argc, char** argv) {
     common::Logger::init("printguard-cli");
 
-    const std::string input_dir =
-        argc > 1 ? argv[1] : "/home/diego/Documents/ARQUIVOS_TESTE";
-    const std::string corrected_dir =
-        argc > 2 ? argv[2] : "/home/diego/Documents/Corrigidos";
-    const std::string report_dir =
-        argc > 3 ? argv[3] : "/home/diego/Documents/RELATORIO";
-    const std::string preset_id = argc > 4 ? argv[4] : "auto";
-    const std::string profile_id = argc > 5 ? argv[5] : "printing_standard";
+    std::string input_dir = "/home/diego/Documents/ARQUIVOS_TESTE";
+    std::string corrected_dir = "/home/diego/Documents/Corrigidos";
+    std::string report_dir = "/home/diego/Documents/RELATORIO";
+    std::string preset_id = "auto";
+    std::string profile_id = "printing_standard";
+
+    int positional_index = 0;
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (arg == "--preset" && (i + 1) < argc) {
+            preset_id = argv[++i];
+            continue;
+        }
+        if (arg == "--profile" && (i + 1) < argc) {
+            profile_id = argv[++i];
+            continue;
+        }
+
+        switch (positional_index) {
+            case 0:
+                input_dir = arg;
+                break;
+            case 1:
+                corrected_dir = arg;
+                break;
+            case 2:
+                report_dir = arg;
+                break;
+            case 3:
+                preset_id = arg;
+                break;
+            case 4:
+                profile_id = arg;
+                break;
+            default:
+                break;
+        }
+        ++positional_index;
+    }
 
     try {
         auto presets = domain::ConfigLoader::load_presets("./config/presets");

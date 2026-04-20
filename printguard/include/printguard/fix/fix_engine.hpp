@@ -15,7 +15,10 @@ struct FixPlan {
     std::vector<std::string> actions;
     std::vector<std::string> skipped_fixes;
     std::vector<std::string> unresolved_finding_codes;
+    bool needs_manual_review = false;
+    std::vector<std::string> manual_review_reasons;
     bool has_blocking_unresolved = false;
+    std::string status = "completed";
 };
 
 struct FixExecutionResult {
@@ -29,7 +32,8 @@ class FixPlanner {
 public:
     FixPlan build_plan(
         const std::vector<domain::Finding>& findings,
-        const FixEngine& engine) const;
+        const FixEngine& engine,
+        const domain::ProductPreset& preset) const;
 };
 
 class FixEngine {

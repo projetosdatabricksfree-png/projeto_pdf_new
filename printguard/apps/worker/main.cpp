@@ -5,6 +5,7 @@
 #include "printguard/storage/storage.hpp"
 #include "printguard/orchestration/orchestrator.hpp"
 #include "printguard/domain/job.hpp"
+#include "printguard/domain/config_loader.hpp"
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -31,7 +32,11 @@ int main() {
         // 1. Initializations
         persistence::Database::init(common::Env::get("PG_CONN_STR"));
         storage::LocalStorage store(common::Env::get("STORAGE_ROOT", "./storage_data"));
-        orchestration::JobOrchestrator orchestrator(store);
+        auto presets =
+            domain::ConfigLoader::load_presets(common::Env::get("PRESETS_PATH", "./config/presets"));
+        auto profiles = domain::ConfigLoader::load_profiles(
+            common::Env::get("PROFILES_PATH", "./config/profiles"));
+        orchestration::JobOrchestrator orchestrator(store, presets, profiles);
 
         PG_LOG_INFO("Worker entering main loop...");
 

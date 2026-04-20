@@ -37,15 +37,15 @@
             "params": {}
         },
         "tac": {
-            "enabled": false,
-            "severity": "WARNING",
+            "enabled": true,
+            "severity": "ERROR",
             "params": {
                 "max_tac_percent": "320"
             }
         },
         "output_intent": {
-            "enabled": false,
-            "severity": "WARNING",
+            "enabled": true,
+            "severity": "ERROR",
             "params": {}
         },
         "white_overprint": {
@@ -74,7 +74,7 @@
             "params": {}
         },
         "rotation": {
-            "enabled": false,
+            "enabled": true,
             "severity": "WARNING",
             "params": {}
         }

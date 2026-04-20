@@ -32,85 +32,85 @@ Implementar 5 fixes de limpeza e normalizacao: remocao de white overprint, remoc
 
 ### RemoveWhiteOverprintFix
 
-- [ ] Criar `src/fix/fixes/remove_white_overprint_fix.hpp/.cpp`
-- [ ] ID: `RemoveWhiteOverprintFix`
-- [ ] targets_finding_code: `PG_ERR_WHITE_OVERPRINT`
+- [x] Criar `src/fix/fixes/remove_white_overprint_fix.hpp/.cpp`
+- [x] ID: `RemoveWhiteOverprintFix`
+- [x] targets_finding_code: `PG_ERR_WHITE_OVERPRINT`
 - [ ] Logica:
-  - [ ] Iterar ExtGState de cada pagina
-  - [ ] Onde `/OP true` ou `/op true` estiver combinado com cor branca:
-    - [ ] Setar `/OP false` e `/op false`
-  - [ ] Alternativa: remover a entrada de overprint do ExtGState
-- [ ] FixRecord: `overprint_entries_removed`
-- [ ] userMessage: "Overprint em objetos brancos foi removido para evitar desaparecimento na impressao."
+  - [x] Iterar ExtGState de cada pagina
+  - [x] Onde `/OP true` ou `/op true` estiver combinado com cor branca:
+    - [x] Setar `/OP false` e `/op false`
+  - [x] Alternativa: remover a entrada de overprint do ExtGState
+- [x] FixRecord: `overprint_entries_removed`
+- [x] userMessage: "Overprint em objetos brancos foi removido para evitar desaparecimento na impressao."
 
 ### RemoveAnnotationsFix
 
-- [ ] Criar `src/fix/fixes/remove_annotations_fix.hpp/.cpp`
-- [ ] ID: `RemoveAnnotationsFix`
-- [ ] targets_finding_code: `PG_WARN_ANNOTATIONS`
+- [x] Criar `src/fix/fixes/remove_annotations_fix.hpp/.cpp`
+- [x] ID: `RemoveAnnotationsFix`
+- [x] targets_finding_code: `PG_WARN_ANNOTATIONS`
 - [ ] Logica:
-  - [ ] Iterar paginas do PDF
-  - [ ] Para cada pagina com `/Annots`:
-    - [ ] Filtrar anotacoes: remover todas exceto `/Link` (links podem ser uteis)
-    - [ ] Se array ficar vazio, remover `/Annots` da pagina
-  - [ ] Contar anotacoes removidas
-- [ ] FixRecord: `annotations_removed`, `annotations_preserved`
-- [ ] userMessage: "Comentarios e anotacoes nao imprimiveis foram removidos do arquivo."
+  - [x] Iterar paginas do PDF
+  - [x] Para cada pagina com `/Annots`:
+    - [x] Filtrar anotacoes: remover todas exceto `/Link` (links podem ser uteis)
+    - [x] Se array ficar vazio, remover `/Annots` da pagina
+  - [x] Contar anotacoes removidas
+- [x] FixRecord: `annotations_removed`, `annotations_preserved`
+- [x] userMessage: "Comentarios e anotacoes nao imprimiveis foram removidos do arquivo."
 
 ### FlattenLayersFix
 
-- [ ] Criar `src/fix/fixes/flatten_layers_fix.hpp/.cpp`
-- [ ] ID: `FlattenLayersFix`
-- [ ] targets_finding_code: `PG_WARN_LAYERS_PRESENT`
+- [x] Criar `src/fix/fixes/flatten_layers_fix.hpp/.cpp`
+- [x] ID: `FlattenLayersFix`
+- [x] targets_finding_code: `PG_WARN_LAYERS_PRESENT`
 - [ ] Logica:
-  - [ ] Remover `/OCProperties` do catalogo do documento
-  - [ ] Iterar paginas e remover referencias `/OC` dos recursos de conteudo
-  - [ ] NAO tentar rasterizar ou fundir conteudo visual — apenas remover metadados de layer
-- [ ] FixRecord: `layers_flattened`
-- [ ] userMessage: "Camadas (layers) foram removidas. Todo o conteudo visivel foi preservado."
+  - [x] Remover `/OCProperties` do catalogo do documento
+  - [x] Iterar paginas e remover referencias `/OC` dos recursos de conteudo
+  - [x] NAO tentar rasterizar ou fundir conteudo visual — apenas remover metadados de layer
+- [x] FixRecord: `layers_flattened`
+- [x] userMessage: "Camadas (layers) foram removidas. Todo o conteudo visivel foi preservado."
 
 ### SpotColorConversionFix
 
-- [ ] Criar `src/fix/fixes/spot_color_conversion_fix.hpp/.cpp`
-- [ ] ID: `SpotColorConversionFix`
-- [ ] targets_finding_code: `PG_WARN_SPOT_COLORS`
+- [x] Criar `src/fix/fixes/spot_color_conversion_fix.hpp/.cpp`
+- [x] ID: `SpotColorConversionFix`
+- [x] targets_finding_code: `PG_WARN_SPOT_COLORS`
 - [ ] Logica (apenas caso simples do MVP):
-  - [ ] Iterar recursos `/ColorSpace` de cada pagina
-  - [ ] Para entradas `/Separation [name] /DeviceCMYK [tintTransform]`:
-    - [ ] Substituir pelo espaço alternativo `/DeviceCMYK`
-    - [ ] Usar a tint transform para mapear a cor spot para CMYK
-  - [ ] Para `/DeviceN`: tratar apenas quando `/AlternateSpace` for CMYK
-  - [ ] Casos complexos (AlternateSpace nao-CMYK, funcoes PostScript customizadas): skip e manter finding
-- [ ] FixRecord: `spots_converted`, `spots_skipped`
-- [ ] userMessage: "Cores especiais (spot/Pantone) foram convertidas para CMYK."
+  - [x] Iterar recursos `/ColorSpace` de cada pagina
+  - [x] Para entradas `/Separation [name] /DeviceCMYK [tintTransform]`:
+    - [x] Substituir pelo espaço alternativo `/DeviceCMYK`
+    - [x] Usar a tint transform para mapear a cor spot para CMYK
+  - [x] Para `/DeviceN`: tratar apenas quando `/AlternateSpace` for CMYK
+  - [x] Casos complexos (AlternateSpace nao-CMYK, funcoes PostScript customizadas): skip e manter finding
+- [x] FixRecord: `spots_converted`, `spots_skipped`
+- [x] userMessage: "Cores especiais (spot/Pantone) foram convertidas para CMYK."
 
 ### RotationFix
 
-- [ ] Criar `src/fix/fixes/rotation_fix.hpp/.cpp`
-- [ ] ID: `RotationFix`
-- [ ] targets_finding_code: `PG_WARN_ROTATION_MISMATCH`
+- [x] Criar `src/fix/fixes/rotation_fix.hpp/.cpp`
+- [x] ID: `RotationFix`
+- [x] targets_finding_code: `PG_WARN_ROTATION_MISMATCH`
 - [ ] Logica:
-  - [ ] Para cada pagina com rotacao incorreta:
-    - [ ] Se preset.orientation == "portrait" e pagina e landscape: setar `/Rotate 0`
-    - [ ] Se preset.orientation == "landscape" e pagina e portrait: setar `/Rotate 90`
-  - [ ] Apenas ajustar `/Rotate`, nao transformar conteudo
-  - [ ] Se a logica nao for segura (orientacao ambigua): skip
-- [ ] FixRecord: `pages_rotated`
-- [ ] userMessage: "Orientacao da pagina foi ajustada para corresponder ao produto."
+  - [x] Para cada pagina com rotacao incorreta:
+    - [x] Se preset.orientation == "portrait" e pagina e landscape: setar `/Rotate 0`
+    - [x] Se preset.orientation == "landscape" e pagina e portrait: setar `/Rotate 90`
+  - [x] Apenas ajustar `/Rotate`, nao transformar conteudo
+  - [x] Se a logica nao for segura (orientacao ambigua): skip
+- [x] FixRecord: `pages_rotated`
+- [x] userMessage: "Orientacao da pagina foi ajustada para corresponder ao produto."
 
 ### Registro
 
-- [ ] Registrar os 5 fixes no factory `create_default_fix_engine()`
+- [x] Registrar os 5 fixes no factory `create_default_fix_engine()`
 
 ### Testes
 
-- [ ] Teste: white overprint removido corretamente
-- [ ] Teste: annotations removidas, links preservados
-- [ ] Teste: layers removidas sem perda de conteudo visivel
-- [ ] Teste: spot color simples convertido para CMYK
-- [ ] Teste: rotacao ajustada corretamente
-- [ ] Teste: PDFs resultantes validos
-- [ ] Compilacao limpa
+- [x] Teste: white overprint removido corretamente
+- [x] Teste: annotations removidas, links preservados
+- [x] Teste: layers removidas sem perda de conteudo visivel
+- [x] Teste: spot color simples convertido para CMYK
+- [x] Teste: rotacao ajustada corretamente
+- [x] Teste: PDFs resultantes validos
+- [x] Compilacao limpa
 
 ## Arquivos Impactados
 
@@ -126,7 +126,7 @@ Implementar 5 fixes de limpeza e normalizacao: remocao de white overprint, remoc
 
 ## Criterios de Aceite
 
-- [ ] Os 5 fixes funcionam corretamente em PDFs de teste
-- [ ] Fixes respeitam limites de seguranca (nao tocam em casos ambiguos)
-- [ ] PDFs validos apos fix
-- [ ] Compilacao limpa
+- [x] Os 5 fixes funcionam corretamente em PDFs de teste
+- [x] Fixes respeitam limites de seguranca (nao tocam em casos ambiguos)
+- [x] PDFs validos apos fix
+- [x] Compilacao limpa

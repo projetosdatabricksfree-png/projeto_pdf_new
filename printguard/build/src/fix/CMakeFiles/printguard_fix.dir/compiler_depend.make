@@ -28,11 +28,16 @@ src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.o: /home/diego/Desktop/PROJ
   _deps/spdlog-src/include/spdlog/version.h \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/common/logging.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/finding.hpp \
+  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/preset.hpp \
   /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_engine.hpp \
+  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_interface.hpp \
+  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fixes/convert_rgb_to_cmyk_fix.hpp \
+  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fixes/normalize_boxes_fix.hpp \
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
   /usr/include/assert.h \
+  /usr/include/c++/13/algorithm \
   /usr/include/c++/13/array \
   /usr/include/c++/13/atomic \
   /usr/include/c++/13/backward/auto_ptr.h \
@@ -60,7 +65,6 @@ src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.o: /home/diego/Desktop/PROJ
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
   /usr/include/c++/13/bits/cxxabi_init_exception.h \
-  /usr/include/c++/13/bits/deque.tcc \
   /usr/include/c++/13/bits/enable_special_members.h \
   /usr/include/c++/13/bits/erase_if.h \
   /usr/include/c++/13/bits/exception.h \
@@ -103,24 +107,13 @@ src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.o: /home/diego/Desktop/PROJ
   /usr/include/c++/13/bits/ptr_traits.h \
   /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
+  /usr/include/c++/13/bits/ranges_algo.h \
   /usr/include/c++/13/bits/ranges_algobase.h \
   /usr/include/c++/13/bits/ranges_base.h \
   /usr/include/c++/13/bits/ranges_cmp.h \
   /usr/include/c++/13/bits/ranges_uninitialized.h \
   /usr/include/c++/13/bits/ranges_util.h \
   /usr/include/c++/13/bits/refwrap.h \
-  /usr/include/c++/13/bits/regex.h \
-  /usr/include/c++/13/bits/regex.tcc \
-  /usr/include/c++/13/bits/regex_automaton.h \
-  /usr/include/c++/13/bits/regex_automaton.tcc \
-  /usr/include/c++/13/bits/regex_compiler.h \
-  /usr/include/c++/13/bits/regex_compiler.tcc \
-  /usr/include/c++/13/bits/regex_constants.h \
-  /usr/include/c++/13/bits/regex_error.h \
-  /usr/include/c++/13/bits/regex_executor.h \
-  /usr/include/c++/13/bits/regex_executor.tcc \
-  /usr/include/c++/13/bits/regex_scanner.h \
-  /usr/include/c++/13/bits/regex_scanner.tcc \
   /usr/include/c++/13/bits/requires_hosted.h \
   /usr/include/c++/13/bits/semaphore_base.h \
   /usr/include/c++/13/bits/shared_ptr.h \
@@ -136,7 +129,6 @@ src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.o: /home/diego/Desktop/PROJ
   /usr/include/c++/13/bits/stl_algobase.h \
   /usr/include/c++/13/bits/stl_bvector.h \
   /usr/include/c++/13/bits/stl_construct.h \
-  /usr/include/c++/13/bits/stl_deque.h \
   /usr/include/c++/13/bits/stl_function.h \
   /usr/include/c++/13/bits/stl_heap.h \
   /usr/include/c++/13/bits/stl_iterator.h \
@@ -150,7 +142,6 @@ src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.o: /home/diego/Desktop/PROJ
   /usr/include/c++/13/bits/stl_raw_storage_iter.h \
   /usr/include/c++/13/bits/stl_relops.h \
   /usr/include/c++/13/bits/stl_set.h \
-  /usr/include/c++/13/bits/stl_stack.h \
   /usr/include/c++/13/bits/stl_tempbuf.h \
   /usr/include/c++/13/bits/stl_tree.h \
   /usr/include/c++/13/bits/stl_uninitialized.h \
@@ -169,7 +160,6 @@ src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.o: /home/diego/Desktop/PROJ
   /usr/include/c++/13/bits/uses_allocator_args.h \
   /usr/include/c++/13/bits/utility.h \
   /usr/include/c++/13/bits/vector.tcc \
-  /usr/include/c++/13/bitset \
   /usr/include/c++/13/cassert \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
@@ -192,7 +182,6 @@ src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.o: /home/diego/Desktop/PROJ
   /usr/include/c++/13/cwctype \
   /usr/include/c++/13/debug/assertions.h \
   /usr/include/c++/13/debug/debug.h \
-  /usr/include/c++/13/deque \
   /usr/include/c++/13/exception \
   /usr/include/c++/13/ext/aligned_buffer.h \
   /usr/include/c++/13/ext/alloc_traits.h \
@@ -222,15 +211,14 @@ src/fix/CMakeFiles/printguard_fix.dir/fix_engine.cpp.o: /home/diego/Desktop/PROJ
   /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
+  /usr/include/c++/13/pstl/glue_algorithm_defs.h \
   /usr/include/c++/13/pstl/glue_memory_defs.h \
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
-  /usr/include/c++/13/regex \
   /usr/include/c++/13/semaphore \
   /usr/include/c++/13/set \
   /usr/include/c++/13/span \
   /usr/include/c++/13/sstream \
-  /usr/include/c++/13/stack \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
@@ -1067,6 +1055,24 @@ src/fix/CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.o: /home/die
 
 /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/normalize_boxes_fix.cpp:
 
+/usr/include/c++/13/deque:
+
+/usr/include/c++/13/bitset:
+
+/usr/include/c++/13/bits/stl_stack.h:
+
+/usr/include/c++/13/bits/stl_deque.h:
+
+/usr/include/c++/13/bits/regex_executor.tcc:
+
+/usr/include/c++/13/bits/regex_constants.h:
+
+/usr/include/c++/13/bits/regex_automaton.tcc:
+
+/usr/include/c++/13/bits/regex.h:
+
+/usr/include/c++/13/bits/deque.tcc:
+
 /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/convert_rgb_to_cmyk_fix.hpp:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h:
@@ -1118,6 +1124,10 @@ src/fix/CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.o: /home/die
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
+
+/usr/include/c++/13/bits/regex_compiler.tcc:
+
+/usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/time_t.h:
 
@@ -1219,10 +1229,6 @@ src/fix/CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.o: /home/die
 
 /usr/include/string.h:
 
-/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/preset.hpp:
-
-/usr/include/stdlib.h:
-
 /usr/include/stdc-predef.h:
 
 /usr/include/semaphore.h:
@@ -1273,25 +1279,21 @@ src/fix/CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.o: /home/die
 
 /usr/include/qpdf/Buffer.hh:
 
-/usr/include/pthread.h:
+/usr/include/c++/13/bits/stl_bvector.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
+/usr/include/c++/13/regex:
 
-/usr/include/math.h:
+/usr/include/c++/13/bits/stl_algobase.h:
 
-/usr/include/locale.h:
+_deps/spdlog-src/include/spdlog/fmt/bundled/format.h:
 
-/usr/include/linux/close_range.h:
+_deps/spdlog-src/include/spdlog/details/backtracer.h:
 
-/usr/include/libintl.h:
+/usr/include/c++/13/cstdint:
 
-/usr/include/features-time64.h:
+/usr/include/c++/13/bits/regex_scanner.h:
 
-/usr/include/errno.h:
-
-/usr/include/stdint.h:
-
-/usr/include/endian.h:
+/usr/include/c++/13/cstdlib:
 
 /usr/include/c++/13/bits/shared_ptr.h:
 
@@ -1307,34 +1309,6 @@ src/fix/CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.o: /home/die
 
 /usr/include/c++/13/bits/locale_facets.tcc:
 
-/usr/include/c++/13/bits/stl_map.h:
-
-/usr/include/c++/13/locale:
-
-/usr/include/c++/13/bits/regex_executor.tcc:
-
-/usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
-
-/usr/include/c++/13/bits/regex_compiler.tcc:
-
-/usr/include/c++/13/bits/stl_uninitialized.h:
-
-/usr/include/c++/13/bits/new_allocator.h:
-
-/usr/include/c++/13/bits/atomic_base.h:
-
-/usr/include/c++/13/bits/uses_allocator_args.h:
-
-/usr/include/c++/13/bits/exception_ptr.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
-
-/usr/include/c++/13/bits/stl_multimap.h:
-
-/usr/include/c++/13/bits/basic_string.h:
-
-/usr/include/c++/13/tr1/poly_laguerre.tcc:
-
 /usr/include/c++/13/bits/ranges_algobase.h:
 
 /usr/include/c++/13/bits/quoted_string.h:
@@ -1349,6 +1323,10 @@ src/fix/CMakeFiles/printguard_fix.dir/fixes/normalize_boxes_fix.cpp.o: /home/die
 
 /usr/include/c++/13/numbers:
 
+/usr/include/c++/13/bits/atomic_base.h:
+
+/usr/include/c++/13/bits/uses_allocator_args.h:
+
 /usr/include/c++/13/bits/move.h:
 
 /usr/include/c++/13/bits/memoryfwd.h:
@@ -1357,11 +1335,11 @@ _deps/spdlog-src/include/spdlog/details/log_msg.h:
 
 /usr/include/c++/13/bits/fs_fwd.h:
 
+/usr/include/stdint.h:
+
+/usr/include/endian.h:
+
 /usr/include/c++/13/bits/locale_facets.h:
-
-/usr/include/c++/13/bits/istream.tcc:
-
-/usr/include/c++/13/bits/locale_conv.h:
 
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
 
@@ -1373,19 +1351,21 @@ _deps/spdlog-src/include/spdlog/details/log_msg.h:
 
 /usr/include/c++/13/clocale:
 
-/usr/include/c++/13/bits/regex_constants.h:
+/usr/include/stdlib.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/error_t.h:
-
-/usr/include/c++/13/bits/hashtable.h:
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/preset.hpp:
 
 /usr/include/c++/13/bits/this_thread_sleep.h:
+
+/usr/include/c++/13/bits/ranges_algo.h:
 
 /usr/include/c++/13/bits/invoke.h:
 
 /usr/include/c++/13/bits/functional_hash.h:
 
 _deps/spdlog-src/include/spdlog/fmt/bundled/core.h:
+
+/usr/include/errno.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
@@ -1405,6 +1385,16 @@ _deps/spdlog-src/include/spdlog/fmt/bundled/core.h:
 
 /usr/include/c++/13/cstdio:
 
+/usr/include/c++/13/bits/exception_ptr.h:
+
+/usr/include/c++/13/bits/locale_conv.h:
+
+/usr/include/c++/13/bits/istream.tcc:
+
+/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
+
+/usr/include/c++/13/bits/stl_multimap.h:
+
 _deps/spdlog-src/include/spdlog/details/null_mutex.h:
 
 /usr/include/c++/13/bits/localefwd.h:
@@ -1413,9 +1403,9 @@ _deps/spdlog-src/include/spdlog/details/null_mutex.h:
 
 /usr/include/c++/13/bits/exception_defines.h:
 
-/usr/include/features.h:
+/usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
 
-/usr/include/c++/13/bits/atomic_wait.h:
+/usr/include/math.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h:
 
@@ -1438,6 +1428,24 @@ _deps/spdlog-src/include/spdlog/details/null_mutex.h:
 /usr/include/x86_64-linux-gnu/bits/uio_lim.h:
 
 /usr/include/c++/13/bits/stream_iterator.h:
+
+/usr/include/c++/13/bits/hashtable_policy.h:
+
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/convert_rgb_to_cmyk_fix.cpp:
+
+/usr/include/x86_64-linux-gnu/c++/13/bits/ctype_inline.h:
+
+/usr/include/c++/13/bits/std_function.h:
+
+/usr/include/c++/13/bits/char_traits.h:
+
+/usr/include/c++/13/bits/exception.h:
+
+/usr/include/c++/13/bits/memory_resource.h:
+
+/usr/include/c++/13/streambuf:
+
+/usr/include/c++/13/bits/cxxabi_init_exception.h:
 
 /usr/include/c++/13/bits/postypes.h:
 
@@ -1463,15 +1471,13 @@ _deps/spdlog-src/include/spdlog/sinks/sink.h:
 
 /usr/include/c++/13/climits:
 
+/usr/include/c++/13/bits/cxxabi_forced.h:
+
 /usr/include/c++/13/bits/sstream.tcc:
 
 /usr/include/qpdf/Types.h:
 
 /usr/include/c++/13/cwctype:
-
-/usr/include/linux/limits.h:
-
-/usr/include/c++/13/ratio:
 
 _deps/spdlog-src/include/spdlog/version.h:
 
@@ -1489,6 +1495,12 @@ _deps/spdlog-src/include/spdlog/version.h:
 
 _deps/spdlog-src/include/spdlog/sinks/stdout_color_sinks.h:
 
+/usr/include/c++/13/bits/std_mutex.h:
+
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_interface.hpp:
+
+/usr/include/c++/13/bits/stl_construct.h:
+
 /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/domain/finding.hpp:
 
 /usr/include/c++/13/bits/basic_ios.tcc:
@@ -1496,6 +1508,10 @@ _deps/spdlog-src/include/spdlog/sinks/stdout_color_sinks.h:
 _deps/spdlog-src/include/spdlog/spdlog.h:
 
 /usr/include/c++/13/pstl/execution_defs.h:
+
+/usr/include/c++/13/typeinfo:
+
+_deps/spdlog-src/include/spdlog/logger.h:
 
 /usr/include/c++/13/optional:
 
@@ -1513,19 +1529,7 @@ _deps/spdlog-src/include/spdlog/sinks/base_sink.h:
 
 /usr/include/c++/13/tr1/exp_integral.tcc:
 
-/usr/include/c++/13/bits/deque.tcc:
-
 /usr/include/c++/13/new:
-
-/usr/include/qpdf/Pipeline.hh:
-
-/usr/include/c++/13/bits/basic_string.tcc:
-
-/usr/include/c++/13/bits/allocated_ptr.h:
-
-/usr/include/c++/13/bit:
-
-/usr/include/alloca.h:
 
 _deps/spdlog-src/include/spdlog/details/circular_q.h:
 
@@ -1547,7 +1551,15 @@ _deps/spdlog-src/include/spdlog/details/circular_q.h:
 
 /usr/include/c++/13/sstream:
 
-_deps/spdlog-src/include/spdlog/details/backtracer.h:
+/usr/include/x86_64-linux-gnu/bits/types/error_t.h:
+
+/usr/include/c++/13/bits/hashtable.h:
+
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fixes/convert_rgb_to_cmyk_fix.hpp:
+
+/usr/include/qpdf/QPDFAnnotationObjectHelper.hh:
+
+/usr/include/assert.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
 
@@ -1569,8 +1581,6 @@ _deps/spdlog-src/include/spdlog/formatter.h:
 
 /usr/include/c++/13/ctime:
 
-/usr/include/c++/13/deque:
-
 /usr/include/c++/13/bits/atomic_lockfree_defines.h:
 
 _deps/spdlog-src/include/spdlog/details/log_msg_buffer.h:
@@ -1583,9 +1593,17 @@ _deps/spdlog-src/include/spdlog/details/log_msg_buffer.h:
 
 _deps/spdlog-src/include/spdlog/sinks/basic_file_sink.h:
 
-/usr/include/c++/13/bits/regex_automaton.tcc:
+/usr/include/c++/13/bits/stl_algo.h:
 
-/usr/include/c++/13/format:
+/usr/include/c++/13/cstddef:
+
+/usr/include/c++/13/cassert:
+
+/usr/include/c++/13/bits/cpp_type_traits.h:
+
+_deps/spdlog-src/include/spdlog/tweakme.h:
+
+_deps/spdlog-src/include/spdlog/details/registry.h:
 
 /usr/include/c++/13/backward/auto_ptr.h:
 
@@ -1593,9 +1611,15 @@ _deps/spdlog-src/include/spdlog/details/periodic_worker.h:
 
 /usr/include/c++/13/atomic:
 
-/usr/include/qpdf/QPDFAnnotationObjectHelper.hh:
+/usr/include/qpdf/Pipeline.hh:
 
-/usr/include/assert.h:
+/usr/include/c++/13/bits/basic_string.tcc:
+
+/usr/include/c++/13/bits/allocated_ptr.h:
+
+/usr/include/c++/13/bit:
+
+/usr/include/alloca.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
 
@@ -1605,17 +1629,13 @@ _deps/spdlog-src/include/spdlog/details/periodic_worker.h:
 
 /usr/include/c++/13/bits/stl_iterator_base_funcs.h:
 
-/usr/include/c++/13/bits/hash_bytes.h:
+/usr/include/c++/13/algorithm:
 
-/usr/include/c++/13/bits/regex.h:
+/usr/include/c++/13/bits/hash_bytes.h:
 
 /usr/include/c++/13/array:
 
-/usr/include/c++/13/unordered_map:
-
-/usr/include/c++/13/bits/allocator.h:
-
-/usr/include/c++/13/bits/stl_bvector.h:
+/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fixes/normalize_boxes_fix.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/long-double.h:
 
@@ -1637,71 +1657,21 @@ _deps/spdlog-src/include/spdlog/details/periodic_worker.h:
 
 /usr/include/c++/13/bits/specfun.h:
 
-_deps/spdlog-src/include/spdlog/fmt/bundled/format.h:
-
-/usr/include/c++/13/regex:
-
-/usr/include/c++/13/bits/stl_algobase.h:
-
 /usr/include/c++/13/bits/codecvt.h:
 
 /usr/include/c++/13/bits/stl_tree.h:
 
-/usr/include/c++/13/bits/chrono_io.h:
+/usr/include/c++/13/bits/basic_string.h:
 
-/usr/include/c++/13/bits/hashtable_policy.h:
+/usr/include/c++/13/tr1/poly_laguerre.tcc:
+
+/usr/include/libintl.h:
+
+/usr/include/c++/13/bits/chrono_io.h:
 
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
 
 /usr/include/c++/13/bits/chrono.h:
-
-_deps/spdlog-src/include/spdlog/tweakme.h:
-
-_deps/spdlog-src/include/spdlog/details/registry.h:
-
-/usr/include/c++/13/cassert:
-
-/usr/include/c++/13/bits/cpp_type_traits.h:
-
-/usr/include/c++/13/bits/cxxabi_forced.h:
-
-/usr/include/c++/13/bits/exception.h:
-
-/usr/include/c++/13/bits/memory_resource.h:
-
-/usr/include/c++/13/streambuf:
-
-/usr/include/c++/13/bits/cxxabi_init_exception.h:
-
-_deps/spdlog-src/include/spdlog/logger.h:
-
-/usr/include/c++/13/typeinfo:
-
-/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fixes/convert_rgb_to_cmyk_fix.cpp:
-
-/usr/include/x86_64-linux-gnu/c++/13/bits/ctype_inline.h:
-
-/usr/include/c++/13/bits/char_traits.h:
-
-/usr/include/c++/13/bits/std_function.h:
-
-/usr/include/c++/13/cstdint:
-
-/usr/include/c++/13/bits/regex_scanner.h:
-
-/usr/include/c++/13/cstdlib:
-
-/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/include/printguard/fix/fix_interface.hpp:
-
-/usr/include/c++/13/bits/std_mutex.h:
-
-/usr/include/c++/13/bits/stl_construct.h:
-
-/usr/include/c++/13/bits/stl_algo.h:
-
-/usr/include/c++/13/cstddef:
-
-/usr/include/c++/13/bits/stl_deque.h:
 
 /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/src/fix/fix_engine.cpp:
 
@@ -1713,11 +1683,11 @@ _deps/spdlog-src/include/spdlog/logger.h:
 
 /usr/include/c++/13/tr1/beta_function.tcc:
 
+/usr/include/c++/13/bits/regex_compiler.h:
+
 /usr/include/stdio.h:
 
 /usr/include/qpdf/InputSource.hh:
-
-/usr/include/c++/13/bits/regex_compiler.h:
 
 /usr/include/c++/13/bits/stl_iterator_base_types.h:
 
@@ -1727,27 +1697,25 @@ _deps/spdlog-src/include/spdlog/logger.h:
 
 /usr/include/c++/13/debug/assertions.h:
 
+/usr/include/c++/13/bits/stl_map.h:
+
+/usr/include/c++/13/bits/new_allocator.h:
+
+/usr/include/c++/13/bits/stl_uninitialized.h:
+
+/usr/include/c++/13/locale:
+
 /usr/include/c++/13/bits/stl_raw_storage_iter.h:
 
-/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
-
 /usr/include/c++/13/stack:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
 
 /usr/include/c++/13/bits/stl_relops.h:
 
 /usr/include/c++/13/bits/ostream_insert.h:
 
 /usr/include/c++/13/bits/stl_set.h:
-
-/usr/include/c++/13/bits/stl_stack.h:
-
-/usr/include/c++/13/bits/iterator_concepts.h:
-
-/usr/include/c++/13/bits/stringfwd.h:
-
-/usr/include/c++/13/bits/locale_classes.tcc:
-
-/usr/include/c++/13/bits/uniform_int_dist.h:
 
 /usr/include/c++/13/bits/stl_tempbuf.h:
 
@@ -1767,17 +1735,17 @@ _deps/spdlog-src/include/spdlog/logger.h:
 
 /usr/include/c++/13/bits/string_view.tcc:
 
+/usr/include/c++/13/bits/iterator_concepts.h:
+
+/usr/include/c++/13/bits/stringfwd.h:
+
+/usr/include/c++/13/bits/locale_classes.tcc:
+
+/usr/include/c++/13/bits/uniform_int_dist.h:
+
 /usr/include/c++/13/bits/unique_lock.h:
 
 /usr/include/c++/13/mutex:
-
-/usr/include/c++/13/bitset:
-
-/usr/include/c++/13/bits/range_access.h:
-
-/usr/include/c++/13/tr1/hypergeometric.tcc:
-
-/usr/include/c++/13/type_traits:
 
 /usr/include/c++/13/cerrno:
 
@@ -1809,7 +1777,11 @@ _deps/spdlog-src/include/spdlog/logger.h:
 
 /usr/include/c++/13/ext/aligned_buffer.h:
 
+/usr/include/locale.h:
+
 /usr/include/c++/13/ext/concurrence.h:
+
+/usr/include/c++/13/pstl/glue_algorithm_defs.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
@@ -1823,15 +1795,17 @@ _deps/spdlog-src/include/spdlog/sinks/ansicolor_sink.h:
 
 /usr/include/c++/13/ext/type_traits.h:
 
+/usr/include/c++/13/format:
+
 _deps/spdlog-src/include/spdlog/common.h:
 
 /usr/include/c++/13/functional:
 
+/usr/include/c++/13/bits/std_thread.h:
+
 /usr/include/limits.h:
 
 /usr/include/c++/13/tr1/bessel_function.tcc:
-
-/usr/include/c++/13/bits/std_thread.h:
 
 /usr/include/c++/13/initializer_list:
 
@@ -1891,7 +1865,15 @@ _deps/spdlog-src/include/spdlog/details/console_globals.h:
 
 /usr/include/c++/13/string_view:
 
+/usr/include/features-time64.h:
+
 /usr/include/c++/13/tr1/ell_integral.tcc:
+
+/usr/include/c++/13/bits/range_access.h:
+
+/usr/include/c++/13/tr1/hypergeometric.tcc:
+
+/usr/include/c++/13/type_traits:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h:
 
@@ -1911,6 +1893,22 @@ _deps/spdlog-src/include/spdlog/details/console_globals.h:
 
 /usr/include/c++/13/tuple:
 
+/usr/include/c++/13/bits/allocator.h:
+
+/usr/include/c++/13/unordered_map:
+
 /usr/include/c++/13/vector:
 
 /usr/include/ctype.h:
+
+/usr/include/c++/13/bits/atomic_wait.h:
+
+/usr/include/features.h:
+
+/usr/include/linux/close_range.h:
+
+/usr/include/c++/13/ratio:
+
+/usr/include/linux/limits.h:
+
+/usr/include/pthread.h:

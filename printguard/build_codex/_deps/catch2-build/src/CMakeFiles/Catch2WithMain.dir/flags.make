@@ -6,5 +6,5 @@ CXX_DEFINES = -DPOINTERHOLDER_TRANSITION=4
 
 CXX_INCLUDES = -I/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/catch2-src/src/catch2/.. -I/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/catch2-build/generated-includes
 
-CXX_FLAGS = -g -std=c++20 -Wall -Wextra -Werror -Wpedantic -fstack-protector-strong -D_GLIBCXX_ASSERTIONS -ffile-prefix-map=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/catch2-src/=
+CXX_FLAGS = -O2 -g -DNDEBUG -std=c++20 -Wall -Wextra -Werror -Wpedantic -fstack-protector-strong -D_GLIBCXX_ASSERTIONS -ffile-prefix-map=/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/catch2-src/=
 

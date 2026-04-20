@@ -54,11 +54,11 @@ set_target_properties(libpqxx::pqxx PROPERTIES
   INTERFACE_LINK_LIBRARIES "/usr/lib/x86_64-linux-gnu/libpq.so"
 )
 
-# Import target "libpqxx::pqxx" for configuration "Debug"
-set_property(TARGET libpqxx::pqxx APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
+# Import target "libpqxx::pqxx" for configuration "RelWithDebInfo"
+set_property(TARGET libpqxx::pqxx APPEND PROPERTY IMPORTED_CONFIGURATIONS RELWITHDEBINFO)
 set_target_properties(libpqxx::pqxx PROPERTIES
-  IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG "CXX"
-  IMPORTED_LOCATION_DEBUG "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/libpqxx-build/src/libpqxx-7.7.a"
+  IMPORTED_LINK_INTERFACE_LANGUAGES_RELWITHDEBINFO "CXX"
+  IMPORTED_LOCATION_RELWITHDEBINFO "/home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/libpqxx-build/src/libpqxx-7.7.a"
   )
 
 # This file does not depend on other imported targets which have

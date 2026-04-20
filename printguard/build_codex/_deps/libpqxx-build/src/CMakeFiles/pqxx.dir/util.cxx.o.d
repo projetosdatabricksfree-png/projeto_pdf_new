@@ -59,13 +59,17 @@ _deps/libpqxx-build/src/CMakeFiles/pqxx.dir/util.cxx.o: \
  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+ /usr/include/x86_64-linux-gnu/bits/select2.h \
+ /usr/include/x86_64-linux-gnu/bits/select-decl.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib.h \
  /usr/include/c++/13/bits/specfun.h \
  /usr/include/c++/13/bits/stl_algobase.h \
  /usr/include/c++/13/bits/functexcept.h \
@@ -99,6 +103,8 @@ _deps/libpqxx-build/src/CMakeFiles/pqxx.dir/util.cxx.o: \
  /usr/include/c++/13/tr1/poly_laguerre.tcc \
  /usr/include/c++/13/tr1/riemann_zeta.tcc /usr/include/c++/13/cstdlib \
  /usr/include/c++/13/cstring /usr/include/string.h /usr/include/strings.h \
+ /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
+ /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
  /usr/include/postgresql/libpq-fe.h /usr/include/stdio.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
  /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
@@ -109,6 +115,9 @@ _deps/libpqxx-build/src/CMakeFiles/pqxx.dir/util.cxx.o: \
  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio2-decl.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h \
  /usr/include/postgresql/postgres_ext.h \
  /usr/include/postgresql/pg_config_ext.h \
  /home/diego/Desktop/PROJETOS/Projeto_grafica_New/printguard/build_codex/_deps/libpqxx-src/include/pqxx/internal/header-pre.hxx \
@@ -127,6 +136,8 @@ _deps/libpqxx-build/src/CMakeFiles/pqxx.dir/util.cxx.o: \
  /usr/include/wchar.h /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar2-decl.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar2.h \
  /usr/include/c++/13/bits/allocator.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h \
  /usr/include/c++/13/bits/new_allocator.h \
@@ -245,6 +256,8 @@ _deps/libpqxx-build/src/CMakeFiles/pqxx.dir/util.cxx.o: \
  /usr/include/x86_64-linux-gnu/bits/confname.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd-decl.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
  /usr/include/linux/close_range.h /usr/include/syscall.h \
  /usr/include/x86_64-linux-gnu/sys/syscall.h \
