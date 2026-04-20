@@ -1,2 +1,0 @@
-/usr/bin/ar qc libprintguard_render.a CMakeFiles/printguard_render.dir/preview_renderer.cpp.o
-/usr/bin/ranlib libprintguard_render.a

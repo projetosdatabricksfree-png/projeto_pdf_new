@@ -1,2 +1,0 @@
-/usr/bin/ar qc libprintguard_orchestration.a CMakeFiles/printguard_orchestration.dir/orchestrator.cpp.o CMakeFiles/printguard_orchestration.dir/local_batch_processor.cpp.o
-/usr/bin/ranlib libprintguard_orchestration.a

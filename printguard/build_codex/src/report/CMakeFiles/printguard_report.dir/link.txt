@@ -1,2 +1,0 @@
-/usr/bin/ar qc libprintguard_report.a CMakeFiles/printguard_report.dir/report_builder.cpp.o
-/usr/bin/ranlib libprintguard_report.a

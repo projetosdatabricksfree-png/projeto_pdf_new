@@ -1,2 +1,0 @@
-/usr/bin/ar qc libprintguard_pdf.a CMakeFiles/printguard_pdf.dir/pdf_loader.cpp.o
-/usr/bin/ranlib libprintguard_pdf.a
